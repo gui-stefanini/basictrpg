@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcv8iwne8u7cf"]
+
+[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/PlayerSprite_1.png" id="1_1qwtc"]
+[ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/unit.tscn" id="1_sqtjf"]
+[ext_resource type="Resource" uid="uid://d1w6msbna0lw" path="res://Resources/ClassData/player_data.tres" id="2_tlcot"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tlcot"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1qwtc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Unit" node_paths=PackedStringArray("Sprite", "HealthBar") instance=ExtResource("1_sqtjf")]
+Data = ExtResource("2_tlcot")
+Sprite = NodePath("AnimatedSprite2D")
+HealthBar = NodePath("HealthBar")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+modulate = Color(0.0445413, 0.225188, 1, 1)
+sprite_frames = SubResource("SpriteFrames_tlcot")

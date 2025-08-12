@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://bgihobbhtilc7"]
+
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="1_a1jc2"]
+
+[resource]
+script = ExtResource("1_a1jc2")
+Faction = 1
+MaxHP = 5
+AttackPower = 2
+MoveRange = 3
+metadata/_custom_type_script = "uid://dajw61vh5kchp"

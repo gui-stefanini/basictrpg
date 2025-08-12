@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo14mrvga8syw"]
+
+[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/PlayerSprite_1.png" id="1_2bn7p"]
+[ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/unit.tscn" id="1_anbff"]
+[ext_resource type="Resource" uid="uid://bgihobbhtilc7" path="res://Resources/ClassData/enemy_data.tres" id="2_h65uc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h65uc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_2bn7p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Unit" node_paths=PackedStringArray("Sprite", "HealthBar") instance=ExtResource("1_anbff")]
+Data = ExtResource("2_h65uc")
+Sprite = NodePath("AnimatedSprite2D")
+HealthBar = NodePath("HealthBar")
+Faction = 1
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+modulate = Color(0.722163, 0.392597, 0.0462546, 1)
+sprite_frames = SubResource("SpriteFrames_h65uc")

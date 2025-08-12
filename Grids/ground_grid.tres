@@ -1,0 +1,29 @@
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://b7a3peffahbp4"]
+
+[ext_resource type="Texture2D" uid="uid://clcs7njyb7rxl" path="res://Assets/Art/Tiles/TileTexture_1.png" id="1_r6o3n"]
+[ext_resource type="Texture2D" uid="uid://d1q2j01waauyx" path="res://Assets/Art/Tiles/HighlightTexture.png" id="2_xs1ac"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vdl3g"]
+texture = ExtResource("1_r6o3n")
+0:0/0 = 0
+0:0/0/custom_data_0 = 1
+1:0/0 = 0
+1:0/0/custom_data_0 = 2
+2:0/0 = 0
+0:1/0 = 0
+0:1/0/custom_data_0 = 1
+1:1/0 = 0
+1:1/0/custom_data_0 = 2
+2:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vxgri"]
+texture = ExtResource("2_xs1ac")
+0:0/0 = 0
+1:0/0 = 0
+
+[resource]
+custom_data_layer_0/name = "move_cost"
+custom_data_layer_0/type = 2
+sources/0 = SubResource("TileSetAtlasSource_vdl3g")
+sources/1 = SubResource("TileSetAtlasSource_vxgri")
+tile_proxies/coords_level = [[1, Vector2i(0, 0)], [3, Vector2i(0, 0)], [2, Vector2i(0, 0)], [3, Vector2i(1, 0)]]

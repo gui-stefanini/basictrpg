@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="WaitAction" load_steps=2 format=3 uid="uid://bky34p4up12k4"]
+
+[ext_resource type="Script" uid="uid://b7rqv4bpn8tkh" path="res://Scripts/ResourceScripts/wait_action.gd" id="1_0p2d6"]
+
+[resource]
+script = ExtResource("1_0p2d6")
+metadata/_custom_type_script = "uid://b7rqv4bpn8tkh"
