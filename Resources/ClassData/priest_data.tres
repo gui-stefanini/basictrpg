@@ -12,6 +12,7 @@ script = ExtResource("6_rlu2i")
 Name = "Priest"
 MaxHP = 8
 AttackPower = 2
+HealPower = 0
 MoveRange = 4
 AttackRange = 2
 Actions = Array[ExtResource("1_j0wb2")]([ExtResource("2_8qp4y"), ExtResource("3_kphou"), ExtResource("4_qo2c7"), ExtResource("5_3ifb4")])

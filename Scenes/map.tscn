@@ -28,8 +28,6 @@ ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 ClickedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 
-[node name="PlayerUnit" parent="." instance=ExtResource("3_w7jjh")]
-
 [node name="GroundGrid" parent="." instance=ExtResource("4_6q3n4")]
 
 [node name="HighlightLayer" parent="." instance=ExtResource("5_4c2oa")]

@@ -19,14 +19,17 @@ var TargetedUnit: Unit = null
 var UnitsWhoHaveActed: Array[Unit] = []
 
 enum GameState {NULL, PLAYER_TURN, ENEMY_TURN}
-enum PlayerTurnState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, MOVEMENT_PHASE, ATTACK_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
+enum PlayerTurnState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 enum EnemyTurnState {NULL, MOVEMENT_PHASE, PROCESSING_PHASE}
 var CurrentGameState = GameState.NULL
 var CurrentSubState = PlayerTurnState.NULL
 
+var CurrentAction = Action
+
 var AstarGrid = AStarGrid2D.new()
 var HighlightedMoveTiles: Array[Vector2i] = []
 var HighlightedAttackTiles: Array[Vector2i] = []
+var HighlightedHealTiles: Array[Vector2i] = []
 var SpawnTile = Vector2i(3,5)
 
 func Wait(seconds: float):
@@ -130,6 +133,7 @@ func ClearHighlights():
 	HighlightLayer.clear()
 	HighlightedMoveTiles.clear()
 	HighlightedAttackTiles.clear()
+	HighlightedHealTiles.clear()
 
 func HighlightMoveArea(unit: Unit):
 	ClearHighlights()
@@ -219,7 +223,7 @@ func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_ti
 	else:
 		return best_target_tiles.pick_random()
 
-func MoveUnit(target_tile: Vector2i, unit: Unit) -> Tween:
+func MoveUnit(unit: Unit, target_tile: Vector2i) -> Tween:
 	var start_tile = GroundGrid.local_to_map(unit.global_position)
 	var path = FindPath(unit, start_tile, target_tile)
 	
@@ -236,7 +240,6 @@ func MoveUnit(target_tile: Vector2i, unit: Unit) -> Tween:
 	match CurrentGameState:
 		GameState.PLAYER_TURN:
 			CurrentSubState = PlayerTurnState.PROCESSING_PHASE
-			ActiveUnit.HasMoved = true
 			tween.tween_callback(OnPlayerActionFinished)
 		
 		GameState.ENEMY_TURN:
@@ -254,26 +257,11 @@ func HighlightAttackArea(unit: Unit, action_range: int):
 	HighlightedAttackTiles = GetTilesInRange(unit_tile, action_range)
 	DrawHighlights(HighlightedAttackTiles, 1, Vector2i(1,0))
 
-func AttackUnit(attacker: Unit, defender: Unit):
-	print(attacker.name + " attacks " + defender.name + "!")
-	attacker.HasActed = true
-	
-	var damage = attacker.Data.AttackPower
-	
-	var was_defeated = defender.TakeDamage(damage)
-	
-	if was_defeated:
-		print(defender.name + " has been defeated!")
-		if defender in EnemyUnits:
-			EnemyUnits.erase(defender)
-			defender.queue_free()
-			if EnemyUnits.is_empty():
-				EndGame(true)
-		if defender in PlayerUnits:
-			PlayerUnits.erase(defender)
-			defender.queue_free()
-			if PlayerUnits.is_empty():
-				EndGame(false)
+func HighlightHealArea(unit: Unit, action_range: int):
+	ClearHighlights()
+	var unit_tile = GroundGrid.local_to_map(unit.global_position)
+	HighlightedHealTiles = GetTilesInRange(unit_tile, action_range)
+	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
 func SpawnPlayerUnits():
 	for i in range(StartingPlayerClasses.size()):
@@ -345,13 +333,13 @@ func StartEnemyTurn():
 		if best_target_tile == enemy_tile or best_target_tile == Vector2i(-1, -1):
 			await Wait(0.5)
 		else:
-			var move_tween = MoveUnit(best_target_tile, enemy)
+			var move_tween = MoveUnit(enemy, best_target_tile)
 			if move_tween:
 				await move_tween.finished
 		
 		var current_enemy_tile = GroundGrid.local_to_map(enemy.global_position)
 		if AreTilesInRange(enemy.Data.AttackRange, current_enemy_tile, target_player_tile):
-			AttackUnit(enemy, target_player)
+			#Will be completed when we adapt enemies to use Actions rather than using this function
 			await Wait(0.5)
 			
 	print("--- Enemy Turn Ends ---")
@@ -418,46 +406,104 @@ func _unhandled_input(event):
 							HideUI()
 							CurrentSubState = PlayerTurnState.UNIT_SELECTION_PHASE
 					
-					PlayerTurnState.MOVEMENT_PHASE:
-						unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-						if unit_clicked == false:
-							HideUI()
-							if HighlightedMoveTiles.has(clicked_tile):
-								ClearHighlights()
-								MoveUnit(clicked_tile, ActiveUnit)
-							else:
-								ClearHighlights()
-								ActionMenu.ShowMenu(ActiveUnit)
-								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-					
-					PlayerTurnState.ATTACK_PHASE:
-						var enemy_on_tile = null
+					PlayerTurnState.TARGETING_PHASE:
+						var target = null
+						
+						if HighlightedMoveTiles.has(clicked_tile):
+							target = clicked_tile
+							ClearHighlights()
+							ExecuteAction(CurrentAction, ActiveUnit, target)
+							return
 						
 						if HighlightedAttackTiles.has(clicked_tile):
 							for enemy in EnemyUnits:
 								var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
 								if enemy_tile == clicked_tile:
-									enemy_on_tile = enemy
+									target = enemy
+									break
+									
+						if HighlightedHealTiles.has(clicked_tile):
+							for ally in PlayerUnits:
+								var ally_tile = GroundGrid.local_to_map(ally.global_position)
+								if ally_tile == clicked_tile:
+									target = ally
 									break
 						
-						if enemy_on_tile:
-							TargetedUnit = enemy_on_tile
-							var damage = ActiveUnit.Data.AttackPower
-							ActionForecast.UpdateForecast(ActiveUnit, TargetedUnit, damage)
-							ActionForecast.global_position = TargetedUnit.global_position + Vector2(10, -10)
-							ActionForecast.show()
-							CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
+						if target is Unit:
+							TargetedUnit = target
+							ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
+						
 						else:
-							ClearHighlights()
-							ActionMenu.ShowMenu(ActiveUnit)
-							CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+							unit_clicked = DisplayClickedUnitInfo(clicked_tile)
+							if unit_clicked == false:
+								HideUI()
+								CurrentAction = null
+								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+						
+					#PlayerTurnState.MOVEMENT_PHASE:
+						#unit_clicked = DisplayClickedUnitInfo(clicked_tile)
+						#if unit_clicked == false:
+							#HideUI()
+							#if HighlightedMoveTiles.has(clicked_tile):
+								#ClearHighlights()
+								#MoveUnit(ActiveUnit, clicked_tile)
+							#else:
+								#ClearHighlights()
+								#ActionMenu.ShowMenu(ActiveUnit)
+								#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+					#
+					#PlayerTurnState.ATTACK_PHASE:
+						#var enemy_on_tile = null
+						#
+						#if HighlightedAttackTiles.has(clicked_tile):
+							#for enemy in EnemyUnits:
+								#var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
+								#if enemy_tile == clicked_tile:
+									#enemy_on_tile = enemy
+									#break
+						#
+						#if enemy_on_tile:
+							#TargetedUnit = enemy_on_tile
+							#var damage = ActiveUnit.Data.AttackPower
+							#ActionForecast.UpdateForecast(ActiveUnit, TargetedUnit, damage)
+							#ActionForecast.global_position = TargetedUnit.global_position + Vector2(10, -10)
+							#ActionForecast.show()
+							#CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
+						#else:
+							#ClearHighlights()
+							#ActionMenu.ShowMenu(ActiveUnit)
+							#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 					
+					#PlayerTurnState.HEAL_PHASE:
+						#var ally_on_tile = null
+						#
+						#if HighlightedHealTiles.has(clicked_tile):
+							#for ally in PlayerUnits:
+								#var ally_tile = GroundGrid.local_to_map(ally.global_position)
+								#if ally_tile == clicked_tile:
+									#ally_on_tile = ally
+									#break
+						#
+						#if ally_on_tile:
+							#TargetedUnit = ally_on_tile
+							#var amount = ActiveUnit.Data.HealPower
+							#ActionForecast.UpdateForecast(ActiveUnit, TargetedUnit, amount)
+							#ActionForecast.global_position = TargetedUnit.global_position + Vector2(10, -10)
+							#ActionForecast.show()
+							#CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
+						#else:
+							#ClearHighlights()
+							#ActionMenu.ShowMenu(ActiveUnit)
+							#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+					#
 					PlayerTurnState.ACTION_CONFIRMATION_PHASE:
 						ActionForecast.hide()
 						ClearHighlights()
 						if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-							AttackUnit(ActiveUnit, TargetedUnit)
+							ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
 						else:
+							TargetedUnit = null
+							CurrentAction = null
 							ActionMenu.ShowMenu(ActiveUnit)
 							CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 
@@ -472,7 +518,25 @@ func _ready() -> void:
 	SpawnEnemy(Vector2i(12, 7))
 	StartGame()
 
-
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
-	action._execute(ActiveUnit)
+	action._on_select(ActiveUnit)
+
+func ExecuteAction(action: Action, unit: Unit, target = null):
+	action._execute(unit, target)
+	CurrentAction = null
+
+func ForecastAction(action: Action, unit: Unit, target: Unit):
+	var simulated_target = target.duplicate(true)
+	add_child(simulated_target)
+	simulated_target.visible = false
+
+	ExecuteAction(action, unit, simulated_target)
+
+	var damage = target.CurrentHP - simulated_target.CurrentHP
+	ActionForecast.UpdateForecast(unit, target, damage)
+	
+	ActionForecast.global_position = target.global_position + Vector2(10, -10)
+	ActionForecast.show()
+
+	simulated_target.queue_free()

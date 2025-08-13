@@ -16,14 +16,15 @@ texture = ExtResource("1_r6o3n")
 1:1/0/custom_data_0 = 2
 2:1/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vxgri"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xs1ac"]
 texture = ExtResource("2_xs1ac")
 0:0/0 = 0
 1:0/0 = 0
+2:0/0 = 0
 
 [resource]
 custom_data_layer_0/name = "move_cost"
 custom_data_layer_0/type = 2
 sources/0 = SubResource("TileSetAtlasSource_vdl3g")
-sources/1 = SubResource("TileSetAtlasSource_vxgri")
-tile_proxies/coords_level = [[1, Vector2i(0, 0)], [3, Vector2i(0, 0)], [2, Vector2i(0, 0)], [3, Vector2i(1, 0)]]
+sources/1 = SubResource("TileSetAtlasSource_xs1ac")
+tile_proxies/coords_level = [[1, Vector2i(0, 0)], [3, Vector2i(0, 0)], [1, Vector2i(1, 0)], [3, Vector2i(1, 0)], [2, Vector2i(0, 0)], [3, Vector2i(2, 0)]]

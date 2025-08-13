@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_ulgn1")
+Name = "Defend"
 metadata/_custom_type_script = "uid://dvtkhmp7udql0"

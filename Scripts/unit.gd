@@ -1,7 +1,7 @@
 class_name Unit
 extends CharacterBody2D
 
-signal damage_taken(damage_data: Dictionary)
+signal damage_taken(unit: Unit, damage_data: Dictionary)
 
 @export var Data: UnitData
 @export var Sprite: AnimatedSprite2D
@@ -38,7 +38,7 @@ func FlashDamageEffect():
 func TakeDamage(damage_amount: int) -> bool:
 	var damage_data = {"damage": damage_amount}
 	
-	damage_taken.emit(damage_data)
+	damage_taken.emit(self, damage_data)
 	
 	var final_damage = damage_data["damage"]
 	CurrentHP -= final_damage
@@ -50,7 +50,17 @@ func TakeDamage(damage_amount: int) -> bool:
 	HealthBar.update_health(CurrentHP, Data.MaxHP)
 	return CurrentHP <= 0
 
+func ReceiveHealing(heal_amount: int):
+	CurrentHP += heal_amount
+	CurrentHP = min(CurrentHP, Data.MaxHP)
+	
+	print(name + " is healed for " + str(heal_amount) + " HP! Now at " + str(CurrentHP) + " HP.")
+	
+	HealthBar.update_health(CurrentHP, Data.MaxHP)
+
 func _ready():
 	if Data:
 		CurrentHP = Data.MaxHP
+		for action in Data.Actions:
+			action.connect_listeners(self)
 	HealthBar.update_health(CurrentHP, Data.MaxHP)
