@@ -4,14 +4,14 @@ extends Action
 func connect_listeners(owner: Unit):
 	owner.damage_taken.connect(_on_damage_taken)
 
-func _on_select(user: Unit, map: Node2D):
-	_execute(user, map)
+func _on_select(user: Unit, manager: Node2D):
+	_execute(user, manager)
 
-func _execute(user: Unit, map: Node2D, _target = null) -> Variant:
+func _execute(user: Unit, manager: Node2D, _target = null) -> Variant:
 	print(user.name + " is defending!")
 	user.HasActed = true
 	user.ActiveStatuses[Unit.Status.DEFENDING] = 1
-	map.OnPlayerActionFinished()
+	manager.OnPlayerActionFinished()
 	return null
 
 func _on_damage_taken(unit: Unit, damage_data: Dictionary):

@@ -4,12 +4,12 @@ extends Action
 func connect_listeners(_owner: Unit):
 	pass
 
-func _on_select(user: Unit, map: Node2D):
-	map.CurrentAction = self
-	map.CurrentSubState = map.PlayerTurnState.TARGETING_PHASE
-	map.HighlightAttackArea(user, user.Data.AttackRange)
+func _on_select(user: Unit, manager: Node2D):
+	manager.CurrentAction = self
+	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
+	manager.HighlightAttackArea(user, user.Data.AttackRange)
 
-func _execute(user: Unit, map: Node2D, target = null) -> Variant:
+func _execute(user: Unit, manager: Node2D, target = null) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return
@@ -22,16 +22,16 @@ func _execute(user: Unit, map: Node2D, target = null) -> Variant:
 	
 	if was_defeated:
 		print(target.name + " has been defeated!")
-		if target in map.EnemyUnits:
-			map.EnemyUnits.erase(target)
+		if target in manager.EnemyUnits:
+			manager.EnemyUnits.erase(target)
 			target.queue_free()
-			if map.EnemyUnits.is_empty():
-				map.EndGame(true)
-		if target in map.PlayerUnits:
-			map.PlayerUnits.erase(target)
+			if manager.EnemyUnits.is_empty():
+				manager.EndGame(true)
+		if target in manager.PlayerUnits:
+			manager.PlayerUnits.erase(target)
 			target.queue_free()
-			if map.PlayerUnits.is_empty():
-				map.EndGame(false)
+			if manager.PlayerUnits.is_empty():
+				manager.EndGame(false)
 	
 	user.HasActed = true
 	return null

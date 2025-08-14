@@ -1,0 +1,59 @@
+[gd_scene load_steps=12 format=3 uid="uid://cf4j0nfjaajbe"]
+
+[ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/game_manager.gd" id="1_kmrvs"]
+[ext_resource type="PackedScene" uid="uid://dcv8iwne8u7cf" path="res://Scenes/player_unit.tscn" id="2_e6ru4"]
+[ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/level_1.tscn" id="2_jencv"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="3_sm5re"]
+[ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/ClassData/knight_data.tres" id="4_hjqsb"]
+[ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/ClassData/priest_data.tres" id="5_y8n5u"]
+[ext_resource type="PackedScene" uid="uid://bo14mrvga8syw" path="res://Scenes/enemy_unit.tscn" id="6_5tjy5"]
+[ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/action_menu.tscn" id="9_iav25"]
+[ext_resource type="PackedScene" uid="uid://dg028svcnu8gy" path="res://Scenes/end_screen.tscn" id="10_fuy7q"]
+[ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/unit_info_panel.tscn" id="11_uj5f7"]
+[ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/action_forecast.tscn" id="12_v2ahw"]
+
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "ActionMenu", "EndScreen", "ActiveUnitInfoPanel", "ClickedUnitInfoPanel", "ActionForecast")]
+script = ExtResource("1_kmrvs")
+LevelScene = ExtResource("2_jencv")
+PlayerScene = ExtResource("2_e6ru4")
+StartingPlayerClasses = Array[ExtResource("3_sm5re")]([ExtResource("4_hjqsb"), ExtResource("5_y8n5u")])
+StartingPlayerPositions = Array[Vector2i]([Vector2i(2, 2), Vector2i(3, 3)])
+ManagerTimer = NodePath("ManagerTimer")
+ActionMenu = NodePath("ActionMenu")
+EnemyScene = ExtResource("6_5tjy5")
+EndScreen = NodePath("EndScreen")
+ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
+ClickedUnitInfoPanel = NodePath("UnitInfoPanel2")
+ActionForecast = NodePath("ActionForecast")
+
+[node name="ManagerTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="ActionMenu" parent="." instance=ExtResource("9_iav25")]
+visible = false
+z_index = 15
+
+[node name="EndScreen" parent="." instance=ExtResource("10_fuy7q")]
+process_mode = 3
+visible = false
+
+[node name="UnitInfoPanel" parent="." instance=ExtResource("11_uj5f7")]
+visible = false
+z_index = 10
+offset_top = 132.0
+offset_bottom = 192.0
+
+[node name="UnitInfoPanel2" parent="." instance=ExtResource("11_uj5f7")]
+visible = false
+z_index = 10
+offset_left = 286.0
+offset_top = 132.0
+offset_right = 320.0
+offset_bottom = 192.0
+
+[node name="ActionForecast" parent="." instance=ExtResource("12_v2ahw")]
+visible = false
+
+[connection signal="action_selected" from="ActionMenu" to="." method="_on_action_menu_action_selected"]
+[connection signal="restart_requested" from="EndScreen" to="." method="_on_end_screen_restart_requested"]

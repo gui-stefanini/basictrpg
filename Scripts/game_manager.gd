@@ -1,9 +1,11 @@
 extends Node2D
+@export var LevelScene: PackedScene
+var CurrentLevel : Level
+var GroundGrid: TileMapLayer
+var HighlightLayer: TileMapLayer
 @export var PlayerScene: PackedScene
 @export var StartingPlayerClasses: Array[UnitData]
 @export var StartingPlayerPositions: Array[Vector2i]
-@export var GroundGrid: TileMapLayer
-@export var HighlightLayer: TileMapLayer
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer
 @export var EnemyScene: PackedScene
@@ -417,21 +419,6 @@ func _unhandled_input(event):
 								ActionMenu.ShowMenu(ActiveUnit)
 								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 
-func _on_end_screen_restart_requested() -> void:
-	get_tree().paused = false
-	get_tree().reload_current_scene()
-
-func _ready() -> void:
-	SetAstarGrid()
-	SpawnPlayerUnits()
-	SpawnEnemy(Vector2i(10, 5))
-	SpawnEnemy(Vector2i(12, 7))
-	StartGame()
-
-func _on_action_menu_action_selected(action: Action) -> void:
-	HideUI()
-	action._on_select(ActiveUnit, self)
-
 func ExecuteAction(action: Action, unit: Unit, target = null):
 	action._execute(unit, self, target)
 	CurrentAction = null
@@ -454,3 +441,25 @@ func ForecastAction(action: Action, unit: Unit, target: Unit):
 	ActionForecast.show()
 
 	simulated_target.queue_free()
+
+func SetLevel():
+	CurrentLevel = LevelScene.instantiate()
+	add_child(CurrentLevel)
+	GroundGrid = CurrentLevel.GroundGrid
+	HighlightLayer = CurrentLevel.HighlightLayer
+
+func _on_action_menu_action_selected(action: Action) -> void:
+	HideUI()
+	action._on_select(ActiveUnit, self)
+
+func _on_end_screen_restart_requested() -> void:
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func _ready() -> void:
+	SetLevel()
+	SetAstarGrid()
+	SpawnPlayerUnits()
+	SpawnEnemy(Vector2i(10, 5))
+	SpawnEnemy(Vector2i(12, 7))
+	StartGame()

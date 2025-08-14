@@ -4,12 +4,12 @@ extends Action
 func connect_listeners(_owner: Unit):
 	pass
 
-func _on_select(user: Unit, map: Node2D):
-	map.CurrentAction = self
-	map.CurrentSubState = map.PlayerTurnState.TARGETING_PHASE
-	map.HighlightHealArea(user, user.Data.AttackRange)
+func _on_select(user: Unit, manager: Node2D):
+	manager.CurrentAction = self
+	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
+	manager.HighlightHealArea(user, user.Data.AttackRange)
 
-func _execute(user: Unit, _map: Node2D, target = null) -> Variant:
+func _execute(user: Unit, _manager: Node2D, target = null) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return null
