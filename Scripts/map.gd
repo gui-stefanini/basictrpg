@@ -24,7 +24,7 @@ enum EnemyTurnState {NULL, MOVEMENT_PHASE, PROCESSING_PHASE}
 var CurrentGameState = GameState.NULL
 var CurrentSubState = PlayerTurnState.NULL
 
-var CurrentAction = Action
+var CurrentAction : Action = null
 
 var AstarGrid = AStarGrid2D.new()
 var HighlightedMoveTiles: Array[Vector2i] = []
@@ -432,11 +432,15 @@ func _unhandled_input(event):
 						if target is Unit:
 							TargetedUnit = target
 							ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
+							CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
+							return
 						
 						else:
 							unit_clicked = DisplayClickedUnitInfo(clicked_tile)
 							if unit_clicked == false:
 								HideUI()
+								ClearHighlights()
+								ActionMenu.ShowMenu(ActiveUnit)
 								CurrentAction = null
 								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 						
@@ -527,7 +531,7 @@ func ExecuteAction(action: Action, unit: Unit, target = null):
 	CurrentAction = null
 
 func ForecastAction(action: Action, unit: Unit, target: Unit):
-	var simulated_target = target.duplicate(true)
+	var simulated_target = target.duplicate() as Unit
 	add_child(simulated_target)
 	simulated_target.visible = false
 

@@ -13,7 +13,8 @@ func _on_select(user: Unit):
 func _execute(user: Unit, target = null):
 	if target is not Vector2i:
 		print(str(self) + "has an invalid target type")
+		return
 	
 	var map = user.get_tree().current_scene
-	map.MoveUnit(target, user)
+	map.MoveUnit(user, target)
 	user.HasMoved = true

@@ -13,6 +13,7 @@ func _on_select(user: Unit):
 func _execute(user: Unit, target = null):
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
-	else:
-		target.ReceiveHealing(user.Data.HealPower)
-		user.HasActed = true
+		return
+	
+	target.ReceiveHealing(user.Data.HealPower)
+	user.HasActed = true
