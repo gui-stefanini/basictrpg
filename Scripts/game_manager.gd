@@ -1,6 +1,6 @@
 extends Node2D
 @export var LevelScene: PackedScene
-var CurrentLevel : Level
+var CurrentLevel
 var GroundGrid: TileMapLayer
 var HighlightLayer: TileMapLayer
 @export var PlayerScene: PackedScene

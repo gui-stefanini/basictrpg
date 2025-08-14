@@ -4,10 +4,8 @@
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/level.gd" id="1_xfk5q"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/highlight_layer.tscn" id="2_xfk5q"]
 
-[node name="Level1" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer")]
+[node name="Level1" type="Node2D"]
 script = ExtResource("1_xfk5q")
-GroundGrid = NodePath("GroundGrid")
-HighlightLayer = NodePath("HighlightLayer")
 
 [node name="GroundGrid" parent="." instance=ExtResource("1_8ffim")]
 
