@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitData" load_steps=7 format=3 uid="uid://dulep71up18jy"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ResourceScripts/action.gd" id="1_pa61i"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ResourceScripts/ActionScripts/action.gd" id="1_pa61i"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/ActionData/move_action.tres" id="2_tfski"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/ActionData/attack_action.tres" id="3_jb8kx"]
 [ext_resource type="Resource" uid="uid://q18pkc5oigo7" path="res://Resources/ActionData/defend_action.tres" id="4_pr0li"]

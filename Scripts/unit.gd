@@ -4,6 +4,7 @@ extends CharacterBody2D
 signal damage_taken(unit: Unit, damage_data: Dictionary)
 
 @export var Data: UnitData
+@export var AI: AIBehavior
 @export var Sprite: AnimatedSprite2D
 @export var HealthBar: Control
 enum Factions {PLAYER, ENEMY}

@@ -206,6 +206,7 @@ func FindClosestPlayerTo(unit: Unit) -> Unit:
 func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_tile: Vector2i) -> Vector2i:
 	var best_target_tiles: Array[Vector2i] = []
 	var min_path_cost = 9999
+	reachable_tiles.append(GroundGrid.local_to_map(unit.global_position))
 	
 	for tile in reachable_tiles:
 		var path_from_tile = FindPath(unit, tile, target_tile)
@@ -220,6 +221,8 @@ func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_ti
 	
 	if best_target_tiles.is_empty():
 		return Vector2i(-1, -1)
+	elif best_target_tiles.has(GroundGrid.local_to_map(unit.global_position)):
+		return GroundGrid.local_to_map(unit.global_position)
 	else:
 		return best_target_tiles.pick_random()
 
@@ -319,31 +322,37 @@ func StartEnemyTurn():
 	
 	for enemy in EnemyUnits:
 		print(enemy.name + " is taking its turn.")
+		await enemy.AI.execute_turn(enemy, self)
 		
-		var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-		var target_player = FindClosestPlayerTo(enemy)
-		if not target_player:
-			await Wait(0.5)
-			continue
-		
-		var target_player_tile = GroundGrid.local_to_map(target_player.global_position)
-		var reachable_tiles = GetReachableTiles(enemy, enemy_tile, enemy.Data.MoveRange)
-		var best_target_tile = FindBestDestination(enemy, reachable_tiles, target_player_tile)
-		
-		if best_target_tile == enemy_tile or best_target_tile == Vector2i(-1, -1):
-			await Wait(0.5)
-		else:
-			var move_tween = MoveUnit(enemy, best_target_tile)
-			if move_tween:
-				await move_tween.finished
-		
-		var current_enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-		if AreTilesInRange(enemy.Data.AttackRange, current_enemy_tile, target_player_tile):
-			#Will be completed when we adapt enemies to use Actions rather than using this function
-			await Wait(0.5)
-			
 	print("--- Enemy Turn Ends ---")
 	EndEnemyTurn()
+	#for enemy in EnemyUnits:
+		#print(enemy.name + " is taking its turn.")
+		#
+		#var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
+		#var target_player = FindClosestPlayerTo(enemy)
+		#if not target_player:
+			#await Wait(0.5)
+			#continue
+		#
+		#var target_player_tile = GroundGrid.local_to_map(target_player.global_position)
+		#var reachable_tiles = GetReachableTiles(enemy, enemy_tile, enemy.Data.MoveRange)
+		#var best_target_tile = FindBestDestination(enemy, reachable_tiles, target_player_tile)
+		#
+		#if best_target_tile == enemy_tile or best_target_tile == Vector2i(-1, -1):
+			#await Wait(0.5)
+		#else:
+			#var move_tween = MoveUnit(enemy, best_target_tile)
+			#if move_tween:
+				#await move_tween.finished
+		#
+		#var current_enemy_tile = GroundGrid.local_to_map(enemy.global_position)
+		#if AreTilesInRange(enemy.Data.AttackRange, current_enemy_tile, target_player_tile):
+			##Will be completed when we adapt enemies to use Actions rather than using this function
+			#await Wait(0.5)
+			#
+	#print("--- Enemy Turn Ends ---")
+	#EndEnemyTurn()
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
@@ -472,16 +481,16 @@ func _ready() -> void:
 
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
-	action._on_select(ActiveUnit)
+	action._on_select(ActiveUnit, self)
 
 func ExecuteAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, target)
+	action._execute(unit, self, target)
 	CurrentAction = null
 	TargetedUnit = null
-	
+
 func SimulateAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, target)
-	
+	action._execute(unit, self, target)
+
 func ForecastAction(action: Action, unit: Unit, target: Unit):
 	var simulated_target = target.duplicate() as Unit
 	add_child(simulated_target)
