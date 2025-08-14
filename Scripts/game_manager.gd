@@ -1,11 +1,9 @@
 extends Node2D
 @export var LevelScene: PackedScene
 var CurrentLevel
-var GroundGrid: TileMapLayer
-var HighlightLayer: TileMapLayer
+var GroundGrid
+var HighlightLayer
 @export var PlayerScene: PackedScene
-@export var StartingPlayerClasses: Array[UnitData]
-@export var StartingPlayerPositions: Array[Vector2i]
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer
 @export var EnemyScene: PackedScene
@@ -245,9 +243,10 @@ func HighlightHealArea(unit: Unit, action_range: int):
 	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
 func SpawnPlayerUnits():
-	for i in range(StartingPlayerClasses.size()):
-		var unit_data = StartingPlayerClasses[i]
-		var spawn_pos = StartingPlayerPositions[i]
+	for i in range(CurrentLevel.PlayerSpawns.size()):
+		var spawn_info = CurrentLevel.PlayerSpawns[i]
+		var unit_data = spawn_info.UnitClass
+		var spawn_pos = spawn_info.Position
 		
 		var new_unit: Unit = PlayerScene.instantiate()
 		new_unit.name = unit_data.Name + str(i)
@@ -262,16 +261,24 @@ func SpawnPlayerUnits():
 		var tile_global_position = GroundGrid.to_global(tile_grid_position)
 		new_unit.global_position = tile_global_position
 
-func SpawnEnemy(spawn_tile: Vector2i):
-	var new_enemy: Unit = EnemyScene.instantiate()
-	new_enemy.name = "Enemy" + str(EnemyUnits.size())
-	add_child(new_enemy)
-	
-	var tile_grid_position = GroundGrid.map_to_local(spawn_tile)
-	var tile_global_position = GroundGrid.to_global(tile_grid_position)
-	new_enemy.global_position = tile_global_position
-	
-	EnemyUnits.append(new_enemy)
+func SpawnEnemyUnits():
+	for i in range(CurrentLevel.EnemySpawns.size()):
+		var spawn_info = CurrentLevel.EnemySpawns[i]
+		var unit_data = spawn_info.UnitClass
+		var spawn_pos = spawn_info.Position
+		
+		var new_unit: Unit = EnemyScene.instantiate()
+		new_unit.name = "Enemy" + unit_data.Name + str(i)
+		
+		new_unit.Data = unit_data
+		new_unit.Faction = Unit.Factions.ENEMY
+		
+		add_child(new_unit)
+		EnemyUnits.append(new_unit)
+		
+		var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
+		var tile_global_position = GroundGrid.to_global(tile_grid_position)
+		new_unit.global_position = tile_global_position
 
 func HideUI():
 	ActionMenu.hide()
@@ -460,6 +467,5 @@ func _ready() -> void:
 	SetLevel()
 	SetAstarGrid()
 	SpawnPlayerUnits()
-	SpawnEnemy(Vector2i(10, 5))
-	SpawnEnemy(Vector2i(12, 7))
+	SpawnEnemyUnits()
 	StartGame()

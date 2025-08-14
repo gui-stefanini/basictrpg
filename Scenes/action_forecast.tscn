@@ -12,6 +12,7 @@ content_margin_bottom = 0.0
 bg_color = Color(0.0804231, 0.173648, 0.2034, 0.588235)
 
 [node name="ActionForecast" type="PanelContainer" node_paths=PackedStringArray("UnitNameLabel", "TargetNameLabel", "DamageLabel", "TargetHPLabel")]
+z_index = 15
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1674c")
