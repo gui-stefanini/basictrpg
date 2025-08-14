@@ -347,6 +347,7 @@ func StartEnemyTurn():
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
+	
 	UnitsWhoHaveActed.append(ActiveUnit)
 	ActiveUnit = null
 	
@@ -377,139 +378,86 @@ func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
 	return false
 
 func _unhandled_input(event):
+	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
+		return # If it's not a left-click down event, ignore it and exit the function immediately.
+	
 	match CurrentGameState:
 		GameState.PLAYER_TURN:
-			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-				var global_mouse_position = get_global_mouse_position()
-				var grid_mouse_position = GroundGrid.to_local(global_mouse_position)
-				var clicked_tile = GroundGrid.local_to_map(grid_mouse_position)
-				var unit_clicked : bool = false
-				
-				match CurrentSubState:
+					var global_mouse_position = get_global_mouse_position()
+					var grid_mouse_position = GroundGrid.to_local(global_mouse_position)
+					var clicked_tile = GroundGrid.local_to_map(grid_mouse_position)
+					var unit_clicked : bool = false
 					
-					PlayerTurnState.UNIT_SELECTION_PHASE:
-						unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-						for unit in PlayerUnits:
-							if not unit in UnitsWhoHaveActed and clicked_tile == GroundGrid.local_to_map(unit.global_position):
+					match CurrentSubState:
+						
+						PlayerTurnState.UNIT_SELECTION_PHASE:
+							unit_clicked = DisplayClickedUnitInfo(clicked_tile)
+							for unit in PlayerUnits:
+								if not unit in UnitsWhoHaveActed and clicked_tile == GroundGrid.local_to_map(unit.global_position):
+									HideUI()
+									ActiveUnit = unit
+									ActiveUnitInfoPanel.UpdatePanel(ActiveUnit)
+									ActionMenu.ShowMenu(ActiveUnit)
+									CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+									break
+							if unit_clicked == false:
 								HideUI()
-								ActiveUnit = unit
-								ActiveUnitInfoPanel.UpdatePanel(ActiveUnit)
-								ActionMenu.ShowMenu(ActiveUnit)
-								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-								break
-						if unit_clicked == false:
-							HideUI()
-					
-					PlayerTurnState.ACTION_SELECTION_PHASE:
-						unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-						if unit_clicked == false:
-							HideUI()
-							CurrentSubState = PlayerTurnState.UNIT_SELECTION_PHASE
-					
-					PlayerTurnState.TARGETING_PHASE:
-						var target = null
 						
-						if HighlightedMoveTiles.has(clicked_tile):
-							target = clicked_tile
-							ClearHighlights()
-							ExecuteAction(CurrentAction, ActiveUnit, target)
-							return
-						
-						if HighlightedAttackTiles.has(clicked_tile):
-							for enemy in EnemyUnits:
-								var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-								if enemy_tile == clicked_tile:
-									target = enemy
-									break
-									
-						if HighlightedHealTiles.has(clicked_tile):
-							for ally in PlayerUnits:
-								var ally_tile = GroundGrid.local_to_map(ally.global_position)
-								if ally_tile == clicked_tile:
-									target = ally
-									break
-						
-						if target is Unit:
-							TargetedUnit = target
-							ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
-							CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
-							return
-						
-						else:
+						PlayerTurnState.ACTION_SELECTION_PHASE:
 							unit_clicked = DisplayClickedUnitInfo(clicked_tile)
 							if unit_clicked == false:
 								HideUI()
-								ClearHighlights()
-								ActionMenu.ShowMenu(ActiveUnit)
-								CurrentAction = null
-								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+								CurrentSubState = PlayerTurnState.UNIT_SELECTION_PHASE
 						
-					#PlayerTurnState.MOVEMENT_PHASE:
-						#unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-						#if unit_clicked == false:
-							#HideUI()
-							#if HighlightedMoveTiles.has(clicked_tile):
-								#ClearHighlights()
-								#MoveUnit(ActiveUnit, clicked_tile)
-							#else:
-								#ClearHighlights()
-								#ActionMenu.ShowMenu(ActiveUnit)
-								#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-					#
-					#PlayerTurnState.ATTACK_PHASE:
-						#var enemy_on_tile = null
-						#
-						#if HighlightedAttackTiles.has(clicked_tile):
-							#for enemy in EnemyUnits:
-								#var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-								#if enemy_tile == clicked_tile:
-									#enemy_on_tile = enemy
-									#break
-						#
-						#if enemy_on_tile:
-							#TargetedUnit = enemy_on_tile
-							#var damage = ActiveUnit.Data.AttackPower
-							#ActionForecast.UpdateForecast(ActiveUnit, TargetedUnit, damage)
-							#ActionForecast.global_position = TargetedUnit.global_position + Vector2(10, -10)
-							#ActionForecast.show()
-							#CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
-						#else:
-							#ClearHighlights()
-							#ActionMenu.ShowMenu(ActiveUnit)
-							#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-					
-					#PlayerTurnState.HEAL_PHASE:
-						#var ally_on_tile = null
-						#
-						#if HighlightedHealTiles.has(clicked_tile):
-							#for ally in PlayerUnits:
-								#var ally_tile = GroundGrid.local_to_map(ally.global_position)
-								#if ally_tile == clicked_tile:
-									#ally_on_tile = ally
-									#break
-						#
-						#if ally_on_tile:
-							#TargetedUnit = ally_on_tile
-							#var amount = ActiveUnit.Data.HealPower
-							#ActionForecast.UpdateForecast(ActiveUnit, TargetedUnit, amount)
-							#ActionForecast.global_position = TargetedUnit.global_position + Vector2(10, -10)
-							#ActionForecast.show()
-							#CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
-						#else:
-							#ClearHighlights()
-							#ActionMenu.ShowMenu(ActiveUnit)
-							#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-					#
-					PlayerTurnState.ACTION_CONFIRMATION_PHASE:
-						ActionForecast.hide()
-						ClearHighlights()
-						if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-							ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
-						else:
-							TargetedUnit = null
-							CurrentAction = null
-							ActionMenu.ShowMenu(ActiveUnit)
-							CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+						PlayerTurnState.TARGETING_PHASE:
+							var target = null
+							
+							if HighlightedMoveTiles.has(clicked_tile):
+								target = clicked_tile
+								ClearHighlights()
+								ExecuteAction(CurrentAction, ActiveUnit, target)
+								return
+							
+							if HighlightedAttackTiles.has(clicked_tile):
+								for enemy in EnemyUnits:
+									var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
+									if enemy_tile == clicked_tile:
+										target = enemy
+										break
+										
+							if HighlightedHealTiles.has(clicked_tile):
+								for ally in PlayerUnits:
+									var ally_tile = GroundGrid.local_to_map(ally.global_position)
+									if ally_tile == clicked_tile:
+										target = ally
+										break
+							
+							if target is Unit:
+								TargetedUnit = target
+								ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
+								CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
+								return
+							
+							else:
+								unit_clicked = DisplayClickedUnitInfo(clicked_tile)
+								if unit_clicked == false:
+									HideUI()
+									ClearHighlights()
+									ActionMenu.ShowMenu(ActiveUnit)
+									CurrentAction = null
+									CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+						
+						PlayerTurnState.ACTION_CONFIRMATION_PHASE:
+							ActionForecast.hide()
+							ClearHighlights()
+							if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
+								ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
+								EndPlayerTurn()
+							else:
+								TargetedUnit = null
+								CurrentAction = null
+								ActionMenu.ShowMenu(ActiveUnit)
+								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 
 func _on_end_screen_restart_requested() -> void:
 	get_tree().paused = false
@@ -529,14 +477,18 @@ func _on_action_menu_action_selected(action: Action) -> void:
 func ExecuteAction(action: Action, unit: Unit, target = null):
 	action._execute(unit, target)
 	CurrentAction = null
-
+	TargetedUnit = null
+	
+func SimulateAction(action: Action, unit: Unit, target = null):
+	action._execute(unit, target)
+	
 func ForecastAction(action: Action, unit: Unit, target: Unit):
 	var simulated_target = target.duplicate() as Unit
 	add_child(simulated_target)
 	simulated_target.visible = false
 
-	ExecuteAction(action, unit, simulated_target)
-
+	SimulateAction(action, unit, simulated_target)
+	
 	var damage = target.CurrentHP - simulated_target.CurrentHP
 	ActionForecast.UpdateForecast(unit, target, damage)
 	
