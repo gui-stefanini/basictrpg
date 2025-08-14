@@ -18,11 +18,9 @@ func execute_turn(owner: Unit, map: Node2D):
 		print(owner.name + " chooses to move.")
 		for action in owner.Data.Actions:
 			if action is MoveAction:
-				action._execute(owner, map, best_destination)
-				await map.Wait(0.5)
-				#var move_tween = map.MoveUnit(owner, best_destination)
-				#if move_tween:
-					#await move_tween.finished
+				var move_tween = action._execute(owner, map, best_destination)
+				if move_tween is Tween:
+					await move_tween.finished
 		enemy_tile = best_destination
 	
 	if map.AreTilesInRange(owner.Data.AttackRange, enemy_tile, target_player_tile):

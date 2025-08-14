@@ -9,10 +9,11 @@ func _on_select(user: Unit, map: Node2D):
 	map.CurrentSubState = map.PlayerTurnState.TARGETING_PHASE
 	map.HighlightHealArea(user, user.Data.AttackRange)
 
-func _execute(user: Unit, _map: Node2D, target = null):
+func _execute(user: Unit, _map: Node2D, target = null) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
-		return
+		return null
 	
 	target.ReceiveHealing(user.Data.HealPower)
 	user.HasActed = true
+	return null

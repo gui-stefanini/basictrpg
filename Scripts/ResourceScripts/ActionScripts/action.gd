@@ -9,5 +9,5 @@ func connect_listeners(_owner: Unit):
 func _on_select(_user: Unit, _map: Node2D):
 	pass # Child scripts will implement their own logic here.
 
-func _execute(_user: Unit, _map: Node2D, _target = null):
-	pass
+func _execute(_user: Unit, _map: Node2D, _target = null) -> Variant:
+	return null

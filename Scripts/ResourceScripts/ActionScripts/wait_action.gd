@@ -7,5 +7,6 @@ func connect_listeners(_owner: Unit):
 func _on_select(user: Unit, map: Node2D):
 	_execute(user, map)
 
-func _execute(_user: Unit, map: Node2D, _target = null):
+func _execute(_user: Unit, map: Node2D, _target = null) -> Variant:
 	map.EndPlayerTurn()
+	return null

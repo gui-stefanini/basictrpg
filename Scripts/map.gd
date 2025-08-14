@@ -226,30 +226,6 @@ func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_ti
 	else:
 		return best_target_tiles.pick_random()
 
-func MoveUnit(unit: Unit, target_tile: Vector2i) -> Tween:
-	var start_tile = GroundGrid.local_to_map(unit.global_position)
-	var path = FindPath(unit, start_tile, target_tile)
-	
-	if path.is_empty():
-		return null
-	
-	var tween = create_tween()
-	tween.set_parallel(false)
-	
-	for step in path:
-		var step_global_position = GroundGrid.to_global(GroundGrid.map_to_local(step))
-		tween.tween_property(unit, "global_position", step_global_position, 0.2)
-	
-	match CurrentGameState:
-		GameState.PLAYER_TURN:
-			CurrentSubState = PlayerTurnState.PROCESSING_PHASE
-			tween.tween_callback(OnPlayerActionFinished)
-		
-		GameState.ENEMY_TURN:
-			CurrentSubState = EnemyTurnState.PROCESSING_PHASE
-	
-	return tween
-
 func AreTilesInRange(action_range: int, tile1: Vector2i, tile2: Vector2i) -> bool:
 	var distance = abs(tile1.x - tile2.x) + abs(tile1.y - tile2.y)
 	return distance > 0 and distance <= action_range 
@@ -326,33 +302,6 @@ func StartEnemyTurn():
 		
 	print("--- Enemy Turn Ends ---")
 	EndEnemyTurn()
-	#for enemy in EnemyUnits:
-		#print(enemy.name + " is taking its turn.")
-		#
-		#var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-		#var target_player = FindClosestPlayerTo(enemy)
-		#if not target_player:
-			#await Wait(0.5)
-			#continue
-		#
-		#var target_player_tile = GroundGrid.local_to_map(target_player.global_position)
-		#var reachable_tiles = GetReachableTiles(enemy, enemy_tile, enemy.Data.MoveRange)
-		#var best_target_tile = FindBestDestination(enemy, reachable_tiles, target_player_tile)
-		#
-		#if best_target_tile == enemy_tile or best_target_tile == Vector2i(-1, -1):
-			#await Wait(0.5)
-		#else:
-			#var move_tween = MoveUnit(enemy, best_target_tile)
-			#if move_tween:
-				#await move_tween.finished
-		#
-		#var current_enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-		#if AreTilesInRange(enemy.Data.AttackRange, current_enemy_tile, target_player_tile):
-			##Will be completed when we adapt enemies to use Actions rather than using this function
-			#await Wait(0.5)
-			#
-	#print("--- Enemy Turn Ends ---")
-	#EndEnemyTurn()
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
@@ -388,7 +337,7 @@ func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
 
 func _unhandled_input(event):
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
-		return # If it's not a left-click down event, ignore it and exit the function immediately.
+		return
 	
 	match CurrentGameState:
 		GameState.PLAYER_TURN:

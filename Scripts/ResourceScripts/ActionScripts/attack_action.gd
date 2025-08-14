@@ -9,7 +9,7 @@ func _on_select(user: Unit, map: Node2D):
 	map.CurrentSubState = map.PlayerTurnState.TARGETING_PHASE
 	map.HighlightAttackArea(user, user.Data.AttackRange)
 
-func _execute(user: Unit, map: Node2D, target = null):
+func _execute(user: Unit, map: Node2D, target = null) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return
@@ -34,3 +34,4 @@ func _execute(user: Unit, map: Node2D, target = null):
 				map.EndGame(false)
 	
 	user.HasActed = true
+	return null
