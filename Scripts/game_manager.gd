@@ -1,5 +1,5 @@
 extends Node2D
-@export var LevelScene: PackedScene
+
 var CurrentLevel
 var GroundGrid
 var HighlightLayer
@@ -243,13 +243,13 @@ func HighlightHealArea(unit: Unit, action_range: int):
 	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
 func SpawnPlayerUnits():
-	for i in range(CurrentLevel.PlayerSpawns.size()):
+	for i in range(GameData.player_units.size()):
+		var unit_data = GameData.player_units[i]
 		var spawn_info = CurrentLevel.PlayerSpawns[i]
-		var unit_data = spawn_info.UnitClass
 		var spawn_pos = spawn_info.Position
 		
 		var new_unit: Unit = PlayerScene.instantiate()
-		new_unit.name = unit_data.Name + str(i)
+		new_unit.name = unit_data.Name + str(i + 1)
 		
 		new_unit.Data = unit_data
 		new_unit.Faction = Unit.Factions.PLAYER
@@ -344,6 +344,39 @@ func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
 			return true
 	return false
 
+func ExecuteAction(action: Action, unit: Unit, target = null):
+	action._execute(unit, self, target)
+	CurrentAction = null
+	TargetedUnit = null
+
+func SimulateAction(action: Action, unit: Unit, target = null):
+	action._execute(unit, self, target)
+
+func ForecastAction(action: Action, unit: Unit, target: Unit):
+	var simulated_target = target.duplicate() as Unit
+	add_child(simulated_target)
+	simulated_target.visible = false
+
+	SimulateAction(action, unit, simulated_target)
+	
+	var damage = target.CurrentHP - simulated_target.CurrentHP
+	ActionForecast.UpdateForecast(unit, target, damage)
+	
+	ActionForecast.global_position = target.global_position + Vector2(10, -10)
+	ActionForecast.show()
+
+	simulated_target.queue_free()
+
+func SetLevel():
+	var level_scene = load(GameData.selected_level)
+	if not level_scene:
+		push_error("Failed to load level scene from path: " + GameData.selected_level)
+		return
+	CurrentLevel = level_scene.instantiate()
+	add_child(CurrentLevel)
+	GroundGrid = CurrentLevel.GroundGrid
+	HighlightLayer = CurrentLevel.HighlightLayer
+
 func _unhandled_input(event):
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
 		return
@@ -426,35 +459,6 @@ func _unhandled_input(event):
 								ActionMenu.ShowMenu(ActiveUnit)
 								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 
-func ExecuteAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, self, target)
-	CurrentAction = null
-	TargetedUnit = null
-
-func SimulateAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, self, target)
-
-func ForecastAction(action: Action, unit: Unit, target: Unit):
-	var simulated_target = target.duplicate() as Unit
-	add_child(simulated_target)
-	simulated_target.visible = false
-
-	SimulateAction(action, unit, simulated_target)
-	
-	var damage = target.CurrentHP - simulated_target.CurrentHP
-	ActionForecast.UpdateForecast(unit, target, damage)
-	
-	ActionForecast.global_position = target.global_position + Vector2(10, -10)
-	ActionForecast.show()
-
-	simulated_target.queue_free()
-
-func SetLevel():
-	CurrentLevel = LevelScene.instantiate()
-	add_child(CurrentLevel)
-	GroundGrid = CurrentLevel.GroundGrid
-	HighlightLayer = CurrentLevel.HighlightLayer
-
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)
@@ -464,6 +468,12 @@ func _on_end_screen_restart_requested() -> void:
 	get_tree().reload_current_scene()
 
 func _ready() -> void:
+	if GameData.selected_level == "":
+		push_warning("GameData is empty. Loading default Level 1 for testing.")
+		GameData.selected_level = "res://Scenes/level_1.tscn"
+		var knight_data = load("res://Resources/ClassData/knight_data.tres")
+		var priest_data = load("res://Resources/ClassData/priest_data.tres")
+		GameData.player_units = [knight_data, priest_data]
 	SetLevel()
 	SetAstarGrid()
 	SpawnPlayerUnits()

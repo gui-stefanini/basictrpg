@@ -1,15 +1,15 @@
 class_name MoveAction
 extends Action
 
-func connect_listeners(_owner: Unit):
+func connect_listeners(_owner):
 	pass
 
-func _on_select(user: Unit, manager: Node2D):
+func _on_select(user, manager: Node2D):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
 	manager.HighlightMoveArea(user)
 
-func _execute(user: Unit, manager: Node2D, target = null) -> Variant:
+func _execute(user, manager: Node2D, target = null) -> Variant:
 	if target is not Vector2i:
 		print(str(self) + "has an invalid target type")
 		return null

@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_3m2ea")
 Name = "Heal"
+Description = "Heals another ally in range by HealPower."
 metadata/_custom_type_script = "uid://8qqq2msqnb5e"
