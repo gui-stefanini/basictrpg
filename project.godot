@@ -12,10 +12,14 @@ config_version=5
 
 config/name="BasicTRPG"
 config/tags=PackedStringArray("learning")
-run/main_scene="uid://cf4j0nfjaajbe"
+run/main_scene="uid://dbwv5lbunki7e"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://Assets/Art/icon.svg"
 
 [display]
 
+window/size/viewport_width=320
+window/size/viewport_height=192
+window/size/window_width_override=1280
+window/size/window_height_override=768
 window/stretch/mode="canvas_items"
