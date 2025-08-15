@@ -4,9 +4,11 @@
 
 [resource]
 script = ExtResource("1_71fu4")
-Faction = 0
+Name = "none"
 MaxHP = 10
 AttackPower = 3
+HealPower = 0
 MoveRange = 4
 AttackRange = 2
+Actions = [null, null, null, null]
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

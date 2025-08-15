@@ -1,15 +1,25 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbjcwgms3fd78"]
+[gd_scene load_steps=13 format=3 uid="uid://dbjcwgms3fd78"]
 
 [ext_resource type="Script" uid="uid://bulp4g77en3qf" path="res://Scripts/selection_menu.gd" id="1_r2ge3"]
+[ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/game_manager.tscn" id="2_atlk2"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Styles/button_style.tres" id="2_e1ouj"]
 [ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_1.tscn" id="2_e2lmm"]
 [ext_resource type="PackedScene" uid="uid://b6r4jmpo85fr7" path="res://Scenes/Levels/level_2.tscn" id="3_bw2gc"]
-[ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/unit_info_panel.tscn" id="3_e2lmm"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="4_547t1"]
 [ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/ClassData/knight_data.tres" id="5_pr5gi"]
 [ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/ClassData/priest_data.tres" id="6_hrbqk"]
+[ext_resource type="PackedScene" uid="uid://bk7gw2ed0ldxc" path="res://Scenes/unit_selection_slot.tscn" id="7_hrbqk"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="8_pr5gi"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="9_hrbqk"]
 
-[node name="SelectionMenu" type="Control" node_paths=PackedStringArray("LevelSelectionContainer", "UnitCustomizationContainer", "UnitInfoPanel", "StartLevelButton")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrbqk"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0823529, 0.109804, 0.133333, 0.627451)
+
+[node name="SelectionMenu" type="Control" node_paths=PackedStringArray("LevelSelectionContainer", "UnitCustomizationContainer", "StartLevelButton", "UnitInfoPanel", "NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "AttackRangeLabel", "ActionsLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,13 +27,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r2ge3")
-LevelSelectionContainer = NodePath("MarginContainer/VBoxContainer/LevelSelectionContainer")
-UnitCustomizationContainer = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitCustomizationContainer")
-UnitInfoPanel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanel")
-StartLevelButton = NodePath("MarginContainer/VBoxContainer/StartLevelButton")
+GameManagerScene = ExtResource("2_atlk2")
 Level1Scene = ExtResource("2_e2lmm")
 Level2Scene = ExtResource("3_bw2gc")
 PlayerClasses = Array[ExtResource("4_547t1")]([ExtResource("5_pr5gi"), ExtResource("6_hrbqk")])
+LevelSelectionContainer = NodePath("MarginContainer/VBoxContainer/LevelSelectionContainer")
+UnitCustomizationContainer = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitCustomizationContainer")
+StartLevelButton = NodePath("MarginContainer/VBoxContainer/StartLevelButton")
+UnitInfoPanel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer")
+NameLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/NameLabel")
+HPLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/HPLabel")
+AttackLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/AttackLabel")
+MoveLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/MoveLabel")
+AttackRangeLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/AttackRangeLabel")
+ActionsLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/ActionsLabel")
+UnitSelectionSlotScene = ExtResource("7_hrbqk")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -73,8 +91,52 @@ size_flags_vertical = 3
 [node name="UnitCustomizationContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainContentContainer"]
 layout_mode = 2
 
-[node name="UnitInfoPanel" parent="MarginContainer/VBoxContainer/MainContentContainer" instance=ExtResource("3_e2lmm")]
+[node name="UnitInfoPanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainContentContainer"]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hrbqk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer"]
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = ExtResource("8_pr5gi")
+label_settings = ExtResource("9_hrbqk")
+
+[node name="HPLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = ExtResource("8_pr5gi")
+label_settings = ExtResource("9_hrbqk")
+
+[node name="AttackLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = ExtResource("8_pr5gi")
+label_settings = ExtResource("9_hrbqk")
+
+[node name="MoveLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = ExtResource("8_pr5gi")
+label_settings = ExtResource("9_hrbqk")
+
+[node name="AttackRangeLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = ExtResource("8_pr5gi")
+label_settings = ExtResource("9_hrbqk")
+
+[node name="ActionsLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = ExtResource("8_pr5gi")
+label_settings = ExtResource("9_hrbqk")
+autowrap_mode = 2
 
 [node name="StartLevelButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -85,3 +147,4 @@ text = "Start Level"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/LevelSelectionContainer/Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/LevelSelectionContainer/Level2Button" to="." method="_on_level_2_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/StartLevelButton" to="." method="_on_start_level_button_pressed"]

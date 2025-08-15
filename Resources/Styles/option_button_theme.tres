@@ -1,0 +1,37 @@
+[gd_resource type="Theme" format=3 uid="uid://07ptt23e2eaq"]
+
+[resource]
+PopupMenu/colors/font_accelerator_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_disabled_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_hover_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_outline_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_separator_color = Color(0, 0, 0, 1)
+PopupMenu/colors/font_separator_outline_color = Color(0, 0, 0, 1)
+PopupMenu/constants/h_separation = 0
+PopupMenu/constants/icon_max_width = 0
+PopupMenu/constants/indent = 0
+PopupMenu/constants/item_end_padding = 0
+PopupMenu/constants/item_start_padding = 0
+PopupMenu/constants/outline_size = 0
+PopupMenu/constants/separator_outline_size = 0
+PopupMenu/constants/v_separation = 0
+PopupMenu/font_sizes/font_separator_size = 16
+PopupMenu/font_sizes/font_size = 10
+PopupMenu/fonts/font = null
+PopupMenu/fonts/font_separator = null
+PopupMenu/icons/checked = null
+PopupMenu/icons/checked_disabled = null
+PopupMenu/icons/radio_checked = null
+PopupMenu/icons/radio_checked_disabled = null
+PopupMenu/icons/radio_unchecked = null
+PopupMenu/icons/radio_unchecked_disabled = null
+PopupMenu/icons/submenu = null
+PopupMenu/icons/submenu_mirrored = null
+PopupMenu/icons/unchecked = null
+PopupMenu/icons/unchecked_disabled = null
+PopupMenu/styles/hover = null
+PopupMenu/styles/labeled_separator_left = null
+PopupMenu/styles/labeled_separator_right = null
+PopupMenu/styles/panel = null
+PopupMenu/styles/separator = null

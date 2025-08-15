@@ -40,4 +40,11 @@ theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = ExtResource("2_1gwaw")
 text = "Restart"
 
+[node name="MenuButton" type="Button" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+theme_override_styles/normal = ExtResource("2_1gwaw")
+text = "Main Menu"
+
 [connection signal="pressed" from="ColorRect/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="ColorRect/VBoxContainer/MenuButton" to="." method="_on_menu_button_pressed"]

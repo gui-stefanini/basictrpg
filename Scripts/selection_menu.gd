@@ -1,19 +1,30 @@
 extends Control
 
-@export var LevelSelectionContainer : HBoxContainer
-@export var UnitCustomizationContainer : VBoxContainer
-@export var UnitInfoPanel : PanelContainer
-@export var StartLevelButton : Button
+@export var GameManagerScene: PackedScene
 @export var Level1Scene: PackedScene
 @export var Level2Scene: PackedScene
 
 @export var PlayerClasses: Array[UnitData]
 
+@export var LevelSelectionContainer : HBoxContainer
+@export var UnitCustomizationContainer : VBoxContainer
+@export var StartLevelButton : Button
+@export var UnitInfoPanel : PanelContainer
+@export var NameLabel: Label
+@export var HPLabel: Label
+@export var AttackLabel: Label
+@export var MoveLabel: Label
+@export var AttackRangeLabel: Label
+@export var ActionsLabel: Label
+@export var UnitSelectionSlotScene: PackedScene
+
 var SelectedLevelPath: String = ""
-var SelectedUnits: Array = []
+var SelectedUnits: Array = [UnitData]
 var RequiredUnitCount: int = 0
 
 func SelectLevel(level_scene: PackedScene):
+	SelectedUnits.clear()
+	UpdateMenuInfoPanel(null)
 	SelectedLevelPath = level_scene.resource_path
 	print("Selected level: " + SelectedLevelPath)
 	
@@ -25,8 +36,26 @@ func SelectLevel(level_scene: PackedScene):
 	
 	UpdateUnitCustomizationUI()
 	
-	SelectedUnits.clear()
 	StartLevelButton.disabled = true
+
+func UpdateMenuInfoPanel(data: UnitData):
+	if not data:
+		UnitInfoPanel.hide()
+		return
+		
+	NameLabel.text = data.Name
+	HPLabel.text = "HP: %d" % [data.MaxHP]
+	AttackLabel.text = "ATK: " + str(data.AttackPower)
+	MoveLabel.text = "MOV: " + str(data.MoveRange)
+	AttackRangeLabel.text = "RNG: " + str(data.AttackRange)
+	
+	var actions_text = "Actions:"
+	for action in data.Actions:
+		if action and action.Description != "":
+			actions_text += "\n- %s: %s" % [action.Name, action.Description]
+	
+	ActionsLabel.text = actions_text
+	UnitInfoPanel.show()
 
 func UpdateUnitCustomizationUI():
 	for child in UnitCustomizationContainer.get_children():
@@ -35,12 +64,12 @@ func UpdateUnitCustomizationUI():
 	SelectedUnits.resize(RequiredUnitCount)
 	
 	for i in range(RequiredUnitCount):
-		var slot_container = HBoxContainer.new()
+		var new_slot = UnitSelectionSlotScene.instantiate()
+		var slot_label = new_slot.get_node("Label")
+		var class_selector = new_slot.get_node("OptionButton")
 		
-		var slot_label = Label.new()
 		slot_label.text = "Unit %d: " % (i + 1)
 		
-		var class_selector = OptionButton.new()
 		class_selector.add_item("Select a Class")
 		
 		for j in range(PlayerClasses.size()):
@@ -50,26 +79,25 @@ func UpdateUnitCustomizationUI():
 		# Connect the signal with bind to pass the slot index 'i'
 		class_selector.item_selected.connect(_on_class_selected.bind(i))
 		
-		slot_container.add_child(slot_label)
-		slot_container.add_child(class_selector)
-		UnitCustomizationContainer.add_child(slot_container)
+		UnitCustomizationContainer.add_child(new_slot)
 
 func _on_class_selected(item_index: int, unit_slot_index: int):
-	
 	if item_index == 0:
 		SelectedUnits[unit_slot_index] = null
-		_CheckSelectionsComplete()
+		UpdateMenuInfoPanel(null)
+		CheckSelectionsComplete()
 		return
 	
 	var class_array_index = item_index - 1
 	var selected_class = PlayerClasses[class_array_index]
 	
 	SelectedUnits[unit_slot_index] = selected_class
-	print("Unit slot %d set to %s" % [unit_slot_index + 1, selected_class.Name])
 	
-	_CheckSelectionsComplete()
+	UpdateMenuInfoPanel(selected_class)
+	
+	CheckSelectionsComplete()
 
-func _CheckSelectionsComplete():
+func CheckSelectionsComplete():
 	for unit in SelectedUnits:
 		if not unit:
 			StartLevelButton.disabled = true
@@ -84,7 +112,12 @@ func _on_level_1_button_pressed() -> void:
 func _on_level_2_button_pressed() -> void:
 	SelectLevel(Level2Scene)
 
+func _on_start_level_button_pressed() -> void:
+	GameData.selected_level = SelectedLevelPath
+	GameData.player_units = SelectedUnits
+	
+	get_tree().change_scene_to_packed(GameManagerScene)
+
 func _ready():
 	UnitInfoPanel.hide()
 	StartLevelButton.disabled = true
-	

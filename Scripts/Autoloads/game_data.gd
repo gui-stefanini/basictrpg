@@ -1,6 +1,13 @@
 extends Node
 var selected_level: String = ""
-var player_units: Array = []
+var player_units: Array = [UnitData]
+
+func restart_game():
+	var main_scene_path = ProjectSettings.get_setting("application/run/main_scene")
+	
+	get_tree().paused = false
+	get_tree().change_scene_to_file(main_scene_path)
+
 
 func reset_data():
 	selected_level = ""

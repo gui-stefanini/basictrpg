@@ -4,8 +4,11 @@
 
 [resource]
 script = ExtResource("1_a1jc2")
-Faction = 1
+Name = "none"
 MaxHP = 5
 AttackPower = 2
+HealPower = 0
 MoveRange = 3
+AttackRange = 1
+Actions = []
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

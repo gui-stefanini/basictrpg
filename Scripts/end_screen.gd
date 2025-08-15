@@ -14,3 +14,7 @@ func ShowEndScreen(is_victory: bool):
 
 func _on_restart_button_pressed():
 	restart_requested.emit()
+
+func _on_menu_button_pressed() -> void:
+	GameData.reset_data()
+	GameData.restart_game()

@@ -10,6 +10,7 @@ func UpdatePanel(unit: Unit):
 	if not unit:
 		hide()
 		return
+	
 	NameLabel.text = unit.name
 	HPLabel.text = "HP: " + str(unit.CurrentHP) + " / " + str(unit.Data.MaxHP)
 	AttackLabel.text = "ATK: " + str(unit.Data.AttackPower)
