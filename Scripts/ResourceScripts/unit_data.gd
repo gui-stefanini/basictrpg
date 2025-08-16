@@ -8,4 +8,4 @@ extends Resource
 @export var HealPower: int = 0
 @export var MoveRange: int = 1
 @export var AttackRange: int = 1
-@export var Actions: Array[Resource]
+@export var Actions: Array[Action]

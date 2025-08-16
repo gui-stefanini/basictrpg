@@ -15,6 +15,10 @@ var HasMoved: bool = false
 var HasActed: bool = false
 var ActiveStatuses: Dictionary = {}
 
+func CopyState(target : Unit):
+	CurrentHP = target.CurrentHP
+	ActiveStatuses = target.ActiveStatuses.duplicate(true)
+
 func StartTurn():
 	HasMoved = false
 	HasActed = false

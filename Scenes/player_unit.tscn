@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcv8iwne8u7cf"]
+[gd_scene load_steps=4 format=3 uid="uid://dcv8iwne8u7cf"]
 
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/PlayerSprite_1.png" id="1_1qwtc"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/unit.tscn" id="1_sqtjf"]
-[ext_resource type="Resource" uid="uid://d1w6msbna0lw" path="res://Resources/ClassData/player_data.tres" id="2_tlcot"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tlcot"]
 animations = [{
@@ -16,7 +15,7 @@ animations = [{
 }]
 
 [node name="Unit" node_paths=PackedStringArray("Sprite", "HealthBar") instance=ExtResource("1_sqtjf")]
-Data = ExtResource("2_tlcot")
+Data = null
 Sprite = NodePath("AnimatedSprite2D")
 HealthBar = NodePath("HealthBar")
 

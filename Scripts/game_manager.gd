@@ -203,28 +203,70 @@ func FindClosestPlayerTo(unit: Unit) -> Unit:
 	else:
 		return closest_players.pick_random()
 
-func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_tile: Vector2i) -> Vector2i:
-	var best_target_tiles: Array[Vector2i] = []
-	var min_path_cost = 9999
-	reachable_tiles.append(GroundGrid.local_to_map(unit.global_position))
-	
-	for tile in reachable_tiles:
-		var path_from_tile = FindPath(unit, tile, target_tile)
-		if not path_from_tile.is_empty():
-			var path_cost = GetPathCost(path_from_tile)
-			if path_cost < min_path_cost:
-				min_path_cost = path_cost
-				best_target_tiles.clear()
-				best_target_tiles.append(tile)
-			elif path_cost == min_path_cost:
-				best_target_tiles.append(tile)
-	
-	if best_target_tiles.is_empty():
-		return Vector2i(-1, -1)
-	elif best_target_tiles.has(GroundGrid.local_to_map(unit.global_position)):
-		return GroundGrid.local_to_map(unit.global_position)
+func FindHealOpportunity(healer: Unit) -> Dictionary:
+	var allies = []
+	if healer.Faction == Unit.Factions.PLAYER:
+		allies = PlayerUnits
 	else:
-		return best_target_tiles.pick_random()
+		allies = EnemyUnits
+	
+	var damaged_allies = []
+	for ally in allies:
+		if ally != healer and ally.CurrentHP < ally.Data.MaxHP:
+			damaged_allies.append(ally)
+	
+	if damaged_allies.is_empty():
+		return {}
+	
+	
+	damaged_allies.sort_custom(
+	func(a, b):
+		var health_percent_a = float(a.CurrentHP) / a.Data.MaxHP
+		var health_percent_b = float(b.CurrentHP) / b.Data.MaxHP
+		return health_percent_a < health_percent_b
+	)
+	
+	var healer_tile = GroundGrid.local_to_map(healer.global_position)
+	var reachable_tiles = GetReachableTiles(healer, healer_tile, healer.Data.MoveRange)
+	reachable_tiles.append(healer_tile) # Can heal from current position
+
+	var heal_range = healer.Data.AttackRange # Assuming HealRange is the same as AttackRange for Priests
+
+	for target_ally in damaged_allies:
+		var target_tile = GroundGrid.local_to_map(target_ally.global_position)
+		var potential_heal_tiles = GetTilesInRange(target_tile, heal_range)
+		
+		for heal_tile in potential_heal_tiles:
+			if reachable_tiles.has(heal_tile):
+				# Found a valid tile to move to and heal from
+				print("Found heal opportunity for " + healer.name + " -> " + target_ally.name)
+				return {"target": target_ally, "destination": heal_tile}
+	
+	# No opportunity found
+	return {}
+
+#func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_tile: Vector2i) -> Vector2i:
+	#var best_target_tiles: Array[Vector2i] = []
+	#var min_path_cost = 9999
+	#reachable_tiles.append(GroundGrid.local_to_map(unit.global_position))
+	#
+	#for tile in reachable_tiles:
+		#var path_from_tile = FindPath(unit, tile, target_tile)
+		#if not path_from_tile.is_empty():
+			#var path_cost = GetPathCost(path_from_tile)
+			#if path_cost < min_path_cost:
+				#min_path_cost = path_cost
+				#best_target_tiles.clear()
+				#best_target_tiles.append(tile)
+			#elif path_cost == min_path_cost:
+				#best_target_tiles.append(tile)
+	#
+	#if best_target_tiles.is_empty():
+		#return Vector2i(-1, -1)
+	#elif best_target_tiles.has(GroundGrid.local_to_map(unit.global_position)):
+		#return GroundGrid.local_to_map(unit.global_position)
+	#else:
+		#return best_target_tiles.pick_random()
 
 func AreTilesInRange(action_range: int, tile1: Vector2i, tile2: Vector2i) -> bool:
 	var distance = abs(tile1.x - tile2.x) + abs(tile1.y - tile2.y)
@@ -271,6 +313,7 @@ func SpawnEnemyUnits():
 		new_unit.name = "Enemy" + unit_data.Name + str(i)
 		
 		new_unit.Data = unit_data
+		new_unit.AI = spawn_info.AI
 		new_unit.Faction = Unit.Factions.ENEMY
 		
 		add_child(new_unit)
@@ -306,6 +349,7 @@ func StartEnemyTurn():
 	print("--- Enemy Turn Begins ---")
 	
 	for enemy in EnemyUnits:
+		enemy.StartTurn()
 		print(enemy.name + " is taking its turn.")
 		await enemy.AI.execute_turn(enemy, self)
 		
@@ -355,7 +399,7 @@ func SimulateAction(action: Action, unit: Unit, target = null):
 func ForecastAction(action: Action, unit: Unit, target: Unit):
 	var simulated_target = target.duplicate() as Unit
 	add_child(simulated_target)
-	simulated_target.visible = false
+	simulated_target.CopyState(target)
 
 	SimulateAction(action, unit, simulated_target)
 	

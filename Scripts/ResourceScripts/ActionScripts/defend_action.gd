@@ -11,10 +11,13 @@ func _execute(user: Unit, manager: Node2D, _target = null) -> Variant:
 	print(user.name + " is defending!")
 	user.HasActed = true
 	user.ActiveStatuses[Unit.Status.DEFENDING] = 1
-	manager.OnPlayerActionFinished()
+	
+	if user in manager.PlayerUnits:
+		manager.OnPlayerActionFinished()
+	
 	return null
 
 func _on_damage_taken(unit: Unit, damage_data: Dictionary):
 	if unit.ActiveStatuses.has(Unit.Status.DEFENDING):
 		print("Defense applied! Damage halved.")
-		damage_data["damage"] /= 2
+		damage_data["damage"] = round(damage_data["damage"] / 2.0)

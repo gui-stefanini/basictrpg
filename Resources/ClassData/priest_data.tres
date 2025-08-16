@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=7 format=3 uid="uid://ckbg3nxtt1cky"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=6 format=3 uid="uid://ckbg3nxtt1cky"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ResourceScripts/ActionScripts/action.gd" id="1_j0wb2"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/ActionData/move_action.tres" id="2_8qp4y"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/ActionData/attack_action.tres" id="3_kphou"]
 [ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/ActionData/heal_action.tres" id="4_qo2c7"]
@@ -10,10 +9,10 @@
 [resource]
 script = ExtResource("6_rlu2i")
 Name = "Priest"
-MaxHP = 8
+MaxHP = 6
 AttackPower = 2
-HealPower = 0
+HealPower = 2
 MoveRange = 4
 AttackRange = 2
-Actions = Array[ExtResource("1_j0wb2")]([ExtResource("2_8qp4y"), ExtResource("3_kphou"), ExtResource("4_qo2c7"), ExtResource("5_3ifb4")])
+Actions = Array[Resource]([ExtResource("2_8qp4y"), ExtResource("3_kphou"), ExtResource("4_qo2c7"), ExtResource("5_3ifb4")])
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

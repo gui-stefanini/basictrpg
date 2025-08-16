@@ -1,34 +1,36 @@
-[gd_scene load_steps=11 format=3 uid="uid://6mgfl26hy227"]
+[gd_scene load_steps=13 format=3 uid="uid://6mgfl26hy227"]
 
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/ground_grid.tscn" id="1_8ffim"]
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/level.gd" id="1_xfk5q"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/ResourceScripts/spawn_info.gd" id="2_evi0p"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/highlight_layer.tscn" id="2_xfk5q"]
-[ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/ClassData/knight_data.tres" id="3_lsmp6"]
-[ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/ClassData/priest_data.tres" id="4_xrdnt"]
+[ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/AIData/knight_ai.tres" id="5_u5ghp"]
+[ext_resource type="Resource" uid="uid://lvqpypsim1b" path="res://Resources/ClassData/enemy_knight_data.tres" id="6_hwvp3"]
+[ext_resource type="Resource" uid="uid://dhgxabbiekamu" path="res://Resources/AIData/priest_ai.tres" id="7_afv7b"]
+[ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/ClassData/enemy_priest_data.tres" id="8_7r2dd"]
 
 [sub_resource type="Resource" id="Resource_wrinw"]
 script = ExtResource("2_evi0p")
-UnitClass = ExtResource("3_lsmp6")
 Position = Vector2i(4, 4)
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_chwpn"]
 script = ExtResource("2_evi0p")
-UnitClass = ExtResource("4_xrdnt")
 Position = Vector2i(4, 6)
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_af3po"]
 script = ExtResource("2_evi0p")
-UnitClass = ExtResource("3_lsmp6")
+UnitClass = ExtResource("6_hwvp3")
 Position = Vector2i(15, 4)
+AI = ExtResource("5_u5ghp")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_uy8f0"]
 script = ExtResource("2_evi0p")
-UnitClass = ExtResource("3_lsmp6")
+UnitClass = ExtResource("8_7r2dd")
 Position = Vector2i(15, 8)
+AI = ExtResource("7_afv7b")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer")]
