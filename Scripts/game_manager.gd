@@ -26,7 +26,7 @@ var CurrentSubState = PlayerTurnState.NULL
 
 var CurrentAction : Action = null
 
-var AstarGrid = AStarGrid2D.new()
+var AStar = AStar2D.new()
 var HighlightedMoveTiles: Array[Vector2i] = []
 var HighlightedAttackTiles: Array[Vector2i] = []
 var HighlightedHealTiles: Array[Vector2i] = []
@@ -56,21 +56,21 @@ func SetUnitObstacles(active_unit: Unit):
 		if unit != active_unit:
 			var unit_tile = GroundGrid.local_to_map(unit.global_position)
 			if active_unit.Faction != unit.Faction:
-				AstarGrid.set_point_weight_scale(unit_tile, 999.0)
+				AStar.set_point_disabled(vector_to_id(unit_tile), true)
 				modified_tiles.append(unit_tile)
 			
 	for enemy in EnemyUnits:
 		if enemy != active_unit:
 			var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
 			if active_unit.Faction != enemy.Faction:
-				AstarGrid.set_point_weight_scale(enemy_tile, 999.0)
+				AStar.set_point_disabled(vector_to_id(enemy_tile), true)
 				modified_tiles.append(enemy_tile)
 	
 	return modified_tiles
 
 func ClearUnitObstacles(tiles_to_clear: Array[Vector2i]):
 	for tile in tiles_to_clear:
-		AstarGrid.set_point_weight_scale(tile, 1.0)
+		AStar.set_point_disabled(vector_to_id(tile), false)
 
 func GetOccupiedTiles() -> Array[Vector2i]:
 	var occupied_tiles: Array[Vector2i] = []
@@ -96,6 +96,9 @@ func GetReachableTiles(unit: Unit,start_tile: Vector2i, move_range: int) -> Arra
 		for direction in directions:
 			var adjacent_tile = current_tile + direction
 			
+			if not AStar.has_point(vector_to_id(adjacent_tile)) or AStar.is_point_disabled(vector_to_id(adjacent_tile)):
+				continue
+			
 			var tile_data = GroundGrid.get_cell_tile_data(adjacent_tile)
 			if not tile_data:
 				continue
@@ -103,10 +106,8 @@ func GetReachableTiles(unit: Unit,start_tile: Vector2i, move_range: int) -> Arra
 			var terrain_cost = tile_data.get_custom_data("move_cost")
 			if terrain_cost <= 0:
 				continue
-			var obstacle_weight = AstarGrid.get_point_weight_scale(adjacent_tile)
-			var move_cost = terrain_cost * obstacle_weight
 			
-			var new_cost = checked_tiles_costs[current_tile] + move_cost
+			var new_cost = checked_tiles_costs[current_tile] + terrain_cost
 			
 			if new_cost <= move_range:
 				if not checked_tiles_costs.has(adjacent_tile) or new_cost < checked_tiles_costs[adjacent_tile]:
@@ -144,27 +145,49 @@ func HighlightMoveArea(unit: Unit):
 	
 	DrawHighlights(HighlightedMoveTiles, 1, Vector2i(0,0))
 
-func SetAstarGrid():
-	var map_rect = GroundGrid.get_used_rect()
-	AstarGrid.region = map_rect
-	AstarGrid.update()
+func SetAStarGrid():
+	var all_cells = GroundGrid.get_used_cells()
+
+	# First, add all valid tiles as points to the AStar map.
+	for cell in all_cells:
+		var tile_data = GroundGrid.get_cell_tile_data(cell)
+		if tile_data:
+			var move_cost = tile_data.get_custom_data("move_cost")
+			if move_cost > 0:
+				var point_id = vector_to_id(cell)
+				AStar.add_point(point_id, cell)
+			else:
+				var point_id = vector_to_id(cell)
+				AStar.add_point(point_id, cell)
+				AStar.set_point_disabled(point_id, true)
 	
-	for x in range(map_rect.position.x, map_rect.end.x):
-		for y in range(map_rect.position.y, map_rect.end.y):
-			var tile_coordinate = Vector2i(x, y)
-			var tile_data = GroundGrid.get_cell_tile_data(tile_coordinate)
-			if tile_data:
+	# Second, connect the points to their valid neighbors.
+	for cell in all_cells:
+		var current_point_id = vector_to_id(cell)
+		if not AStar.has_point(current_point_id) or AStar.is_point_disabled(current_point_id):
+			continue # Skip impassable or invalid tiles
+		
+		var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		for direction in directions:
+			var neighbor_cell = cell + direction
+			var neighbor_point_id = vector_to_id(neighbor_cell)
+			
+			if AStar.has_point(neighbor_point_id) and not AStar.is_point_disabled(neighbor_point_id):
+				# This is the key part: the "weight" of the connection
+				# is the move_cost of the tile we are moving INTO.
+				var tile_data = GroundGrid.get_cell_tile_data(neighbor_cell)
 				var move_cost = tile_data.get_custom_data("move_cost")
-				if move_cost < 1:
-					AstarGrid.set_point_solid(tile_coordinate)
+				AStar.connect_points(current_point_id, neighbor_point_id, move_cost)
 
 func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Array[Vector2i]:
-	
 	var modified_tiles = SetUnitObstacles(unit)
+	var start_id = vector_to_id(start_tile)
+	var end_id = vector_to_id(end_tile)
 	
-	var astar_path = AstarGrid.get_point_path(start_tile, end_tile)
+	var astar_path_vectors = AStar.get_point_path(start_id, end_id)
+	
 	var path: Array[Vector2i] = []
-	for tile in astar_path:
+	for tile in astar_path_vectors:
 		path.append(Vector2i(tile))
 	
 	ClearUnitObstacles(modified_tiles)
@@ -182,12 +205,13 @@ func GetPathCost(path: Array[Vector2i]) -> int:
 
 func FindClosestPlayerTo(unit: Unit) -> Unit:
 	var closest_players: Array[Unit] = []
-	var min_player_dist = 9999
+	var min_player_dist = INF
 	var enemy_tile = GroundGrid.local_to_map(unit.global_position)
 	
 	for player in PlayerUnits:
 		var player_tile = GroundGrid.local_to_map(player.global_position)
 		var path_to_player = FindPath(unit, enemy_tile, player_tile)
+		
 		if not path_to_player.is_empty():
 			var path_cost = GetPathCost(path_to_player)
 			if path_cost < min_player_dist:
@@ -202,6 +226,19 @@ func FindClosestPlayerTo(unit: Unit) -> Unit:
 		return null
 	else:
 		return closest_players.pick_random()
+
+func GetValidAttackTiles(attacker: Unit, target: Unit) -> Array[Vector2i]:
+	var valid_tiles: Array[Vector2i] = []
+	var target_tile = GroundGrid.local_to_map(target.global_position)
+	var tiles_in_range = GetTilesInRange(target_tile, attacker.Data.AttackRange)
+	var occupied_tiles = GetOccupiedTiles()
+
+	for tile in tiles_in_range:
+		if AStar.has_point(vector_to_id(tile)) and not occupied_tiles.has(tile):
+			valid_tiles.append(tile)
+	
+	valid_tiles.append(target_tile)
+	return valid_tiles
 
 func FindHealOpportunity(healer: Unit) -> Dictionary:
 	var allies = []
@@ -519,7 +556,13 @@ func _ready() -> void:
 		var priest_data = load("res://Resources/ClassData/priest_data.tres")
 		GameData.player_units = [knight_data, priest_data]
 	SetLevel()
-	SetAstarGrid()
+	SetAStarGrid()
 	SpawnPlayerUnits()
 	SpawnEnemyUnits()
 	StartGame()
+
+func vector_to_id(vector: Vector2i) -> int:
+	# Converts a Vector2i coordinate to a unique integer ID.
+	# This is necessary because AStar2D identifies points with integer IDs, not vectors.
+	# We use a large number to ensure the y-coordinate doesn't overlap with the x-coordinate.
+	return vector.x * 1000 + vector.y
