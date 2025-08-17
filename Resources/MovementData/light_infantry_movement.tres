@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MovementData" load_steps=2 format=3 uid="uid://4xw2oken53wr"]
+
+[ext_resource type="Script" uid="uid://cguqbducphruj" path="res://Scripts/ResourceScripts/movement_data.gd" id="1_7fumu"]
+
+[resource]
+script = ExtResource("1_7fumu")
+Name = "LightInfantry"
+TerrainCosts = {
+"Grass": 1,
+"Obstacle": -1,
+"Water": 1
+}
+metadata/_custom_type_script = "uid://cguqbducphruj"

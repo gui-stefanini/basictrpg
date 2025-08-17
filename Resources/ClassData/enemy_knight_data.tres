@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=7 format=3 uid="uid://lvqpypsim1b"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=8 format=3 uid="uid://lvqpypsim1b"]
 
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/ActionData/move_action.tres" id="1_8wci8"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ResourceScripts/ActionScripts/action.gd" id="1_caol2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://q18pkc5oigo7" path="res://Resources/ActionData/defend_action.tres" id="3_2qm68"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/ActionData/wait_action.tres" id="4_cr0fe"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_8lb5j"]
+[ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/MovementData/heavy_infantry_movement.tres" id="6_2qm68"]
 
 [resource]
 script = ExtResource("5_8lb5j")
@@ -16,4 +17,5 @@ HealPower = 0
 MoveRange = 3
 AttackRange = 1
 Actions = Array[ExtResource("1_caol2")]([ExtResource("1_8wci8"), ExtResource("2_caol2"), ExtResource("3_2qm68"), ExtResource("4_cr0fe")])
+MovementType = ExtResource("6_2qm68")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

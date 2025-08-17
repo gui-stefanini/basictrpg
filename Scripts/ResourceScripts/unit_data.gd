@@ -9,3 +9,4 @@ extends Resource
 @export var MoveRange: int = 1
 @export var AttackRange: int = 1
 @export var Actions: Array[Action]
+@export var MovementType: MovementData

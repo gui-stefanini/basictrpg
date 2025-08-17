@@ -8,7 +8,7 @@ func OffensiveMovementCommand(owner: Unit, manager: Node2D):
 		for tile in attack_tiles:
 			var path = manager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
 			if not path.is_empty():
-				var cost = manager.GetPathCost(path)
+				var cost = manager.GetPathCost(owner, path)
 				var target = {
 					"target": player,
 					"destination": tile,
@@ -31,16 +31,14 @@ func OffensiveMovementCommand(owner: Unit, manager: Node2D):
 	print(target_player)
 	
 	var path_within_move_range: Array[Vector2i] = []
-	var path_cost = 0
 	
 	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
+	var reachable_tiles = manager.GetReachableTiles(owner, enemy_tile)
 	
 	for tile in path_to_destination:
 		if tile == enemy_tile:
 			continue
-		var tile_data = manager.GroundGrid.get_cell_tile_data(tile)
-		path_cost += tile_data.get_custom_data("move_cost")
-		if path_cost <= owner.Data.MoveRange:
+		if tile in reachable_tiles:
 			path_within_move_range.append(tile)
 		else:
 			break
