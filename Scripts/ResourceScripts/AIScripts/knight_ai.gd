@@ -1,7 +1,7 @@
 class_name KnightAI
 extends AIBehavior
 
-func execute_turn(owner: Unit, manager: Node2D):
+func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.name + " is thinking like a Knight...")
 	
 	var health_percentage = float(owner.CurrentHP) / owner.Data.MaxHP

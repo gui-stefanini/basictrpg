@@ -4,12 +4,12 @@ extends Action
 func connect_listeners(_owner: Unit):
 	pass
 
-func _on_select(user: Unit, manager: Node2D):
+func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
 	manager.HighlightAttackArea(user, user.Data.AttackRange)
 
-func _execute(user: Unit, manager: Node2D, target = null) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return

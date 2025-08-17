@@ -1,19 +1,18 @@
 class_name AIBehavior
 extends Resource
 
-func OffensiveMovementCommand(owner: Unit, manager: Node2D):
+func OffensiveMovementCommand(owner: Unit, manager: GameManager):
 	var possible_targets = []
 	for player in manager.PlayerUnits:
 		var attack_tiles = manager.GetValidAttackTiles(owner, player)
 		for tile in attack_tiles:
 			var path = manager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
 			if not path.is_empty():
-				var cost = manager.GetPathCost(owner, path)
 				var target = {
 					"target": player,
 					"destination": tile,
-					"path": path,
-					"cost": cost
+					"path": path.path,
+					"cost": path.cost
 				}
 				possible_targets.append(target)
 	
@@ -53,7 +52,7 @@ func OffensiveMovementCommand(owner: Unit, manager: Node2D):
 					if move_tween is Tween:
 						await move_tween.finished
 
-func AttackCommand(owner: Unit, manager: Node2D):
+func AttackCommand(owner: Unit, manager: GameManager):
 	if owner.HasActed == true:
 		return
 	
@@ -74,7 +73,7 @@ func AttackCommand(owner: Unit, manager: Node2D):
 				action._execute(owner, manager, target)
 				await manager.Wait(0.5)
 
-func execute_offensive_routine(owner: Unit, manager: Node2D):
+func execute_offensive_routine(owner: Unit, manager: GameManager):
 	await AttackCommand(owner, manager)
 	if owner.HasActed == true:
 		return
@@ -84,7 +83,7 @@ func execute_offensive_routine(owner: Unit, manager: Node2D):
 # This is the "brain" function. It takes the unit that owns the AI (owner)
 # and a reference to the main manager script to access its helper functions.
 # It needs to be async so it can wait for animations.
-func execute_turn(owner: Unit, _manager: Node2D):
+func execute_turn(owner: Unit, _manager: GameManager):
 	# Await is needed for the function to be async.
 	await owner.get_tree().create_timer(0.01).timeout
 	pass

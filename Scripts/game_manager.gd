@@ -1,3 +1,4 @@
+class_name GameManager
 extends Node2D
 
 var CurrentLevel
@@ -169,7 +170,9 @@ func SetAStarGrids():
 		push_error("Could not find MovementData directory at: " + path)
 	
 	for move_data in all_movement_data:
-		var new_astar = AStar2D.new()
+		var new_astar = MovementAStar.new()
+		new_astar.GroundGrid = GroundGrid
+		new_astar.MovementType = move_data
 		var all_cells = GroundGrid.get_used_cells()
 		
 		for cell in all_cells:
@@ -195,11 +198,7 @@ func SetAStarGrids():
 				var neighbor_point_id = vector_to_id(neighbor_cell)
 				
 				if new_astar.has_point(neighbor_point_id) and not new_astar.is_point_disabled(neighbor_point_id):
-					var neighbor_tile_data = GroundGrid.get_cell_tile_data(neighbor_cell)
-					var terrain_type: String = neighbor_tile_data.get_custom_data("terrain_type")
-					var move_cost = move_data.TerrainCosts.get(terrain_type, 1) # Default to 1 for connections
-					
-					new_astar.connect_points(current_point_id, neighbor_point_id, move_cost)
+					new_astar.connect_points(current_point_id, neighbor_point_id)
 					
 		AStarInstances[move_data.Name] = new_astar
 
@@ -237,11 +236,11 @@ func SetAStarGrids():
 				#var move_cost = tile_data.get_custom_data("move_cost")
 				#AStar.connect_points(current_point_id, neighbor_point_id, move_cost)
 
-func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Array[Vector2i]:
+func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionary:
 	var move_data_name = unit.Data.MovementType.Name
 	if not AStarInstances.has(move_data_name):
 		push_error("No AStar grid found for movement type: " + move_data_name)
-		return []
+		return {}
 	var astar : AStar2D = AStarInstances[move_data_name]
 	
 	var modified_tiles = SetUnitObstacles(unit, astar)
@@ -254,23 +253,31 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Array[Vec
 	for tile in astar_path_vectors:
 		path.append(Vector2i(tile))
 	
-	ClearUnitObstacles(modified_tiles, astar)
-	
-	return path
-
-func GetPathCost(unit: Unit, path: Array[Vector2i]) -> int:
-	#var move_data_name = unit.Data.MovementType.Name
-	#var astar : AStar2D = AStarInstances[move_data_name]
-	
-	var total_cost = 0
+	var path_cost = 0
 	for i in range(1, path.size()):
 		var tile_coord = path[i]
 		var tile_data = GroundGrid.get_cell_tile_data(tile_coord)
-		var terrain_type: String = tile_data.get_custom_data("terrain_type")
-		var terrain_cost = unit.Data.MovementType.TerrainCosts.get(terrain_type, -1)
 		if tile_data:
-			total_cost += terrain_cost
-	return total_cost
+			var terrain_type: String = tile_data.get_custom_data("terrain_type")
+			path_cost += unit.Data.MovementType.TerrainCosts.get(terrain_type, 1)
+		
+	ClearUnitObstacles(modified_tiles, astar)
+	
+	return {"path" : path, "cost" : path_cost}
+
+#func GetPathCost(unit: Unit, path: Array[Vector2i]) -> int:
+	#var move_data_name = unit.Data.MovementType.Name
+	#var astar : AStar2D = AStarInstances[move_data_name]
+	#
+	#var total_cost = 0
+	#for i in range(1, path.size()):
+		#var tile_coord = path[i]
+		#var tile_data = GroundGrid.get_cell_tile_data(tile_coord)
+		#var terrain_type: String = tile_data.get_custom_data("terrain_type")
+		#var terrain_cost = unit.Data.MovementType.TerrainCosts.get(terrain_type, -1)
+		#if tile_data:
+			#total_cost += terrain_cost
+	#return total_cost
 
 func FindClosestPlayerTo(unit: Unit) -> Unit:
 	var closest_players: Array[Unit] = []
@@ -281,8 +288,8 @@ func FindClosestPlayerTo(unit: Unit) -> Unit:
 		var player_tile = GroundGrid.local_to_map(player.global_position)
 		var path_to_player = FindPath(unit, enemy_tile, player_tile)
 		
-		if not path_to_player.is_empty():
-			var path_cost = GetPathCost(unit, path_to_player)
+		if not path_to_player.path.is_empty():
+			var path_cost = path_to_player.cost
 			if path_cost < min_player_dist:
 				min_player_dist = path_cost
 				closest_players.clear()

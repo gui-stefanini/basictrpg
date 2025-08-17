@@ -1,7 +1,7 @@
 class_name PriestAI
 extends AIBehavior
 
-func execute_turn(owner: Unit, manager: Node2D):
+func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.name + " is thinking like a Priest...")
 	
 	var heal_plan = manager.FindHealOpportunity(owner)

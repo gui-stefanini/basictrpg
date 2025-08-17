@@ -4,12 +4,12 @@ extends Action
 func connect_listeners(_owner: Unit):
 	pass
 
-func _on_select(user: Unit, manager: Node2D):
+func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
 	manager.HighlightMoveArea(user)
 
-func _execute(user: Unit, manager: Node2D, target = null) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null) -> Variant:
 	if target is not Vector2i:
 		print(str(self) + "has an invalid target type")
 		return null
@@ -17,13 +17,13 @@ func _execute(user: Unit, manager: Node2D, target = null) -> Variant:
 	var start_tile = manager.GroundGrid.local_to_map(user.global_position)
 	var path = manager.FindPath(user, start_tile, target)
 	
-	if path.is_empty():
+	if path.path.is_empty():
 		return null
 	
 	var tween = manager.create_tween()
 	tween.set_parallel(false)
 	
-	for step in path:
+	for step in path.path:
 		var step_global_position = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(step))
 		tween.tween_property(user, "global_position", step_global_position, 0.2)
 	
