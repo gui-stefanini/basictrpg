@@ -168,6 +168,50 @@ func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) 
 			#return {"target": final_target["target"], "destination": tile}
 	#return {}
 
+func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
+	var damaged_allies = []
+	for ally in manager.EnemyUnits: # Make sure this targets the correct faction!
+		if ally != healer and ally.CurrentHP < ally.Data.MaxHP:
+			damaged_allies.append(ally)
+	
+	if damaged_allies.is_empty():
+		return {}
+	
+	# Sort allies by the amount of damage taken (most damaged first)
+	damaged_allies.sort_custom(
+		func(a, b):
+			var health_percentage_a = float(a.CurrentHP) / a.Data.MaxHP
+			var health_percentage_b = float(b.CurrentHP) / b.Data.MaxHP
+			return health_percentage_a > health_percentage_b
+	)
+	
+	var healer_tile = manager.GroundGrid.local_to_map(healer.global_position)
+	var reachable_tiles = manager.GetReachableTiles(healer, healer_tile)
+	reachable_tiles.append(healer_tile) # The healer might not need to move
+	
+	for target_ally in damaged_allies:
+		var potential_heal_tiles = GetValidActionTiles(healer, manager, target_ally)
+		var best_tile_for_target = null
+		var lowest_cost = INF
+		
+		# Find the cheapest tile to move to for healing this specific ally
+		for heal_tile in potential_heal_tiles:
+			if reachable_tiles.has(heal_tile):
+				var path_result = manager.FindPath(healer, healer_tile, heal_tile)
+				if path_result.cost < lowest_cost:
+					lowest_cost = path_result.cost
+					best_tile_for_target = heal_tile
+		
+		# If we found a reachable tile for this target, we have our action
+		if best_tile_for_target != null:
+			print("Found heal opportunity for %s -> %s" % [healer.name, target_ally.name])
+			return {
+				"target": target_ally,
+				"destination": best_tile_for_target
+			}
+	
+	return {} # No reachable, damaged ally found
+
 func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var valid_targets = GetValidTargets(owner, manager, targets)
 	
@@ -197,6 +241,18 @@ func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Uni
 		final_destination = path_within_move_range.back()
 		if final_destination != enemy_tile:
 			await MoveCommand(owner, manager, final_destination)
+
+func execute_complex_healing_routine(owner: Unit, manager: GameManager):
+	var heal_opportunity = FindHealOpportunity(owner, manager)
+	if not heal_opportunity.is_empty():
+		var destination = heal_opportunity["destination"]
+		var target = heal_opportunity["target"]
+		var current_tile = manager.GroundGrid.local_to_map(owner.global_position)
+		
+		if destination != current_tile:
+			await MoveCommand(owner, manager, destination)
+		
+		await HealCommand(owner, manager, target)
 
 func execute_healing_routine(owner: Unit, manager: GameManager):
 	await HealRoutine(owner, manager)
