@@ -1,6 +1,8 @@
 class_name Action
 extends Resource
 
+enum ActionTypes {MOVE, ATTACK, SPECIAL, WAIT}
+@export var Type : ActionTypes
 @export var Name: String = "Action"
 @export_multiline var Description: String = ""
 

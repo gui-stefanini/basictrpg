@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_wpqko")
+Type = 1
 Name = "Attack"
+Description = ""
 metadata/_custom_type_script = "uid://bifdi6n1778t0"

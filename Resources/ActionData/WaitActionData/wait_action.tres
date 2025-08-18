@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_0p2d6")
+Type = 3
 Name = "Wait"
+Description = ""
 metadata/_custom_type_script = "uid://b7rqv4bpn8tkh"

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://crxd46k35kbox"]
 
-[ext_resource type="Script" uid="uid://5pie5y2igkdj" path="res://Scripts/unit_info_panel.gd" id="1_dsd7g"]
+[ext_resource type="Script" uid="uid://5pie5y2igkdj" path="res://Scripts/GameScripts/unit_info_panel.gd" id="1_dsd7g"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Styles/panel_Style.tres" id="1_qo1xh"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="2_2l7e7"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="3_oam1w"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dg028svcnu8gy"]
 
-[ext_resource type="Script" uid="uid://fi6fudmkw73p" path="res://Scripts/end_screen.gd" id="1_f2mtv"]
+[ext_resource type="Script" uid="uid://fi6fudmkw73p" path="res://Scripts/MenuScripts/end_screen.gd" id="1_f2mtv"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="2_1gwaw"]
 
 [node name="EndScreen" type="CanvasLayer" node_paths=PackedStringArray("MessageLabel", "RestartButton")]

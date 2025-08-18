@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_ulgn1")
+Type = 2
 Name = "Defend"
 Description = "Reduce all damage received by 50%. Lasts 1 turn."
 metadata/_custom_type_script = "uid://dvtkhmp7udql0"

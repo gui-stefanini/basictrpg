@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://rrtklejik3lk"]
 
-[ext_resource type="Script" uid="uid://crmo2e7pjhbjn" path="res://Scripts/action_forecast.gd" id="1_bo1h4"]
+[ext_resource type="Script" uid="uid://crmo2e7pjhbjn" path="res://Scripts/GameScripts/action_forecast.gd" id="1_bo1h4"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="1_ep6pn"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="2_bo1h4"]
 

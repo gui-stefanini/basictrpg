@@ -9,7 +9,12 @@ func ShowMenu(unit: Unit):
 	for button in MyVBoxContainer.get_children():
 		button.queue_free()
 	
-	for action in unit.Data.Actions:
+	var actions = unit.Data.Actions
+	actions.sort_custom(func(a, b): 
+		return a.Type < b.Type
+		)
+	
+	for action in actions:
 		var new_button = ActionButtonScene.instantiate()
 		new_button.text = action.Name
 		MyVBoxContainer.add_child(new_button)

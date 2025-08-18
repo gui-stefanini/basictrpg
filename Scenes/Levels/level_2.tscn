@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=4 uid="uid://b6r4jmpo85fr7"]
 
-[ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/level.gd" id="1_8qsmg"]
+[ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/ResourceScripts/level.gd" id="1_8qsmg"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/ResourceScripts/spawn_info.gd" id="2_fphuk"]
 [ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/AIData/knight_ai.tres" id="3_8qsmg"]
-[ext_resource type="Resource" uid="uid://lvqpypsim1b" path="res://Resources/ClassData/enemy_knight_data.tres" id="4_fphuk"]
+[ext_resource type="Resource" uid="uid://lvqpypsim1b" path="res://Resources/ClassData/EnemyClassData/enemy_knight_data.tres" id="4_fphuk"]
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/ground_grid.tscn" id="5_1jlnc"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/highlight_layer.tscn" id="6_u40f0"]
 

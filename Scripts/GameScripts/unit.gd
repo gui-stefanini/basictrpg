@@ -19,30 +19,27 @@ func CopyState(target : Unit):
 	CurrentHP = target.CurrentHP
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
 
-func StackStatus(status: Status, duration: int, potency: int = 0, stack_duration: bool = false, stack_potency: bool = false):
+func StackStatus(status: Status, information: String, amount: int):
 	
 	if ActiveStatuses.has(status):
-		var status_data = ActiveStatuses[status]
-		if stack_duration == true:
-			status_data["duration"] += duration
-		if stack_potency == true:
-			status_data["potency"] += potency
+		ActiveStatuses[status][information] += amount
 	else:
 		var new_status = {
-			"duration": duration,
-			"potency": potency
+			"duration": -1,
+			"value": -1
 		}
+		new_status[information] = amount
 		ActiveStatuses[status] = new_status
 
-func AddStatus(status: Status, duration: int, potency: int = 0):
+func AddStatus(status: Status, duration: int, value: int = 0):
 	if ActiveStatuses.has(status):
 		var status_data = ActiveStatuses[status]
 		if status_data["duration"] < duration:
 			ActiveStatuses[status]["duration"] = duration
-		if status_data["potency"] >= potency:
-			ActiveStatuses[status]["potency"] = potency
+		if status_data["value"] >= value:
+			ActiveStatuses[status]["value"] = value
 	else:
-		var new_status = {"duration": duration, "potency": potency}
+		var new_status = {"duration": duration, "value": value}
 		ActiveStatuses[status] = new_status
 		print("%s gained status: %s for %d turns" % [name, Status.find_key(status), duration])
 

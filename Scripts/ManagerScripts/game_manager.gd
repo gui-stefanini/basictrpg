@@ -286,85 +286,84 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 			#total_cost += terrain_cost
 	#return total_cost
 
-func FindClosestPlayerTo(unit: Unit) -> Unit:
-	var closest_players: Array[Unit] = []
-	var min_player_dist = INF
-	var enemy_tile = GroundGrid.local_to_map(unit.global_position)
-	
-	for player in PlayerUnits:
-		var player_tile = GroundGrid.local_to_map(player.global_position)
-		var path_to_player = FindPath(unit, enemy_tile, player_tile)
-		
-		if not path_to_player.path.is_empty():
-			var path_cost = path_to_player.cost
-			if path_cost < min_player_dist:
-				min_player_dist = path_cost
-				closest_players.clear()
-				closest_players.append(player)
-			elif path_cost == min_player_dist:
-				closest_players.append(player)
-	
-	if closest_players.is_empty():
-		print(unit.name + "has no path to player units")
-		return null
-	else:
-		return closest_players.pick_random()
+#func FindClosestPlayerTo(unit: Unit) -> Unit:
+	#var closest_players: Array[Unit] = []
+	#var min_player_dist = INF
+	#var enemy_tile = GroundGrid.local_to_map(unit.global_position)
+	#
+	#for player in PlayerUnits:
+		#var player_tile = GroundGrid.local_to_map(player.global_position)
+		#var path_to_player = FindPath(unit, enemy_tile, player_tile)
+		#
+		#if not path_to_player.path.is_empty():
+			#var path_cost = path_to_player.cost
+			#if path_cost < min_player_dist:
+				#min_player_dist = path_cost
+				#closest_players.clear()
+				#closest_players.append(player)
+			#elif path_cost == min_player_dist:
+				#closest_players.append(player)
+	#
+	#if closest_players.is_empty():
+		#print(unit.name + "has no path to player units")
+		#return null
+	#else:
+		#return closest_players.pick_random()
 
-func GetValidAttackTiles(attacker: Unit, target: Unit) -> Array[Vector2i]:
-	var move_data_name = attacker.Data.MovementType.Name
-	var astar : AStar2D = AStarInstances[move_data_name]
-	var valid_tiles: Array[Vector2i] = []
-	var target_tile = GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = GetTilesInRange(target_tile, attacker.Data.AttackRange)
-	var occupied_tiles = GetOccupiedTiles()
+#func GetValidAttackTiles(attacker: Unit, target: Unit) -> Array[Vector2i]:
+	#var move_data_name = attacker.Data.MovementType.Name
+	#var astar : AStar2D = AStarInstances[move_data_name]
+	#var valid_tiles: Array[Vector2i] = []
+	#var target_tile = GroundGrid.local_to_map(target.global_position)
+	#var tiles_in_range = GetTilesInRange(target_tile, attacker.Data.AttackRange)
+	#var occupied_tiles = GetOccupiedTiles()
+#
+	#for tile in tiles_in_range:
+		#if astar.has_point(vector_to_id(tile)) and not occupied_tiles.has(tile):
+			#valid_tiles.append(tile)
+	#
+	#return valid_tiles
 
-	for tile in tiles_in_range:
-		if astar.has_point(vector_to_id(tile)) and not occupied_tiles.has(tile):
-			valid_tiles.append(tile)
-	
-	return valid_tiles
-
-func FindHealOpportunity(healer: Unit) -> Dictionary:
-	var allies = []
-	if healer.Faction == Unit.Factions.PLAYER:
-		allies = PlayerUnits
-	else:
-		allies = EnemyUnits
-	
-	var damaged_allies = []
-	for ally in allies:
-		if ally != healer and ally.CurrentHP < ally.Data.MaxHP:
-			damaged_allies.append(ally)
-	
-	if damaged_allies.is_empty():
-		return {}
-	
-	
-	damaged_allies.sort_custom(
-	func(a, b):
-		var health_percent_a = float(a.CurrentHP) / a.Data.MaxHP
-		var health_percent_b = float(b.CurrentHP) / b.Data.MaxHP
-		return health_percent_a < health_percent_b
-	)
-	
-	var healer_tile = GroundGrid.local_to_map(healer.global_position)
-	var reachable_tiles = GetReachableTiles(healer, healer_tile)
-	reachable_tiles.append(healer_tile) # Can heal from current position
-
-	var heal_range = healer.Data.AttackRange # Assuming HealRange is the same as AttackRange for Priests
-
-	for target_ally in damaged_allies:
-		var target_tile = GroundGrid.local_to_map(target_ally.global_position)
-		var potential_heal_tiles = GetTilesInRange(target_tile, heal_range)
-		
-		for heal_tile in potential_heal_tiles:
-			if reachable_tiles.has(heal_tile):
-				# Found a valid tile to move to and heal from
-				print("Found heal opportunity for " + healer.name + " -> " + target_ally.name)
-				return {"target": target_ally, "destination": heal_tile}
-	
-	# No opportunity found
-	return {}
+#func FindHealOpportunity(healer: Unit) -> Dictionary:
+	#var allies = []
+	#if healer.Faction == Unit.Factions.PLAYER:
+		#allies = PlayerUnits
+	#else:
+		#allies = EnemyUnits
+	#
+	#var damaged_allies = []
+	#for ally in allies:
+		#if ally != healer and ally.CurrentHP < ally.Data.MaxHP:
+			#damaged_allies.append(ally)
+	#
+	#if damaged_allies.is_empty():
+		#return {}
+	#
+	#
+	#damaged_allies.sort_custom(
+	#func(a, b):
+		#var health_percent_a = float(a.CurrentHP) / a.Data.MaxHP
+		#var health_percent_b = float(b.CurrentHP) / b.Data.MaxHP
+		#return health_percent_a < health_percent_b
+	#)
+	#
+	#var healer_tile = GroundGrid.local_to_map(healer.global_position)
+	#var reachable_tiles = GetReachableTiles(healer, healer_tile)
+	#reachable_tiles.append(healer_tile) # Can heal from current position
+	#
+	#var heal_range = healer.Data.AttackRange # Assuming HealRange is the same as AttackRange for Priests
+	#
+	#for target_ally in damaged_allies:
+		#var potential_heal_tiles = GetValidAttackTiles(healer, target_ally)
+		#
+		#for heal_tile in potential_heal_tiles:
+			#if reachable_tiles.has(heal_tile):
+				## Found a valid tile to move to and heal from
+				#print("Found heal opportunity for " + healer.name + " -> " + target_ally.name)
+				#return {"target": target_ally, "destination": heal_tile}
+	#
+	## No opportunity found
+	#return {}
 
 #func FindBestDestination(unit: Unit, reachable_tiles: Array[Vector2i], target_tile: Vector2i) -> Vector2i:
 	#var best_target_tiles: Array[Vector2i] = []
