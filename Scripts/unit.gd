@@ -9,7 +9,7 @@ signal damage_taken(unit: Unit, damage_data: Dictionary)
 @export var HealthBar: Control
 enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
-enum Status {DEFENDING, POISONED, HASTED}
+enum Status {PASS, DEFENDING, POISONED, HASTED}
 var CurrentHP: int = 1
 var HasMoved: bool = false
 var HasActed: bool = false
@@ -19,14 +19,43 @@ func CopyState(target : Unit):
 	CurrentHP = target.CurrentHP
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
 
+func StackStatus(status: Status, duration: int, potency: int = 0, stack_duration: bool = false, stack_potency: bool = false):
+	
+	if ActiveStatuses.has(status):
+		var status_data = ActiveStatuses[status]
+		if stack_duration == true:
+			status_data["duration"] += duration
+		if stack_potency == true:
+			status_data["potency"] += potency
+	else:
+		var new_status = {
+			"duration": duration,
+			"potency": potency
+		}
+		ActiveStatuses[status] = new_status
+
+func AddStatus(status: Status, duration: int, potency: int = 0):
+	if ActiveStatuses.has(status):
+		var status_data = ActiveStatuses[status]
+		if status_data["duration"] < duration:
+			ActiveStatuses[status]["duration"] = duration
+		if status_data["potency"] >= potency:
+			ActiveStatuses[status]["potency"] = potency
+	else:
+		var new_status = {"duration": duration, "potency": potency}
+		ActiveStatuses[status] = new_status
+		print("%s gained status: %s for %d turns" % [name, Status.find_key(status), duration])
+
 func StartTurn():
 	HasMoved = false
 	HasActed = false
 	
 	var statuses_to_remove = []
 	for status in ActiveStatuses:
-		ActiveStatuses[status] -= 1
-		if ActiveStatuses[status] <= 0:
+		var duration = ActiveStatuses[status]["duration"]
+		if duration > 0:
+			duration -= 1
+		if duration == 0:
 			statuses_to_remove.append(status)
 	
 	for status in statuses_to_remove:

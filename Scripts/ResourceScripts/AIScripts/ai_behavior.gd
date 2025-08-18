@@ -28,7 +28,6 @@ func OffensiveMovementCommand(owner: Unit, manager: GameManager):
 	var target_player = best_target["target"]
 	var path_to_destination = best_target["path"]
 	print(target_player)
-	
 	var path_within_move_range: Array[Vector2i] = []
 	
 	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)

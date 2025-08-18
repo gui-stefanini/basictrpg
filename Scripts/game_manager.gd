@@ -52,6 +52,9 @@ func GetTilesInRange(start_tile: Vector2i, action_range: int) -> Array[Vector2i]
 	return tiles_in_range
 
 func SetUnitObstacles(active_unit: Unit, astar : AStar2D):
+	if active_unit.ActiveStatuses.has(Unit.Status.PASS):
+		return []
+	
 	var modified_tiles: Array[Vector2i] = []
 	
 	for unit in PlayerUnits:
@@ -253,6 +256,10 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 	for tile in astar_path_vectors:
 		path.append(Vector2i(tile))
 	
+	if path.is_empty():
+		ClearUnitObstacles(modified_tiles, astar)
+		return {"path": [], "cost": INF} # Return an infinite cost to signify failure.
+	
 	var path_cost = 0
 	for i in range(1, path.size()):
 		var tile_coord = path[i]
@@ -315,7 +322,6 @@ func GetValidAttackTiles(attacker: Unit, target: Unit) -> Array[Vector2i]:
 		if astar.has_point(vector_to_id(tile)) and not occupied_tiles.has(tile):
 			valid_tiles.append(tile)
 	
-	valid_tiles.append(target_tile)
 	return valid_tiles
 
 func FindHealOpportunity(healer: Unit) -> Dictionary:

@@ -10,7 +10,7 @@ func _on_select(user: Unit, manager: GameManager):
 func _execute(user: Unit, manager: GameManager, _target = null) -> Variant:
 	print(user.name + " is defending!")
 	user.HasActed = true
-	user.ActiveStatuses[Unit.Status.DEFENDING] = 1
+	user.AddStatus(Unit.Status.DEFENDING, 1)
 	
 	if user in manager.PlayerUnits:
 		manager.OnPlayerActionFinished()
