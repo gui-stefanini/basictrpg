@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="UnitData" load_steps=8 format=3 uid="uid://ckbg3nxtt1cky"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ResourceScripts/ActionScripts/action.gd" id="1_0ceik"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ActionScripts/action.gd" id="1_0ceik"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/ActionData/MoveActionData/move_action.tres" id="2_6j2m6"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/ActionData/AttackActionData/attack_action.tres" id="3_jq3s7"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/ActionData/WaitActionData/wait_action.tres" id="4_arha4"]
 [ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/ActionData/SpecialActionData/heal_action.tres" id="5_77cxc"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/MovementData/light_infantry_movement.tres" id="6_wknj1"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="7_nes0u"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="7_nes0u"]
 
 [resource]
 script = ExtResource("7_nes0u")

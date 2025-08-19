@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PriestAI" load_steps=2 format=3 uid="uid://dhgxabbiekamu"]
 
-[ext_resource type="Script" uid="uid://d4j5a6nfyku4t" path="res://Scripts/ResourceScripts/AIScripts/priest_ai.gd" id="1_t7cbs"]
+[ext_resource type="Script" uid="uid://d4j5a6nfyku4t" path="res://Scripts/AIScripts/priest_ai.gd" id="1_t7cbs"]
 
 [resource]
 script = ExtResource("1_t7cbs")

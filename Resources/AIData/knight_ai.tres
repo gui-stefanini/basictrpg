@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="KnightAI" load_steps=2 format=3 uid="uid://bpxdtgrdr8bm7"]
 
-[ext_resource type="Script" uid="uid://wq6b65cclcvw" path="res://Scripts/ResourceScripts/AIScripts/knight_ai.gd" id="1_hvbfm"]
+[ext_resource type="Script" uid="uid://wq6b65cclcvw" path="res://Scripts/AIScripts/knight_ai.gd" id="1_hvbfm"]
 
 [resource]
 script = ExtResource("1_hvbfm")

@@ -1,14 +1,14 @@
 [gd_scene load_steps=13 format=3 uid="uid://dbjcwgms3fd78"]
 
 [ext_resource type="Script" uid="uid://bulp4g77en3qf" path="res://Scripts/MenuScripts/selection_menu.gd" id="1_r2ge3"]
-[ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/game_manager.tscn" id="2_atlk2"]
+[ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/InGame/game_manager.tscn" id="2_atlk2"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Styles/button_style.tres" id="2_e1ouj"]
 [ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_1.tscn" id="2_e2lmm"]
 [ext_resource type="PackedScene" uid="uid://b6r4jmpo85fr7" path="res://Scenes/Levels/level_2.tscn" id="3_bw2gc"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="4_547t1"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="4_547t1"]
 [ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/ClassData/PlayerClassData/knight_data.tres" id="5_pr5gi"]
 [ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/ClassData/PlayerClassData/priest_data.tres" id="6_hrbqk"]
-[ext_resource type="PackedScene" uid="uid://bk7gw2ed0ldxc" path="res://Scenes/unit_selection_slot.tscn" id="7_hrbqk"]
+[ext_resource type="PackedScene" uid="uid://bk7gw2ed0ldxc" path="res://Scenes/Menus/unit_selection_slot.tscn" id="7_hrbqk"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="8_pr5gi"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="9_hrbqk"]
 

@@ -2,6 +2,7 @@ class_name Unit
 extends CharacterBody2D
 
 signal damage_taken(unit: Unit, damage_data: Dictionary)
+signal unit_died(unit: Unit)
 
 @export var Data: UnitData
 @export var AI: AIBehavior
@@ -13,6 +14,7 @@ enum Status {PASS, DEFENDING, POISONED, HASTED}
 var CurrentHP: int = 1
 var HasMoved: bool = false
 var HasActed: bool = false
+var IsDead: bool = false
 var ActiveStatuses: Dictionary = {}
 
 func CopyState(target : Unit):
@@ -66,7 +68,7 @@ func FlashDamageEffect():
 	tween.tween_property(Sprite, "modulate", blended_damage_color, 0.2)
 	tween.tween_property(Sprite, "modulate", original_color, 0.2)
 
-func TakeDamage(damage_amount: int) -> bool:
+func TakeDamage(damage_amount: int):
 	var damage_data = {"damage": damage_amount}
 	
 	damage_taken.emit(self, damage_data)
@@ -79,7 +81,10 @@ func TakeDamage(damage_amount: int) -> bool:
 	
 	print(name + " takes " + str(final_damage) + " damage! " + str(CurrentHP) + " HP remaining.")
 	HealthBar.update_health(CurrentHP, Data.MaxHP)
-	return CurrentHP <= 0
+	
+	if CurrentHP <= 0:
+		IsDead = true
+		unit_died.emit(self)
 
 func ReceiveHealing(heal_amount: int):
 	CurrentHP += heal_amount

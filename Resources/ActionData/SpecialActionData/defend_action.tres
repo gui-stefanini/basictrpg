@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DefendAction" load_steps=2 format=3 uid="uid://q18pkc5oigo7"]
 
-[ext_resource type="Script" uid="uid://dvtkhmp7udql0" path="res://Scripts/ResourceScripts/ActionScripts/defend_action.gd" id="1_ulgn1"]
+[ext_resource type="Script" uid="uid://dvtkhmp7udql0" path="res://Scripts/ActionScripts/defend_action.gd" id="1_ulgn1"]
 
 [resource]
 script = ExtResource("1_ulgn1")

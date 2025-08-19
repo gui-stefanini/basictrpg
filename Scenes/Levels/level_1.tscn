@@ -1,13 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://6mgfl26hy227"]
+[gd_scene load_steps=15 format=3 uid="uid://6mgfl26hy227"]
 
-[ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/ground_grid.tscn" id="1_8ffim"]
-[ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/ResourceScripts/level.gd" id="1_xfk5q"]
-[ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/ResourceScripts/spawn_info.gd" id="2_evi0p"]
-[ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/highlight_layer.tscn" id="2_xfk5q"]
+[ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="1_8ffim"]
+[ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_xfk5q"]
+[ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_evi0p"]
+[ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="2_xfk5q"]
 [ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/AIData/knight_ai.tres" id="5_u5ghp"]
 [ext_resource type="Resource" uid="uid://lvqpypsim1b" path="res://Resources/ClassData/EnemyClassData/enemy_knight_data.tres" id="6_hwvp3"]
 [ext_resource type="Resource" uid="uid://dhgxabbiekamu" path="res://Resources/AIData/priest_ai.tres" id="7_afv7b"]
 [ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/ClassData/EnemyClassData/enemy_priest_data.tres" id="8_7r2dd"]
+[ext_resource type="Script" uid="uid://bdi5ieubgr075" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_rb0md"]
+[ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="9_u5ghp"]
 
 [sub_resource type="Resource" id="Resource_wrinw"]
 script = ExtResource("2_evi0p")
@@ -33,13 +35,21 @@ Position = Vector2i(15, 8)
 AI = ExtResource("7_afv7b")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
-[node name="Level1" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer")]
+[node name="Level1" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer", "LevelHighlightLayer", "MyLevelManager")]
 script = ExtResource("1_xfk5q")
 GroundGrid = NodePath("GroundGrid")
 HighlightLayer = NodePath("HighlightLayer")
+LevelHighlightLayer = NodePath("LevelHighlightLayer")
+MyLevelManager = NodePath("Level1Manager")
 PlayerSpawns = Array[ExtResource("2_evi0p")]([SubResource("Resource_wrinw"), SubResource("Resource_chwpn")])
 EnemySpawns = Array[ExtResource("2_evi0p")]([SubResource("Resource_af3po"), SubResource("Resource_uy8f0")])
 
 [node name="GroundGrid" parent="." instance=ExtResource("1_8ffim")]
 
 [node name="HighlightLayer" parent="." instance=ExtResource("2_xfk5q")]
+
+[node name="LevelHighlightLayer" parent="." instance=ExtResource("9_u5ghp")]
+
+[node name="Level1Manager" type="Node" parent="." node_paths=PackedStringArray("LevelHighlightLayer")]
+script = ExtResource("9_rb0md")
+LevelHighlightLayer = NodePath("../LevelHighlightLayer")

@@ -1,0 +1,30 @@
+class_name Level2Manager
+extends LevelManager
+
+@export var EscapeTiles: Array[Vector2i]
+
+func _on_level_set():
+	if not LevelHighlightLayer: return
+	
+	for tile in EscapeTiles:
+		# Draws the yellow highlight tile (Source ID 1, Atlas Coords 3,0)
+		LevelHighlightLayer.set_cell(tile, 1, Vector2i(3, 0))
+
+# The loss condition is the same: all player units are defeated.
+func _on_unit_died(unit: Unit):
+	if unit in PlayerUnits:
+		PlayerUnits.erase(unit)
+	
+	print("%s has been defeated!" % unit.name)
+	
+	if PlayerUnits.is_empty():
+		print("All player units defeated!")
+		defeat.emit()
+
+# This function will be called by the GameManager at the end of a unit's turn.
+# It checks if the unit has landed on an escape tile.
+func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
+	if unit.Faction == Unit.Factions.PLAYER:
+		if unit_tile in EscapeTiles:
+			print("%s has escaped!" % unit.name)
+			victory.emit()

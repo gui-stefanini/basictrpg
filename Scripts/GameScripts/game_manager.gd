@@ -1,9 +1,14 @@
 class_name GameManager
 extends Node2D
 
-var CurrentLevel
-var GroundGrid
-var HighlightLayer
+signal level_set
+signal unit_turn_ended(unit: Unit, unit_tile: Vector2i)
+signal unit_died(unit: Unit)
+
+var CurrentLevel : Level
+var CurrentLevelManager: LevelManager
+var GroundGrid : TileMapLayer
+var HighlightLayer : TileMapLayer
 @export var PlayerScene: PackedScene
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer
@@ -28,7 +33,6 @@ var CurrentSubState = PlayerTurnState.NULL
 var CurrentAction : Action = null
 
 var AStarInstances: Dictionary = {}
-#var AStar = AStar2D.new()
 var HighlightedMoveTiles: Array[Vector2i] = []
 var HighlightedAttackTiles: Array[Vector2i] = []
 var HighlightedHealTiles: Array[Vector2i] = []
@@ -272,6 +276,7 @@ func SpawnPlayerUnits():
 		var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 		var tile_global_position = GroundGrid.to_global(tile_grid_position)
 		new_unit.global_position = tile_global_position
+		new_unit.unit_died.connect(_on_unit_died)
 
 func SpawnEnemyUnits():
 	for i in range(CurrentLevel.EnemySpawns.size()):
@@ -292,6 +297,7 @@ func SpawnEnemyUnits():
 		var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 		var tile_global_position = GroundGrid.to_global(tile_grid_position)
 		new_unit.global_position = tile_global_position
+		new_unit.unit_died.connect(_on_unit_died)
 
 func HideUI():
 	ActionMenu.hide()
@@ -322,12 +328,17 @@ func StartEnemyTurn():
 		enemy.StartTurn()
 		print(enemy.name + " is taking its turn.")
 		await enemy.AI.execute_turn(enemy, self)
-		
+		var enemy_tile = GroundGrid.local_to_map(enemy.global_position) 
+		unit_turn_ended.emit(enemy, enemy_tile)
+	
 	print("--- Enemy Turn Ends ---")
 	EndEnemyTurn()
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
+	
+	var unit_tile = GroundGrid.local_to_map(ActiveUnit.global_position)
+	unit_turn_ended.emit(ActiveUnit, unit_tile)
 	
 	UnitsWhoHaveActed.append(ActiveUnit)
 	ActiveUnit = null
@@ -388,8 +399,18 @@ func SetLevel():
 		return
 	CurrentLevel = level_scene.instantiate()
 	add_child(CurrentLevel)
+	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
 	HighlightLayer = CurrentLevel.HighlightLayer
+
+func SetLevelManager():
+	CurrentLevelManager.PlayerUnits = PlayerUnits
+	CurrentLevelManager.EnemyUnits = EnemyUnits
+	CurrentLevelManager.victory.connect(EndGame.bind(true))
+	CurrentLevelManager.defeat.connect(EndGame.bind(false))
+	unit_turn_ended.connect(CurrentLevelManager._on_unit_turn_ended)
+	unit_died.connect(CurrentLevelManager._on_unit_died)
+	level_set.connect(CurrentLevelManager._on_level_set)
 
 func _unhandled_input(event):
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
@@ -477,6 +498,10 @@ func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)
 
+func _on_unit_died(unit: Unit):
+	unit_died.emit(unit)
+	unit.queue_free()
+
 func _on_end_screen_restart_requested() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()
@@ -488,10 +513,16 @@ func _ready() -> void:
 		var knight_data = load("res://Resources/ClassData/knight_data.tres")
 		var priest_data = load("res://Resources/ClassData/priest_data.tres")
 		GameData.player_units = [knight_data, priest_data]
+	
 	SetLevel()
 	SetAStarGrids()
+	
 	SpawnPlayerUnits()
 	SpawnEnemyUnits()
+	
+	SetLevelManager()
+	level_set.emit()
+	
 	StartGame()
 
 func vector_to_id(vector: Vector2i) -> int:

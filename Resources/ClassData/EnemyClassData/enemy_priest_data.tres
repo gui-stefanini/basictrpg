@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="UnitData" load_steps=8 format=3 uid="uid://cqt4iqhx3dixq"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ResourceScripts/ActionScripts/action.gd" id="1_f4ylx"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/ActionScripts/action.gd" id="1_f4ylx"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/ActionData/MoveActionData/move_action.tres" id="1_qktlv"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/ActionData/AttackActionData/attack_action.tres" id="2_f4ylx"]
 [ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/ActionData/SpecialActionData/heal_action.tres" id="3_8s1pf"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/ActionData/WaitActionData/wait_action.tres" id="4_1ttme"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_i7wl3"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="5_i7wl3"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/MovementData/light_infantry_movement.tres" id="6_8s1pf"]
 
 [resource]

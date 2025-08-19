@@ -27,6 +27,7 @@ texture = ExtResource("2_xs1ac")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
+3:0/0 = 0
 
 [resource]
 custom_data_layer_0/name = "move_cost"
@@ -35,4 +36,4 @@ custom_data_layer_1/name = "terrain_type"
 custom_data_layer_1/type = 4
 sources/0 = SubResource("TileSetAtlasSource_vdl3g")
 sources/1 = SubResource("TileSetAtlasSource_xs1ac")
-tile_proxies/coords_level = [[1, Vector2i(0, 0)], [3, Vector2i(0, 0)], [1, Vector2i(1, 0)], [3, Vector2i(1, 0)], [2, Vector2i(0, 0)], [3, Vector2i(2, 0)]]
+tile_proxies/coords_level = [[1, Vector2i(0, 0)], [3, Vector2i(0, 0)], [1, Vector2i(1, 0)], [3, Vector2i(1, 0)], [1, Vector2i(2, 0)], [3, Vector2i(2, 0)], [2, Vector2i(0, 0)], [3, Vector2i(3, 0)]]
