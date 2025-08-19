@@ -80,14 +80,14 @@ func AttackRoutine(owner: Unit, manager: GameManager):
 
 func GetValidActionTiles(attacker: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
 	var move_data_name = attacker.Data.MovementType.Name
-	var astar : AStar2D = manager.AStarInstances[move_data_name]
+	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
 	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
 	var tiles_in_range = manager.GetTilesInRange(target_tile, attacker.Data.AttackRange)
-	var occupied_tiles = manager.GetOccupiedTiles()
+	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles()
 
 	for tile in tiles_in_range:
-		if astar.has_point(manager.vector_to_id(tile)) and not occupied_tiles.has(tile):
+		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):
 			valid_tiles.append(tile)
 	
 	return valid_tiles
@@ -100,7 +100,7 @@ func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) 
 		
 		var action_tiles = GetValidActionTiles(owner, manager, unit)
 		for tile in action_tiles:
-			var path = manager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
+			var path = manager.MyMoveManager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
 			if not path.is_empty():
 				var target = {
 					"target": unit,
@@ -186,7 +186,7 @@ func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 	)
 	
 	var healer_tile = manager.GroundGrid.local_to_map(healer.global_position)
-	var reachable_tiles = manager.GetReachableTiles(healer, healer_tile)
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(healer, healer_tile)
 	reachable_tiles.append(healer_tile) # The healer might not need to move
 	
 	for target_ally in damaged_allies:
@@ -197,7 +197,7 @@ func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 		# Find the cheapest tile to move to for healing this specific ally
 		for heal_tile in potential_heal_tiles:
 			if reachable_tiles.has(heal_tile):
-				var path_result = manager.FindPath(healer, healer_tile, heal_tile)
+				var path_result = manager.MyMoveManager.FindPath(healer, healer_tile, heal_tile)
 				if path_result.cost < lowest_cost:
 					lowest_cost = path_result.cost
 					best_tile_for_target = heal_tile
@@ -226,7 +226,7 @@ func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Uni
 	var path_within_move_range: Array[Vector2i] = []
 	
 	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
-	var reachable_tiles = manager.GetReachableTiles(owner, enemy_tile)
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
 	
 	for tile in path_to_destination:
 		if tile == enemy_tile:

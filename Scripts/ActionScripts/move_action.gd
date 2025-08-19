@@ -15,7 +15,7 @@ func _execute(user: Unit, manager: GameManager, target = null) -> Variant:
 		return null
 	
 	var start_tile = manager.GroundGrid.local_to_map(user.global_position)
-	var path = manager.FindPath(user, start_tile, target)
+	var path = manager.MyMoveManager.FindPath(user, start_tile, target)
 	
 	if path.path.is_empty():
 		return null
