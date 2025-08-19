@@ -35,12 +35,13 @@ visible = false
 visible = false
 z_index = 10
 offset_top = 132.0
+offset_right = 40.0
 offset_bottom = 192.0
 
 [node name="UnitInfoPanel2" parent="." instance=ExtResource("11_uj5f7")]
 visible = false
 z_index = 10
-offset_left = 286.0
+offset_left = 280.0
 offset_top = 132.0
 offset_right = 320.0
 offset_bottom = 192.0

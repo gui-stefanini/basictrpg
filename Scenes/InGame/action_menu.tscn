@@ -12,7 +12,7 @@ bg_color = Color(0.545098, 0.792157, 0.788235, 0)
 
 [node name="ActionMenu" type="PanelContainer" node_paths=PackedStringArray("MyVBoxContainer")]
 offset_right = 32.0
-offset_bottom = 41.0
+offset_bottom = 11.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_p3omo")
 script = ExtResource("1_p3omo")
 ActionButtonScene = ExtResource("2_p3omo")

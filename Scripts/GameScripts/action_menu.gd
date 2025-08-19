@@ -5,6 +5,11 @@ signal action_selected(action: Action)
 @export var ActionButtonScene: PackedScene
 @export var MyVBoxContainer: VBoxContainer
 
+func HideMenu():
+	for button in MyVBoxContainer.get_children():
+		button.queue_free()
+	hide()
+
 func ShowMenu(unit: Unit):
 	for button in MyVBoxContainer.get_children():
 		button.queue_free()
@@ -26,6 +31,8 @@ func ShowMenu(unit: Unit):
 			new_button.disabled = true
 	
 	global_position = unit.global_position + Vector2(-8, -20)
+	
+	UiFunctions.ClampUI(self)
 	show()
 
 func _on_action_button_pressed(action:Action):

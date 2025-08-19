@@ -285,7 +285,7 @@ func SpawnEnemyUnits():
 		var spawn_pos = spawn_info.Position
 		
 		var new_unit: Unit = EnemyScene.instantiate()
-		new_unit.name = "Enemy" + unit_data.Name + str(i)
+		new_unit.name = "E " + unit_data.Name + str(i)
 		
 		new_unit.Data = unit_data
 		new_unit.AI = spawn_info.AI
@@ -300,7 +300,7 @@ func SpawnEnemyUnits():
 		new_unit.unit_died.connect(_on_unit_died)
 
 func HideUI():
-	ActionMenu.hide()
+	ActionMenu.HideMenu()
 	ActiveUnitInfoPanel.hide()
 	ClickedUnitInfoPanel.hide()
 
@@ -387,9 +387,6 @@ func ForecastAction(action: Action, unit: Unit, target: Unit):
 	var damage = target.CurrentHP - simulated_target.CurrentHP
 	ActionForecast.UpdateForecast(unit, target, damage)
 	
-	ActionForecast.global_position = target.global_position + Vector2(10, -10)
-	ActionForecast.show()
-
 	simulated_target.queue_free()
 
 func SetLevel():
@@ -509,9 +506,9 @@ func _on_end_screen_restart_requested() -> void:
 func _ready() -> void:
 	if GameData.selected_level == "":
 		push_warning("GameData is empty. Loading default Level 1 for testing.")
-		GameData.selected_level = "res://Scenes/level_1.tscn"
-		var knight_data = load("res://Resources/ClassData/knight_data.tres")
-		var priest_data = load("res://Resources/ClassData/priest_data.tres")
+		GameData.selected_level = "res://Scenes/Levels/level_1.tscn"
+		var knight_data = load("res://Resources/ClassData/PlayerClassData/knight_data.tres")
+		var priest_data = load("res://Resources/ClassData/PlayerClassData/priest_data.tres")
 		GameData.player_units = [knight_data, priest_data]
 	
 	SetLevel()
