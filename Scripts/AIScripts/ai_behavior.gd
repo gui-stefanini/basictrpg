@@ -135,7 +135,7 @@ func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) 
 	return valid_targets
 
 func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
-	var damaged_allies = []
+	var damaged_allies: Array[Unit] = []
 	for ally in manager.EnemyUnits: # Make sure this targets the correct faction!
 		if ally != healer and ally.CurrentHP < ally.Data.MaxHP:
 			damaged_allies.append(ally)
