@@ -4,6 +4,8 @@ extends Node2D
 signal level_set
 signal unit_turn_ended(unit: Unit, unit_tile: Vector2i)
 signal unit_died(unit: Unit)
+signal unit_spawned(unit: Unit)
+signal unit_removed(unit: Unit)
 
 var CurrentLevel : Level
 var CurrentLevelManager: LevelManager
@@ -53,6 +55,7 @@ func SpawnPlayerUnits():
 		
 		add_child(new_unit)
 		PlayerUnits.append(new_unit)
+		unit_spawned.emit(new_unit)
 		
 		var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 		var tile_global_position = GroundGrid.to_global(tile_grid_position)
@@ -74,6 +77,7 @@ func SpawnEnemyUnits():
 		
 		add_child(new_unit)
 		EnemyUnits.append(new_unit)
+		unit_spawned.emit(new_unit)
 		
 		var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 		var tile_global_position = GroundGrid.to_global(tile_grid_position)
@@ -162,12 +166,14 @@ func SetLevel():
 	HighlightLayer = CurrentLevel.HighlightLayer
 
 func SetLevelManager():
-	CurrentLevelManager.PlayerUnits = PlayerUnits
-	CurrentLevelManager.EnemyUnits = EnemyUnits
 	CurrentLevelManager.victory.connect(EndGame.bind(true))
 	CurrentLevelManager.defeat.connect(EndGame.bind(false))
+	
 	unit_turn_ended.connect(CurrentLevelManager._on_unit_turn_ended)
 	unit_died.connect(CurrentLevelManager._on_unit_died)
+	unit_spawned.connect(CurrentLevelManager._on_unit_spawned)
+	unit_removed.connect(CurrentLevelManager._on_unit_removed)
+	
 	level_set.connect(CurrentLevelManager._on_level_set)
 
 func SetAuxiliaryManagers():
@@ -261,6 +267,11 @@ func _on_action_menu_action_selected(action: Action) -> void:
 	action._on_select(ActiveUnit, self)
 
 func _on_unit_died(unit: Unit):
+	if unit in PlayerUnits:
+		PlayerUnits.erase(unit)
+	elif unit in EnemyUnits:
+		EnemyUnits.erase(unit)
+	unit_removed.emit(unit)
 	unit_died.emit(unit)
 	unit.queue_free()
 
@@ -278,11 +289,11 @@ func _ready() -> void:
 	
 	SetLevel()
 	
-	SpawnPlayerUnits()
-	SpawnEnemyUnits()
-	
 	SetLevelManager()
 	level_set.emit()
 	SetAuxiliaryManagers()
+	
+	SpawnPlayerUnits()
+	SpawnEnemyUnits()
 	
 	StartGame()

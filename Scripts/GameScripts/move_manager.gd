@@ -185,7 +185,21 @@ func vector_to_id(vector: Vector2i) -> int:
 
 func initialize(game_manager: GameManager):
 	GameManagerRef = game_manager
+	
 	GroundGrid = GameManagerRef.GroundGrid
-	PlayerUnits = GameManagerRef.PlayerUnits
-	EnemyUnits = GameManagerRef.EnemyUnits
 	SetAStarGrids()
+	
+	GameManagerRef.unit_spawned.connect(_on_unit_spawned)
+	GameManagerRef.unit_removed.connect(_on_unit_removed)
+
+func _on_unit_spawned(unit: Unit):
+	if unit.Faction == Unit.Factions.PLAYER:
+		PlayerUnits.append(unit)
+	elif unit.Faction == Unit.Factions.ENEMY:
+		EnemyUnits.append(unit)
+
+func _on_unit_removed(unit: Unit):
+	if unit in PlayerUnits:
+		PlayerUnits.erase(unit)
+	elif unit in EnemyUnits:
+		EnemyUnits.erase(unit)

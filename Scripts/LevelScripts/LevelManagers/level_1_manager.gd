@@ -2,11 +2,6 @@ class_name Level1Manager
 extends LevelManager
 
 func _on_unit_died(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
-		EnemyUnits.erase(unit)
-	
 	print("%s has been defeated!" % unit.name)
 	
 	var remaining_players = 0
