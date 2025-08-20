@@ -20,6 +20,7 @@ config/icon="res://Assets/Art/icon.svg"
 
 GameData="*res://Scripts/Autoloads/game_data.gd"
 UiFunctions="*res://Scripts/Autoloads/ui_functions.gd"
+StatusLogic="*res://Scripts/Autoloads/status_logic.gd"
 
 [display]
 

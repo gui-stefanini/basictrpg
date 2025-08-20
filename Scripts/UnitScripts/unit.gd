@@ -11,6 +11,7 @@ signal unit_died(unit: Unit)
 enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
 enum Status {PASS, DEFENDING, POISONED, HASTED}
+enum StatusInfo {DURATION, VALUE}
 var CurrentHP: int = 1
 var HPPercent: float = 1
 var HasMoved: bool = false
@@ -22,14 +23,14 @@ func CopyState(target : Unit):
 	CurrentHP = target.CurrentHP
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
 
-func StackStatus(status: Status, information: String, amount: int):
+func StackStatus(status: Status, information: StatusInfo, amount: int):
 	
 	if ActiveStatuses.has(status):
 		ActiveStatuses[status][information] += amount
 	else:
 		var new_status = {
-			"duration": -1,
-			"value": -1
+			StatusInfo.DURATION: -1,
+			StatusInfo.VALUE: -1
 		}
 		new_status[information] = amount
 		ActiveStatuses[status] = new_status
@@ -37,12 +38,12 @@ func StackStatus(status: Status, information: String, amount: int):
 func AddStatus(status: Status, duration: int, value: int = 0):
 	if ActiveStatuses.has(status):
 		var status_data = ActiveStatuses[status]
-		if status_data["duration"] < duration:
-			ActiveStatuses[status]["duration"] = duration
-		if status_data["value"] >= value:
-			ActiveStatuses[status]["value"] = value
+		if status_data[StatusInfo.DURATION] < duration:
+			ActiveStatuses[status][StatusInfo.DURATION] = duration
+		if status_data[StatusInfo.VALUE] < value:
+			ActiveStatuses[status][StatusInfo.VALUE] = value
 	else:
-		var new_status = {"duration": duration, "value": value}
+		var new_status = {StatusInfo.DURATION: duration, StatusInfo.VALUE: value}
 		ActiveStatuses[status] = new_status
 		print("%s gained status: %s for %d turns" % [name, Status.find_key(status), duration])
 
@@ -52,7 +53,7 @@ func StartTurn():
 	
 	var statuses_to_remove = []
 	for status in ActiveStatuses:
-		var duration = ActiveStatuses[status]["duration"]
+		var duration = ActiveStatuses[status][StatusInfo.DURATION]
 		if duration > 0:
 			duration -= 1
 		if duration == 0:
