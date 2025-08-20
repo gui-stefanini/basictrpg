@@ -40,6 +40,30 @@ func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 			possible_targets.append(target)
 	return possible_targets
 
+func TargetByStat(targets: Array[Unit], stat_getter: Callable, highest: bool = false, random: bool = false) -> Unit:
+	targets.sort_custom(
+		func(a, b):
+			var stat_a = stat_getter.call(a)
+			var stat_b = stat_getter.call(b)
+			if highest == true:
+				return stat_a > stat_b
+			return stat_a < stat_b
+	)
+	
+	if random:
+		var target_stat_value = stat_getter.call(targets[0])
+		var best_targets: Array[Unit] = []
+		
+		for target in targets:
+			if stat_getter.call(target) == target_stat_value:
+				best_targets.append(target)
+			else:
+				break
+		
+		return best_targets.pick_random()
+	
+	return targets[0]
+
 func HealTargeting(owner: Unit, manager: GameManager):
 	var possible_targets = GetTargetsInRange(owner, manager, manager.EnemyUnits)
 	
@@ -47,13 +71,8 @@ func HealTargeting(owner: Unit, manager: GameManager):
 		print("No target in heal range")
 		return null
 	else:
-		possible_targets.sort_custom(
-		func(a, b):
-			var health_percent_a = float(a.CurrentHP) / a.Data.MaxHP
-			var health_percent_b = float(b.CurrentHP) / b.Data.MaxHP
-			return health_percent_a < health_percent_b
-		)
-		var target = possible_targets[0]
+		var target = TargetByStat(possible_targets, func(u : Unit): return u.HPPercent)
+		#var target = TargetByStat(possible_targets, "HPPercent")
 		return target
 
 func AttackTargeting(owner: Unit, manager: GameManager):
@@ -63,7 +82,7 @@ func AttackTargeting(owner: Unit, manager: GameManager):
 		print("No target in attack range")
 		return null
 	else:
-		var target : Unit = possible_targets.pick_random()
+		var target = TargetByStat(possible_targets, func(u:Unit): return u.CurrentHP)
 		return target
 
 func HealRoutine(owner: Unit, manager: GameManager):
@@ -78,13 +97,13 @@ func AttackRoutine(owner: Unit, manager: GameManager):
 		print("%s chooses to attack %s" % [owner.name, target.name])
 		await AttackCommand(owner, manager, target)
 
-func GetValidActionTiles(attacker: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
-	var move_data_name = attacker.Data.MovementType.Name
+func GetValidActionTiles(unit: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
+	var move_data_name = unit.Data.MovementType.Name
 	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
 	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, attacker.Data.AttackRange)
-	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles()
+	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.Data.AttackRange)
+	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(unit)
 
 	for tile in tiles_in_range:
 		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):
@@ -115,59 +134,6 @@ func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) 
 	
 	return valid_targets
 
-#func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
-	#var allies = GetValidTargets(healer, manager, manager.EnemyUnits)
-	#
-	#var damaged_allies = []
-	#for ally in allies:
-		#var unit = ally["target"]
-		#if unit != healer and unit.CurrentHP < unit.Data.MaxHP:
-			#damaged_allies.append(ally)
-	#
-	#if damaged_allies.is_empty():
-		#return {}
-	#
-	#damaged_allies.sort_custom(
-	#func(a, b):
-		#var health_percent_a = float(a["target"].CurrentHP) / a["target"].Data.MaxHP
-		#var health_percent_b = float(b["target"].CurrentHP) / b["target"].Data.MaxHP
-		#return health_percent_a < health_percent_b
-	#)
-	#var lowest_health_ally = damaged_allies[0]["target"]
-	#var lowest_health_percent = float(lowest_health_ally.CurrentHP) / lowest_health_ally.Data.MaxHP
-	#
-	#for ally in damaged_allies:
-		#var unit = ally["target"]
-		#var ally_health_percent = float(unit.CurrentHP) / unit.Data.MaxHP
-		#if ally_health_percent > lowest_health_percent:
-			#damaged_allies.erase(ally)
-	#
-	#var healer_tile = manager.GroundGrid.local_to_map(healer.global_position)
-	#var reachable_tiles = manager.GetReachableTiles(healer, healer_tile)
-	#reachable_tiles.append(healer_tile) # Can heal from current position
-	#
-	#var reachable_allies = []
-	#for ally in damaged_allies:
-		#var potential_heal_tiles = GetValidActionTiles(healer, manager, ally["target"])
-		#
-		#for heal_tile in potential_heal_tiles:
-			#if reachable_tiles.has(heal_tile):
-				## Found a valid tile to move to and heal from
-				#print("Found heal opportunity for " + healer.name + " -> " + ally["target"].name)
-				#reachable_allies.append(ally)
-				#return {"target": ally, "destination": heal_tile}
-	#
-	#reachable_allies.sort_custom(
-	#func(a, b):
-		#return a["cost"] < b["cost"]
-	#)
-	#var final_target = reachable_allies[0]
-	#
-	#for tile in final_target["path"]:
-		#if reachable_tiles.has(tile):
-			#return {"target": final_target["target"], "destination": tile}
-	#return {}
-
 func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 	var damaged_allies = []
 	for ally in manager.EnemyUnits: # Make sure this targets the correct faction!
@@ -177,17 +143,17 @@ func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 	if damaged_allies.is_empty():
 		return {}
 	
+	TargetByStat(damaged_allies, func(u: Unit): return u.HPPercent)
 	# Sort allies by the amount of damage taken (most damaged first)
-	damaged_allies.sort_custom(
-		func(a, b):
-			var health_percentage_a = float(a.CurrentHP) / a.Data.MaxHP
-			var health_percentage_b = float(b.CurrentHP) / b.Data.MaxHP
-			return health_percentage_a > health_percentage_b
-	)
+	#damaged_allies.sort_custom(
+		#func(a, b):
+			#var health_percentage_a = float(a.CurrentHP) / a.Data.MaxHP
+			#var health_percentage_b = float(b.CurrentHP) / b.Data.MaxHP
+			#return health_percentage_a > health_percentage_b
+	#)
 	
 	var healer_tile = manager.GroundGrid.local_to_map(healer.global_position)
-	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(healer, healer_tile)
-	reachable_tiles.append(healer_tile) # The healer might not need to move
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(healer, healer_tile, true)
 	
 	for target_ally in damaged_allies:
 		var potential_heal_tiles = GetValidActionTiles(healer, manager, target_ally)
@@ -196,6 +162,9 @@ func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 		
 		# Find the cheapest tile to move to for healing this specific ally
 		for heal_tile in potential_heal_tiles:
+			if heal_tile == healer_tile:
+				best_tile_for_target = heal_tile
+				break
 			if reachable_tiles.has(heal_tile):
 				var path_result = manager.MyMoveManager.FindPath(healer, healer_tile, heal_tile)
 				if path_result.cost < lowest_cost:

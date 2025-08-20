@@ -12,6 +12,7 @@ enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
 enum Status {PASS, DEFENDING, POISONED, HASTED}
 var CurrentHP: int = 1
+var HPPercent: float = 1
 var HasMoved: bool = false
 var HasActed: bool = false
 var IsDead: bool = false
@@ -68,6 +69,10 @@ func FlashDamageEffect():
 	tween.tween_property(Sprite, "modulate", blended_damage_color, 0.2)
 	tween.tween_property(Sprite, "modulate", original_color, 0.2)
 
+func UpdateHealth():
+	HPPercent = float(CurrentHP)/Data.MaxHP
+	HealthBar.update_health(CurrentHP, Data.MaxHP)
+
 func TakeDamage(damage_amount: int):
 	var damage_data = {"damage": damage_amount}
 	
@@ -80,7 +85,7 @@ func TakeDamage(damage_amount: int):
 	FlashDamageEffect()
 	
 	print(name + " takes " + str(final_damage) + " damage! " + str(CurrentHP) + " HP remaining.")
-	HealthBar.update_health(CurrentHP, Data.MaxHP)
+	UpdateHealth()
 	
 	if CurrentHP <= 0:
 		IsDead = true
@@ -92,11 +97,11 @@ func ReceiveHealing(heal_amount: int):
 	
 	print(name + " is healed for " + str(heal_amount) + " HP! Now at " + str(CurrentHP) + " HP.")
 	
-	HealthBar.update_health(CurrentHP, Data.MaxHP)
+	UpdateHealth()
 
 func _ready():
 	if Data:
 		CurrentHP = Data.MaxHP
 		for action in Data.Actions:
 			action.connect_listeners(self)
-	HealthBar.update_health(CurrentHP, Data.MaxHP)
+	UpdateHealth()

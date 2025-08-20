@@ -34,7 +34,7 @@ func ClearUnitObstacles(tiles_to_clear: Array[Vector2i], astar : AStar2D):
 	for tile in tiles_to_clear:
 		astar.set_point_disabled(vector_to_id(tile), false)
 
-func GetOccupiedTiles() -> Array[Vector2i]:
+func GetOccupiedTiles(exception: Unit = null) -> Array[Vector2i]:
 	var occupied_tiles: Array[Vector2i] = []
 	
 	for unit in PlayerUnits:
@@ -42,9 +42,11 @@ func GetOccupiedTiles() -> Array[Vector2i]:
 	for enemy in EnemyUnits:
 		occupied_tiles.append(GroundGrid.local_to_map(enemy.global_position))
 	
+	if exception != null:
+		occupied_tiles.erase(GroundGrid.local_to_map(exception.global_position))
 	return occupied_tiles
 
-func GetReachableTiles(unit: Unit, start_tile: Vector2i) -> Array[Vector2i]:
+func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
 	var move_range = unit.Data.MoveRange
 	if not unit.Data.MovementType:
 		push_error(unit.name + " has no MovementData assigned.")
@@ -95,7 +97,8 @@ func GetReachableTiles(unit: Unit, start_tile: Vector2i) -> Array[Vector2i]:
 		if not occupied_tiles.has(tile) or tile == start_tile:
 			reachable_tiles.append(tile)
 	
-	reachable_tiles.erase(start_tile)
+	if include_self == false:
+		reachable_tiles.erase(start_tile)
 	ClearUnitObstacles(modified_tiles, astar)
 	return reachable_tiles
 
