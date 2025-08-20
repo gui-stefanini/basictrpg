@@ -1,15 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=10 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dcv8iwne8u7cf" path="res://Scenes/Units/player_unit.tscn" id="2_e6ru4"]
 [ext_resource type="Script" uid="uid://dh3seoviprk6r" path="res://Scripts/GameScripts/move_manager.gd" id="4_wg6t1"]
+[ext_resource type="Script" uid="uid://c4bgwv0xvr6cl" path="res://Scripts/GameScripts/action_manager.gd" id="5_frkii"]
 [ext_resource type="PackedScene" uid="uid://bo14mrvga8syw" path="res://Scenes/Units/enemy_unit.tscn" id="6_5tjy5"]
 [ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/InGame/action_menu.tscn" id="9_iav25"]
 [ext_resource type="PackedScene" uid="uid://dg028svcnu8gy" path="res://Scenes/Menus/end_screen.tscn" id="10_fuy7q"]
 [ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/unit_info_panel.tscn" id="11_uj5f7"]
 [ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/action_forecast.tscn" id="12_v2ahw"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "ActionMenu", "EndScreen", "ActiveUnitInfoPanel", "ClickedUnitInfoPanel", "ActionForecast", "MyMoveManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "ActionMenu", "EndScreen", "ActiveUnitInfoPanel", "ClickedUnitInfoPanel", "ActionForecast", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 PlayerScene = ExtResource("2_e6ru4")
 ManagerTimer = NodePath("ManagerTimer")
@@ -20,9 +21,13 @@ ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 ClickedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 MyMoveManager = NodePath("MoveManager")
+MyActionManager = NodePath("ActionManager")
 
 [node name="MoveManager" type="Node" parent="."]
 script = ExtResource("4_wg6t1")
+
+[node name="ActionManager" type="Node" parent="."]
+script = ExtResource("5_frkii")
 
 [node name="ManagerTimer" type="Timer" parent="."]
 wait_time = 5.0

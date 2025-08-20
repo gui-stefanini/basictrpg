@@ -38,3 +38,7 @@ func ShowMenu(unit: Unit):
 func _on_action_button_pressed(action:Action):
 	hide()
 	action_selected.emit(action)
+
+func _ready() -> void:
+	UiFunctions.SetMouseIgnore(self)
+	UiFunctions.SetMouseIgnore(MyVBoxContainer)

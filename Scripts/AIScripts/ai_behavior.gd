@@ -36,7 +36,7 @@ func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var possible_targets : Array[Unit] = []
 	for target in targets:
 		var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-		if manager.AreTilesInRange(owner.Data.AttackRange, unit_tile, target_tile):
+		if manager.MyActionManager.AreTilesInRange(owner.Data.AttackRange, unit_tile, target_tile):
 			possible_targets.append(target)
 	return possible_targets
 
@@ -83,7 +83,7 @@ func GetValidActionTiles(attacker: Unit, manager: GameManager, target: Unit) -> 
 	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
 	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = manager.GetTilesInRange(target_tile, attacker.Data.AttackRange)
+	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, attacker.Data.AttackRange)
 	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles()
 
 	for tile in tiles_in_range:

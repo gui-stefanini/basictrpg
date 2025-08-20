@@ -7,7 +7,7 @@ func connect_listeners(_owner: Unit):
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
-	manager.HighlightMoveArea(user)
+	manager.MyActionManager.HighlightMoveArea(user)
 
 func _execute(user: Unit, manager: GameManager, target = null) -> Variant:
 	if target is not Vector2i:

@@ -16,3 +16,6 @@ func UpdateForecast(attacker: Unit, defender: Unit, damage: int):
 	global_position = attacker.global_position + Vector2(10, -10)
 	UiFunctions.ClampUI(self)
 	show()
+
+func _ready() -> void:
+	UiFunctions.SetMouseIgnore(self)

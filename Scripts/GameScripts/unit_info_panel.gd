@@ -17,3 +17,6 @@ func UpdatePanel(unit: Unit):
 	MoveLabel.text = "MOV: " + str(unit.Data.MoveRange)
 	AttackRangeLabel.text = "RNG: " + str(unit.Data.AttackRange)
 	show()
+
+func _ready() -> void:
+	UiFunctions.SetMouseIgnore(self)

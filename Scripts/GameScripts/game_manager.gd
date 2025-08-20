@@ -18,6 +18,7 @@ var HighlightLayer : TileMapLayer
 @export var ClickedUnitInfoPanel: PanelContainer
 @export var ActionForecast: PanelContainer
 @export var MyMoveManager: MoveManager
+@export var MyActionManager: ActionManager
 
 var PlayerUnits: Array[Unit] = []
 var EnemyUnits: Array[Unit] = []
@@ -33,67 +34,10 @@ var CurrentSubState = PlayerTurnState.NULL
 
 var CurrentAction : Action = null
 
-var HighlightedMoveTiles: Array[Vector2i] = []
-var HighlightedAttackTiles: Array[Vector2i] = []
-var HighlightedHealTiles: Array[Vector2i] = []
-
 func Wait(seconds: float):
 	ManagerTimer.wait_time = seconds
 	ManagerTimer.start()
 	await ManagerTimer.timeout
-
-#ACTIONMANAGER
-func GetTilesInRange(start_tile: Vector2i, action_range: int) -> Array[Vector2i]:
-	var tiles_in_range: Array[Vector2i] = []
-	
-	for x in range(-action_range, action_range + 1):
-		for y in range(-action_range, action_range + 1):
-			var distance = abs(x) + abs(y)
-			if distance <= action_range:
-				tiles_in_range.append(start_tile + Vector2i(x, y))
-	
-	tiles_in_range.erase(start_tile)
-	return tiles_in_range
-
-#ACTIONMANAGER
-func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int, highlight_atlas_coord:Vector2i):
-	for tile in tiles_to_highlight:
-		HighlightLayer.set_cell(tile, highlight_source_id, highlight_atlas_coord)
-
-#ACTIONMANAGER
-func ClearHighlights():
-	HighlightLayer.clear()
-	HighlightedMoveTiles.clear()
-	HighlightedAttackTiles.clear()
-	HighlightedHealTiles.clear()
-
-#ACTIONMANAGER
-func HighlightMoveArea(unit: Unit):
-	ClearHighlights()
-	var unit_grid_position = GroundGrid.local_to_map(unit.global_position)
-	
-	HighlightedMoveTiles = MyMoveManager.GetReachableTiles(unit, unit_grid_position)
-	
-	DrawHighlights(HighlightedMoveTiles, 1, Vector2i(0,0))
-
-#ACTIONMANAGER
-func AreTilesInRange(action_range: int, tile1: Vector2i, tile2: Vector2i) -> bool:
-	var distance = abs(tile1.x - tile2.x) + abs(tile1.y - tile2.y)
-	return distance > 0 and distance <= action_range 
-
-#ACTIONMANAGER
-func HighlightAttackArea(unit: Unit, action_range: int):
-	ClearHighlights()
-	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedAttackTiles = GetTilesInRange(unit_tile, action_range)
-	DrawHighlights(HighlightedAttackTiles, 1, Vector2i(1,0))
-
-#ACTIONMANAGER
-func HighlightHealArea(unit: Unit, action_range: int):
-	ClearHighlights()
-	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedHealTiles = GetTilesInRange(unit_tile, action_range)
-	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
 func SpawnPlayerUnits():
 	for i in range(GameData.player_units.size()):
@@ -206,26 +150,6 @@ func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
 			return true
 	return false
 
-func ExecuteAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, self, target)
-	CurrentAction = null
-	TargetedUnit = null
-
-func SimulateAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, self, target)
-
-func ForecastAction(action: Action, unit: Unit, target: Unit):
-	var simulated_target = target.duplicate() as Unit
-	add_child(simulated_target)
-	simulated_target.CopyState(target)
-
-	SimulateAction(action, unit, simulated_target)
-	
-	var damage = target.CurrentHP - simulated_target.CurrentHP
-	ActionForecast.UpdateForecast(unit, target, damage)
-	
-	simulated_target.queue_free()
-
 func SetLevel():
 	var level_scene = load(GameData.selected_level)
 	if not level_scene:
@@ -246,11 +170,9 @@ func SetLevelManager():
 	unit_died.connect(CurrentLevelManager._on_unit_died)
 	level_set.connect(CurrentLevelManager._on_level_set)
 
-func SetMoveManager():
-	MyMoveManager.PlayerUnits = PlayerUnits
-	MyMoveManager.EnemyUnits = EnemyUnits
-	MyMoveManager.GroundGrid = GroundGrid
-	MyMoveManager.SetAStarGrids()
+func SetAuxiliaryManagers():
+	MyMoveManager.initialize(self)
+	MyActionManager.initialize(self)
 
 func _unhandled_input(event):
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
@@ -287,20 +209,20 @@ func _unhandled_input(event):
 						PlayerTurnState.TARGETING_PHASE:
 							var target = null
 							
-							if HighlightedMoveTiles.has(clicked_tile):
+							if MyActionManager.HighlightedMoveTiles.has(clicked_tile):
 								target = clicked_tile
-								ClearHighlights()
-								ExecuteAction(CurrentAction, ActiveUnit, target)
+								MyActionManager.ClearHighlights()
+								MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
 								return
 							
-							if HighlightedAttackTiles.has(clicked_tile):
+							if MyActionManager.HighlightedAttackTiles.has(clicked_tile):
 								for enemy in EnemyUnits:
 									var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
 									if enemy_tile == clicked_tile:
 										target = enemy
 										break
 										
-							if HighlightedHealTiles.has(clicked_tile):
+							if MyActionManager.HighlightedHealTiles.has(clicked_tile):
 								for ally in PlayerUnits:
 									var ally_tile = GroundGrid.local_to_map(ally.global_position)
 									if ally_tile == clicked_tile:
@@ -309,7 +231,7 @@ func _unhandled_input(event):
 							
 							if target is Unit:
 								TargetedUnit = target
-								ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
+								MyActionManager.ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
 								CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
 								return
 							
@@ -317,16 +239,16 @@ func _unhandled_input(event):
 								unit_clicked = DisplayClickedUnitInfo(clicked_tile)
 								if unit_clicked == false:
 									HideUI()
-									ClearHighlights()
+									MyActionManager.ClearHighlights()
 									ActionMenu.ShowMenu(ActiveUnit)
 									CurrentAction = null
 									CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 						
 						PlayerTurnState.ACTION_CONFIRMATION_PHASE:
 							ActionForecast.hide()
-							ClearHighlights()
+							MyActionManager.ClearHighlights()
 							if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-								ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
+								MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
 								EndPlayerTurn()
 							else:
 								TargetedUnit = null
@@ -361,6 +283,6 @@ func _ready() -> void:
 	
 	SetLevelManager()
 	level_set.emit()
-	SetMoveManager()
+	SetAuxiliaryManagers()
 	
 	StartGame()

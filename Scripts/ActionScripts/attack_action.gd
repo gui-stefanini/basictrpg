@@ -7,7 +7,7 @@ func connect_listeners(_owner: Unit):
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
-	manager.HighlightAttackArea(user, user.Data.AttackRange)
+	manager.MyActionManager.HighlightAttackArea(user, user.Data.AttackRange)
 
 func _execute(user: Unit, _manager: GameManager, target = null) -> Variant:
 	if target is not Unit:

@@ -9,3 +9,6 @@ func ClampUI(ui_node: Control):
 	node_pos.y = clampf(node_pos.y, 0, viewport_rect.size.y - node_size.y)
 
 	ui_node.global_position = node_pos
+
+func SetMouseIgnore(ui_node: Control):
+	ui_node.mouse_filter = Control.MOUSE_FILTER_IGNORE

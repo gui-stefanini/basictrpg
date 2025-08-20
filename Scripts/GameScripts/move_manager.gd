@@ -1,6 +1,7 @@
 class_name MoveManager
 extends Node
 
+var GameManagerRef : GameManager
 var GroundGrid: TileMapLayer
 var PlayerUnits: Array[Unit]
 var EnemyUnits: Array[Unit]
@@ -181,3 +182,10 @@ func vector_to_id(vector: Vector2i) -> int:
 	# This is necessary because AStar2D identifies points with integer IDs, not vectors.
 	# We use a large number to ensure the y-coordinate doesn't overlap with the x-coordinate.
 	return vector.x * 1000 + vector.y
+
+func initialize(game_manager: GameManager):
+	GameManagerRef = game_manager
+	GroundGrid = GameManagerRef.GroundGrid
+	PlayerUnits = GameManagerRef.PlayerUnits
+	EnemyUnits = GameManagerRef.EnemyUnits
+	SetAStarGrids()
