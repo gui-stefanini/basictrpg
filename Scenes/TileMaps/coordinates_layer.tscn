@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2ldymljiiyjm"]
+
+[ext_resource type="TileSet" uid="uid://bhi2cnpll41ke" path="res://Assets/Grids/numbers_grid.tres" id="1_2fbkx"]
+
+[node name="CoordinatesLayer" type="TileMapLayer"]
+z_index = 3
+tile_set = ExtResource("1_2fbkx")
