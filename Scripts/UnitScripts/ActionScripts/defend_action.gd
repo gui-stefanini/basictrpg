@@ -1,8 +1,7 @@
 class_name DefendAction
 extends Action
 
-func connect_listeners(owner: Unit):
-	#owner.damage_taken.connect(_on_damage_taken)
+func connect_listeners(_owner: Unit):
 	pass
 
 func _on_select(user: Unit, manager: GameManager):
@@ -18,8 +17,3 @@ func _execute(user: Unit, manager: GameManager, _target = null) -> Variant:
 		manager.OnPlayerActionFinished()
 	
 	return null
-
-#func _on_damage_taken(unit: Unit, damage_data: Dictionary):
-	#if unit.ActiveStatuses.has(Unit.Status.DEFENDING):
-		#print("Defense applied! Damage halved.")
-		#damage_data["damage"] = round(damage_data["damage"] / 2.0)

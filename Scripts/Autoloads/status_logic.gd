@@ -4,11 +4,12 @@ extends Node
 ##############################################################
 
 func ApplyStatusLogic(unit: Unit, status: Unit.Status):
-	print(str(status))
-	call("Apply%sLogic" % [str(status)], unit)
+	var status_name = Unit.Status.find_key(status)
+	call("Apply%sLogic" % [status_name], unit)
 
 func RemoveStatusLogic(unit: Unit, status: Unit.Status):
-	call("Apply%sLogic" % [str(status)], unit, true)
+	var status_name = Unit.Status.find_key(status)
+	call("Apply%sLogic" % [status_name], unit, true)
 
 func ConnectToDamageTaken(unit: Unit, logic: Callable):
 	if not unit.damage_taken.is_connected(logic):
