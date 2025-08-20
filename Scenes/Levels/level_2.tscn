@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=4 uid="uid://b6r4jmpo85fr7"]
+[gd_scene load_steps=21 format=4 uid="uid://b6r4jmpo85fr7"]
 
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_8qsmg"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_fphuk"]
 [ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/AIData/knight_ai.tres" id="3_8qsmg"]
 [ext_resource type="Resource" uid="uid://lvqpypsim1b" path="res://Resources/ClassData/EnemyClassData/enemy_knight_data.tres" id="4_fphuk"]
+[ext_resource type="Resource" uid="uid://cvadj7vvigrpa" path="res://Resources/ClassData/EnemyClassData/enemy_bandit_data.tres" id="5_0x4y1"]
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="5_1jlnc"]
 [ext_resource type="Resource" uid="uid://dhgxabbiekamu" path="res://Resources/AIData/priest_ai.tres" id="5_u40f0"]
 [ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/ClassData/EnemyClassData/enemy_priest_data.tres" id="6_0x4y1"]
@@ -36,7 +37,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_uqiic"]
 script = ExtResource("2_fphuk")
-UnitClass = ExtResource("4_fphuk")
+UnitClass = ExtResource("5_0x4y1")
 Position = Vector2i(10, 4)
 AI = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"
@@ -57,7 +58,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_yxf76"]
 script = ExtResource("2_fphuk")
-UnitClass = ExtResource("4_fphuk")
+UnitClass = ExtResource("5_0x4y1")
 Position = Vector2i(3, 4)
 AI = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=7 format=3 uid="uid://bqfoaj6jgi4aa"]
+
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_fjgcb"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/ActionData/MoveActionData/move_action.tres" id="2_qn55b"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_uolvr"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/ActionData/AttackActionData/attack_action.tres" id="3_u803q"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/ActionData/WaitActionData/wait_action.tres" id="4_jjsmb"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/MovementData/light_infantry_movement.tres" id="5_x1a18"]
+
+[resource]
+script = ExtResource("2_uolvr")
+Name = "Assassin"
+MaxHP = 5
+AttackPower = 3
+HealPower = 0
+MoveRange = 4
+AttackRange = 1
+Actions = Array[ExtResource("1_fjgcb")]([ExtResource("2_qn55b"), ExtResource("3_u803q"), ExtResource("4_jjsmb")])
+MovementType = ExtResource("5_x1a18")
+metadata/_custom_type_script = "uid://dajw61vh5kchp"
