@@ -12,7 +12,7 @@ func _execute(user: Unit, manager: GameManager, _target = null) -> Variant:
 	print(user.name + " is defending!")
 	user.HasActed = true
 	user.AddStatus(Unit.Status.DEFENDING, 1)
-	StatusLogic.ApplyDefendingLogic(user)
+	StatusLogic.ApplyStatusLogic(user, Unit.Status.DEFENDING)
 	
 	if user in manager.PlayerUnits:
 		manager.OnPlayerActionFinished()

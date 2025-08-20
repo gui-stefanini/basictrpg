@@ -34,6 +34,7 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 		}
 		new_status[information] = amount
 		ActiveStatuses[status] = new_status
+		StatusLogic.ApplyStatusLogic(self, status)
 
 func AddStatus(status: Status, duration: int, value: int = 0):
 	if ActiveStatuses.has(status):
@@ -45,6 +46,7 @@ func AddStatus(status: Status, duration: int, value: int = 0):
 	else:
 		var new_status = {StatusInfo.DURATION: duration, StatusInfo.VALUE: value}
 		ActiveStatuses[status] = new_status
+		StatusLogic.ApplyStatusLogic(self, status)
 		print("%s gained status: %s for %d turns" % [name, Status.find_key(status), duration])
 
 func StartTurn():
@@ -60,6 +62,7 @@ func StartTurn():
 			statuses_to_remove.append(status)
 	
 	for status in statuses_to_remove:
+		StatusLogic.RemoveStatusLogic(self, status)
 		ActiveStatuses.erase(status)
 
 func FlashDamageEffect():
