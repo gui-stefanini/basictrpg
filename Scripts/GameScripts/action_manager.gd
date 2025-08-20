@@ -78,6 +78,7 @@ func ForecastAction(action: Action, unit: Unit, target: Unit):
 	var damage = target.CurrentHP - simulated_target.CurrentHP
 	ActionForecast.UpdateForecast(unit, target, damage)
 	
+	simulated_unit.queue_free()
 	simulated_target.queue_free()
 
 func initialize(game_manager: GameManager):
