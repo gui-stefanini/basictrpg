@@ -45,6 +45,35 @@ func Wait(seconds: float):
 	ManagerTimer.start()
 	await ManagerTimer.timeout
 
+func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: UnitData) -> Vector2i:
+	var move_data_name = unit_data.MovementType.Name
+	
+	if not MyMoveManager.AStarInstances.has(move_data_name):
+		push_error("No AStar grid found for movement type: " + move_data_name)
+		return start_tile
+	
+	var astar = MyMoveManager.AStarInstances[move_data_name]
+	
+	var check_queue: Array[Vector2i] = [start_tile]
+	var queued: Array[Vector2i] = [start_tile]
+	
+	while not check_queue.is_empty():
+		var current_tile = check_queue.pop_front()
+		
+		var point_id = MyMoveManager.vector_to_id(current_tile)
+		if astar.has_point(point_id) and not astar.is_point_disabled(point_id) and not occupied_tiles.has(current_tile):
+			return current_tile
+		
+		var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		for direction in directions:
+			var neighbor = current_tile + direction
+			if not queued.has(neighbor):
+				queued.append(neighbor)
+				check_queue.push_back(neighbor)
+	
+	push_warning("Could not find a valid spawn point for a unit at " + str(start_tile))
+	return start_tile
+
 func DefinePlayerUnits():
 	for i in range(GameData.player_units.size()):
 		CurrentLevel.PlayerSpawns[i].UnitClass = GameData.player_units[i]
@@ -64,12 +93,11 @@ func SpawnUnit(spawn_info : SpawnInfo):
 			new_unit = EnemyScene.instantiate()
 	
 	new_unit.Data = unit_data
-	#new_unit.Faction = spawn_info.Faction
 	
 	if spawn_info.Faction != Unit.Factions.PLAYER:
 		new_unit.AI = spawn_info.AI
 	
-	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction), unit_data.Name, NumberOfUnits]
+	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction)[0], unit_data.Name, NumberOfUnits]
 	NumberOfUnits += 1
 	add_child(new_unit)
 	
@@ -81,7 +109,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	
 	var occupied_tiles = MyMoveManager.GetOccupiedTiles()
 	if occupied_tiles.has(spawn_pos):
-		pass #HERE GEMINI
+		spawn_pos = FindClosestValidSpawn(spawn_pos, occupied_tiles, unit_data)
 	var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 	var tile_global_position = GroundGrid.to_global(tile_grid_position)
 	new_unit.global_position = tile_global_position
@@ -92,50 +120,6 @@ func SpawnUnit(spawn_info : SpawnInfo):
 func SpawnStartingUnits():
 	SpawnUnitGroup(CurrentLevel.PlayerSpawns)
 	SpawnUnitGroup(CurrentLevel.EnemySpawns)
-
-#func SpawnPlayerUnits():
-	#for i in range(GameData.player_units.size()):
-		#var unit_data = GameData.player_units[i]
-		#var spawn_info = CurrentLevel.PlayerSpawns[i]
-		#var spawn_pos = spawn_info.Position
-		#
-		#var new_unit: Unit = PlayerScene.instantiate()
-		#new_unit.name = unit_data.Name + str(i + 1)
-		#
-		#new_unit.Data = unit_data
-		#new_unit.Faction = Unit.Factions.PLAYER
-		#
-		#add_child(new_unit)
-		#PlayerUnits.append(new_unit)
-		#unit_spawned.emit(new_unit)
-		#
-		#var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
-		#var tile_global_position = GroundGrid.to_global(tile_grid_position)
-		#new_unit.global_position = tile_global_position
-		#new_unit.unit_died.connect(_on_unit_died)
-#
-#func SpawnEnemyUnits():
-	#for i in range(CurrentLevel.EnemySpawns.size()):
-		#var spawn_info = CurrentLevel.EnemySpawns[i]
-		#var unit_data = spawn_info.UnitClass
-		#var spawn_pos = spawn_info.Position
-		#
-		#var new_unit: Unit = EnemyScene.instantiate()
-		#new_unit.name = "E " + unit_data.Name + str(i)
-		#
-		#new_unit.Data = unit_data
-		#new_unit.AI = spawn_info.AI
-		#new_unit.Faction = Unit.Factions.ENEMY
-		#
-		#add_child(new_unit)
-		#EnemyUnits.append(new_unit)
-		#
-		#var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
-		#var tile_global_position = GroundGrid.to_global(tile_grid_position)
-		#new_unit.global_position = tile_global_position
-		#
-		#unit_spawned.emit(new_unit)
-		#new_unit.unit_died.connect(_on_unit_died)
 
 func HideUI():
 	ActionMenu.HideMenu()
@@ -215,17 +199,6 @@ func SetLevel():
 	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
 	HighlightLayer = CurrentLevel.HighlightLayer
-
-#func SetLevelManager():
-	#CurrentLevelManager.victory.connect(EndGame.bind(true))
-	#CurrentLevelManager.defeat.connect(EndGame.bind(false))
-	#
-	#unit_turn_ended.connect(CurrentLevelManager._on_unit_turn_ended)
-	#unit_died.connect(CurrentLevelManager._on_unit_died)
-	#unit_spawned.connect(CurrentLevelManager._on_unit_spawned)
-	#unit_removed.connect(CurrentLevelManager._on_unit_removed)
-	#
-	#level_set.connect(CurrentLevelManager._on_level_set)
 
 func SetAuxiliaryManagers():
 	CurrentLevelManager.initialize(self)

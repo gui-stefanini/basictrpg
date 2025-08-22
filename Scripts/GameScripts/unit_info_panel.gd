@@ -16,6 +16,7 @@ func UpdatePanel(unit: Unit):
 	AttackLabel.text = "ATK: " + str(unit.Data.AttackPower)
 	MoveLabel.text = "MOV: " + str(unit.Data.MoveRange)
 	AttackRangeLabel.text = "RNG: " + str(unit.Data.AttackRange)
+	UiFunctions.ClampUI(self)
 	show()
 
 func _ready() -> void:
