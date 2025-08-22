@@ -91,10 +91,6 @@ func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) 
 	
 	return valid_targets
 
-##############################################################
-#                      2.3 TARGET SELECTION                  #
-##############################################################
-
 func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var unit_tile = manager.GroundGrid.local_to_map(owner.global_position)
 	var possible_targets : Array[Unit] = []
@@ -103,6 +99,10 @@ func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 		if manager.MyActionManager.AreTilesInRange(owner.Data.AttackRange, unit_tile, target_tile):
 			possible_targets.append(target)
 	return possible_targets
+
+##############################################################
+#                      2.3 TARGET SELECTION                  #
+##############################################################
 
 func TargetByStat(targets: Array[Unit], stat_getter: Callable, highest: bool = false, random: bool = false) -> Unit:
 	targets.sort_custom(

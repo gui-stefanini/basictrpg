@@ -17,8 +17,7 @@ signal unit_removed(unit: Unit)
 ######################
 #     REFERENCES     #
 ######################
-@export var PlayerScene: PackedScene
-@export var EnemyScene: PackedScene
+@export var UnitScene: PackedScene
 
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer
@@ -144,14 +143,10 @@ func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i]
 func SpawnUnit(spawn_info : SpawnInfo):
 	var unit_data = spawn_info.UnitClass
 	var spawn_pos = spawn_info.Position
-	var new_unit: Unit = EnemyScene.instantiate()
-	match spawn_info.Faction:
-		Unit.Factions.PLAYER:
-			new_unit = PlayerScene.instantiate()
-		Unit.Factions.ENEMY:
-			new_unit = EnemyScene.instantiate()
+	var new_unit: Unit = UnitScene.instantiate()
 	
 	new_unit.Data = unit_data
+	new_unit.Faction = spawn_info.Faction
 	
 	if spawn_info.Faction != Unit.Factions.PLAYER:
 		new_unit.AI = spawn_info.AI
