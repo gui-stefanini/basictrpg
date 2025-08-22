@@ -13,9 +13,9 @@
 [node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "ActionMenu", "EndScreen", "ActiveUnitInfoPanel", "ClickedUnitInfoPanel", "ActionForecast", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 PlayerScene = ExtResource("2_e6ru4")
+EnemyScene = ExtResource("6_5tjy5")
 ManagerTimer = NodePath("ManagerTimer")
 ActionMenu = NodePath("ActionMenu")
-EnemyScene = ExtResource("6_5tjy5")
 EndScreen = NodePath("EndScreen")
 ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 ClickedUnitInfoPanel = NodePath("UnitInfoPanel2")

@@ -1,15 +1,46 @@
 class_name ActionManager
 extends Node
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
 
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
 var GameManagerRef: GameManager
 var GroundGrid: TileMapLayer
 var HighlightLayer: TileMapLayer
 var MoveManagerRef: MoveManager
 var ActionForecast: PanelContainer
 
+######################
+#     SCRIPT-WIDE    #
+######################
 var HighlightedMoveTiles: Array[Vector2i] = []
 var HighlightedAttackTiles: Array[Vector2i] = []
 var HighlightedHealTiles: Array[Vector2i] = []
+
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
+
+func initialize(game_manager: GameManager):
+	GameManagerRef = game_manager
+	GroundGrid = GameManagerRef.GroundGrid
+	HighlightLayer = GameManagerRef.HighlightLayer
+	MoveManagerRef = GameManagerRef.MyMoveManager
+	ActionForecast = GameManagerRef.ActionForecast
+
+##############################################################
+#                      2.1 RANGE CALC                        #
+##############################################################
+
+func AreTilesInRange(action_range: int, tile1: Vector2i, tile2: Vector2i) -> bool:
+	var distance = abs(tile1.x - tile2.x) + abs(tile1.y - tile2.y)
+	return distance > 0 and distance <= action_range 
 
 func GetTilesInRange(start_tile: Vector2i, action_range: int) -> Array[Vector2i]:
 	var tiles_in_range: Array[Vector2i] = []
@@ -23,6 +54,9 @@ func GetTilesInRange(start_tile: Vector2i, action_range: int) -> Array[Vector2i]
 	tiles_in_range.erase(start_tile)
 	return tiles_in_range
 
+##############################################################
+#                      2.2 HIGHLIGHTING                      #
+##############################################################
 func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int, highlight_atlas_coord:Vector2i):
 	for tile in tiles_to_highlight:
 		HighlightLayer.set_cell(tile, highlight_source_id, highlight_atlas_coord)
@@ -32,10 +66,6 @@ func ClearHighlights():
 	HighlightedMoveTiles.clear()
 	HighlightedAttackTiles.clear()
 	HighlightedHealTiles.clear()
-
-func AreTilesInRange(action_range: int, tile1: Vector2i, tile2: Vector2i) -> bool:
-	var distance = abs(tile1.x - tile2.x) + abs(tile1.y - tile2.y)
-	return distance > 0 and distance <= action_range 
 
 func HighlightMoveArea(unit: Unit):
 	ClearHighlights()
@@ -57,6 +87,9 @@ func HighlightHealArea(unit: Unit, action_range: int):
 	HighlightedHealTiles = GetTilesInRange(unit_tile, action_range)
 	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
+##############################################################
+#                      2.3 EXECUTION                         #
+##############################################################
 func ExecuteAction(action: Action, unit: Unit, target = null):
 	action._execute(unit, GameManagerRef, target)
 	GameManagerRef.CurrentAction = null
@@ -81,9 +114,10 @@ func ForecastAction(action: Action, unit: Unit, target: Unit):
 	simulated_unit.queue_free()
 	simulated_target.queue_free()
 
-func initialize(game_manager: GameManager):
-	GameManagerRef = game_manager
-	GroundGrid = GameManagerRef.GroundGrid
-	HighlightLayer = GameManagerRef.HighlightLayer
-	MoveManagerRef = GameManagerRef.MyMoveManager
-	ActionForecast = GameManagerRef.ActionForecast
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################

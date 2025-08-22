@@ -1,5 +1,24 @@
 class_name AIBehavior
 extends Resource
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
+
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
+######################
+#     SCRIPT-WIDE    #
+######################
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
+##############################################################
+#                      2.1  COMMANDS                         #
+##############################################################
 
 func DefendCommand(owner: Unit, manager: GameManager):
 	print(owner.name + " is low on health and chooses to defend!")
@@ -30,6 +49,51 @@ func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
 				await manager.Wait(0.5)
 				action._execute(owner, manager, target)
 				await manager.Wait(0.5)
+
+##############################################################
+#                      2.2  TARGET FINDING                   #
+##############################################################
+
+func GetValidActionTiles(unit: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
+	var move_data_name = unit.Data.MovementType.Name
+	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
+	var valid_tiles: Array[Vector2i] = []
+	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
+	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.Data.AttackRange)
+	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(unit)
+
+	for tile in tiles_in_range:
+		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):
+			valid_tiles.append(tile)
+	
+	return valid_tiles
+
+func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) -> Array:
+	var valid_targets = []
+	for unit in targets:
+		if unit == owner:
+			continue
+		
+		var action_tiles = GetValidActionTiles(owner, manager, unit)
+		for tile in action_tiles:
+			var path = manager.MyMoveManager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
+			if not path.is_empty():
+				var target = {
+					"target": unit,
+					"destination": tile,
+					"path": path.path,
+					"cost": path.cost
+				}
+				valid_targets.append(target)
+	
+	if valid_targets.is_empty():
+		print("No possible target")
+	
+	return valid_targets
+
+##############################################################
+#                      2.3 TARGET SELECTION                  #
+##############################################################
 
 func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var unit_tile = manager.GroundGrid.local_to_map(owner.global_position)
@@ -85,6 +149,12 @@ func AttackTargeting(owner: Unit, manager: GameManager):
 		var target = TargetByStat(possible_targets, func(u:Unit): return u.CurrentHP)
 		return target
 
+##############################################################
+#                      2.4  AI ROUTINES                      #
+##############################################################
+######################
+#   ROUTINE BLOCKS   #
+######################
 func HealRoutine(owner: Unit, manager: GameManager):
 	var target = HealTargeting(owner, manager)
 	if target is Unit:
@@ -97,42 +167,35 @@ func AttackRoutine(owner: Unit, manager: GameManager):
 		print("%s chooses to attack %s" % [owner.name, target.name])
 		await AttackCommand(owner, manager, target)
 
-func GetValidActionTiles(unit: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
-	var move_data_name = unit.Data.MovementType.Name
-	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
-	var valid_tiles: Array[Vector2i] = []
-	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.Data.AttackRange)
-	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(unit)
-
-	for tile in tiles_in_range:
-		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):
-			valid_tiles.append(tile)
+func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
+	var valid_targets = GetValidTargets(owner, manager, targets)
 	
-	return valid_tiles
-
-func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) -> Array:
-	var valid_targets = []
-	for unit in targets:
-		if unit == owner:
+	valid_targets.sort_custom(func(a, b): 
+		return a.cost < b.cost
+		)
+	
+	var best_target = valid_targets[0]
+	var target_player = best_target["target"]
+	var path_to_destination = best_target["path"]
+	print(target_player)
+	var path_within_move_range: Array[Vector2i] = []
+	
+	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
+	
+	for tile in path_to_destination:
+		if tile == enemy_tile:
 			continue
-		
-		var action_tiles = GetValidActionTiles(owner, manager, unit)
-		for tile in action_tiles:
-			var path = manager.MyMoveManager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
-			if not path.is_empty():
-				var target = {
-					"target": unit,
-					"destination": tile,
-					"path": path.path,
-					"cost": path.cost
-				}
-				valid_targets.append(target)
+		if tile in reachable_tiles:
+			path_within_move_range.append(tile)
+		else:
+			break
 	
-	if valid_targets.is_empty():
-		print("No possible target")
-	
-	return valid_targets
+	var final_destination = enemy_tile
+	if not path_within_move_range.is_empty():
+		final_destination = path_within_move_range.back()
+		if final_destination != enemy_tile:
+			await MoveCommand(owner, manager, final_destination)
 
 func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 	var damaged_allies: Array[Unit] = []
@@ -181,36 +244,9 @@ func FindHealOpportunity(healer: Unit, manager: GameManager) -> Dictionary:
 	
 	return {} # No reachable, damaged ally found
 
-func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
-	var valid_targets = GetValidTargets(owner, manager, targets)
-	
-	valid_targets.sort_custom(func(a, b): 
-		return a.cost < b.cost
-		)
-	
-	var best_target = valid_targets[0]
-	var target_player = best_target["target"]
-	var path_to_destination = best_target["path"]
-	print(target_player)
-	var path_within_move_range: Array[Vector2i] = []
-	
-	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
-	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
-	
-	for tile in path_to_destination:
-		if tile == enemy_tile:
-			continue
-		if tile in reachable_tiles:
-			path_within_move_range.append(tile)
-		else:
-			break
-	
-	var final_destination = enemy_tile
-	if not path_within_move_range.is_empty():
-		final_destination = path_within_move_range.back()
-		if final_destination != enemy_tile:
-			await MoveCommand(owner, manager, final_destination)
-
+######################
+#    ROUTINE LOGIC   #
+######################
 func execute_complex_healing_routine(owner: Unit, manager: GameManager):
 	var heal_opportunity = FindHealOpportunity(owner, manager)
 	if not heal_opportunity.is_empty():
@@ -240,7 +276,18 @@ func execute_offensive_routine(owner: Unit, manager: GameManager):
 # This is the "brain" function. It takes the unit that owns the AI (owner)
 # and a reference to the main manager script to access its helper functions.
 # It needs to be async so it can wait for animations.
+######################
+#    AI TURN LOGIC   #
+######################
 func execute_turn(owner: Unit, _manager: GameManager):
 	# Await is needed for the function to be async.
 	await owner.get_tree().create_timer(0.01).timeout
 	pass
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################

@@ -1,13 +1,42 @@
 class_name MoveManager
 extends Node
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
 
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
 var GameManagerRef : GameManager
 var GroundGrid: TileMapLayer
+
+######################
+#     SCRIPT-WIDE    #
+######################
 var PlayerUnits: Array[Unit]
 var EnemyUnits: Array[Unit]
 
 var AStarInstances: Dictionary = {}
 
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
+
+func initialize(game_manager: GameManager):
+	GameManagerRef = game_manager
+	
+	GroundGrid = GameManagerRef.GroundGrid
+	SetAStarGrids()
+	
+	GameManagerRef.unit_spawned.connect(_on_unit_spawned)
+	GameManagerRef.unit_removed.connect(_on_unit_removed)
+
+##############################################################
+#                      2.1 OBSTACLE LOGIC                    #
+##############################################################
 func SetUnitObstacles(active_unit: Unit, astar : AStar2D):
 	if active_unit.ActiveStatuses.has(Unit.Status.PASS):
 		return []
@@ -46,61 +75,15 @@ func GetOccupiedTiles(exception: Unit = null) -> Array[Vector2i]:
 		occupied_tiles.erase(GroundGrid.local_to_map(exception.global_position))
 	return occupied_tiles
 
-func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
-	var move_range = unit.Data.MoveRange
-	if not unit.Data.MovementType:
-		push_error(unit.name + " has no MovementData assigned.")
-		return []
-	var move_data_name = unit.Data.MovementType.Name
-	if not AStarInstances.has(move_data_name):
-		push_error("No AStar grid found for movement type: " + move_data_name)
-		return []
-	var astar = AStarInstances[move_data_name]
-	
-	var modified_tiles = SetUnitObstacles(unit, astar)
-	var tiles_to_check: Array[Vector2i] = [start_tile]
-	var checked_tiles_costs: Dictionary = {start_tile: 0}
-	
-	var checked_tiles = 0
-	while checked_tiles < tiles_to_check.size():
-		var current_tile = tiles_to_check[checked_tiles]
-		checked_tiles += 1
-		
-		var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
-		for direction in directions:
-			var adjacent_tile = current_tile + direction
-			
-			if not astar.has_point(vector_to_id(adjacent_tile)) or astar.is_point_disabled(vector_to_id(adjacent_tile)):
-				continue
-			
-			var tile_data = GroundGrid.get_cell_tile_data(adjacent_tile)
-			if not tile_data:
-				continue
-			
-			var terrain_type: String = tile_data.get_custom_data("terrain_type")
-			var terrain_cost = unit.Data.MovementType.TerrainCosts.get(terrain_type, -1)
-			if terrain_cost == -1:
-				continue
-			
-			var new_cost = checked_tiles_costs[current_tile] + terrain_cost
-			
-			if new_cost <= move_range:
-				if not checked_tiles_costs.has(adjacent_tile) or new_cost < checked_tiles_costs[adjacent_tile]:
-					checked_tiles_costs[adjacent_tile] = new_cost
-					tiles_to_check.push_back(adjacent_tile)
-					
-	var all_reachable_tiles = checked_tiles_costs.keys()
-	var reachable_tiles: Array[Vector2i] = []
-	
-	var occupied_tiles = GetOccupiedTiles()
-	for tile in all_reachable_tiles:
-		if not occupied_tiles.has(tile) or tile == start_tile:
-			reachable_tiles.append(tile)
-	
-	if include_self == false:
-		reachable_tiles.erase(start_tile)
-	ClearUnitObstacles(modified_tiles, astar)
-	return reachable_tiles
+##############################################################
+#                      2.1 ASTAR PATHING                     #
+##############################################################
+
+func vector_to_id(vector: Vector2i) -> int:
+	# Converts a Vector2i coordinate to a unique integer ID.
+	# This is necessary because AStar2D identifies points with integer IDs, not vectors.
+	# We use a large number to ensure the y-coordinate doesn't overlap with the x-coordinate.
+	return vector.x * 1000 + vector.y
 
 func SetAStarGrids():
 	var all_movement_data: Array[MovementData] = []
@@ -180,21 +163,69 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 	
 	return {"path" : path, "cost" : path_cost}
 
-func vector_to_id(vector: Vector2i) -> int:
-	# Converts a Vector2i coordinate to a unique integer ID.
-	# This is necessary because AStar2D identifies points with integer IDs, not vectors.
-	# We use a large number to ensure the y-coordinate doesn't overlap with the x-coordinate.
-	return vector.x * 1000 + vector.y
+##############################################################
+#                      2.1 MOVEMENT LOGIC                    #
+##############################################################
 
-func initialize(game_manager: GameManager):
-	GameManagerRef = game_manager
+func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
+	var move_range = unit.Data.MoveRange
+	if not unit.Data.MovementType:
+		push_error(unit.name + " has no MovementData assigned.")
+		return []
+	var move_data_name = unit.Data.MovementType.Name
+	if not AStarInstances.has(move_data_name):
+		push_error("No AStar grid found for movement type: " + move_data_name)
+		return []
+	var astar = AStarInstances[move_data_name]
 	
-	GroundGrid = GameManagerRef.GroundGrid
-	SetAStarGrids()
+	var modified_tiles = SetUnitObstacles(unit, astar)
+	var tiles_to_check: Array[Vector2i] = [start_tile]
+	var checked_tiles_costs: Dictionary = {start_tile: 0}
 	
-	GameManagerRef.unit_spawned.connect(_on_unit_spawned)
-	GameManagerRef.unit_removed.connect(_on_unit_removed)
+	var checked_tiles = 0
+	while checked_tiles < tiles_to_check.size():
+		var current_tile = tiles_to_check[checked_tiles]
+		checked_tiles += 1
+		
+		var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		for direction in directions:
+			var adjacent_tile = current_tile + direction
+			
+			if not astar.has_point(vector_to_id(adjacent_tile)) or astar.is_point_disabled(vector_to_id(adjacent_tile)):
+				continue
+			
+			var tile_data = GroundGrid.get_cell_tile_data(adjacent_tile)
+			if not tile_data:
+				continue
+			
+			var terrain_type: String = tile_data.get_custom_data("terrain_type")
+			var terrain_cost = unit.Data.MovementType.TerrainCosts.get(terrain_type, -1)
+			if terrain_cost == -1:
+				continue
+			
+			var new_cost = checked_tiles_costs[current_tile] + terrain_cost
+			
+			if new_cost <= move_range:
+				if not checked_tiles_costs.has(adjacent_tile) or new_cost < checked_tiles_costs[adjacent_tile]:
+					checked_tiles_costs[adjacent_tile] = new_cost
+					tiles_to_check.push_back(adjacent_tile)
+					
+	var all_reachable_tiles = checked_tiles_costs.keys()
+	var reachable_tiles: Array[Vector2i] = []
+	
+	var occupied_tiles = GetOccupiedTiles()
+	for tile in all_reachable_tiles:
+		if not occupied_tiles.has(tile) or tile == start_tile:
+			reachable_tiles.append(tile)
+	
+	if include_self == false:
+		reachable_tiles.erase(start_tile)
+	ClearUnitObstacles(modified_tiles, astar)
+	return reachable_tiles
 
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 func _on_unit_spawned(unit: Unit):
 	if unit.Faction == Unit.Factions.PLAYER:
 		PlayerUnits.append(unit)
@@ -206,3 +237,7 @@ func _on_unit_removed(unit: Unit):
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################

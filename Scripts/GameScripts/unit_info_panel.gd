@@ -1,10 +1,26 @@
 extends Control
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
 
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
 @export var NameLabel = Label
 @export var HPLabel = Label
 @export var AttackLabel = Label
 @export var MoveLabel = Label
 @export var AttackRangeLabel = Label
+######################
+#     SCRIPT-WIDE    #
+######################
+
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
 
 func UpdatePanel(unit: Unit):
 	if not unit:
@@ -18,6 +34,14 @@ func UpdatePanel(unit: Unit):
 	AttackRangeLabel.text = "RNG: " + str(unit.Data.AttackRange)
 	UiFunctions.ClampUI(self)
 	show()
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################
 
 func _ready() -> void:
 	UiFunctions.SetMouseIgnore(self)

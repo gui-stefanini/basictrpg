@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dbjcwgms3fd78"]
+[gd_scene load_steps=14 format=3 uid="uid://dbjcwgms3fd78"]
 
 [ext_resource type="Script" uid="uid://bulp4g77en3qf" path="res://Scripts/MenuScripts/selection_menu.gd" id="1_r2ge3"]
 [ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/InGame/game_manager.tscn" id="2_atlk2"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/ClassData/PlayerClassData/priest_data.tres" id="6_hrbqk"]
 [ext_resource type="PackedScene" uid="uid://bk7gw2ed0ldxc" path="res://Scenes/Menus/unit_selection_slot.tscn" id="7_hrbqk"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="8_pr5gi"]
+[ext_resource type="Resource" uid="uid://bqfoaj6jgi4aa" path="res://Resources/ClassData/PlayerClassData/assassin_data.tres" id="8_wxrwb"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="9_hrbqk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrbqk"]
@@ -30,7 +31,7 @@ script = ExtResource("1_r2ge3")
 GameManagerScene = ExtResource("2_atlk2")
 Level1Scene = ExtResource("2_e2lmm")
 Level2Scene = ExtResource("3_bw2gc")
-PlayerClasses = Array[ExtResource("4_547t1")]([ExtResource("5_pr5gi"), ExtResource("6_hrbqk")])
+PlayerClasses = Array[ExtResource("4_547t1")]([ExtResource("5_pr5gi"), ExtResource("6_hrbqk"), ExtResource("8_wxrwb")])
 LevelSelectionContainer = NodePath("MarginContainer/VBoxContainer/LevelSelectionContainer")
 UnitCustomizationContainer = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitCustomizationContainer")
 StartLevelButton = NodePath("MarginContainer/VBoxContainer/StartLevelButton")

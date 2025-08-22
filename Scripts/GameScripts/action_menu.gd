@@ -1,9 +1,25 @@
 extends PanelContainer
-
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
 signal action_selected(action: Action)
 
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
 @export var ActionButtonScene: PackedScene
 @export var MyVBoxContainer: VBoxContainer
+
+######################
+#     SCRIPT-WIDE    #
+######################
+
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
 
 func HideMenu():
 	for button in MyVBoxContainer.get_children():
@@ -35,9 +51,17 @@ func ShowMenu(unit: Unit):
 	UiFunctions.ClampUI(self)
 	show()
 
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
+
 func _on_action_button_pressed(action:Action):
 	hide()
 	action_selected.emit(action)
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################
 
 func _ready() -> void:
 	UiFunctions.SetMouseIgnore(self)

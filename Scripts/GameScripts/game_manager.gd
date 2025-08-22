@@ -1,6 +1,8 @@
 class_name GameManager
 extends Node2D
-
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
 signal level_set
 signal turn_started(turn_number: int)
 signal turn_ended(turn_number: int)
@@ -9,41 +11,106 @@ signal unit_died(unit: Unit)
 signal unit_spawned(unit: Unit)
 signal unit_removed(unit: Unit)
 
-var TurnNumber: int = 0
-var NumberOfUnits : int = 0 #For unit naming
-var CurrentLevel : Level
-var CurrentLevelManager: LevelManager
-var GroundGrid : TileMapLayer
-var HighlightLayer : TileMapLayer
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
 @export var PlayerScene: PackedScene
+@export var EnemyScene: PackedScene
+
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer
-@export var EnemyScene: PackedScene
 @export var EndScreen: CanvasLayer
 @export var ActiveUnitInfoPanel: PanelContainer
 @export var ClickedUnitInfoPanel: PanelContainer
 @export var ActionForecast: PanelContainer
+
 @export var MyMoveManager: MoveManager
 @export var MyActionManager: ActionManager
 
-var PlayerUnits: Array[Unit] = []
-var EnemyUnits: Array[Unit] = []
-var ActiveUnit: Unit = null
-var TargetedUnit: Unit = null
-var UnitsWhoHaveActed: Array[Unit] = []
+var CurrentLevel : Level
+var CurrentLevelManager: LevelManager
+var GroundGrid : TileMapLayer
+var HighlightLayer : TileMapLayer
 
+######################
+#     SCRIPT-WIDE    #
+######################
 enum GameState {NULL, PLAYER_TURN, ENEMY_TURN}
 enum PlayerTurnState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 enum EnemyTurnState {NULL, MOVEMENT_PHASE, PROCESSING_PHASE}
 var CurrentGameState = GameState.NULL
 var CurrentSubState = PlayerTurnState.NULL
 
+var PlayerUnits: Array[Unit] = []
+var EnemyUnits: Array[Unit] = []
+var UnitsWhoHaveActed: Array[Unit] = []
+
+var TurnNumber: int = 0
+var NumberOfUnits : int = 0 #For unit naming
+
+var ActiveUnit: Unit = null
+var TargetedUnit: Unit = null
 var CurrentAction : Action = null
+
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
 
 func Wait(seconds: float):
 	ManagerTimer.wait_time = seconds
 	ManagerTimer.start()
 	await ManagerTimer.timeout
+
+##############################################################
+#                      2.1 SET GAME                          #
+##############################################################
+
+func SetLevel():
+	var level_scene = load(GameData.selected_level)
+	if not level_scene:
+		push_error("Failed to load level scene from path: " + GameData.selected_level)
+		return
+	CurrentLevel = level_scene.instantiate()
+	add_child(CurrentLevel)
+	CurrentLevelManager = CurrentLevel.MyLevelManager
+	GroundGrid = CurrentLevel.GroundGrid
+	HighlightLayer = CurrentLevel.HighlightLayer
+
+func SetAuxiliaryManagers():
+	CurrentLevelManager.initialize(self)
+	level_set.emit()
+	MyMoveManager.initialize(self)
+	MyActionManager.initialize(self)
+
+##############################################################
+#                      2.2 UI                                #
+##############################################################
+
+func HideUI():
+	ActionMenu.HideMenu()
+	ActiveUnitInfoPanel.hide()
+	ClickedUnitInfoPanel.hide()
+
+func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
+	for unit in PlayerUnits:
+		if clicked_tile == GroundGrid.local_to_map(unit.global_position):
+			if unit == ActiveUnit:
+				return true
+			else:
+				ClickedUnitInfoPanel.UpdatePanel(unit)
+				return true
+	for unit in EnemyUnits:
+		if clicked_tile == GroundGrid.local_to_map(unit.global_position):
+			ClickedUnitInfoPanel.UpdatePanel(unit)
+			return true
+	return false
+
+##############################################################
+#                      2.3 SPAWNING                          #
+##############################################################
 
 func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: UnitData) -> Vector2i:
 	var move_data_name = unit_data.MovementType.Name
@@ -73,14 +140,6 @@ func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i]
 	
 	push_warning("Could not find a valid spawn point for a unit at " + str(start_tile))
 	return start_tile
-
-func DefinePlayerUnits():
-	for i in range(GameData.player_units.size()):
-		CurrentLevel.PlayerSpawns[i].UnitClass = GameData.player_units[i]
-
-func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
-	for spawn_info in spawn_list:
-		SpawnUnit(spawn_info)
 
 func SpawnUnit(spawn_info : SpawnInfo):
 	var unit_data = spawn_info.UnitClass
@@ -117,19 +176,21 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	unit_spawned.emit(new_unit)
 	new_unit.unit_died.connect(_on_unit_died)
 
+func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
+	for spawn_info in spawn_list:
+		SpawnUnit(spawn_info)
+
+func DefinePlayerUnits():
+	for i in range(GameData.player_units.size()):
+		CurrentLevel.PlayerSpawns[i].UnitClass = GameData.player_units[i]
+
 func SpawnStartingUnits():
 	SpawnUnitGroup(CurrentLevel.PlayerSpawns)
 	SpawnUnitGroup(CurrentLevel.EnemySpawns)
 
-func HideUI():
-	ActionMenu.HideMenu()
-	ActiveUnitInfoPanel.hide()
-	ClickedUnitInfoPanel.hide()
-
-func EndGame(player_won: bool):
-	HideUI()
-	get_tree().paused = true
-	EndScreen.ShowEndScreen(player_won)
+##############################################################
+#                      2.4 GAME FLOW                         #
+##############################################################
 
 func StartPlayerTurn():
 	CurrentGameState = GameState.PLAYER_TURN
@@ -140,6 +201,10 @@ func StartPlayerTurn():
 		player.StartTurn()
 	TurnNumber += 1
 	turn_started.emit(TurnNumber)
+
+func OnPlayerActionFinished():
+	CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+	ActionMenu.ShowMenu(ActiveUnit)
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
@@ -171,40 +236,38 @@ func StartEnemyTurn():
 	print("--- Enemy Turn Ends ---")
 	StartPlayerTurn()
 
-func OnPlayerActionFinished():
-	CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-	ActionMenu.ShowMenu(ActiveUnit)
+func EndGame(player_won: bool):
+	HideUI()
+	get_tree().paused = true
+	EndScreen.ShowEndScreen(player_won)
 
-func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
-	for unit in PlayerUnits:
-		if clicked_tile == GroundGrid.local_to_map(unit.global_position):
-			if unit == ActiveUnit:
-				return true
-			else:
-				ClickedUnitInfoPanel.UpdatePanel(unit)
-				return true
-	for unit in EnemyUnits:
-		if clicked_tile == GroundGrid.local_to_map(unit.global_position):
-			ClickedUnitInfoPanel.UpdatePanel(unit)
-			return true
-	return false
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 
-func SetLevel():
-	var level_scene = load(GameData.selected_level)
-	if not level_scene:
-		push_error("Failed to load level scene from path: " + GameData.selected_level)
-		return
-	CurrentLevel = level_scene.instantiate()
-	add_child(CurrentLevel)
-	CurrentLevelManager = CurrentLevel.MyLevelManager
-	GroundGrid = CurrentLevel.GroundGrid
-	HighlightLayer = CurrentLevel.HighlightLayer
+func _on_action_menu_action_selected(action: Action) -> void:
+	HideUI()
+	action._on_select(ActiveUnit, self)
 
-func SetAuxiliaryManagers():
-	CurrentLevelManager.initialize(self)
-	level_set.emit()
-	MyMoveManager.initialize(self)
-	MyActionManager.initialize(self)
+func _on_end_screen_restart_requested() -> void:
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
+	SpawnUnitGroup(spawn_array)
+
+func _on_unit_died(unit: Unit):
+	if unit in PlayerUnits:
+		PlayerUnits.erase(unit)
+	elif unit in EnemyUnits:
+		EnemyUnits.erase(unit)
+	unit_removed.emit(unit)
+	unit_died.emit(unit)
+	unit.queue_free()
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################
 
 func _unhandled_input(event):
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
@@ -287,26 +350,6 @@ func _unhandled_input(event):
 								CurrentAction = null
 								ActionMenu.ShowMenu(ActiveUnit)
 								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-
-func _on_action_menu_action_selected(action: Action) -> void:
-	HideUI()
-	action._on_select(ActiveUnit, self)
-
-func _on_unit_died(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
-		EnemyUnits.erase(unit)
-	unit_removed.emit(unit)
-	unit_died.emit(unit)
-	unit.queue_free()
-
-func _on_end_screen_restart_requested() -> void:
-	get_tree().paused = false
-	get_tree().reload_current_scene()
-
-func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
-	SpawnUnitGroup(spawn_array)
 
 func _ready() -> void:
 	if GameData.selected_level == "":
