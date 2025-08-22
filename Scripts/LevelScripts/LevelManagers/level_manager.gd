@@ -6,13 +6,21 @@ signal victory
 @warning_ignore("unused_signal")
 signal defeat
 @warning_ignore("unused_signal")
-signal request_spawn_unit(spawn_info: SpawnInfo)
+signal request_spawn(spawn_array: Array[SpawnInfo])
 
 @export var LevelHighlightLayer: TileMapLayer
+@export var PlayerReinforcements: Array[SpawnInfo]
+@export var EnemyReinforcements: Array[SpawnInfo]
 var PlayerUnits: Array[Unit]
 var EnemyUnits: Array[Unit]
 
 func _on_level_set():
+	pass
+
+func _on_turn_started(_turn_number: int):
+	pass
+
+func _on_turn_ended(_turn_number: int):
 	pass
 
 func _on_unit_turn_ended(_unit: Unit, _unit_tile: Vector2i):
@@ -32,3 +40,16 @@ func _on_unit_removed(unit: Unit):
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
+
+func initialize(game_manager: GameManager):
+	victory.connect(game_manager.EndGame.bind(true))
+	defeat.connect(game_manager.EndGame.bind(false))
+	request_spawn.connect(game_manager._on_spawn_requested)
+	
+	game_manager.level_set.connect(_on_level_set)
+	game_manager.turn_started.connect(_on_turn_started)
+	game_manager.turn_ended.connect(_on_turn_ended)
+	game_manager.unit_turn_ended.connect(_on_unit_turn_ended)
+	game_manager.unit_died.connect(_on_unit_died)
+	game_manager.unit_spawned.connect(_on_unit_spawned)
+	game_manager.unit_removed.connect(_on_unit_removed)

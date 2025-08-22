@@ -1,9 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo14mrvga8syw"]
+[gd_scene load_steps=4 format=3 uid="uid://bo14mrvga8syw"]
 
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/PlayerSprite_1.png" id="1_2bn7p"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="1_anbff"]
-[ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/ClassData/PlayerClassData/knight_data.tres" id="2_h65uc"]
-[ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/AIData/knight_ai.tres" id="3_h65uc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h65uc"]
 animations = [{
@@ -17,8 +15,7 @@ animations = [{
 }]
 
 [node name="Unit" node_paths=PackedStringArray("Sprite", "HealthBar") instance=ExtResource("1_anbff")]
-Data = ExtResource("2_h65uc")
-AI = ExtResource("3_h65uc")
+Data = null
 Sprite = NodePath("AnimatedSprite2D")
 HealthBar = NodePath("HealthBar")
 Faction = 1
