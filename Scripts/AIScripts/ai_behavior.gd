@@ -104,6 +104,28 @@ func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 #                      2.3 TARGET SELECTION                  #
 ##############################################################
 
+func FilterTargetsByStat(targets: Array[Unit], stat_getter: Callable, highest: bool = false) -> Array[Unit]:
+	targets.sort_custom(
+		func(a, b):
+			var stat_a = stat_getter.call(a)
+			var stat_b = stat_getter.call(b)
+			if highest == true:
+				return stat_a > stat_b
+			return stat_a < stat_b
+	)
+	
+	var best_stat_value = stat_getter.call(targets[0])
+	var best_targets: Array[Unit] = []
+	
+	for target in targets:
+		if stat_getter.call(target) == best_stat_value:
+			best_targets.append(target)
+		else:
+			# Since the list is sorted, we can stop as soon as the value changes.
+			break
+	
+	return best_targets
+
 func TargetByStat(targets: Array[Unit], stat_getter: Callable, highest: bool = false, random: bool = false) -> Unit:
 	targets.sort_custom(
 		func(a, b):
@@ -146,7 +168,8 @@ func AttackTargeting(owner: Unit, manager: GameManager):
 		print("No target in attack range")
 		return null
 	else:
-		var target = TargetByStat(possible_targets, func(u:Unit): return u.CurrentHP)
+		var high_aggro_targets = FilterTargetsByStat(possible_targets, func(u: Unit): return u.Data.Aggro, true)
+		var target = TargetByStat(high_aggro_targets, func(u:Unit): return u.CurrentHP)
 		return target
 
 ##############################################################

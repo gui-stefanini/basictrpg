@@ -113,6 +113,7 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 
 func CopyState(target : Unit):
 	CurrentHP = target.CurrentHP
+	Data = target.Data.duplicate()
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
 
 func StartTurn():
@@ -141,6 +142,7 @@ func StartTurn():
 
 func _ready():
 	if Data:
+		Data = Data.duplicate()
 		CurrentHP = Data.MaxHP
 		for action in Data.Actions:
 			action.connect_listeners(self)
