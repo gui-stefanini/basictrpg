@@ -34,7 +34,7 @@ func _execute(user: Unit, manager: GameManager, _target = null) -> Variant:
 	StatusLogic.ApplyStatusLogic(user, Unit.Status.DEFENDING)
 	
 	if user in manager.PlayerUnits:
-		manager.OnPlayerActionFinished()
+		manager.EndPlayerTurn()
 	
 	user.HasActed = true
 	return null
