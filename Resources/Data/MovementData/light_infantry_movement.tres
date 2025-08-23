@@ -8,6 +8,6 @@ Name = "LightInfantry"
 TerrainCosts = {
 "Grass": 1,
 "Obstacle": -1,
-"Water": 1
+"Water": 2
 }
 metadata/_custom_type_script = "uid://cguqbducphruj"
