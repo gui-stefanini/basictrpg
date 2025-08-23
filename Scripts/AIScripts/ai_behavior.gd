@@ -100,6 +100,34 @@ func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 			possible_targets.append(target)
 	return possible_targets
 
+func GetReachableTargets(owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array:
+	var reachable_targets = []
+	var owner_tile = manager.GroundGrid.local_to_map(owner.global_position)
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, owner_tile, true)
+	
+	for target_unit in targets:
+		var target_tile = manager.GroundGrid.local_to_map(target_unit.global_position)
+		var tiles_in_attack_range = manager.MyActionManager.GetTilesInRange(target_tile, owner.Data.AttackRange)
+		
+		var best_destination = null
+		var lowest_cost = INF
+		
+		for attack_tile in tiles_in_attack_range:
+			if reachable_tiles.has(attack_tile):
+				var path_result = manager.MyMoveManager.FindPath(owner, owner_tile, attack_tile)
+				if not path_result.path.is_empty() and path_result.cost < lowest_cost:
+					lowest_cost = path_result.cost
+					best_destination = attack_tile
+		
+		if best_destination != null:
+			reachable_targets.append({
+				"target": target_unit,
+				"destination": best_destination,
+				"cost": lowest_cost
+			})
+			
+	return reachable_targets
+
 ##############################################################
 #                      2.3 TARGET SELECTION                  #
 ##############################################################
@@ -192,7 +220,10 @@ func AttackRoutine(owner: Unit, manager: GameManager):
 
 func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var valid_targets = GetValidTargets(owner, manager, targets)
-	
+	if valid_targets.is_empty():
+		print("%s has no valid path to any target." % owner.name)
+		return
+		
 	valid_targets.sort_custom(func(a, b): 
 		return a.cost < b.cost
 		)
@@ -288,6 +319,33 @@ func execute_healing_routine(owner: Unit, manager: GameManager):
 		return
 	await ActionMovementRoutine(owner, manager, manager.EnemyUnits)
 	await HealRoutine(owner, manager)
+
+func execute_complex_offensive_routine(owner: Unit, manager: GameManager):
+	var reachable_targets = GetReachableTargets(owner, manager, manager.PlayerUnits)
+	if reachable_targets.is_empty():
+		print("%s cannot reach any target to attack this turn, moving closer." % owner.name)
+		await ActionMovementRoutine(owner, manager, manager.PlayerUnits)
+	
+	else:
+		#Creates an array from the key "target" in each dictionary entry
+		var target_units: Array[Unit] = []
+		for target_data in reachable_targets:
+			target_units.append(target_data["target"])
+		var high_aggro_targets = FilterTargetsByStat(target_units, func(u: Unit): return u.Data.Aggro, true)
+		var final_target_unit = TargetByStat(high_aggro_targets, func(u: Unit): return u.CurrentHP)
+		
+		var final_target_data = null
+		for target_data in reachable_targets:
+			if target_data["target"] == final_target_unit:
+				final_target_data = target_data
+				break
+		
+		var destination = final_target_data["destination"]
+		var current_tile = manager.GroundGrid.local_to_map(owner.global_position)
+		print("%s chooses to attack %s" % [owner.name, final_target_unit.name])
+		if destination != current_tile:
+			await MoveCommand(owner, manager, destination)
+		await AttackCommand(owner, manager, final_target_unit)
 
 func execute_offensive_routine(owner: Unit, manager: GameManager):
 	await AttackRoutine(owner, manager)

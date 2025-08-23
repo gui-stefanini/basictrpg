@@ -169,13 +169,7 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 
 func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
 	var move_range = unit.Data.MoveRange
-	if not unit.Data.MovementType:
-		push_error(unit.name + " has no MovementData assigned.")
-		return []
 	var move_data_name = unit.Data.MovementType.Name
-	if not AStarInstances.has(move_data_name):
-		push_error("No AStar grid found for movement type: " + move_data_name)
-		return []
 	var astar = AStarInstances[move_data_name]
 	
 	var modified_tiles = SetUnitObstacles(unit, astar)

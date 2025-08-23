@@ -57,7 +57,7 @@ func execute_turn(owner: Unit, manager: GameManager):
 			return
 	
 	print(owner.name + " found no one to heal, and will attack instead.")
-	await execute_offensive_routine(owner, manager)
+	await execute_complex_offensive_routine(owner, manager)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

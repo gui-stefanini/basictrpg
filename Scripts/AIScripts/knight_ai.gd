@@ -24,7 +24,7 @@ func execute_turn(owner: Unit, manager: GameManager):
 		await DefendCommand(owner, manager)
 		return
 	
-	await execute_offensive_routine(owner, manager)
+	await execute_complex_offensive_routine(owner, manager)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

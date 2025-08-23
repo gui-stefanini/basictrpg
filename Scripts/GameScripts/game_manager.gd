@@ -198,8 +198,10 @@ func StartPlayerTurn():
 	turn_started.emit(TurnNumber)
 
 func OnPlayerActionFinished():
-	CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
-	ActionMenu.ShowMenu(ActiveUnit)
+	#CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
+	#ActionMenu.ShowMenu(ActiveUnit)
+	#Choose what to do about this function later
+	EndPlayerTurn()
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
