@@ -15,7 +15,6 @@ extends Resource
 #     SCRIPT-WIDE    #
 ######################
 #Ignoring default order for Inspector
-
 @export var Name: String = "none"
 @export var MaxHP: int = 1
 @export var AttackPower: int = 1
@@ -25,7 +24,7 @@ extends Resource
 @export var Aggro: int = 0
 @export var Actions: Array[Action]
 @export var MovementType: MovementData
-
+@export var ClassSpriteFrames: SpriteFrames
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################

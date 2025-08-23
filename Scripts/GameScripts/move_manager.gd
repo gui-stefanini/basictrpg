@@ -87,7 +87,7 @@ func vector_to_id(vector: Vector2i) -> int:
 
 func SetAStarGrids():
 	var all_movement_data: Array[MovementData] = []
-	var path = "res://Resources/MovementData/"
+	var path = "res://Resources/Data/MovementData/"
 	
 	var dir = DirAccess.open(path)
 	if dir:

@@ -16,7 +16,8 @@ signal unit_died(unit: Unit)
 @export var AI: AIBehavior
 @export var Sprite: AnimatedSprite2D
 @export var HealthBar: Control
-
+@export var PlayerFactionColor: Color = Color("4169E1") # Royal Blue
+@export var EnemyFactionColor: Color = Color("DC143C") # Crimson
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -110,7 +111,21 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 ##############################################################
 #                      2.3 SET STATE                         #
 ##############################################################
-
+func SetData():
+	Data = Data.duplicate()
+	
+	Sprite.sprite_frames = Data.ClassSpriteFrames
+	Sprite.material = Sprite.material.duplicate()
+	match Faction:
+		Factions.PLAYER:
+			Sprite.material.set_shader_parameter("new_color", PlayerFactionColor)
+		Factions.ENEMY:
+			Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
+	
+	CurrentHP = Data.MaxHP
+	for action in Data.Actions:
+		action.connect_listeners(self)
+	
 func CopyState(target : Unit):
 	CurrentHP = target.CurrentHP
 	Data = target.Data.duplicate()
@@ -141,9 +156,5 @@ func StartTurn():
 ##############################################################
 
 func _ready():
-	if Data:
-		Data = Data.duplicate()
-		CurrentHP = Data.MaxHP
-		for action in Data.Actions:
-			action.connect_listeners(self)
+	SetData()
 	UpdateHealth()

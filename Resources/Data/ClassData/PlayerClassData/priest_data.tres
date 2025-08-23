@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=9 format=3 uid="uid://ckbg3nxtt1cky"]
+
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_0ceik"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_6j2m6"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_jq3s7"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_arha4"]
+[ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/Data/ActionData/SpecialActionData/heal_action.tres" id="5_77cxc"]
+[ext_resource type="SpriteFrames" uid="uid://ev7ubtah51qy" path="res://Resources/SpriteFrames/priest_sprite_frame.tres" id="6_ntnv2"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="6_wknj1"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="7_nes0u"]
+
+[resource]
+script = ExtResource("7_nes0u")
+Name = "Priest"
+MaxHP = 6
+AttackPower = 1
+HealPower = 2
+MoveRange = 3
+AttackRange = 2
+Aggro = 1
+Actions = Array[ExtResource("1_0ceik")]([ExtResource("2_6j2m6"), ExtResource("3_jq3s7"), ExtResource("4_arha4"), ExtResource("5_77cxc")])
+MovementType = ExtResource("6_wknj1")
+ClassSpriteFrames = ExtResource("6_ntnv2")
+metadata/_custom_type_script = "uid://dajw61vh5kchp"

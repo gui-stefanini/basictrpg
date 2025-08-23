@@ -1,9 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://dw3oapme00484"]
+[gd_scene load_steps=8 format=3 uid="uid://dw3oapme00484"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_c86kq"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="2_8omp6"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_lpvrq"]
-[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/PlayerSprite_1.png" id="3_kd50l"]
+[ext_resource type="Shader" uid="uid://dm5yssfkeqjqc" path="res://Resources/Shaders/player_shader.gdshader" id="3_fqcdl"]
+[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/DefaultSprite.png" id="3_kd50l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_inn8i"]
+shader = ExtResource("3_fqcdl")
+shader_parameter/color_to_replace = Color(0, 0, 0, 1)
+shader_parameter/new_color = Color(1, 1, 1, 1)
+shader_parameter/tolerance = 0.01
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fqcdl"]
 animations = [{
@@ -24,6 +31,7 @@ Sprite = NodePath("AnimatedSprite2D")
 HealthBar = NodePath("HealthBar")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_inn8i")
 sprite_frames = SubResource("SpriteFrames_fqcdl")
 
 [node name="HealthBar" parent="." instance=ExtResource("2_8omp6")]
