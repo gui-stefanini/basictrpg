@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://d3b0txpqhqh3v"]
 
-[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/DefaultSprite.png" id="1_0exwy"]
+[ext_resource type="Texture2D" uid="uid://dtekobuoxrgaj" path="res://Assets/Art/Sprites/KnightSprite_1.png" id="1_0exwy"]
 
 [resource]
 animations = [{

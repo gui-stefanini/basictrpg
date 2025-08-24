@@ -17,6 +17,7 @@ extends Resource
 #Ignoring default order for Inspector
 @export var Name: String = "none"
 
+#Stats
 @export var MaxHP: int = 1
 @export var AttackPower: int = 1
 @export var HealPower: int = 0
