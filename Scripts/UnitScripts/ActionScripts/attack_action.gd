@@ -39,7 +39,7 @@ func _execute(user: Unit, manager: GameManager, target = null, simulation : bool
 	
 	var damage = user.AttackPower
 	
-	if not simulation == false:
+	if not simulation == true:
 		var combat_scene = manager.CombatScreenScene.instantiate()
 		manager.add_child(combat_scene)
 		combat_scene.StartCombat(user, target, damage)

@@ -91,12 +91,12 @@ func HighlightHealArea(unit: Unit, action_range: int):
 #                      2.3 EXECUTION                         #
 ##############################################################
 func ExecuteAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, GameManagerRef, target)
+	await action._execute(unit, GameManagerRef, target)
 	GameManagerRef.CurrentAction = null
 	GameManagerRef.TargetedUnit = null
 
 func SimulateAction(action: Action, unit: Unit, target = null):
-	action._execute(unit, GameManagerRef, target, true)
+	await action._execute(unit, GameManagerRef, target, true)
 
 func ForecastAction(action: Action, unit: Unit, target: Unit):
 	var simulated_unit = unit.duplicate() as Unit

@@ -23,4 +23,5 @@ Abilities = Array[ExtResource("1_qkkkx")]([])
 Actions = Array[ExtResource("1_tfski")]([ExtResource("2_tfski"), ExtResource("3_jb8kx"), ExtResource("5_6q03k"), ExtResource("4_pr0li")])
 MovementType = ExtResource("6_tfski")
 ClassSpriteFrames = ExtResource("6_87ef6")
+AttackHitFrame = 6
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

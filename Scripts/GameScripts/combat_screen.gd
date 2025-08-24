@@ -39,7 +39,12 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	AttackerDuplicate.animation_hit.connect(_on_attacker_hit)
 	
 	add_child(AttackerDuplicate)
+	AttackerDuplicate.CopyState(Attacker)
+	AttackerDuplicate.UpdateHealth()
+	
 	add_child(DefenderDuplicate)
+	DefenderDuplicate.CopyState(Defender)
+	DefenderDuplicate.UpdateHealth()
 	
 	if Attacker.Faction == Unit.Factions.ENEMY:
 		AttackerDuplicate.global_position = EnemyPlaceholder.global_position

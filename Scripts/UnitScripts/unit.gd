@@ -200,8 +200,6 @@ func SetData():
 		Factions.ENEMY:
 			Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
 	
-	CurrentHP = MaxHP
-	
 	for ability in Data.Abilities:
 		ability.connect_listeners(self)
 		ability.apply_ability(self)
@@ -249,4 +247,5 @@ func _ready():
 	if IsPlaceholder: 
 		return
 	SetData()
+	CurrentHP = MaxHP
 	UpdateHealth()
