@@ -30,7 +30,7 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
 	manager.MyActionManager.HighlightHealArea(user, user.AttackRange)
 
-func _execute(user: Unit, _manager: GameManager, target = null) -> Variant:
+func _execute(user: Unit, _manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return null

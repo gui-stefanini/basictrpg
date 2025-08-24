@@ -30,7 +30,7 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
 	manager.MyActionManager.HighlightAttackArea(user, user.AttackRange)
 
-func _execute(user: Unit, manager: GameManager, target = null) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return null
@@ -39,10 +39,11 @@ func _execute(user: Unit, manager: GameManager, target = null) -> Variant:
 	
 	var damage = user.AttackPower
 	
-	var combat_scene = manager.CombatScreenScene.instantiate()
-	manager.add_child(combat_scene)
-	combat_scene.StartCombat(user, target, damage)
-	await combat_scene.combat_finished
+	if not simulation == false:
+		var combat_scene = manager.CombatScreenScene.instantiate()
+		manager.add_child(combat_scene)
+		combat_scene.StartCombat(user, target, damage)
+		await combat_scene.combat_finished
 	
 	print("Combat finished, apllying damage")
 	target.TakeDamage(damage)

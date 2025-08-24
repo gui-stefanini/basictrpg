@@ -31,10 +31,12 @@ texture = ExtResource("2_g8dt8")
 [node name="PlayerPlaceholder" parent="." instance=ExtResource("3_g265u")]
 visible = false
 position = Vector2(73, 105)
+IsPlaceholder = true
 
 [node name="EnemyPlaceholder" parent="." instance=ExtResource("3_g265u")]
 visible = false
 position = Vector2(247, 105)
+IsPlaceholder = true
 
 [node name="AnimatedSprite2D" parent="EnemyPlaceholder" index="0"]
 flip_h = true

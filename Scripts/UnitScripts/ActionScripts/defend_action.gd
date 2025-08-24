@@ -27,7 +27,7 @@ func connect_listeners(_owner: Unit):
 func _on_select(user: Unit, manager: GameManager):
 	_execute(user, manager)
 
-func _execute(user: Unit, manager: GameManager, _target = null) -> Variant:
+func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
 	print(user.name + " is defending!")
 	
 	user.AddStatus(Unit.Status.DEFENDING, 1)

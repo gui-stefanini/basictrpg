@@ -36,6 +36,7 @@ var HasActed: bool = false
 var IsDead: bool = false
 var ActiveStatuses: Dictionary = {}
 var AbilityStates: Dictionary = {}
+@export var IsPlaceholder: bool = false
 ######################
 #       STATS        #
 ######################
@@ -176,9 +177,10 @@ func SetAnimations():
 			var function_track_index = new_animation.add_track(Animation.TYPE_METHOD)
 			new_animation.track_set_path(function_track_index, ".")
 			var hit_time = Data.AttackHitFrame * time_step
+			#Keys needs to be called "method" and "args" to work
 			var function_key = {
-				"function": &"_on_animation_hit",
-				"arguments": []
+				"method": &"_on_animation_hit", 
+				"args": []
 			}
 			new_animation.track_insert_key(function_track_index, hit_time, function_key)
 		
@@ -244,5 +246,7 @@ func _on_animation_hit():
 ##############################################################
 
 func _ready():
+	if IsPlaceholder: 
+		return
 	SetData()
 	UpdateHealth()

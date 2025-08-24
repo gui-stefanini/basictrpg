@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dw3oapme00484"]
+[gd_scene load_steps=10 format=3 uid="uid://dw3oapme00484"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_c86kq"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="2_8omp6"]
@@ -23,6 +23,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_fqcdl"]
+resource_name = "Placeholder"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_inn8i"]
+_data = {
+&"Placeholder": SubResource("Animation_fqcdl")
+}
+
 [node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("Sprite", "MyAnimationPlayer", "HealthBar")]
 z_index = 5
 script = ExtResource("1_c86kq")
@@ -42,3 +50,6 @@ offset_right = 7.0
 offset_bottom = -8.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_inn8i")
+}
