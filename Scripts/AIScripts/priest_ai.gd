@@ -44,6 +44,9 @@ func execute_turn(owner: Unit, manager: GameManager):
 		return
 	
 	print(owner.name + " found no one to heal, and will attack instead.")
+	if owner.HasMoved == true:
+		await execute_offensive_routine(owner, manager)
+		return
 	
 	await execute_move_offensive_routine(owner, manager)
 

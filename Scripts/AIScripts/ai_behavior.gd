@@ -376,7 +376,6 @@ func execute_move_healing_routine(owner: Unit, manager: GameManager):
 				damaged_allies.append(ally)
 		
 		if not damaged_allies.is_empty():
-			print("First damaged ally is %s" % [damaged_allies[0].Data.Name])
 			await ActionMovementRoutine(owner, manager, manager.EnemyUnits)
 			return
 
