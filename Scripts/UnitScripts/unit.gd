@@ -34,13 +34,33 @@ var AbilityStates: Dictionary = {}
 ######################
 #       STATS        #
 ######################
+var MaxHP: int:
+	get: return Data.BaseMaxHP + MaxHPModifier
+var MaxHPModifier: int = 0
+
 var CurrentHP: int = 1
 var HPPercent: float:
-	get: return float(CurrentHP)/Data.MaxHP
+	get: return float(CurrentHP)/Data.BaseMaxHP
 
-var AggroModifier: int = 0
+var AttackPower: int:
+	get: return Data.BaseAttackPower + AttackPowerModifier
+var AttackPowerModifier: int = 0
+
+var HealPower: int:
+	get: return Data.BaseHealPower + HealPowerModifier
+var HealPowerModifier: int = 0
+
+var MoveRange: int:
+	get: return Data.BaseMoveRange + MoveRangeModifier
+var MoveRangeModifier: int = 0
+
+var AttackRange: int:
+	get: return Data.BaseAttackRange + AttackRangeModifier
+var AttackRangeModifier: int = 0
+
 var Aggro: int:
-	get: return Data.Aggro + AggroModifier
+	get: return Data.BaseAggro + AggroModifier
+var AggroModifier: int = 0
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -59,7 +79,7 @@ func FlashDamageEffect():
 	tween.tween_property(Sprite, "modulate", original_color, 0.2)
 
 func UpdateHealth():
-	HealthBar.update_health(CurrentHP, Data.MaxHP)
+	HealthBar.update_health(CurrentHP, MaxHP)
 
 func TakeDamage(damage_amount: int):
 	var damage_data = {"damage": damage_amount}
@@ -81,7 +101,7 @@ func TakeDamage(damage_amount: int):
 
 func ReceiveHealing(heal_amount: int):
 	CurrentHP += heal_amount
-	CurrentHP = min(CurrentHP, Data.MaxHP)
+	CurrentHP = min(CurrentHP, MaxHP)
 	
 	print(name + " is healed for " + str(heal_amount) + " HP! Now at " + str(CurrentHP) + " HP.")
 	
@@ -131,7 +151,7 @@ func SetData():
 		Factions.ENEMY:
 			Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
 	
-	CurrentHP = Data.MaxHP
+	CurrentHP = MaxHP
 	
 	for ability in Data.Abilities:
 		ability.connect_listeners(self)

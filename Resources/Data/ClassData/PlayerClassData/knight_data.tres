@@ -13,12 +13,12 @@
 [resource]
 script = ExtResource("6_1tn8b")
 Name = "Knight"
-MaxHP = 8
-AttackPower = 2
-HealPower = 0
-MoveRange = 3
-AttackRange = 1
-Aggro = 0
+BaseMaxHP = 8
+BaseAttackPower = 2
+BaseHealPower = 0
+BaseMoveRange = 3
+BaseAttackRange = 1
+BaseAggro = 0
 Abilities = Array[ExtResource("1_qkkkx")]([])
 Actions = Array[ExtResource("1_tfski")]([ExtResource("2_tfski"), ExtResource("3_jb8kx"), ExtResource("5_6q03k"), ExtResource("4_pr0li")])
 MovementType = ExtResource("6_tfski")

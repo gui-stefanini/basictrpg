@@ -1,5 +1,5 @@
-class_name AttackAction
-extends Action
+class_name BanditAI
+extends AIBehavior
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -13,35 +13,18 @@ extends Action
 ######################
 #     SCRIPT-WIDE    #
 ######################
-
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func connect_listeners(_owner: Unit):
-	pass
+func execute_turn(owner: Unit, manager: GameManager):
+	print(owner.name + " is thinking like a Bandit...")
+	
+	await execute_move_offensive_routine(owner, manager)
 
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-
-func _on_select(user: Unit, manager: GameManager):
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
-	manager.MyActionManager.HighlightAttackArea(user, user.AttackRange)
-
-func _execute(user: Unit, _manager: GameManager, target = null) -> Variant:
-	if target is not Unit:
-		print(str(self) + "has an invalid target type")
-		return
-	
-	print(user.name + " attacks " + target.name + "!")
-	
-	var damage = user.AttackPower
-	target.TakeDamage(damage)
-	
-	user.HasActed = true
-	return null
 
 ##############################################################
 #                      4.0 Godot Functions                   #

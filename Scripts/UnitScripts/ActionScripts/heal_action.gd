@@ -28,14 +28,14 @@ func connect_listeners(_owner: Unit):
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
-	manager.MyActionManager.HighlightHealArea(user, user.Data.AttackRange)
+	manager.MyActionManager.HighlightHealArea(user, user.AttackRange)
 
 func _execute(user: Unit, _manager: GameManager, target = null) -> Variant:
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return null
 	
-	target.ReceiveHealing(user.Data.HealPower)
+	target.ReceiveHealing(user.HealPower)
 	user.HasActed = true
 	return null
 

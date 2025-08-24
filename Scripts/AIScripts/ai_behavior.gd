@@ -59,7 +59,7 @@ func GetValidActionTiles(unit: Unit, manager: GameManager, target: Unit) -> Arra
 	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
 	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.Data.AttackRange)
+	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.AttackRange)
 	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(unit)
 
 	for tile in tiles_in_range:
@@ -96,7 +96,7 @@ func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var possible_targets : Array[Unit] = []
 	for target in targets:
 		var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-		if manager.MyActionManager.AreTilesInRange(owner.Data.AttackRange, unit_tile, target_tile):
+		if manager.MyActionManager.AreTilesInRange(owner.AttackRange, unit_tile, target_tile):
 			possible_targets.append(target)
 	return possible_targets
 
@@ -188,7 +188,7 @@ func AttackTargeting(owner: Unit, manager: GameManager):
 		print("No target in attack range")
 		return null
 	else:
-		var high_aggro_targets = FilterTargetsByStat(possible_targets, func(u: Unit): return u.Data.Aggro, true)
+		var high_aggro_targets = FilterTargetsByStat(possible_targets, func(u: Unit): return u.Aggro, true)
 		var target = TargetByStat(high_aggro_targets, func(u:Unit): return u.CurrentHP)
 		return target
 
@@ -285,7 +285,7 @@ func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var damaged_allies: Array[Unit] = []
 	for ally in manager.EnemyUnits:
-		if ally != owner and ally.CurrentHP < ally.Data.MaxHP:
+		if ally != owner and ally.CurrentHP < ally.MaxHP:
 			damaged_allies.append(ally)
 	if damaged_allies.is_empty():
 		return {}
@@ -372,10 +372,11 @@ func execute_move_healing_routine(owner: Unit, manager: GameManager):
 		
 		for ally in allies:
 			var unit = ally["target"]
-			if unit != owner and unit.CurrentHP < unit.Data.MaxHP:
+			if unit != owner and unit.CurrentHP < unit.MaxHP:
 				damaged_allies.append(ally)
 		
 		if not damaged_allies.is_empty():
+			print("First damaged ally is %s" % [damaged_allies[0].Data.Name])
 			await ActionMovementRoutine(owner, manager, manager.EnemyUnits)
 			return
 

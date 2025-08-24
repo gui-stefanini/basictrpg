@@ -168,7 +168,7 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 ##############################################################
 
 func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
-	var move_range = unit.Data.MoveRange
+	var move_range = unit.MoveRange
 	var move_data_name = unit.Data.MovementType.Name
 	var astar = AStarInstances[move_data_name]
 	

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BanditAI" load_steps=2 format=3 uid="uid://dhluwymglp7yn"]
+
+[ext_resource type="Script" uid="uid://tl5ms8uud14a" path="res://Scripts/AIScripts/bandit_ai.gd" id="1_10xta"]
+
+[resource]
+script = ExtResource("1_10xta")
+metadata/_custom_type_script = "uid://tl5ms8uud14a"

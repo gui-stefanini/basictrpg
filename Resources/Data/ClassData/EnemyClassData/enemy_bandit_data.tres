@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=8 format=3 uid="uid://cvadj7vvigrpa"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=9 format=3 uid="uid://cvadj7vvigrpa"]
 
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_ivh5c"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_r6ahf"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="2_c1qfw"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_ku7i3"]
@@ -11,12 +12,13 @@
 [resource]
 script = ExtResource("2_mlkdv")
 Name = "Bandit"
-MaxHP = 5
-AttackPower = 1
-HealPower = 0
-MoveRange = 3
-AttackRange = 1
-Aggro = 0
+BaseMaxHP = 4
+BaseAttackPower = 2
+BaseHealPower = 0
+BaseMoveRange = 3
+BaseAttackRange = 1
+BaseAggro = 0
+Abilities = Array[ExtResource("1_ivh5c")]([])
 Actions = Array[ExtResource("1_r6ahf")]([ExtResource("2_ku7i3"), ExtResource("3_5ednp"), ExtResource("4_hqf16")])
 MovementType = ExtResource("2_c1qfw")
 ClassSpriteFrames = ExtResource("5_bh82t")

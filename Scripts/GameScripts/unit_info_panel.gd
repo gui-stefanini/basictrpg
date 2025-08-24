@@ -28,10 +28,10 @@ func UpdatePanel(unit: Unit):
 		return
 	
 	NameLabel.text = unit.name
-	HPLabel.text = "HP: " + str(unit.CurrentHP) + " / " + str(unit.Data.MaxHP)
-	AttackLabel.text = "ATK: " + str(unit.Data.AttackPower)
-	MoveLabel.text = "MOV: " + str(unit.Data.MoveRange)
-	AttackRangeLabel.text = "RNG: " + str(unit.Data.AttackRange)
+	HPLabel.text = "HP: " + str(unit.CurrentHP) + " / " + str(unit.MaxHP)
+	AttackLabel.text = "ATK: " + str(unit.AttackPower)
+	MoveLabel.text = "MOV: " + str(unit.MoveRange)
+	AttackRangeLabel.text = "RNG: " + str(unit.AttackRange)
 	UiFunctions.ClampUI(self)
 	show()
 

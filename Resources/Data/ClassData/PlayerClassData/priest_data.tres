@@ -14,12 +14,12 @@
 [resource]
 script = ExtResource("7_nes0u")
 Name = "Priest"
-MaxHP = 6
-AttackPower = 1
-HealPower = 2
-MoveRange = 3
-AttackRange = 2
-Aggro = 0
+BaseMaxHP = 6
+BaseAttackPower = 1
+BaseHealPower = 2
+BaseMoveRange = 3
+BaseAttackRange = 2
+BaseAggro = 0
 Abilities = Array[ExtResource("1_ktkr7")]([ExtResource("2_ghemg")])
 Actions = Array[ExtResource("1_0ceik")]([ExtResource("2_6j2m6"), ExtResource("3_jq3s7"), ExtResource("4_arha4"), ExtResource("5_77cxc")])
 MovementType = ExtResource("6_wknj1")

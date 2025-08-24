@@ -14,12 +14,12 @@
 [resource]
 script = ExtResource("2_uolvr")
 Name = "Assassin"
-MaxHP = 5
-AttackPower = 3
-HealPower = 0
-MoveRange = 4
-AttackRange = 1
-Aggro = 0
+BaseMaxHP = 5
+BaseAttackPower = 3
+BaseHealPower = 0
+BaseMoveRange = 4
+BaseAttackRange = 1
+BaseAggro = 0
 Abilities = Array[ExtResource("1_frp0e")]([ExtResource("2_peky0"), ExtResource("3_ix5yj")])
 Actions = Array[ExtResource("1_fjgcb")]([ExtResource("2_qn55b"), ExtResource("3_u803q"), ExtResource("4_jjsmb")])
 MovementType = ExtResource("5_x1a18")

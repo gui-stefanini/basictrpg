@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=9 format=3 uid="uid://lvqpypsim1b"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=10 format=3 uid="uid://lvqpypsim1b"]
 
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="1_8wci8"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_caol2"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_eu6eu"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="2_caol2"]
 [ext_resource type="Resource" uid="uid://q18pkc5oigo7" path="res://Resources/Data/ActionData/SpecialActionData/defend_action.tres" id="3_2qm68"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_cr0fe"]
@@ -12,12 +13,13 @@
 [resource]
 script = ExtResource("5_8lb5j")
 Name = "Knight"
-MaxHP = 8
-AttackPower = 2
-HealPower = 0
-MoveRange = 3
-AttackRange = 1
-Aggro = 0
+BaseMaxHP = 6
+BaseAttackPower = 2
+BaseHealPower = 0
+BaseMoveRange = 3
+BaseAttackRange = 1
+BaseAggro = 0
+Abilities = Array[ExtResource("1_eu6eu")]([])
 Actions = Array[ExtResource("1_caol2")]([ExtResource("1_8wci8"), ExtResource("2_caol2"), ExtResource("3_2qm68"), ExtResource("4_cr0fe")])
 MovementType = ExtResource("6_2qm68")
 ClassSpriteFrames = ExtResource("6_mfrl0")

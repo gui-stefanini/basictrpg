@@ -83,10 +83,10 @@ func UpdateMenuInfoPanel(data: UnitData):
 		return
 		
 	NameLabel.text = data.Name
-	HPLabel.text = "HP: %d" % [data.MaxHP]
-	AttackLabel.text = "ATK: " + str(data.AttackPower)
-	MoveLabel.text = "MOV: " + str(data.MoveRange)
-	AttackRangeLabel.text = "RNG: " + str(data.AttackRange)
+	HPLabel.text = "HP: %d" % [data.BaseMaxHP]
+	AttackLabel.text = "ATK: " + str(data.BaseAttackPower)
+	MoveLabel.text = "MOV: " + str(data.BaseMoveRange)
+	AttackRangeLabel.text = "RNG: " + str(data.BaseAttackRange)
 	
 	var actions_text = "Actions:"
 	for action in data.Actions:

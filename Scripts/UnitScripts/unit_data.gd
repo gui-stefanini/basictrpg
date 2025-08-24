@@ -18,12 +18,12 @@ extends Resource
 @export var Name: String = "none"
 
 #Stats
-@export var MaxHP: int = 1
-@export var AttackPower: int = 1
-@export var HealPower: int = 0
-@export var MoveRange: int = 1
-@export var AttackRange: int = 1
-@export var Aggro: int = 0
+@export var BaseMaxHP: int = 1
+@export var BaseAttackPower: int = 1
+@export var BaseHealPower: int = 0
+@export var BaseMoveRange: int = 1
+@export var BaseAttackRange: int = 1
+@export var BaseAggro: int = 0
 
 @export var Abilities: Array[Ability]
 @export var Actions: Array[Action]
