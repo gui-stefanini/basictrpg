@@ -25,10 +25,15 @@ extends Resource
 @export var BaseAttackRange: int = 1
 @export var BaseAggro: int = 0
 
+#Info
 @export var Abilities: Array[Ability]
 @export var Actions: Array[Action]
 @export var MovementType: MovementData
+
+#Animation
 @export var ClassSpriteFrames: SpriteFrames
+@export var AttackHitFrame: int = 0
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################

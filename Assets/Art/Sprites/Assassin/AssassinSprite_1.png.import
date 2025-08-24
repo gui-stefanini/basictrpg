@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csiiwnw35tsyd"
-path="res://.godot/imported/PriestSprite_1.png-5158c8bc479bca386babcab0ef9bc8fb.ctex"
+uid="uid://pje28sybth6s"
+path="res://.godot/imported/AssassinSprite_1.png-8a25acfa3413e460e2b29c8968094489.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Sprites/PriestSprite_1.png"
-dest_files=["res://.godot/imported/PriestSprite_1.png-5158c8bc479bca386babcab0ef9bc8fb.ctex"]
+source_file="res://Assets/Art/Sprites/Assassin/AssassinSprite_1.png"
+dest_files=["res://.godot/imported/AssassinSprite_1.png-8a25acfa3413e460e2b29c8968094489.ctex"]
 
 [params]
 

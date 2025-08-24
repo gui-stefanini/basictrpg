@@ -18,6 +18,7 @@ signal unit_removed(unit: Unit)
 #     REFERENCES     #
 ######################
 @export var UnitScene: PackedScene
+@export var CombatScreenScene: PackedScene
 
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer

@@ -3,9 +3,13 @@ extends CharacterBody2D
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
+
+signal turn_started(unit: Unit)
+
+signal animation_hit
+
 signal damage_taken(unit: Unit, damage_data: Dictionary)
 signal unit_died(unit: Unit)
-signal turn_started(unit: Unit)
 
 ##############################################################
 #                      1.0 Variables                         #
@@ -16,6 +20,7 @@ signal turn_started(unit: Unit)
 @export var Data: UnitData
 @export var AI: AIBehavior
 @export var Sprite: AnimatedSprite2D
+@export var MyAnimationPlayer: AnimationPlayer
 @export var HealthBar: Control
 @export var PlayerFactionColor: Color = Color("4169E1") # Royal Blue
 @export var EnemyFactionColor: Color = Color("DC143C") # Crimson
@@ -140,11 +145,53 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 ##############################################################
 #                      2.3 SET STATE                         #
 ##############################################################
+func SetAnimations():
+	var animation_library = MyAnimationPlayer.get_animation_library("") # Get default library
+	
+	# Clear any animations that might have been there before
+	for animation_name in animation_library.get_animation_list():
+		animation_library.remove_animation(animation_name)
+
+	# Create new animations from the SpriteFrames resource
+	for animation_name in Sprite.sprite_frames.get_animation_names():
+		var new_animation = Animation.new()
+		var frame_count = Sprite.sprite_frames.get_frame_count(animation_name)
+		var animation_fps = Sprite.sprite_frames.get_animation_speed(animation_name)
+		var time_step = 1.0 / animation_fps
+		
+		# Track which animation from SpriteFrames to use
+		var animation_track_index = new_animation.add_track(Animation.TYPE_VALUE)
+		new_animation.track_set_path(animation_track_index, "AnimatedSprite2D:animation")
+		new_animation.track_insert_key(animation_track_index, 0, animation_name)
+		
+		# Track the frame of the animation
+		var frame_track_index = new_animation.add_track(Animation.TYPE_VALUE)
+		new_animation.track_set_path(frame_track_index, "AnimatedSprite2D:frame")
+		
+		for i in range(frame_count):
+			new_animation.track_insert_key(frame_track_index, i * time_step, i)
+		
+		# Need to create the function track separately, as the other handle visuals
+		if animation_name == "attack":
+			var function_track_index = new_animation.add_track(Animation.TYPE_METHOD)
+			new_animation.track_set_path(function_track_index, ".")
+			var hit_time = Data.AttackHitFrame * time_step
+			var function_key = {
+				"function": &"_on_animation_hit",
+				"arguments": []
+			}
+			new_animation.track_insert_key(function_track_index, hit_time, function_key)
+		
+		new_animation.length = frame_count * time_step
+		animation_library.add_animation(animation_name, new_animation)
+
 func SetData():
 	Data = Data.duplicate()
 	
 	Sprite.sprite_frames = Data.ClassSpriteFrames
 	Sprite.material = Sprite.material.duplicate()
+	SetAnimations()
+	
 	match Faction:
 		Factions.PLAYER:
 			Sprite.material.set_shader_parameter("new_color", PlayerFactionColor)
@@ -187,6 +234,10 @@ func StartTurn():
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
+
+#Linked manually on SetAnimations()
+func _on_animation_hit():
+	animation_hit.emit()
 
 ##############################################################
 #                      4.0 Godot Functions                   #

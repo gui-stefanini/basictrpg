@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bnkmwwhdqrifp"]
 
-[ext_resource type="Texture2D" uid="uid://8dgqpevb1d6h" path="res://Assets/Art/Sprites/BanditSprite_1.png" id="1_dio7f"]
+[ext_resource type="Texture2D" uid="uid://8dgqpevb1d6h" path="res://Assets/Art/Sprites/Bandit/BanditSprite_1.png" id="1_dio7f"]
 
 [resource]
 animations = [{

@@ -9,7 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_inn8i"]
 shader = ExtResource("3_fqcdl")
 shader_parameter/color_to_replace = Color(0, 0, 0, 1)
-shader_parameter/new_color = Color(1, 1, 1, 1)
+shader_parameter/new_color = Color(0.6, 0.2, 0.4, 1)
 shader_parameter/tolerance = 0.01
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fqcdl"]
@@ -23,11 +23,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("Sprite", "HealthBar")]
+[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("Sprite", "MyAnimationPlayer", "HealthBar")]
 z_index = 5
 script = ExtResource("1_c86kq")
 Data = ExtResource("2_lpvrq")
 Sprite = NodePath("AnimatedSprite2D")
+MyAnimationPlayer = NodePath("AnimationPlayer")
 HealthBar = NodePath("HealthBar")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -39,3 +40,5 @@ offset_left = -7.0
 offset_top = -10.0
 offset_right = 7.0
 offset_bottom = -8.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

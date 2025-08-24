@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8dgqpevb1d6h"
-path="res://.godot/imported/BanditSprite_1.png-0e84a9f495b054487aefdc0253776840.ctex"
+uid="uid://dtekobuoxrgaj"
+path="res://.godot/imported/KnightSprite_1.png-7f58b16673a7978c5d959187db59cade.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Sprites/BanditSprite_1.png"
-dest_files=["res://.godot/imported/BanditSprite_1.png-0e84a9f495b054487aefdc0253776840.ctex"]
+source_file="res://Assets/Art/Sprites/Knight/KnightSprite_1.png"
+dest_files=["res://.godot/imported/KnightSprite_1.png-7f58b16673a7978c5d959187db59cade.ctex"]
 
 [params]
 
