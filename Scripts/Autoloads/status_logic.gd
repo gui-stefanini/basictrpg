@@ -57,6 +57,12 @@ func _defend_dmgtaken(unit: Unit, damage_data: Dictionary):
 		print("Defense applied! Damage halved.")
 		damage_data["damage"] = round(damage_data["damage"] / 2.0)
 
+######################
+#        PASS        #
+######################
+func ApplyPASSLogic(_unit: Unit, _remove: bool = false):
+	pass
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

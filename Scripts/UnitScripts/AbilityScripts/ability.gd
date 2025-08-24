@@ -1,4 +1,4 @@
-class_name UnitData
+class_name Ability
 extends Resource
 
 ##############################################################
@@ -14,23 +14,19 @@ extends Resource
 ######################
 #     SCRIPT-WIDE    #
 ######################
-#Ignoring default order for Inspector
-@export var Name: String = "none"
 
-@export var MaxHP: int = 1
-@export var AttackPower: int = 1
-@export var HealPower: int = 0
-@export var MoveRange: int = 1
-@export var AttackRange: int = 1
-@export var Aggro: int = 0
+@export var Name: String = "Ability"
+@export_multiline var Description: String = ""
 
-@export var Abilities: Array[Ability]
-@export var Actions: Array[Action]
-@export var MovementType: MovementData
-@export var ClassSpriteFrames: SpriteFrames
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func connect_listeners(_owner: Unit):
+	pass
+
+func apply_ability(_owner: Unit):
+	pass
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -143,11 +143,12 @@ func FilterTargetsByStat(targets: Array[Unit], stat_getter: Callable, highest: b
 				return stat_a > stat_b
 			return stat_a < stat_b
 	)
-	
 	var best_stat_value = stat_getter.call(targets[0])
 	var best_targets: Array[Unit] = []
 	
 	for target in targets:
+		print("Filter checking " + str(target.Data.Name))
+		print(str(stat_getter.call(target)))
 		if stat_getter.call(target) == best_stat_value:
 			best_targets.append(target)
 		else:
@@ -264,7 +265,7 @@ func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var target_units: Array[Unit] = []
 	for target_data in reachable_player_units:
 		target_units.append(target_data["target"])
-	var high_aggro_targets = FilterTargetsByStat(target_units, func(u: Unit): return u.Data.Aggro, true)
+	var high_aggro_targets = FilterTargetsByStat(target_units, func(u: Unit): return u.Aggro, true)
 	var final_target = TargetByStat(high_aggro_targets, func(u: Unit): return u.CurrentHP)
 	
 	var final_target_data = null

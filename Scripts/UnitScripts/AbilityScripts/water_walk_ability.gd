@@ -1,5 +1,5 @@
-class_name UnitData
-extends Resource
+class_name WaterWalkAbility
+extends Ability
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -11,26 +11,19 @@ extends Resource
 ######################
 #     REFERENCES     #
 ######################
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
-#Ignoring default order for Inspector
-@export var Name: String = "none"
 
-@export var MaxHP: int = 1
-@export var AttackPower: int = 1
-@export var HealPower: int = 0
-@export var MoveRange: int = 1
-@export var AttackRange: int = 1
-@export var Aggro: int = 0
+@export var NewMovementType: MovementData
 
-@export var Abilities: Array[Ability]
-@export var Actions: Array[Action]
-@export var MovementType: MovementData
-@export var ClassSpriteFrames: SpriteFrames
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func apply_ability(owner: Unit):
+	owner.Data.MovementType = NewMovementType
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -5,6 +5,7 @@ extends CharacterBody2D
 ##############################################################
 signal damage_taken(unit: Unit, damage_data: Dictionary)
 signal unit_died(unit: Unit)
+signal turn_started(unit: Unit)
 
 ##############################################################
 #                      1.0 Variables                         #
@@ -25,12 +26,21 @@ enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
 enum Status {PASS, DEFENDING, POISONED, HASTED}
 enum StatusInfo {DURATION, VALUE}
-var CurrentHP: int = 1
-var HPPercent: float = 1
 var HasMoved: bool = false
 var HasActed: bool = false
 var IsDead: bool = false
 var ActiveStatuses: Dictionary = {}
+var AbilityStates: Dictionary = {}
+######################
+#       STATS        #
+######################
+var CurrentHP: int = 1
+var HPPercent: float:
+	get: return float(CurrentHP)/Data.MaxHP
+
+var AggroModifier: int = 0
+var Aggro: int:
+	get: return Data.Aggro + AggroModifier
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -49,7 +59,6 @@ func FlashDamageEffect():
 	tween.tween_property(Sprite, "modulate", original_color, 0.2)
 
 func UpdateHealth():
-	HPPercent = float(CurrentHP)/Data.MaxHP
 	HealthBar.update_health(CurrentHP, Data.MaxHP)
 
 func TakeDamage(damage_amount: int):
@@ -123,15 +132,23 @@ func SetData():
 			Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
 	
 	CurrentHP = Data.MaxHP
+	
+	for ability in Data.Abilities:
+		ability.connect_listeners(self)
+		ability.apply_ability(self)
+	
 	for action in Data.Actions:
 		action.connect_listeners(self)
-	
+
 func CopyState(target : Unit):
-	CurrentHP = target.CurrentHP
 	Data = target.Data.duplicate()
+	CurrentHP = target.CurrentHP
+	AggroModifier = target.AggroModifier
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
+	AbilityStates = target.AbilityStates.duplicate(true)
 
 func StartTurn():
+	turn_started.emit(self)
 	HasMoved = false
 	HasActed = false
 	

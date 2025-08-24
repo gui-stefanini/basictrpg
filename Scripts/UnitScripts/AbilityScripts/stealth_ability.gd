@@ -1,6 +1,5 @@
-class_name UnitData
-extends Resource
-
+class_name StealthAbility
+extends Ability
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -11,30 +10,35 @@ extends Resource
 ######################
 #     REFERENCES     #
 ######################
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
-#Ignoring default order for Inspector
-@export var Name: String = "none"
 
-@export var MaxHP: int = 1
-@export var AttackPower: int = 1
-@export var HealPower: int = 0
-@export var MoveRange: int = 1
-@export var AttackRange: int = 1
-@export var Aggro: int = 0
-
-@export var Abilities: Array[Ability]
-@export var Actions: Array[Action]
-@export var MovementType: MovementData
-@export var ClassSpriteFrames: SpriteFrames
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
+func connect_listeners(owner: Unit):
+	owner.turn_started.connect(_on_owner_turn_started)
+
+func apply_ability(owner: Unit):
+	owner.AbilityStates[self] = false
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
+
+func _on_owner_turn_started(owner: Unit):
+	var is_active = owner.AbilityStates[self]
+	if owner.HPPercent >= 1:
+		if not is_active == true:
+			owner.AggroModifier -= 1
+			owner.AbilityStates[self] = true
+	else:
+		if not is_active == false:
+			owner.AggroModifier += 1
+			owner.AbilityStates[self] = false
 
 ##############################################################
 #                      4.0 Godot Functions                   #

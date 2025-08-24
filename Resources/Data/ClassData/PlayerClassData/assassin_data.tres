@@ -1,8 +1,11 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=8 format=3 uid="uid://bqfoaj6jgi4aa"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=11 format=3 uid="uid://bqfoaj6jgi4aa"]
 
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_fjgcb"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_frp0e"]
+[ext_resource type="Resource" uid="uid://bbuqp4k0lgk0s" path="res://Resources/Data/AbilityData/pass_ability.tres" id="2_peky0"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_qn55b"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_uolvr"]
+[ext_resource type="Resource" uid="uid://bfhbck6mxmwqq" path="res://Resources/Data/AbilityData/stealth_ability.tres" id="3_ix5yj"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_u803q"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_jjsmb"]
 [ext_resource type="SpriteFrames" uid="uid://ttrdgkj1nq2w" path="res://Resources/SpriteFrames/assassin_sprite_frame.tres" id="5_4qo5u"]
@@ -17,6 +20,7 @@ HealPower = 0
 MoveRange = 4
 AttackRange = 1
 Aggro = 0
+Abilities = Array[ExtResource("1_frp0e")]([ExtResource("2_peky0"), ExtResource("3_ix5yj")])
 Actions = Array[ExtResource("1_fjgcb")]([ExtResource("2_qn55b"), ExtResource("3_u803q"), ExtResource("4_jjsmb")])
 MovementType = ExtResource("5_x1a18")
 ClassSpriteFrames = ExtResource("5_4qo5u")

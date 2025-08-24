@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=9 format=3 uid="uid://ckbg3nxtt1cky"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=11 format=3 uid="uid://ckbg3nxtt1cky"]
 
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_0ceik"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_ktkr7"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_6j2m6"]
+[ext_resource type="Resource" uid="uid://cw80qfdcdtfog" path="res://Resources/Data/AbilityData/water_walk_ability.tres" id="2_ghemg"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_jq3s7"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_arha4"]
 [ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/Data/ActionData/SpecialActionData/heal_action.tres" id="5_77cxc"]
@@ -18,6 +20,7 @@ HealPower = 2
 MoveRange = 3
 AttackRange = 2
 Aggro = 0
+Abilities = Array[ExtResource("1_ktkr7")]([ExtResource("2_ghemg")])
 Actions = Array[ExtResource("1_0ceik")]([ExtResource("2_6j2m6"), ExtResource("3_jq3s7"), ExtResource("4_arha4"), ExtResource("5_77cxc")])
 MovementType = ExtResource("6_wknj1")
 ClassSpriteFrames = ExtResource("6_ntnv2")

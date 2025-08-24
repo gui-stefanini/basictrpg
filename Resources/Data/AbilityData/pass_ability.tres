@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PassAbility" load_steps=2 format=3 uid="uid://bbuqp4k0lgk0s"]
+
+[ext_resource type="Script" uid="uid://chwvrfxbp8g3d" path="res://Scripts/UnitScripts/AbilityScripts/pass_ability.gd" id="1_50wbo"]
+
+[resource]
+script = ExtResource("1_50wbo")
+Name = "Pass"
+Description = "Moves through enemy units."
+metadata/_custom_type_script = "uid://chwvrfxbp8g3d"

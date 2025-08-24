@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WaterWalkAbility" load_steps=3 format=3 uid="uid://cw80qfdcdtfog"]
+
+[ext_resource type="Resource" uid="uid://djj0huxmw2fd4" path="res://Resources/Data/MovementData/water_infantry_movement.tres" id="1_s7i3t"]
+[ext_resource type="Script" uid="uid://bcgbbkjjeguoo" path="res://Scripts/UnitScripts/AbilityScripts/water_walk_ability.gd" id="2_ixnt7"]
+
+[resource]
+script = ExtResource("2_ixnt7")
+NewMovementType = ExtResource("1_s7i3t")
+Name = "Water Walk"
+Description = "Moves freely on water."
+metadata/_custom_type_script = "uid://bcgbbkjjeguoo"

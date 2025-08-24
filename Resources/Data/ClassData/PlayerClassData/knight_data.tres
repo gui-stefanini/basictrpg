@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=9 format=3 uid="uid://dulep71up18jy"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=10 format=3 uid="uid://dulep71up18jy"]
 
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_qkkkx"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_tfski"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_tfski"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_jb8kx"]
@@ -18,6 +19,7 @@ HealPower = 0
 MoveRange = 3
 AttackRange = 1
 Aggro = 0
+Abilities = Array[ExtResource("1_qkkkx")]([])
 Actions = Array[ExtResource("1_tfski")]([ExtResource("2_tfski"), ExtResource("3_jb8kx"), ExtResource("5_6q03k"), ExtResource("4_pr0li")])
 MovementType = ExtResource("6_tfski")
 ClassSpriteFrames = ExtResource("6_87ef6")

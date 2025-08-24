@@ -37,7 +37,7 @@ func initialize(game_manager: GameManager):
 ##############################################################
 #                      2.1 OBSTACLE LOGIC                    #
 ##############################################################
-func SetUnitObstacles(active_unit: Unit, astar : AStar2D):
+func SetUnitObstacles(active_unit: Unit, astar : AStar2D) -> Array[Vector2i]:
 	if active_unit.ActiveStatuses.has(Unit.Status.PASS):
 		return []
 	
