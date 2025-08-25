@@ -40,10 +40,14 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	
 	add_child(AttackerDuplicate)
 	AttackerDuplicate.CopyState(Attacker)
+	AttackerDuplicate.Sprite = AttackerDuplicate.get_node("AnimatedSprite2D")
+	AttackerDuplicate.HealthBar = AttackerDuplicate.get_node("HealthBar")
 	AttackerDuplicate.UpdateHealth()
 	
 	add_child(DefenderDuplicate)
 	DefenderDuplicate.CopyState(Defender)
+	DefenderDuplicate.Sprite = DefenderDuplicate.get_node("AnimatedSprite2D")
+	DefenderDuplicate.HealthBar = DefenderDuplicate.get_node("HealthBar")
 	DefenderDuplicate.UpdateHealth()
 	
 	if Attacker.Faction == Unit.Factions.ENEMY:

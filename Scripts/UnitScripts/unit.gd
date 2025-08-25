@@ -160,10 +160,14 @@ func SetAnimations():
 		var animation_fps = Sprite.sprite_frames.get_animation_speed(animation_name)
 		var time_step = 1.0 / animation_fps
 		
-		# Track which animation from SpriteFrames to use
-		var animation_track_index = new_animation.add_track(Animation.TYPE_VALUE)
-		new_animation.track_set_path(animation_track_index, "AnimatedSprite2D:animation")
-		new_animation.track_insert_key(animation_track_index, 0, animation_name)
+		# Track to call the play() method on the AnimatedSprite2D
+		var play_track_index = new_animation.add_track(Animation.TYPE_METHOD)
+		new_animation.track_set_path(play_track_index, "AnimatedSprite2D")
+		var play_key = {
+			"method": &"play",
+			"args": [animation_name]
+		}
+		new_animation.track_insert_key(play_track_index, 0, play_key)
 		
 		# Track the frame of the animation
 		var frame_track_index = new_animation.add_track(Animation.TYPE_VALUE)
