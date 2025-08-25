@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://6mgfl26hy227"]
+[gd_scene load_steps=14 format=4 uid="uid://6mgfl26hy227"]
 
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="1_8ffim"]
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_xfk5q"]
@@ -6,8 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="2_xfk5q"]
 [ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/Data/AIData/knight_ai.tres" id="5_u5ghp"]
 [ext_resource type="Resource" uid="uid://lvqpypsim1b" path="res://Resources/Data/ClassData/EnemyClassData/enemy_knight_data.tres" id="6_hwvp3"]
-[ext_resource type="Resource" uid="uid://dhgxabbiekamu" path="res://Resources/Data/AIData/priest_ai.tres" id="7_afv7b"]
-[ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/Data/ClassData/EnemyClassData/enemy_priest_data.tres" id="8_7r2dd"]
 [ext_resource type="Script" uid="uid://bdi5ieubgr075" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_rb0md"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="9_u5ghp"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="10_hwvp3"]
@@ -34,10 +32,10 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_uy8f0"]
 script = ExtResource("2_evi0p")
-UnitClass = ExtResource("8_7r2dd")
+UnitClass = ExtResource("6_hwvp3")
 Faction = 1
 Position = Vector2i(15, 8)
-AI = ExtResource("7_afv7b")
+AI = ExtResource("5_u5ghp")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer", "LevelHighlightLayer", "MyLevelManager")]
