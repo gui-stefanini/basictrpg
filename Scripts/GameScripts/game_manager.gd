@@ -349,11 +349,10 @@ func _unhandled_input(event):
 
 func _ready() -> void:
 	if GameData.selected_level == "":
-		push_warning("GameData is empty. Loading default Level 1 for testing.")
-		GameData.selected_level = "res://Scenes/Levels/level_1.tscn"
-		var knight_data = load("res://Resources/ClassData/PlayerClassData/knight_data.tres")
-		var priest_data = load("res://Resources/ClassData/PlayerClassData/priest_data.tres")
-		GameData.player_units = [knight_data, priest_data]
+		push_warning("GameData is empty. Loading default Level for testing.")
+		GameData.selected_level = "res://Scenes/Levels/test_level.tscn"
+		var knight_data = load("res://Resources/Data/ClassData/PlayerClassData/knight_data.tres")
+		GameData.player_units = [knight_data]
 	
 	SetLevel()
 	
