@@ -106,7 +106,7 @@ func ForecastAction(action: Action, unit: Unit, target: Unit):
 	GameManagerRef.add_child(simulated_target)
 	simulated_target.CopyState(target)
 	
-	SimulateAction(action, simulated_unit, simulated_target)
+	await SimulateAction(action, simulated_unit, simulated_target)
 	
 	var damage = target.CurrentHP - simulated_target.CurrentHP
 	ActionForecast.UpdateForecast(unit, target, damage)
