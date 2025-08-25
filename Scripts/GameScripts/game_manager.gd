@@ -303,7 +303,7 @@ func _unhandled_input(event):
 							if MyActionManager.HighlightedMoveTiles.has(clicked_tile):
 								target = clicked_tile
 								MyActionManager.ClearHighlights()
-								await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+								MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
 								return
 							
 							if MyActionManager.HighlightedAttackTiles.has(clicked_tile):
@@ -322,7 +322,7 @@ func _unhandled_input(event):
 							
 							if target is Unit:
 								TargetedUnit = target
-								await MyActionManager.ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
+								MyActionManager.ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
 								CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
 								return
 							
@@ -339,7 +339,7 @@ func _unhandled_input(event):
 							ActionForecast.hide()
 							MyActionManager.ClearHighlights()
 							if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-								await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
+								MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
 								EndPlayerTurn()
 							else:
 								TargetedUnit = null
