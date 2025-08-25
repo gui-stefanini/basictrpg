@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://dw3oapme00484"]
+[gd_scene load_steps=15 format=3 uid="uid://dw3oapme00484"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_c86kq"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="2_8omp6"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_lpvrq"]
 [ext_resource type="Shader" uid="uid://dm5yssfkeqjqc" path="res://Resources/Shaders/player_shader.gdshader" id="3_fqcdl"]
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/DefaultSprite.png" id="3_kd50l"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="4_inn8i"]
+[ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="7_mxgbu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_inn8i"]
 shader = ExtResource("3_fqcdl")
@@ -12,8 +14,48 @@ shader_parameter/color_to_replace = Color(0, 0, 0, 1)
 shader_parameter/new_color = Color(0.6, 0.2, 0.4, 1)
 shader_parameter/tolerance = 0.01
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxgbu"]
+atlas = ExtResource("4_inn8i")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frdw3"]
+atlas = ExtResource("4_inn8i")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p6qmk"]
+atlas = ExtResource("4_inn8i")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3b6u"]
+atlas = ExtResource("4_inn8i")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsym4"]
+atlas = ExtResource("4_inn8i")
+region = Rect2(64, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_fqcdl"]
 animations = [{
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_mxgbu")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_frdw3")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_p6qmk")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_m3b6u")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_gsym4")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_kd50l")
@@ -22,8 +64,6 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_inn8i"]
 
 [node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("Sprite", "MyAnimationPlayer", "HealthBar")]
 z_index = 5
@@ -36,6 +76,7 @@ HealthBar = NodePath("HealthBar")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_inn8i")
 sprite_frames = SubResource("SpriteFrames_fqcdl")
+animation = &"attack"
 
 [node name="HealthBar" parent="." instance=ExtResource("2_8omp6")]
 offset_left = -7.0
@@ -45,5 +86,5 @@ offset_bottom = -8.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_inn8i")
+&"": ExtResource("7_mxgbu")
 }

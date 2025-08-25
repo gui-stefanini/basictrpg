@@ -146,57 +146,16 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 ##############################################################
 #                      2.3 SET STATE                         #
 ##############################################################
-func SetAnimations():
-	var animation_library = MyAnimationPlayer.get_animation_library("") # Get default library
-	
-	# Clear any animations that might have been there before
-	for animation_name in animation_library.get_animation_list():
-		animation_library.remove_animation(animation_name)
-
-	# Create new animations from the SpriteFrames resource
-	for animation_name in Sprite.sprite_frames.get_animation_names():
-		var new_animation = Animation.new()
-		var frame_count = Sprite.sprite_frames.get_frame_count(animation_name)
-		var animation_fps = Sprite.sprite_frames.get_animation_speed(animation_name)
-		var time_step = 1.0 / animation_fps
-		
-		# Track to call the play() method on the AnimatedSprite2D
-		var play_track_index = new_animation.add_track(Animation.TYPE_METHOD)
-		new_animation.track_set_path(play_track_index, "AnimatedSprite2D")
-		var play_key = {
-			"method": &"play",
-			"args": [animation_name]
-		}
-		new_animation.track_insert_key(play_track_index, 0, play_key)
-		
-		# Track the frame of the animation
-		var frame_track_index = new_animation.add_track(Animation.TYPE_VALUE)
-		new_animation.track_set_path(frame_track_index, "AnimatedSprite2D:frame")
-		
-		for i in range(frame_count):
-			new_animation.track_insert_key(frame_track_index, i * time_step, i)
-		
-		# Need to create the function track separately, as the other handle visuals
-		if animation_name == "attack":
-			var function_track_index = new_animation.add_track(Animation.TYPE_METHOD)
-			new_animation.track_set_path(function_track_index, ".")
-			var hit_time = Data.AttackHitFrame * time_step
-			#Keys needs to be called "method" and "args" to work
-			var function_key = {
-				"method": &"_on_animation_hit", 
-				"args": []
-			}
-			new_animation.track_insert_key(function_track_index, hit_time, function_key)
-		
-		new_animation.length = frame_count * time_step
-		animation_library.add_animation(animation_name, new_animation)
 
 func SetData():
 	Data = Data.duplicate()
 	
 	Sprite.sprite_frames = Data.ClassSpriteFrames
 	Sprite.material = Sprite.material.duplicate()
-	SetAnimations()
+	if Data.MyAnimationLibrary:
+		var library = Data.MyAnimationLibrary.duplicate()
+		# Replace the existing animation library with the one from our UnitData.
+		MyAnimationPlayer.add_animation_library("", library)
 	
 	match Faction:
 		Factions.PLAYER:

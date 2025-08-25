@@ -1,13 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://8hd5gec3f71l"]
+[gd_scene load_steps=3 format=3 uid="uid://8hd5gec3f71l"]
 
 [ext_resource type="Script" uid="uid://cl88kjxvd6r6l" path="res://Scripts/GameScripts/combat_screen.gd" id="1_tt2g6"]
 [ext_resource type="Texture2D" uid="uid://b1d60m3kdishd" path="res://Assets/Art/Backgrounds/TestBackground.png" id="2_g8dt8"]
-[ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="3_g265u"]
 
-[node name="CombatScreen" type="CanvasLayer" node_paths=PackedStringArray("PlayerPlaceholder", "EnemyPlaceholder")]
+[node name="CombatScreen" type="CanvasLayer" node_paths=PackedStringArray("PlayerPosition", "EnemyPosition")]
 script = ExtResource("1_tt2g6")
-PlayerPlaceholder = NodePath("PlayerPlaceholder")
-EnemyPlaceholder = NodePath("EnemyPlaceholder")
+PlayerPosition = NodePath("PlayerPosition")
+EnemyPosition = NodePath("EnemyPosition")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -28,17 +27,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_g8dt8")
 
-[node name="PlayerPlaceholder" parent="." instance=ExtResource("3_g265u")]
-visible = false
+[node name="PlayerPosition" type="Marker2D" parent="."]
 position = Vector2(73, 105)
-IsPlaceholder = true
 
-[node name="EnemyPlaceholder" parent="." instance=ExtResource("3_g265u")]
-visible = false
+[node name="EnemyPosition" type="Marker2D" parent="."]
 position = Vector2(247, 105)
-IsPlaceholder = true
-
-[node name="AnimatedSprite2D" parent="EnemyPlaceholder" index="0"]
-flip_h = true
-
-[editable path="EnemyPlaceholder"]

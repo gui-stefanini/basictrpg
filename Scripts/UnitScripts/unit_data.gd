@@ -32,7 +32,7 @@ extends Resource
 
 #Animation
 @export var ClassSpriteFrames: SpriteFrames
-@export var AttackHitFrame: int = 0
+@export var MyAnimationLibrary: AnimationLibrary
 
 ##############################################################
 #                      2.0 Functions                         #
