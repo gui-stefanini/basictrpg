@@ -152,10 +152,9 @@ func SetData():
 	
 	Sprite.sprite_frames = Data.ClassSpriteFrames
 	Sprite.material = Sprite.material.duplicate()
-	if Data.MyAnimationLibrary:
-		var library = Data.MyAnimationLibrary.duplicate()
+	if Data.MyAnimationLibrary and not MyAnimationPlayer.has_animation_library("class_library"):
 		# Replace the existing animation library with the one from our UnitData.
-		MyAnimationPlayer.add_animation_library("", library)
+		MyAnimationPlayer.add_animation_library("class_library", Data.MyAnimationLibrary)
 	
 	match Faction:
 		Factions.PLAYER:

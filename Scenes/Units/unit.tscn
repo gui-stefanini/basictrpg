@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dw3oapme00484"]
+[gd_scene load_steps=16 format=3 uid="uid://dw3oapme00484"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_c86kq"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="2_8omp6"]
@@ -6,7 +6,6 @@
 [ext_resource type="Shader" uid="uid://dm5yssfkeqjqc" path="res://Resources/Shaders/player_shader.gdshader" id="3_fqcdl"]
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/DefaultSprite.png" id="3_kd50l"]
 [ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="4_inn8i"]
-[ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="7_mxgbu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_inn8i"]
 shader = ExtResource("3_fqcdl")
@@ -65,6 +64,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_inn8i"]
+resource_name = "default"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mxgbu"]
+_data = {
+&"default": SubResource("Animation_inn8i")
+}
+
 [node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("Sprite", "MyAnimationPlayer", "HealthBar")]
 z_index = 5
 script = ExtResource("1_c86kq")
@@ -86,5 +93,5 @@ offset_bottom = -8.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": ExtResource("7_mxgbu")
+&"": SubResource("AnimationLibrary_mxgbu")
 }

@@ -63,7 +63,7 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 		Defender.global_position = PlayerPosition.global_position
 
 	# --- Play Animation ---
-	Attacker.MyAnimationPlayer.play("attack")
+	Attacker.MyAnimationPlayer.play("class_library/attack")
 	await Attacker.MyAnimationPlayer.animation_finished
 	
 	# --- Restore everything and clean up ---
