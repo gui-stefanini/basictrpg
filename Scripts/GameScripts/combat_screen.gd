@@ -6,7 +6,7 @@ extends CanvasLayer
 ##############################################################
 signal combat_finished
 @warning_ignore("unused_signal")
-signal hit
+signal animation_hit
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -25,8 +25,10 @@ var Damage: int
 # Store original state to restore it later
 var AttackerOriginalParent: Node
 var AttackerOriginalPosition: Vector2
+var AttackerOriginalFrame: int
 var DefenderOriginalParent: Node
 var DefenderOriginalPosition: Vector2
+var DefenderOriginalFrame: int
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -40,8 +42,10 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	# --- Store Original State ---
 	AttackerOriginalParent = Attacker.get_parent()
 	AttackerOriginalPosition = Attacker.global_position
+	AttackerOriginalFrame = Attacker.Sprite.frame
 	DefenderOriginalParent = Defender.get_parent()
 	DefenderOriginalPosition = Defender.global_position
+	DefenderOriginalFrame = Defender.Sprite.frame
 
 	# --- Reparent Units to Combat Screen ---
 	AttackerOriginalParent.remove_child(Attacker)
@@ -51,7 +55,8 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	
 	# --- Connect to Signals ---
 	Attacker.animation_hit.connect(_on_attacker_hit)
-
+	animation_hit.connect(Defender._on_animation_being_hit)
+	
 	# --- Position and Configure Units for Combat ---
 	if Attacker.Faction == Unit.Factions.PLAYER:
 		Attacker.global_position = PlayerPosition.global_position
@@ -84,16 +89,18 @@ func ReturnUnits():
 	
 	# --- Restore Original State ---
 	Attacker.global_position = AttackerOriginalPosition
-	Defender.global_position = DefenderOriginalPosition
+	Attacker.Sprite.frame = AttackerOriginalFrame
 	Attacker.Sprite.flip_h = false
+	
+	Defender.global_position = DefenderOriginalPosition
 	Defender.Sprite.flip_h = false
-
+	Defender.Sprite.frame = DefenderOriginalFrame
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_attacker_hit():
-	Defender.FlashDamageEffect()
+	animation_hit.emit()
 	
 	var max_hp = Defender.MaxHP
 	# We simulate the health change for the UI, but the actual damage

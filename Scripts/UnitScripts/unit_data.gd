@@ -31,7 +31,9 @@ extends Resource
 @export var MovementType: MovementData
 
 #Animation
-@export var ClassSpriteFrames: SpriteFrames
+@export var ClassSpriteSheet: Texture2D
+@export var Hframes: int = 1
+@export var Vframes: int = 1
 @export var MyAnimationLibrary: AnimationLibrary
 
 ##############################################################

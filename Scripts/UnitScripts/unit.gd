@@ -19,7 +19,7 @@ signal unit_died(unit: Unit)
 ######################
 @export var Data: UnitData
 @export var AI: AIBehavior
-@export var Sprite: AnimatedSprite2D
+@export var Sprite: Sprite2D
 @export var MyAnimationPlayer: AnimationPlayer
 @export var HealthBar: Control
 @export var PlayerFactionColor: Color = Color("4169E1") # Royal Blue
@@ -36,7 +36,6 @@ var HasActed: bool = false
 var IsDead: bool = false
 var ActiveStatuses: Dictionary = {}
 var AbilityStates: Dictionary = {}
-@export var IsPlaceholder: bool = false
 ######################
 #       STATS        #
 ######################
@@ -76,14 +75,6 @@ var AggroModifier: int = 0
 #                      2.1 DAMAGE INTERACTION                #
 ##############################################################
 
-func FlashDamageEffect():
-	var original_color = Sprite.modulate
-	var flash_color = Color.DARK_RED
-	var blended_damage_color = original_color.lerp(flash_color, 0.7)
-	var tween = create_tween()
-	tween.tween_property(Sprite, "modulate", blended_damage_color, 0.2)
-	tween.tween_property(Sprite, "modulate", original_color, 0.2)
-
 func UpdateHealth():
 	HealthBar.update_health(CurrentHP, MaxHP)
 
@@ -96,7 +87,6 @@ func TakeDamage(damage_amount: int):
 	CurrentHP -= final_damage
 	CurrentHP = max(0, CurrentHP)
 	
-	FlashDamageEffect()
 	
 	print(name + " takes " + str(final_damage) + " damage! " + str(CurrentHP) + " HP remaining.")
 	UpdateHealth()
@@ -150,8 +140,12 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 func SetData():
 	Data = Data.duplicate()
 	
-	Sprite.sprite_frames = Data.ClassSpriteFrames
+	Sprite.texture = Data.ClassSpriteSheet
+	Sprite.hframes = Data.Hframes
+	Sprite.vframes = Data.Vframes
+	Sprite.frame = 0
 	Sprite.material = Sprite.material.duplicate()
+	
 	if Data.MyAnimationLibrary and not MyAnimationPlayer.has_animation_library("class_library"):
 		# Replace the existing animation library with the one from our UnitData.
 		MyAnimationPlayer.add_animation_library("class_library", Data.MyAnimationLibrary)
@@ -201,13 +195,13 @@ func StartTurn():
 func _on_animation_hit():
 	animation_hit.emit()
 
+func _on_animation_being_hit():
+	MyAnimationPlayer.play("class_library/hit")
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
 
 func _ready():
-	if IsPlaceholder: 
-		return
 	SetData()
 	CurrentHP = MaxHP
 	UpdateHealth()

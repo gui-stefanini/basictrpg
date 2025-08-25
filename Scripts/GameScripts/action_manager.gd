@@ -98,7 +98,7 @@ func ExecuteAction(action: Action, unit: Unit, target = null):
 func SimulateAction(action: Action, unit: Unit, target = null):
 	await action._execute(unit, GameManagerRef, target, true)
 
-func ForecastAction(action: Action, unit: Unit, target: Unit):
+func PreviewAction(action: Action, unit: Unit, target: Unit, forecast: bool = false) -> int:
 	var simulated_unit = unit.duplicate() as Unit
 	GameManagerRef.add_child(simulated_unit)
 	simulated_unit.CopyState(unit)
@@ -109,10 +109,14 @@ func ForecastAction(action: Action, unit: Unit, target: Unit):
 	await SimulateAction(action, simulated_unit, simulated_target)
 	
 	var damage = target.CurrentHP - simulated_target.CurrentHP
-	ActionForecast.UpdateForecast(unit, target, damage)
+	
+	if forecast == true:
+		ActionForecast.UpdateForecast(unit, target, damage)
 	
 	simulated_unit.queue_free()
 	simulated_target.queue_free()
+	
+	return damage
 
 ##############################################################
 #                      3.0 Signal Functions                  #

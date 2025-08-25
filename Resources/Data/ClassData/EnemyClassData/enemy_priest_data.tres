@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_1ttme"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="5_i7wl3"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="6_8s1pf"]
-[ext_resource type="SpriteFrames" uid="uid://ev7ubtah51qy" path="res://Resources/SpriteFrames/priest_sprite_frame.tres" id="6_yg7ai"]
+[ext_resource type="Texture2D" uid="uid://csiiwnw35tsyd" path="res://Assets/Art/Sprites/Priest/PriestSprite_1.png" id="7_t03af"]
 
 [resource]
 script = ExtResource("5_i7wl3")
@@ -22,5 +22,6 @@ BaseAggro = 0
 Abilities = Array[ExtResource("1_t03af")]([])
 Actions = Array[ExtResource("1_f4ylx")]([ExtResource("1_qktlv"), ExtResource("2_f4ylx"), ExtResource("3_8s1pf"), ExtResource("4_1ttme")])
 MovementType = ExtResource("6_8s1pf")
-ClassSpriteFrames = ExtResource("6_yg7ai")
+ClassSpriteSheet = ExtResource("7_t03af")
+Hframes = 1
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

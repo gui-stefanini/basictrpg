@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://7w1v3fveurkr"]
+
+[ext_resource type="Shader" uid="uid://dm5yssfkeqjqc" path="res://Resources/Shaders/unit_shader.gdshader" id="1_csaa4"]
+
+[resource]
+shader = ExtResource("1_csaa4")
+shader_parameter/color_to_replace = Color(0, 0, 0, 1)
+shader_parameter/new_color = Color(0.6, 0.2, 0.4, 1)
+shader_parameter/tolerance = 0.01
+shader_parameter/flash_color = Color(1, 0, 0, 1)
+shader_parameter/flash_modifier = 0.0

@@ -8,8 +8,8 @@
 [ext_resource type="Resource" uid="uid://bfhbck6mxmwqq" path="res://Resources/Data/AbilityData/stealth_ability.tres" id="3_ix5yj"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_u803q"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_jjsmb"]
-[ext_resource type="SpriteFrames" uid="uid://ttrdgkj1nq2w" path="res://Resources/SpriteFrames/assassin_sprite_frame.tres" id="5_4qo5u"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="5_x1a18"]
+[ext_resource type="Texture2D" uid="uid://pje28sybth6s" path="res://Assets/Art/Sprites/Assassin/AssassinSprite_1.png" id="8_frp0e"]
 
 [resource]
 script = ExtResource("2_uolvr")
@@ -23,5 +23,6 @@ BaseAggro = 0
 Abilities = Array[ExtResource("1_frp0e")]([ExtResource("2_peky0"), ExtResource("3_ix5yj")])
 Actions = Array[ExtResource("1_fjgcb")]([ExtResource("2_qn55b"), ExtResource("3_u803q"), ExtResource("4_jjsmb")])
 MovementType = ExtResource("5_x1a18")
-ClassSpriteFrames = ExtResource("5_4qo5u")
+ClassSpriteSheet = ExtResource("8_frp0e")
+Hframes = 1
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

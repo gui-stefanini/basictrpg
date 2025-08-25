@@ -322,7 +322,7 @@ func _unhandled_input(event):
 							
 							if target is Unit:
 								TargetedUnit = target
-								await MyActionManager.ForecastAction(CurrentAction, ActiveUnit, TargetedUnit)
+								await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
 								CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
 								return
 							

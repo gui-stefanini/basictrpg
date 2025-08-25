@@ -39,10 +39,11 @@ func _execute(user: Unit, manager: GameManager, target = null, simulation : bool
 	
 	var damage = user.AttackPower
 	
-	if not simulation == true:
+	if simulation == false:
+		var final_damage = await manager.MyActionManager.PreviewAction(self, user, target)
 		var combat_scene = manager.CombatScreenScene.instantiate()
 		manager.add_child(combat_scene)
-		combat_scene.StartCombat(user, target, damage)
+		combat_scene.StartCombat(user, target, final_damage)
 		await combat_scene.combat_finished
 	
 	print("Combat finished, apllying damage")

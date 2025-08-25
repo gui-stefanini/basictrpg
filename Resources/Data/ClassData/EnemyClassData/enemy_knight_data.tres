@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_cr0fe"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="5_8lb5j"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="6_2qm68"]
-[ext_resource type="SpriteFrames" uid="uid://d3b0txpqhqh3v" path="res://Resources/SpriteFrames/knight_sprite_frame.tres" id="6_mfrl0"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="7_01so1"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="9_01so1"]
 
 [resource]
@@ -23,6 +23,8 @@ BaseAggro = 0
 Abilities = Array[ExtResource("1_eu6eu")]([])
 Actions = Array[ExtResource("1_caol2")]([ExtResource("1_8wci8"), ExtResource("2_caol2"), ExtResource("3_2qm68"), ExtResource("4_cr0fe")])
 MovementType = ExtResource("6_2qm68")
-ClassSpriteFrames = ExtResource("6_mfrl0")
+ClassSpriteSheet = ExtResource("7_01so1")
+Hframes = 6
+Vframes = 2
 MyAnimationLibrary = ExtResource("9_01so1")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

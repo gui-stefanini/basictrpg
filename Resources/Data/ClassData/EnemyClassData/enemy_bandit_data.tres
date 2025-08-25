@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_mlkdv"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_5ednp"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_hqf16"]
-[ext_resource type="SpriteFrames" uid="uid://bnkmwwhdqrifp" path="res://Resources/SpriteFrames/bandit_sprite_frame.tres" id="5_bh82t"]
+[ext_resource type="Texture2D" uid="uid://8dgqpevb1d6h" path="res://Assets/Art/Sprites/Bandit/BanditSprite_1.png" id="6_ivh5c"]
 
 [resource]
 script = ExtResource("2_mlkdv")
@@ -21,5 +21,6 @@ BaseAggro = 0
 Abilities = Array[ExtResource("1_ivh5c")]([])
 Actions = Array[ExtResource("1_r6ahf")]([ExtResource("2_ku7i3"), ExtResource("3_5ednp"), ExtResource("4_hqf16")])
 MovementType = ExtResource("2_c1qfw")
-ClassSpriteFrames = ExtResource("5_bh82t")
+ClassSpriteSheet = ExtResource("6_ivh5c")
+Hframes = 1
 metadata/_custom_type_script = "uid://dajw61vh5kchp"
