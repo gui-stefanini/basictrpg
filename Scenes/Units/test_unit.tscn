@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://cawauhuijdnej"]
+
+[ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_4tnkl"]
+[ext_resource type="SpriteFrames" uid="uid://d3b0txpqhqh3v" path="res://Resources/SpriteFrames/knight_sprite_frame.tres" id="2_0tfuv"]
+[ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="3_5cpx2"]
+[ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="4_5yiaf"]
+
+[sub_resource type="Animation" id="Animation_4tnkl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0tfuv"]
+_data = {
+&"RESET": SubResource("Animation_4tnkl")
+}
+
+[node name="TestUnit" type="Node2D"]
+script = ExtResource("1_4tnkl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_0tfuv")
+animation = &"attack"
+autoplay = "default"
+
+[node name="HealthBar" parent="." instance=ExtResource("3_5cpx2")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_0tfuv"),
+&"knight_library": ExtResource("4_5yiaf")
+}
