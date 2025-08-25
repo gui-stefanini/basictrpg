@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=11 format=3 uid="uid://lvqpypsim1b"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=10 format=3 uid="uid://lvqpypsim1b"]
 
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="1_8wci8"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_caol2"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="5_8lb5j"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="6_2qm68"]
 [ext_resource type="SpriteFrames" uid="uid://d3b0txpqhqh3v" path="res://Resources/SpriteFrames/knight_sprite_frame.tres" id="6_mfrl0"]
-[ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="9_01so1"]
 
 [resource]
 script = ExtResource("5_8lb5j")
@@ -24,5 +23,4 @@ Abilities = Array[ExtResource("1_eu6eu")]([])
 Actions = Array[ExtResource("1_caol2")]([ExtResource("1_8wci8"), ExtResource("2_caol2"), ExtResource("3_2qm68"), ExtResource("4_cr0fe")])
 MovementType = ExtResource("6_2qm68")
 ClassSpriteFrames = ExtResource("6_mfrl0")
-MyAnimationLibrary = ExtResource("9_01so1")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"
