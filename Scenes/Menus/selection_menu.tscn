@@ -75,14 +75,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 theme_override_styles/disabled = ExtResource("2_e1ouj")
 theme_override_styles/normal = ExtResource("2_e1ouj")
-text = "Level 1"
+text = " Level 1 "
 
 [node name="Level2Button" type="Button" parent="MarginContainer/VBoxContainer/LevelSelectionContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 theme_override_styles/disabled = ExtResource("2_e1ouj")
 theme_override_styles/normal = ExtResource("2_e1ouj")
-text = "Level 2"
+text = " Level 2 "
 
 [node name="MainContentContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
