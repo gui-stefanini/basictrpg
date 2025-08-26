@@ -14,7 +14,7 @@
 [resource]
 script = ExtResource("5_8lb5j")
 Name = "Knight"
-BaseMaxHP = 6
+BaseMaxHP = 5
 BaseAttackPower = 2
 BaseHealPower = 0
 BaseMoveRange = 3

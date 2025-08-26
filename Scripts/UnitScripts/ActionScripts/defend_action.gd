@@ -26,6 +26,7 @@ func _on_select(user: Unit, manager: GameManager):
 	_execute(user, manager)
 
 func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
+	manager.CurrentSubState = manager.PlayerTurnState.PROCESSING_PHASE
 	print(user.name + " is defending!")
 	await user.PlayActionAnimation("defend", user)
 	

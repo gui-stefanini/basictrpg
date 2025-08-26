@@ -8,13 +8,13 @@ uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
 
 void fragment() {
 	vec4 current_color = texture(TEXTURE, UV);
-	
+
 	if (distance(current_color, color_to_replace) < tolerance) {
 		current_color = new_color;
 	}
-	
+
 	current_color.rgb = mix(current_color.rgb, flash_color.rgb, flash_modifier);
-	
+
 	COLOR = current_color;
 }
 

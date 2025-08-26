@@ -192,6 +192,8 @@ func execute_offensive_routine(owner: Unit, manager: GameManager):
 		var current_tile = manager.GroundGrid.local_to_map(owner.global_position)
 		
 		if destination != current_tile:
+			if owner.HasMoved == true:
+				return
 			await MoveCommand(owner, manager, destination)
 		await AttackCommand(owner, manager, target)
 
@@ -217,6 +219,8 @@ func execute_healing_routine(owner: Unit, manager: GameManager):
 		var current_tile = manager.GroundGrid.local_to_map(owner.global_position)
 		
 		if destination != current_tile:
+			if owner.HasMoved == true:
+				return
 			await MoveCommand(owner, manager, destination)
 		await HealCommand(owner, manager, target)
 

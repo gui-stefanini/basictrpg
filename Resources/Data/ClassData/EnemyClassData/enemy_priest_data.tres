@@ -14,7 +14,7 @@
 [resource]
 script = ExtResource("5_i7wl3")
 Name = "Priest"
-BaseMaxHP = 4
+BaseMaxHP = 3
 BaseAttackPower = 1
 BaseHealPower = 2
 BaseMoveRange = 3

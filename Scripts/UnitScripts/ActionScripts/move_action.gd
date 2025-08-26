@@ -28,6 +28,7 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.MyActionManager.HighlightMoveArea(user)
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
+	manager.CurrentSubState = manager.PlayerTurnState.PROCESSING_PHASE
 	if target is not Vector2i:
 		print(str(self) + "has an invalid target type")
 		return null
