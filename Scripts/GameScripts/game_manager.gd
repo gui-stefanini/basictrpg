@@ -70,11 +70,7 @@ func Wait(seconds: float):
 ##############################################################
 
 func SetLevel():
-	var level_scene = load(GameData.selected_level)
-	if not level_scene:
-		push_error("Failed to load level scene from path: " + GameData.selected_level)
-		return
-	CurrentLevel = level_scene.instantiate()
+	CurrentLevel = GameData.selected_level.instantiate()
 	add_child(CurrentLevel)
 	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
@@ -369,9 +365,9 @@ func _unhandled_input(event):
 								CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 
 func _ready() -> void:
-	if GameData.selected_level == "":
+	if not GameData.selected_level:
 		push_warning("GameData is empty. Loading default Level for testing.")
-		GameData.selected_level = "res://Scenes/Levels/test_level.tscn"
+		GameData.selected_level = load("res://Scenes/Levels/test_level.tscn")
 		var knight_data = load("res://Resources/Data/ClassData/PlayerClassData/knight_data.tres")
 		GameData.player_units = [knight_data]
 	

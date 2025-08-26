@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6ya6gg57d1hb"]
+
+[ext_resource type="Script" uid="uid://bml0pvr4cbktx" path="res://Scripts/Autoloads/game_data.gd" id="1_up1na"]
+[ext_resource type="PackedScene" uid="uid://dbwv5lbunki7e" path="res://Scenes/Menus/main_menu.tscn" id="2_26qp2"]
+
+[node name="GameData" type="Node"]
+script = ExtResource("1_up1na")
+MainMenuScene = ExtResource("2_26qp2")

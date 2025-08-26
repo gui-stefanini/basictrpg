@@ -30,7 +30,7 @@ extends Control
 #     SCRIPT-WIDE    #
 ######################
 @export var PlayerClasses: Array[UnitData]
-var SelectedLevelPath: String = ""
+var SelectedLevel: PackedScene
 var SelectedUnits: Array = [UnitData]
 var RequiredUnitCount: int = 0
 
@@ -65,8 +65,7 @@ func UpdateUnitCustomizationUI():
 func SelectLevel(level_scene: PackedScene):
 	SelectedUnits.clear()
 	UpdateMenuInfoPanel(null)
-	SelectedLevelPath = level_scene.resource_path
-	print("Selected level: " + SelectedLevelPath)
+	SelectedLevel = level_scene
 	
 	var level_instance = level_scene.instantiate()
 	RequiredUnitCount = level_instance.PlayerSpawns.size()
@@ -140,7 +139,7 @@ func _on_level_2_button_pressed() -> void:
 	SelectLevel(Level2Scene)
 
 func _on_start_level_button_pressed() -> void:
-	GameData.selected_level = SelectedLevelPath
+	GameData.selected_level = SelectedLevel
 	GameData.player_units = SelectedUnits
 	
 	get_tree().change_scene_to_packed(GameManagerScene)

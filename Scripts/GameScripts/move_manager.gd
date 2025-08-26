@@ -12,10 +12,12 @@ extends Node
 ######################
 var GameManagerRef : GameManager
 var GroundGrid: TileMapLayer
+@export var AllMovementData: Array[MovementData]
 
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 var PlayerUnits: Array[Unit]
 var EnemyUnits: Array[Unit]
 
@@ -86,18 +88,7 @@ func vector_to_id(vector: Vector2i) -> int:
 	return vector.x * 1000 + vector.y
 
 func SetAStarGrids():
-	var all_movement_data: Array[MovementData] = []
-	var path = "res://Resources/Data/MovementData/"
-	
-	var dir = DirAccess.open(path)
-	if dir:
-		for file_name in dir.get_files():
-			var resource = load(path + file_name)
-			all_movement_data.append(resource)
-	else:
-		push_error("Could not find MovementData directory at: " + path)
-	
-	for move_data in all_movement_data:
+	for move_data in AllMovementData:
 		var new_astar = MovementAStar.new()
 		new_astar.GroundGrid = GroundGrid
 		new_astar.MovementType = move_data
