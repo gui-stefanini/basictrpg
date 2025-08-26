@@ -29,7 +29,7 @@ grow_vertical = 2
 texture = ExtResource("2_g8dt8")
 
 [node name="PlayerPosition" type="Marker2D" parent="Background"]
-position = Vector2(70, 41)
+position = Vector2(70, 96)
 
 [node name="EnemyPosition" type="Marker2D" parent="Background"]
-position = Vector2(250, 41)
+position = Vector2(250, 96)
