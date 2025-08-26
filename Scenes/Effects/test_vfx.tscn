@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqflg1i41xnh2"]
+[gd_scene load_steps=6 format=3 uid="uid://bqflg1i41xnh2"]
 
-[ext_resource type="Texture2D" uid="uid://bj7or2h2bbg6c" path="res://Assets/Art/Sprites/Priest/PriestVFX.png" id="1_jmb44"]
+[ext_resource type="Texture2D" uid="uid://dc2mgud2v21r3" path="res://Assets/Art/Sprites/Knight/KnightVFX.png" id="1_i7erj"]
 [ext_resource type="AnimationLibrary" uid="uid://cdrwulw02iw76" path="res://Resources/Animations/priest_vfx_library.res" id="2_i7erj"]
+[ext_resource type="AnimationLibrary" uid="uid://b0dodkfjqnkp3" path="res://Resources/Animations/knight_vfx_library.res" id="2_qkfm2"]
 
 [sub_resource type="Animation" id="Animation_jmb44"]
 length = 0.001
@@ -43,11 +44,12 @@ z_index = 10
 [node name="MoveTracker" type="Node2D" parent="RotationTracker"]
 
 [node name="Sprite2D" type="Sprite2D" parent="RotationTracker/MoveTracker"]
-texture = ExtResource("1_jmb44")
-hframes = 4
+texture = ExtResource("1_i7erj")
+hframes = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_i7erj"),
+&"knight_vfx_library": ExtResource("2_qkfm2"),
 &"priest_vfx_library": ExtResource("2_i7erj")
 }

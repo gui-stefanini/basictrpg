@@ -19,6 +19,7 @@ signal unit_removed(unit: Unit)
 ######################
 @export var UnitScene: PackedScene
 @export var CombatScreenScene: PackedScene
+@export var VfxScene: PackedScene
 
 @export var ManagerTimer: Timer
 @export var ActionMenu: PanelContainer
@@ -169,8 +170,10 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	var tile_global_position = GroundGrid.to_global(tile_grid_position)
 	new_unit.global_position = tile_global_position
 	
-	unit_spawned.emit(new_unit)
 	new_unit.unit_died.connect(_on_unit_died)
+	new_unit.vfx_requested.connect(_on_vfx_requested)
+	unit_spawned.emit(new_unit)
+
 
 func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 	for spawn_info in spawn_list:
@@ -213,7 +216,7 @@ func EndPlayerTurn():
 	
 	if UnitsWhoHaveActed.size() == PlayerUnits.size():
 		turn_ended.emit(TurnNumber)
-		StartEnemyTurn()
+		await StartEnemyTurn()
 	else:
 		CurrentSubState = PlayerTurnState.UNIT_SELECTION_PHASE
 
@@ -223,6 +226,7 @@ func StartEnemyTurn():
 	CurrentSubState = EnemyTurnState.MOVEMENT_PHASE
 	
 	for enemy in EnemyUnits:
+		await Wait(0.2)
 		enemy.StartTurn()
 		print(enemy.name + " is taking its turn.")
 		await enemy.AI.execute_turn(enemy, self)
@@ -260,6 +264,20 @@ func _on_unit_died(unit: Unit):
 	unit_removed.emit(unit)
 	unit_died.emit(unit)
 	unit.queue_free()
+
+func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat: bool):
+	if is_combat == true:
+		return
+	if not vfx_data:
+		push_warning("Failed to load VFX Data")
+		return
+
+	var vfx: VFX = VfxScene.instantiate()
+	add_child(vfx)
+
+	vfx.SetData(vfx_data)
+	vfx.global_position = vfx_position
+	vfx.MyAnimationPlayer.play("vfx/" + animation_name)
 
 ##############################################################
 #                      4.0 Godot Functions                   #
@@ -303,6 +321,7 @@ func _unhandled_input(event):
 							if MyActionManager.HighlightedMoveTiles.has(clicked_tile):
 								target = clicked_tile
 								MyActionManager.ClearHighlights()
+								CurrentSubState = PlayerTurnState.PROCESSING_PHASE
 								await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
 								return
 							
@@ -322,8 +341,8 @@ func _unhandled_input(event):
 							
 							if target is Unit:
 								TargetedUnit = target
-								await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
 								CurrentSubState = PlayerTurnState.ACTION_CONFIRMATION_PHASE
+								await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
 								return
 							
 							else:
@@ -339,6 +358,7 @@ func _unhandled_input(event):
 							ActionForecast.hide()
 							MyActionManager.ClearHighlights()
 							if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
+								CurrentSubState = PlayerTurnState.PROCESSING_PHASE
 								await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
 								EndPlayerTurn()
 							else:

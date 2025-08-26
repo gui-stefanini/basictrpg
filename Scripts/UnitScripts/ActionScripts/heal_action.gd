@@ -35,6 +35,9 @@ func _execute(user: Unit, _manager: GameManager, target = null, _simulation : bo
 		print(str(self) + "has an invalid target type")
 		return null
 	
+	if not _simulation:
+		await user.PlayActionAnimation("heal", target)
+		
 	target.ReceiveHealing(user.HealPower)
 	user.HasActed = true
 	return null

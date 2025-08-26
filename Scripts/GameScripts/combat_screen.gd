@@ -45,6 +45,7 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	AttackerOriginalParent = Attacker.get_parent()
 	AttackerOriginalPosition = Attacker.global_position
 	AttackerOriginalFrame = Attacker.Sprite.frame
+	
 	DefenderOriginalParent = Defender.get_parent()
 	DefenderOriginalPosition = Defender.global_position
 	DefenderOriginalFrame = Defender.Sprite.frame
@@ -52,6 +53,7 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	# --- Reparent Units to Combat Screen ---
 	AttackerOriginalParent.remove_child(Attacker)
 	add_child(Attacker)
+	
 	DefenderOriginalParent.remove_child(Defender)
 	add_child(Defender)
 	
@@ -63,12 +65,14 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	# --- Position and Configure Units for Combat ---
 	if Attacker.Faction == Unit.Factions.PLAYER:
 		Attacker.global_position = PlayerPosition.global_position
+		
 		Defender.global_position = EnemyPosition.global_position
 		#Defender.Sprite.flip_h = true
 		Defender.RotationTracker.scale.x = -1
 	else:
 		Attacker.global_position = EnemyPosition.global_position
 		Attacker.RotationTracker.scale.x = -1
+		
 		Defender.global_position = PlayerPosition.global_position
 
 	# --- Play Animation ---
@@ -120,8 +124,9 @@ func _on_attacker_hit():
 	var final_hp = Defender.CurrentHP - Damage
 	Defender.HealthBar.update_health(final_hp, max_hp)
 
-func _on_vfx_requested(vfxdata: VFXData, animation_name: String):
-	
+func _on_vfx_requested(vfxdata: VFXData, animation_name: String, _vfx_position: Vector2, is_combat: bool):
+	if is_combat == false:
+		return
 	if not vfxdata: 
 		push_warning("Failed to load VFX Data")
 		return

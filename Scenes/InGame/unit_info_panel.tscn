@@ -6,6 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="3_oam1w"]
 
 [node name="UnitInfoPanel" type="PanelContainer" node_paths=PackedStringArray("NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "AttackRangeLabel")]
+z_index = 15
 offset_right = 34.0
 offset_bottom = 60.0
 size_flags_vertical = 0

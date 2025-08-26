@@ -6,7 +6,7 @@ extends CharacterBody2D
 
 signal turn_started(unit: Unit)
 
-signal vfx_requested(vfx_data: VFXData, animation_name: String)
+signal vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat : bool)
 signal animation_hit
 
 signal damage_taken(unit: Unit, damage_data: Dictionary)
@@ -38,6 +38,8 @@ var HasActed: bool = false
 var IsDead: bool = false
 var ActiveStatuses: Dictionary = {}
 var AbilityStates: Dictionary = {}
+
+var ActionTarget : Unit
 ######################
 #       STATS        #
 ######################
@@ -193,8 +195,17 @@ func StartTurn():
 #                      2.3 ANIMATIONS                        #
 ##############################################################
 
-func RequestVFX(vfx_data: VFXData, animation_name: String):
-	vfx_requested.emit(vfx_data, animation_name)
+func PlayActionAnimation(animation_name: String, target: Unit):
+	ActionTarget = target
+	MyAnimationPlayer.play("class_library/" + animation_name)
+	await MyAnimationPlayer.animation_finished
+	ActionTarget = null
+
+func RequestVFX(vfx_data: VFXData, animation_name: String, is_combat: bool = false):
+	var vfx_position : Vector2 = self.global_position
+	if ActionTarget is Unit:
+		vfx_position = ActionTarget.global_position
+	vfx_requested.emit(vfx_data, animation_name, vfx_position, is_combat)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

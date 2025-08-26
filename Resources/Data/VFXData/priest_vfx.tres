@@ -9,5 +9,5 @@ script = ExtResource("1_xpprp")
 MyTexture = ExtResource("2_epovl")
 Library = ExtResource("1_imqyg")
 HFrames = 4
-VFrames = 1
+VFrames = 2
 metadata/_custom_type_script = "uid://bkm2mobbxwa1y"

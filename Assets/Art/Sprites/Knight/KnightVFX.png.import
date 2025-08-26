@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://prs0b10oilxy"
-path="res://.godot/imported/PriestSpriteSheet_1.png-d207a4d2e696f50b9f001cb704712bb3.ctex"
+uid="uid://dc2mgud2v21r3"
+path="res://.godot/imported/KnightVFX.png-8283d789d559307002ad49bf575d219e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Sprites/Knight/PriestSpriteSheet_1.png"
-dest_files=["res://.godot/imported/PriestSpriteSheet_1.png-d207a4d2e696f50b9f001cb704712bb3.ctex"]
+source_file="res://Assets/Art/Sprites/Knight/KnightVFX.png"
+dest_files=["res://.godot/imported/KnightVFX.png-8283d789d559307002ad49bf575d219e.ctex"]
 
 [params]
 
