@@ -14,25 +14,30 @@ _data = {
 &"default": SubResource("Animation_inn8i")
 }
 
-[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("Sprite", "MyAnimationPlayer", "HealthBar")]
+[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("RotationTracker", "Sprite", "MyAnimationPlayer", "HealthBar")]
 z_index = 5
 script = ExtResource("1_c86kq")
 Data = ExtResource("2_lpvrq")
-Sprite = NodePath("Sprite")
+RotationTracker = NodePath("RotationTracker")
+Sprite = NodePath("RotationTracker/MoveTracker/Sprite")
 MyAnimationPlayer = NodePath("AnimationPlayer")
-HealthBar = NodePath("HealthBar")
+HealthBar = NodePath("RotationTracker/MoveTracker/HealthBar")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="RotationTracker" type="Node2D" parent="."]
+
+[node name="MoveTracker" type="Node2D" parent="RotationTracker"]
+
+[node name="Sprite" type="Sprite2D" parent="RotationTracker/MoveTracker"]
 material = ExtResource("3_fqcdl")
 texture = ExtResource("3_kd50l")
+
+[node name="HealthBar" parent="RotationTracker/MoveTracker" instance=ExtResource("2_8omp6")]
+offset_left = -7.0
+offset_top = -10.0
+offset_right = 7.0
+offset_bottom = -8.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_mxgbu")
 }
-
-[node name="HealthBar" parent="." instance=ExtResource("2_8omp6")]
-offset_left = -7.0
-offset_top = -10.0
-offset_right = 7.0
-offset_bottom = -8.0

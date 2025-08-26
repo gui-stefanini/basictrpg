@@ -19,6 +19,7 @@ signal unit_died(unit: Unit)
 ######################
 @export var Data: UnitData
 @export var AI: AIBehavior
+@export var RotationTracker: Node2D
 @export var Sprite: Sprite2D
 @export var MyAnimationPlayer: AnimationPlayer
 @export var HealthBar: Control

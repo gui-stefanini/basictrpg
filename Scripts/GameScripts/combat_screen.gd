@@ -13,6 +13,7 @@ signal animation_hit
 ######################
 #     REFERENCES     #
 ######################
+@export var Background: TextureRect
 @export var PlayerPosition: Marker2D
 @export var EnemyPosition: Marker2D
 ######################
@@ -61,10 +62,11 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	if Attacker.Faction == Unit.Factions.PLAYER:
 		Attacker.global_position = PlayerPosition.global_position
 		Defender.global_position = EnemyPosition.global_position
-		Defender.Sprite.flip_h = true
+		#Defender.Sprite.flip_h = true
+		Defender.RotationTracker.scale.x = -1
 	else:
 		Attacker.global_position = EnemyPosition.global_position
-		Attacker.Sprite.flip_h = true
+		Attacker.RotationTracker.scale.x = -1
 		Defender.global_position = PlayerPosition.global_position
 
 	# --- Play Animation ---
@@ -90,16 +92,19 @@ func ReturnUnits():
 	# --- Restore Original State ---
 	Attacker.global_position = AttackerOriginalPosition
 	Attacker.Sprite.frame = AttackerOriginalFrame
-	Attacker.Sprite.flip_h = false
+	Attacker.RotationTracker.scale.x = 1 # Reset RotationTracker scale
+	#Attacker.Sprite.flip_h = false
 	
 	Defender.global_position = DefenderOriginalPosition
-	Defender.Sprite.flip_h = false
 	Defender.Sprite.frame = DefenderOriginalFrame
+	#Defender.Sprite.flip_h = false
+	Attacker.RotationTracker.scale.x = 1 # Reset RotationTracker scale
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_attacker_hit():
+	
 	animation_hit.emit()
 	
 	var max_hp = Defender.MaxHP

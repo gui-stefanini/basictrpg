@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://cl88kjxvd6r6l" path="res://Scripts/GameScripts/combat_screen.gd" id="1_tt2g6"]
 [ext_resource type="Texture2D" uid="uid://b1d60m3kdishd" path="res://Assets/Art/Backgrounds/TestBackground.png" id="2_g8dt8"]
 
-[node name="CombatScreen" type="CanvasLayer" node_paths=PackedStringArray("PlayerPosition", "EnemyPosition")]
+[node name="CombatScreen" type="CanvasLayer" node_paths=PackedStringArray("Background", "PlayerPosition", "EnemyPosition")]
 script = ExtResource("1_tt2g6")
-PlayerPosition = NodePath("PlayerPosition")
-EnemyPosition = NodePath("EnemyPosition")
+Background = NodePath("Background")
+PlayerPosition = NodePath("Background/PlayerPosition")
+EnemyPosition = NodePath("Background/EnemyPosition")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -16,7 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.352941)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -27,8 +28,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_g8dt8")
 
-[node name="PlayerPosition" type="Marker2D" parent="."]
-position = Vector2(70, 105)
+[node name="PlayerPosition" type="Marker2D" parent="Background"]
+position = Vector2(70, 41)
 
-[node name="EnemyPosition" type="Marker2D" parent="."]
-position = Vector2(250, 105)
+[node name="EnemyPosition" type="Marker2D" parent="Background"]
+position = Vector2(250, 41)
