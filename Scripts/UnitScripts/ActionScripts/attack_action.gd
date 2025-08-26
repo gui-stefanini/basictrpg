@@ -18,8 +18,6 @@ extends Action
 #                      2.0 Functions                         #
 ##############################################################
 
-func connect_listeners(_owner: Unit):
-	pass
 
 ##############################################################
 #                      3.0 Signal Functions                  #

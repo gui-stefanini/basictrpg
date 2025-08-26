@@ -51,160 +51,33 @@ func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 	await manager.Wait(0.5)
 
 ##############################################################
-#                      2.2  TARGET FINDING                   #
+#                        2.2 TARGETTING                      #
 ##############################################################
-
-func GetValidActionTiles(unit: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
-	var move_data_name = unit.Data.MovementType.Name
-	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
-	var valid_tiles: Array[Vector2i] = []
-	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.AttackRange)
-	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(unit)
-
-	for tile in tiles_in_range:
-		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):
-			valid_tiles.append(tile)
-	
-	return valid_tiles
-
-func GetValidTargets(owner : Unit, manager : GameManager, targets: Array[Unit]) -> Array:
-	var valid_targets = []
-	for unit in targets:
-		if unit == owner:
-			continue
-		
-		var action_tiles = GetValidActionTiles(owner, manager, unit)
-		for tile in action_tiles:
-			var path = manager.MyMoveManager.FindPath(owner, manager.GroundGrid.local_to_map(owner.global_position), tile)
-			if not path.is_empty():
-				var target = {
-					"target": unit,
-					"destination": tile,
-					"path": path.path,
-					"cost": path.cost
-				}
-				valid_targets.append(target)
-	
-	if valid_targets.is_empty():
-		print("No possible target")
-	
-	return valid_targets
-
-func GetTargetsInRange(owner: Unit, manager: GameManager, targets: Array[Unit]):
-	var unit_tile = manager.GroundGrid.local_to_map(owner.global_position)
-	var possible_targets : Array[Unit] = []
-	for target in targets:
-		var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-		if manager.MyActionManager.AreTilesInRange(owner.AttackRange, unit_tile, target_tile):
-			possible_targets.append(target)
-	return possible_targets
-
-func GetReachableTargets(owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array:
-	var reachable_targets = []
-	var owner_tile = manager.GroundGrid.local_to_map(owner.global_position)
-	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, owner_tile, true)
-	
-	for target_unit in targets:
-		var tiles_in_attack_range = GetValidActionTiles(owner, manager, target_unit)
-		
-		var best_destination = null
-		var lowest_cost = INF
-		
-		for attack_tile in tiles_in_attack_range:
-			if attack_tile == owner_tile:
-				best_destination = owner_tile
-				break
-			if reachable_tiles.has(attack_tile):
-				var path_result = manager.MyMoveManager.FindPath(owner, owner_tile, attack_tile)
-				if not path_result.path.is_empty() and path_result.cost < lowest_cost:
-					lowest_cost = path_result.cost
-					best_destination = attack_tile
-		
-		if best_destination != null:
-			reachable_targets.append({
-				"target": target_unit,
-				"destination": best_destination,
-				#"cost": lowest_cost
-			})
-			
-	return reachable_targets
-
-##############################################################
-#                      2.3 TARGET SELECTION                  #
-##############################################################
-
-func FilterTargetsByStat(targets: Array[Unit], stat_getter: Callable, highest: bool = false) -> Array[Unit]:
-	targets.sort_custom(
-		func(a, b):
-			var stat_a = stat_getter.call(a)
-			var stat_b = stat_getter.call(b)
-			if highest == true:
-				return stat_a > stat_b
-			return stat_a < stat_b
-	)
-	var best_stat_value = stat_getter.call(targets[0])
-	var best_targets: Array[Unit] = []
-	
-	for target in targets:
-		print("Filter checking " + str(target.Data.Name))
-		print(str(stat_getter.call(target)))
-		if stat_getter.call(target) == best_stat_value:
-			best_targets.append(target)
-		else:
-			# Since the list is sorted, we can stop as soon as the value changes.
-			break
-	
-	return best_targets
-
-func TargetByStat(targets: Array[Unit], stat_getter: Callable, highest: bool = false, random: bool = false) -> Unit:
-	targets.sort_custom(
-		func(a, b):
-			var stat_a = stat_getter.call(a)
-			var stat_b = stat_getter.call(b)
-			if highest == true:
-				return stat_a > stat_b
-			return stat_a < stat_b
-	)
-	
-	if random:
-		var target_stat_value = stat_getter.call(targets[0])
-		var best_targets: Array[Unit] = []
-		
-		for target in targets:
-			if stat_getter.call(target) == target_stat_value:
-				best_targets.append(target)
-			else:
-				break
-		
-		return best_targets.pick_random()
-	
-	return targets[0]
 
 func AttackTargeting(owner: Unit, manager: GameManager):
-	var possible_targets = GetTargetsInRange(owner, manager, manager.PlayerUnits)
+	var possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.PlayerUnits)
 	
 	if possible_targets.is_empty():
 		print("No target in attack range")
 		return null
 	else:
-		var high_aggro_targets = FilterTargetsByStat(possible_targets, func(u: Unit): return u.Aggro, true)
-		var target = TargetByStat(high_aggro_targets, func(u:Unit): return u.CurrentHP)
+		var high_aggro_targets = AILogic.FilterTargetsByStat(possible_targets, func(u: Unit): return u.Aggro, true)
+		var target = AILogic.TargetByStat(high_aggro_targets, func(u:Unit): return u.CurrentHP)
 		return target
 
 func HealTargeting(owner: Unit, manager: GameManager):
-	var possible_targets = GetTargetsInRange(owner, manager, manager.EnemyUnits)
+	var possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.EnemyUnits)
 	
 	if possible_targets.is_empty():
 		print("No target in heal range")
 		return null
 	else:
-		var target = TargetByStat(possible_targets, func(u : Unit): return u.HPPercent)
+		var target = AILogic.TargetByStat(possible_targets, func(u : Unit): return u.HPPercent)
 		#var target = TargetByStat(possible_targets, "HPPercent")
 		return target
 
 ##############################################################
-#                      2.4  AI ROUTINES                      #
+#                      2.3  AI ROUTINES                      #
 ##############################################################
 ######################
 #   ROUTINE BLOCKS   #
@@ -223,7 +96,7 @@ func HealRoutine(owner: Unit, manager: GameManager):
 		await HealCommand(owner, manager, target)
 
 func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
-	var valid_targets = GetValidTargets(owner, manager, targets)
+	var valid_targets = AILogic.GetValidTargets(owner, manager, targets)
 	if valid_targets.is_empty():
 		print("%s has no valid path to any target." % owner.name)
 		return
@@ -273,7 +146,7 @@ func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 
 func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var player_units : Array[Unit] = manager.PlayerUnits
-	var reachable_player_units = GetReachableTargets(owner, manager, player_units)
+	var reachable_player_units = AILogic.GetReachableTargets(owner, manager, player_units)
 	if reachable_player_units.is_empty():
 		print("%s cannot reach any target to attack this turn" % owner.name)
 		return {}
@@ -281,8 +154,8 @@ func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var target_units: Array[Unit] = []
 	for target_data in reachable_player_units:
 		target_units.append(target_data["target"])
-	var high_aggro_targets = FilterTargetsByStat(target_units, func(u: Unit): return u.Aggro, true)
-	var final_target = TargetByStat(high_aggro_targets, func(u: Unit): return u.CurrentHP)
+	var high_aggro_targets = AILogic.FilterTargetsByStat(target_units, func(u: Unit): return u.Aggro, true)
+	var final_target = AILogic.TargetByStat(high_aggro_targets, func(u: Unit): return u.CurrentHP)
 	
 	return FindBestDestination(final_target, reachable_player_units)
 
@@ -294,7 +167,7 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	if damaged_allies.is_empty():
 		return {}
 	
-	var reachable_damaged_allies = GetReachableTargets(owner, manager, damaged_allies)
+	var reachable_damaged_allies = AILogic.GetReachableTargets(owner, manager, damaged_allies)
 	if reachable_damaged_allies.is_empty():
 		print("%s cannot reach any target to heal this turn" % owner.name)
 		return {}
@@ -302,7 +175,7 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var target_allies: Array[Unit] = []
 	for target_data in reachable_damaged_allies:
 		target_allies.append(target_data["target"])
-	var final_target = TargetByStat(target_allies, func(u: Unit): return u.HPPercent)
+	var final_target = AILogic.TargetByStat(target_allies, func(u: Unit): return u.HPPercent)
 	
 	return FindBestDestination(final_target, reachable_damaged_allies)
 	
@@ -359,7 +232,7 @@ func execute_move_healing_routine(owner: Unit, manager: GameManager):
 	if owner.HasActed == true:
 		return
 	
-	var allies = GetValidTargets(owner, manager, manager.EnemyUnits)
+	var allies = AILogic.GetValidTargets(owner, manager, manager.EnemyUnits)
 	if not allies.is_empty():
 		var damaged_allies = []
 		
@@ -371,8 +244,6 @@ func execute_move_healing_routine(owner: Unit, manager: GameManager):
 		if not damaged_allies.is_empty():
 			await ActionMovementRoutine(owner, manager, manager.EnemyUnits)
 			return
-
-
 
 ######################
 #    AI TURN LOGIC   #
