@@ -7,5 +7,5 @@
 script = ExtResource("2_ixnt7")
 NewMovementType = ExtResource("1_s7i3t")
 Name = "Water Walk"
-Description = "Moves freely on water."
+Description = "1 Cost move on Water"
 metadata/_custom_type_script = "uid://bcgbbkjjeguoo"

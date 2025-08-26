@@ -20,7 +20,7 @@ content_margin_right = 4.0
 content_margin_bottom = 4.0
 bg_color = Color(0.0823529, 0.109804, 0.133333, 0.627451)
 
-[node name="SelectionMenu" type="Control" node_paths=PackedStringArray("LevelSelectionContainer", "UnitCustomizationContainer", "StartLevelButton", "UnitInfoPanel", "NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "AttackRangeLabel", "ActionsLabel")]
+[node name="SelectionMenu" type="Control" node_paths=PackedStringArray("LevelSelectionContainer", "UnitCustomizationContainer", "StartLevelButton", "UnitInfoPanel", "NameLabel", "HPAttackLabel", "MoveRangeLabel", "AbilitiesLabel", "ActionsLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,18 +31,17 @@ script = ExtResource("1_r2ge3")
 GameManagerScene = ExtResource("2_atlk2")
 Level1Scene = ExtResource("2_e2lmm")
 Level2Scene = ExtResource("3_bw2gc")
-PlayerClasses = Array[ExtResource("4_547t1")]([ExtResource("5_pr5gi"), ExtResource("6_hrbqk"), ExtResource("8_wxrwb")])
 LevelSelectionContainer = NodePath("MarginContainer/VBoxContainer/LevelSelectionContainer")
 UnitCustomizationContainer = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitCustomizationContainer")
 StartLevelButton = NodePath("MarginContainer/VBoxContainer/StartLevelButton")
 UnitInfoPanel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer")
 NameLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/NameLabel")
-HPLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/HPLabel")
-AttackLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/AttackLabel")
-MoveLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/MoveLabel")
-AttackRangeLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/AttackRangeLabel")
+HPAttackLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/HPAttackLabel")
+MoveRangeLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/MoveRangeLabel")
+AbilitiesLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/AbilitiesLabel")
 ActionsLabel = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer/ActionsLabel")
 UnitSelectionSlotScene = ExtResource("7_hrbqk")
+PlayerClasses = Array[ExtResource("4_547t1")]([ExtResource("5_pr5gi"), ExtResource("6_hrbqk"), ExtResource("8_wxrwb")])
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -107,29 +106,25 @@ theme_override_font_sizes/font_size = 5
 theme_override_styles/normal = ExtResource("8_pr5gi")
 label_settings = ExtResource("9_hrbqk")
 
-[node name="HPLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+[node name="HPAttackLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 5
 theme_override_styles/normal = ExtResource("8_pr5gi")
 label_settings = ExtResource("9_hrbqk")
 
-[node name="AttackLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+[node name="MoveRangeLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 5
 theme_override_styles/normal = ExtResource("8_pr5gi")
 label_settings = ExtResource("9_hrbqk")
 
-[node name="MoveLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+[node name="AbilitiesLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 5
 theme_override_styles/normal = ExtResource("8_pr5gi")
 label_settings = ExtResource("9_hrbqk")
-
-[node name="AttackRangeLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 5
-theme_override_styles/normal = ExtResource("8_pr5gi")
-label_settings = ExtResource("9_hrbqk")
+autowrap_mode = 2
 
 [node name="ActionsLabel" type="Label" parent="MarginContainer/VBoxContainer/MainContentContainer/UnitInfoPanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 0)

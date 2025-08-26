@@ -6,5 +6,5 @@
 script = ExtResource("1_3m2ea")
 Type = 2
 Name = "Heal"
-Description = "Heal an ally unit in range."
+Description = "Heal 2 HP"
 metadata/_custom_type_script = "uid://8qqq2msqnb5e"

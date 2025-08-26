@@ -18,10 +18,11 @@ extends Control
 @export var StartLevelButton : Button
 @export var UnitInfoPanel : PanelContainer
 @export var NameLabel: Label
-@export var HPLabel: Label
-@export var AttackLabel: Label
-@export var MoveLabel: Label
-@export var AttackRangeLabel: Label
+@export var HPAttackLabel: Label
+#@export var AttackLabel: Label
+@export var MoveRangeLabel: Label
+#@export var AttackRangeLabel: Label
+@export var AbilitiesLabel: Label
 @export var ActionsLabel: Label
 @export var UnitSelectionSlotScene: PackedScene
 
@@ -83,16 +84,23 @@ func UpdateMenuInfoPanel(data: UnitData):
 		return
 		
 	NameLabel.text = data.Name
-	HPLabel.text = "HP: %d" % [data.BaseMaxHP]
-	AttackLabel.text = "ATK: " + str(data.BaseAttackPower)
-	MoveLabel.text = "MOV: " + str(data.BaseMoveRange)
-	AttackRangeLabel.text = "RNG: " + str(data.BaseAttackRange)
+	HPAttackLabel.text = "ATK: %d   HP: %d" % [data.BaseAttackPower, data.BaseMaxHP]
+	#AttackLabel.text = "ATK: " + str(data.BaseAttackPower)
+	MoveRangeLabel.text = "MOV: %d  RNG: %d " % [data.BaseMoveRange, data.BaseAttackRange]
+	#AttackRangeLabel.text = "RNG: " + str(data.BaseAttackRange)
 	
+	var abilities_text = "Abilities:"
 	var actions_text = "Actions:"
+	
+	for ability in data.Abilities:
+		if ability and ability.Description != "":
+			abilities_text += "\n- %s: %s" % [ability.Name, ability.Description]
+	
 	for action in data.Actions:
 		if action and action.Description != "":
 			actions_text += "\n- %s: %s" % [action.Name, action.Description]
 	
+	AbilitiesLabel.text = abilities_text
 	ActionsLabel.text = actions_text
 	UnitInfoPanel.show()
 

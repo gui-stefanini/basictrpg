@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_vm5rp")
 Name = "Stealth"
-Description = "Lower priority for enemies when starting turn at full HP."
+Description = "- Aggro when 100% HP"
 metadata/_custom_type_script = "uid://bw44eaykeu8k4"
