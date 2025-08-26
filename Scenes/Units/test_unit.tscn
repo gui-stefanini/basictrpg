@@ -73,9 +73,9 @@ script = ExtResource("1_4tnkl")
 modulate = Color(1, 0.317647, 0.247059, 1)
 material = ExtResource("2_0tfuv")
 texture = ExtResource("2_4tnkl")
-hframes = 6
+hframes = 5
 vframes = 2
-frame = 7
+frame = 6
 
 [node name="HealthBar" parent="RotationTracker/MoveTracker" instance=ExtResource("3_5cpx2")]
 
