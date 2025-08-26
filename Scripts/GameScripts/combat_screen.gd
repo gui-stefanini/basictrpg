@@ -105,8 +105,8 @@ func ReturnUnits():
 	
 	Defender.global_position = DefenderOriginalPosition
 	Defender.Sprite.frame = DefenderOriginalFrame
+	Defender.RotationTracker.scale.x = 1 # Reset RotationTracker scale
 	#Defender.Sprite.flip_h = false
-	Attacker.RotationTracker.scale.x = 1 # Reset RotationTracker scale
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

@@ -216,6 +216,7 @@ func EndPlayerTurn():
 	
 	if UnitsWhoHaveActed.size() == PlayerUnits.size():
 		turn_ended.emit(TurnNumber)
+		await Wait(0.5)
 		await StartEnemyTurn()
 	else:
 		CurrentSubState = PlayerTurnState.UNIT_SELECTION_PHASE
