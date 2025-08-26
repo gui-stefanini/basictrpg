@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://byvoiyqkydyyy"]
+
+[ext_resource type="Script" uid="uid://dff5gjqlmlky1" path="res://Scripts/vfx.gd" id="1_d6bth"]
+
+[node name="VFX" type="Node2D" node_paths=PackedStringArray("MyRotationTracker", "MySprite2D", "MyAnimationPlayer")]
+script = ExtResource("1_d6bth")
+MyRotationTracker = NodePath("RotationTracker")
+MySprite2D = NodePath("RotationTracker/MoveTracker/Sprite2D")
+MyAnimationPlayer = NodePath("AnimationPlayer")
+
+[node name="RotationTracker" type="Node2D" parent="."]
+
+[node name="MoveTracker" type="Node2D" parent="RotationTracker"]
+
+[node name="Sprite2D" type="Sprite2D" parent="RotationTracker/MoveTracker"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

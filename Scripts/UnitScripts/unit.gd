@@ -6,6 +6,7 @@ extends CharacterBody2D
 
 signal turn_started(unit: Unit)
 
+signal vfx_requested(vfx_data: VFXData, animation_name: String)
 signal animation_hit
 
 signal damage_taken(unit: Unit, damage_data: Dictionary)
@@ -187,6 +188,13 @@ func StartTurn():
 	for status in statuses_to_remove:
 		StatusLogic.RemoveStatusLogic(self, status)
 		ActiveStatuses.erase(status)
+
+##############################################################
+#                      2.3 ANIMATIONS                        #
+##############################################################
+
+func RequestVFX(vfx_data: VFXData, animation_name: String):
+	vfx_requested.emit(vfx_data, animation_name)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

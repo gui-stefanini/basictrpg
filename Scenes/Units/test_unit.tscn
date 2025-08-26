@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://cawauhuijdnej"]
+[gd_scene load_steps=11 format=3 uid="uid://cawauhuijdnej"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_4tnkl"]
 [ext_resource type="Material" uid="uid://7w1v3fveurkr" path="res://Resources/Shaders/unit_shader_material.tres" id="2_0tfuv"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="3_5cpx2"]
-[ext_resource type="Texture2D" uid="uid://dx1h4jqtbuu74" path="res://Assets/Art/Sprites/Assassin/AssassinSpriteSheet_1.png" id="3_5yiaf"]
+[ext_resource type="Texture2D" uid="uid://0lkshhwm4rav" path="res://Assets/Art/Sprites/Priest/PriestSpriteSheet_1.png" id="3_6pcgi"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="4_5yiaf"]
 [ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="5_5cpx2"]
 [ext_resource type="AnimationLibrary" uid="uid://b36ng25oq3jhi" path="res://Resources/Animations/assassin_library.res" id="5_6pcgi"]
+[ext_resource type="AnimationLibrary" uid="uid://b0lr554ijj65h" path="res://Resources/Animations/priest_library.res" id="8_0331v"]
 
 [sub_resource type="Animation" id="Animation_4tnkl"]
 length = 0.001
@@ -86,7 +87,7 @@ script = ExtResource("1_4tnkl")
 [node name="Sprite" type="Sprite2D" parent="RotationTracker/MoveTracker"]
 modulate = Color(1, 0.317647, 0.247059, 1)
 material = ExtResource("2_0tfuv")
-texture = ExtResource("3_5yiaf")
+texture = ExtResource("3_6pcgi")
 hframes = 5
 vframes = 2
 frame = 6
@@ -98,5 +99,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_0tfuv"),
 &"assassin_library": ExtResource("5_6pcgi"),
 &"bandit_library": ExtResource("5_5cpx2"),
-&"knight_library": ExtResource("4_5yiaf")
+&"knight_library": ExtResource("4_5yiaf"),
+&"priest_library": ExtResource("8_0331v")
 }

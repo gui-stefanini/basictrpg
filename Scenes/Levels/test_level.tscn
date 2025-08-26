@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_7rivk"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_hyk2w"]
 [ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/Data/AIData/knight_ai.tres" id="3_mvu5i"]
-[ext_resource type="Resource" uid="uid://cvadj7vvigrpa" path="res://Resources/Data/ClassData/EnemyClassData/enemy_bandit_data.tres" id="4_7rivk"]
+[ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/Data/ClassData/EnemyClassData/enemy_priest_data.tres" id="4_7rivk"]
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="5_sufl4"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="6_rkdv3"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="7_xnpcw"]

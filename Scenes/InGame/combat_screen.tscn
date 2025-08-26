@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://8hd5gec3f71l"]
+[gd_scene load_steps=4 format=3 uid="uid://8hd5gec3f71l"]
 
 [ext_resource type="Script" uid="uid://cl88kjxvd6r6l" path="res://Scripts/GameScripts/combat_screen.gd" id="1_tt2g6"]
 [ext_resource type="Texture2D" uid="uid://b1d60m3kdishd" path="res://Assets/Art/Backgrounds/TestBackground.png" id="2_g8dt8"]
+[ext_resource type="PackedScene" uid="uid://byvoiyqkydyyy" path="res://Scenes/Effects/vfx.tscn" id="2_tt2g6"]
 
 [node name="CombatScreen" type="CanvasLayer" node_paths=PackedStringArray("Background", "PlayerPosition", "EnemyPosition")]
 script = ExtResource("1_tt2g6")
+VfxScene = ExtResource("2_tt2g6")
 Background = NodePath("Background")
 PlayerPosition = NodePath("Background/PlayerPosition")
 EnemyPosition = NodePath("Background/EnemyPosition")

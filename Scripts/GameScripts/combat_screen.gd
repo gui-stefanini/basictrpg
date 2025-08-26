@@ -13,6 +13,7 @@ signal animation_hit
 ######################
 #     REFERENCES     #
 ######################
+@export var VfxScene: PackedScene
 @export var Background: TextureRect
 @export var PlayerPosition: Marker2D
 @export var EnemyPosition: Marker2D
@@ -56,6 +57,7 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	
 	# --- Connect to Signals ---
 	Attacker.animation_hit.connect(_on_attacker_hit)
+	Attacker.vfx_requested.connect(_on_vfx_requested)
 	animation_hit.connect(Defender._on_animation_being_hit)
 	
 	# --- Position and Configure Units for Combat ---
@@ -82,7 +84,9 @@ func ReturnUnits():
 	# Disconnect signal to prevent multiple calls
 	if Attacker.animation_hit.is_connected(_on_attacker_hit):
 		Attacker.animation_hit.disconnect(_on_attacker_hit)
-		
+	if Attacker.vfx_requested.is_connected(_on_vfx_requested):
+		Attacker.vfx_requested.disconnect(_on_vfx_requested)
+	
 	# --- Reparent Units back to the Main Scene ---
 	remove_child(Attacker)
 	AttackerOriginalParent.add_child(Attacker)
@@ -115,6 +119,34 @@ func _on_attacker_hit():
 	# will be applied in the AttackAction after the animation.
 	var final_hp = Defender.CurrentHP - Damage
 	Defender.HealthBar.update_health(final_hp, max_hp)
+
+func _on_vfx_requested(vfxdata: VFXData, animation_name: String):
+	
+	if not vfxdata: 
+		push_warning("Failed to load VFX Data")
+		return
+	
+	var vfx : VFX = VfxScene.instantiate()
+	
+	vfx.Data = vfxdata
+	var anim_player = vfx.MyAnimationPlayer
+	var rotation_tracker = vfx.MyRotationTracker
+	var sprite = vfx.MySprite2D
+	var data = vfx.Data
+	
+	sprite.texture = data.MyTexture
+	sprite.hframes = data.HFrames
+	sprite.vframes = data.VFrames
+	
+	anim_player.add_animation_library("vfx", data.Library)
+	
+	add_child(vfx)
+	vfx.global_position = Attacker.global_position
+	
+	if Attacker.Faction == Unit.Factions.ENEMY:
+		rotation_tracker.scale.x = -1
+	
+	anim_player.play("vfx/" + animation_name)
 
 ##############################################################
 #                      4.0 Godot Functions                   #
