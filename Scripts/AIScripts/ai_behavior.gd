@@ -255,6 +255,22 @@ func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Uni
 		if final_destination != enemy_tile:
 			await MoveCommand(owner, manager, final_destination)
 
+func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
+	var final_target_data = null
+	
+	for target_data in targets_data:
+		if target_data["target"] == final_target:
+			final_target_data = target_data
+			break
+	
+	var destination = final_target_data["destination"]
+	print("Found action opportunity for %s" % [final_target.name])
+	
+	return {
+		"target": final_target,
+		"destination": destination
+	}
+
 func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var player_units : Array[Unit] = manager.PlayerUnits
 	var reachable_player_units = GetReachableTargets(owner, manager, player_units)
@@ -268,19 +284,7 @@ func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var high_aggro_targets = FilterTargetsByStat(target_units, func(u: Unit): return u.Aggro, true)
 	var final_target = TargetByStat(high_aggro_targets, func(u: Unit): return u.CurrentHP)
 	
-	var final_target_data = null
-	for target_data in reachable_player_units:
-		if target_data["target"] == final_target:
-			final_target_data = target_data
-			break
-	
-	var destination = final_target_data["destination"]
-	print("Found attack opportunity for %s" % [final_target.name])
-	
-	return {
-		"target": final_target,
-		"destination": destination
-	}
+	return FindBestDestination(final_target, reachable_player_units)
 
 func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var damaged_allies: Array[Unit] = []
@@ -300,19 +304,8 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 		target_allies.append(target_data["target"])
 	var final_target = TargetByStat(target_allies, func(u: Unit): return u.HPPercent)
 	
-	var final_target_data = null
-	for target_data in reachable_damaged_allies:
-		if target_data["target"] == final_target:
-			final_target_data = target_data
-			break
+	return FindBestDestination(final_target, reachable_damaged_allies)
 	
-	var destination = final_target_data["destination"]
-	print("Found heal opportunity for %s" % [final_target.name])
-	
-	return {
-		"target": final_target,
-		"destination": destination
-	}
 
 ######################
 #    ROUTINE LOGIC   #

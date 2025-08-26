@@ -48,8 +48,9 @@ var MaxHP: int:
 var MaxHPModifier: int = 0
 
 var CurrentHP: int = 1
+
 var HPPercent: float:
-	get: return float(CurrentHP)/Data.BaseMaxHP
+	get: return float(CurrentHP)/MaxHP
 
 var AttackPower: int:
 	get: return Data.BaseAttackPower + AttackPowerModifier
