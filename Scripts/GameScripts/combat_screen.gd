@@ -104,6 +104,9 @@ func ReturnUnits():
 ##############################################################
 
 func _on_attacker_hit():
+	var tween = create_tween()
+	Background.modulate = Color(3, 2, 2, 1)
+	tween.tween_property(Background, "modulate", Color(1, 1, 1, 1), 0.2)
 	
 	animation_hit.emit()
 	
