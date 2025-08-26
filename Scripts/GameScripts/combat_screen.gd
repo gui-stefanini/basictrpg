@@ -127,26 +127,15 @@ func _on_vfx_requested(vfxdata: VFXData, animation_name: String):
 		return
 	
 	var vfx : VFX = VfxScene.instantiate()
-	
-	vfx.Data = vfxdata
-	var anim_player = vfx.MyAnimationPlayer
-	var rotation_tracker = vfx.MyRotationTracker
-	var sprite = vfx.MySprite2D
-	var data = vfx.Data
-	
-	sprite.texture = data.MyTexture
-	sprite.hframes = data.HFrames
-	sprite.vframes = data.VFrames
-	
-	anim_player.add_animation_library("vfx", data.Library)
-	
 	add_child(vfx)
+	
+	vfx.SetData(vfxdata)
 	vfx.global_position = Attacker.global_position
 	
 	if Attacker.Faction == Unit.Factions.ENEMY:
-		rotation_tracker.scale.x = -1
+		vfx.MyRotationTracker.scale.x = -1
 	
-	anim_player.play("vfx/" + animation_name)
+	vfx.MyAnimationPlayer.play("vfx/" + animation_name)
 
 ##############################################################
 #                      4.0 Godot Functions                   #

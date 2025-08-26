@@ -23,6 +23,13 @@ extends Node2D
 #                      2.0 Functions                         #
 ##############################################################
 
+func SetData(vfx_data: VFXData):
+	Data = vfx_data
+	MySprite2D.texture = Data.MyTexture
+	MySprite2D.hframes = Data.HFrames
+	MySprite2D.vframes = Data.VFrames
+	MyAnimationPlayer.add_animation_library("vfx", Data.Library)
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
