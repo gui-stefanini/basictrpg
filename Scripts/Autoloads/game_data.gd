@@ -11,6 +11,8 @@ extends Node
 #     REFERENCES     #
 ######################
 @export var MainMenuScene: PackedScene
+@export var TestLevel: PackedScene
+@export var TestClass: UnitData
 ######################
 #     SCRIPT-WIDE    #
 ######################

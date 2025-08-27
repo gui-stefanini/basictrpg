@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" load_steps=5 format=3 uid="uid://b7a3peffahbp4"]
 
-[ext_resource type="Texture2D" uid="uid://clcs7njyb7rxl" path="res://Assets/Art/Tiles/TileTexture_1.png" id="1_r6o3n"]
-[ext_resource type="Texture2D" uid="uid://d1q2j01waauyx" path="res://Assets/Art/Tiles/HighlightTexture.png" id="2_xs1ac"]
+[ext_resource type="Texture2D" uid="uid://clcs7njyb7rxl" path="res://Assets/Art/Tiles/TileTexture_1.png" id="1_rl3v6"]
+[ext_resource type="Texture2D" uid="uid://d1q2j01waauyx" path="res://Assets/Art/Tiles/HighlightTexture.png" id="2_e2yfp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vdl3g"]
-texture = ExtResource("1_r6o3n")
+texture = ExtResource("1_rl3v6")
 0:0/0 = 0
 0:0/0/custom_data_0 = 1
 0:0/0/custom_data_1 = "Grass"
@@ -23,7 +23,7 @@ texture = ExtResource("1_r6o3n")
 2:1/0/custom_data_1 = "Obstacle"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xs1ac"]
-texture = ExtResource("2_xs1ac")
+texture = ExtResource("2_e2yfp")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0

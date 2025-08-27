@@ -352,21 +352,16 @@ func _unhandled_input(event):
 									CurrentSubState = PlayerTurnState.ACTION_SELECTION_PHASE
 						
 						PlayerTurnState.ACTION_CONFIRMATION_PHASE:
-							print("DEBUG: Entered ACTION_CONFIRMATION_PHASE input handler.")
 							ActionForecast.hide()
 							MyActionManager.ClearHighlights()
 							
 							var target_tile = GroundGrid.local_to_map(TargetedUnit.global_position)
-							print("DEBUG: Clicked tile: ", clicked_tile, " | Target tile: ", target_tile)
 							
 							if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-								print("DEBUG: Confirmation click SUCCESSFUL. Executing action...")
 								CurrentSubState = PlayerTurnState.PROCESSING_PHASE
 								await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
-								print("DEBUG: Action execution FINISHED. Ending player turn.")
 								EndPlayerTurn()
 							else:
-								print("DEBUG: Clicked elsewhere. Cancelling confirmation.")
 								TargetedUnit = null
 								CurrentAction = null
 								ActionMenu.ShowMenu(ActiveUnit)
@@ -375,9 +370,9 @@ func _unhandled_input(event):
 func _ready() -> void:
 	if not GameData.selected_level:
 		push_warning("GameData is empty. Loading default Level for testing.")
-		GameData.selected_level = load("res://Scenes/Levels/test_level.tscn")
-		var knight_data = load("res://Resources/Data/ClassData/PlayerClassData/knight_data.tres")
-		GameData.player_units = [knight_data]
+		GameData.selected_level = GameData.TestLevel
+		var class_data = GameData.TestClass
+		GameData.player_units = [class_data]
 	
 	SetLevel()
 	

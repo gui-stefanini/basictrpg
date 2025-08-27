@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://djw4ditbnyjkc"]
 
-[ext_resource type="TileSet" uid="uid://b7a3peffahbp4" path="res://Assets/Grids/ground_grid.tres" id="1_rnrdo"]
+[ext_resource type="TileSet" uid="uid://b7a3peffahbp4" path="res://Resources/Grids/ground_grid.tres" id="1_rnrdo"]
 
 [node name="LevelHighlightLayer" type="TileMapLayer"]
 z_index = 2
