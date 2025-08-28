@@ -120,6 +120,10 @@ func DisplaySelectedUnitInfo():
 	else:
 		SelectedUnitInfoPanel.UpdatePanel(unit_on_tile)
 
+func UpdateCursor(new_tile_position: Vector2i):
+	if CheckGridBounds(new_tile_position):
+		MyCursor.MoveToTile(new_tile_position, GroundGrid)
+		DisplaySelectedUnitInfo()
 
 func CheckGridBounds(tile: Vector2i) -> bool:
 	var grid_rect = GroundGrid.get_used_rect()
@@ -196,7 +200,6 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	new_unit.unit_died.connect(_on_unit_died)
 	new_unit.vfx_requested.connect(_on_vfx_requested)
 	unit_spawned.emit(new_unit)
-
 
 func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 	for spawn_info in spawn_list:
@@ -277,10 +280,7 @@ func _on_direction_pressed(direction: Vector2i):
 		# We only want the cursor to move in specific phases.
 		SubState.UNIT_SELECTION_PHASE, SubState.TARGETING_PHASE:
 			var new_position = MyCursor.TilePosition + direction
-			if CheckGridBounds(new_position):
-				MyCursor.MoveToTile(new_position, GroundGrid)
-				DisplaySelectedUnitInfo()
-				return
+			UpdateCursor(new_position)
 		
 		SubState.ACTION_SELECTION_PHASE:
 			if direction.y == 1:
@@ -367,12 +367,31 @@ func _on_cancel_pressed():
 	#HideUI()
 	#action._on_select(ActiveUnit, self)
 
-func on_left_trigger_pressed():
-	pass
-
-func on_right_trigger_pressed():
-	pass
-
+func on_trigger_pressed(direction : int):
+	if CurrentSubState != SubState.UNIT_SELECTION_PHASE and CurrentSubState != SubState.TARGETING_PHASE:
+		return
+	
+	var unit_on_tile = GetUnitAtTile(MyCursor.TilePosition)
+	var unit_faction_array: Array[Unit] = []
+	var next_unit: Unit = null
+	
+	if unit_on_tile == null:
+		next_unit = PlayerUnits[0]
+		UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
+		return
+	
+	if unit_on_tile in PlayerUnits:
+		unit_faction_array = PlayerUnits
+	elif unit_on_tile in EnemyUnits:
+		unit_faction_array = EnemyUnits
+	
+	var current_index = unit_faction_array.find(unit_on_tile)
+	var array_size = unit_faction_array.size()
+	var next_index = (current_index + direction + array_size) % array_size
+	
+	next_unit = unit_faction_array[next_index]
+	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
+	
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)
@@ -508,6 +527,8 @@ func _ready() -> void:
 	InputManager.direction_pressed.connect(_on_direction_pressed)
 	InputManager.confirm_pressed.connect(_on_confirm_pressed)
 	InputManager.cancel_pressed.connect(_on_cancel_pressed)
+	InputManager.left_trigger_pressed.connect(on_trigger_pressed.bind(-1))
+	InputManager.right_trigger_pressed.connect(on_trigger_pressed.bind(1))
 	
 	SetLevel()
 	
