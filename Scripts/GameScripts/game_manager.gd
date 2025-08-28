@@ -22,7 +22,7 @@ signal unit_removed(unit: Unit)
 @export var VfxScene: PackedScene
 
 @export var ManagerTimer: Timer
-@export var ActionMenu: PanelContainer
+@export var MyActionMenu: ActionMenu
 @export var EndScreen: CanvasLayer
 @export var ActiveUnitInfoPanel: PanelContainer
 @export var SelectedUnitInfoPanel: PanelContainer
@@ -93,7 +93,7 @@ func SetCursor():
 ##############################################################
 
 func HideUI():
-	ActionMenu.HideMenu()
+	MyActionMenu.HideMenu()
 	ActiveUnitInfoPanel.hide()
 	SelectedUnitInfoPanel.hide()
 
@@ -226,7 +226,7 @@ func StartPlayerTurn():
 
 func OnPlayerActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
-	ActionMenu.ShowMenu(ActiveUnit)
+	MyActionMenu.ShowMenu(ActiveUnit)
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
@@ -270,15 +270,23 @@ func EndGame(player_won: bool):
 ##############################################################
 
 func _on_direction_pressed(direction: Vector2i):
-	# We only want the cursor to move in specific phases.
-	var valid_cursor_phase : bool = CurrentSubState in [SubState.UNIT_SELECTION_PHASE, SubState.TARGETING_PHASE]
-	if not CurrentGameState == GameState.PLAYER_TURN or not valid_cursor_phase:
+	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
 	
-	var new_position = MyCursor.TilePosition + direction
-	if CheckGridBounds(new_position):
-		MyCursor.MoveToTile(new_position, GroundGrid)
-		DisplaySelectedUnitInfo()
+	match CurrentGameState:
+		# We only want the cursor to move in specific phases.
+		SubState.UNIT_SELECTION_PHASE or SubState.TARGETING_PHASE:
+			var new_position = MyCursor.TilePosition + direction
+			if CheckGridBounds(new_position):
+				MyCursor.MoveToTile(new_position, GroundGrid)
+				DisplaySelectedUnitInfo()
+		
+		SubState.ACTION_SELECTION_PHASE:
+			if direction.y == 1:
+				MyActionMenu.NavigateDown()
+			elif direction.y == -1:
+				MyActionMenu.NavigateUp()
+			return
 
 func _on_confirm_pressed():
 	if not CurrentGameState == GameState.PLAYER_TURN:
@@ -293,8 +301,11 @@ func _on_confirm_pressed():
 				HideUI()
 				ActiveUnit = unit_on_tile
 				ActiveUnitInfoPanel.UpdatePanel(ActiveUnit)
-				ActionMenu.ShowMenu(ActiveUnit)
+				MyActionMenu.ShowMenu(ActiveUnit)
 				CurrentSubState = SubState.ACTION_SELECTION_PHASE
+		
+		SubState.ACTION_SELECTION_PHASE:
+			MyActionMenu.SelectAction()
 		
 		SubState.TARGETING_PHASE:
 			var target = null
@@ -340,7 +351,7 @@ func _on_cancel_pressed():
 		SubState.TARGETING_PHASE:
 			HideUI()
 			MyActionManager.ClearHighlights()
-			ActionMenu.ShowMenu(ActiveUnit)
+			MyActionMenu.ShowMenu(ActiveUnit)
 			CurrentAction = null
 			CurrentSubState = SubState.ACTION_SELECTION_PHASE
 		
@@ -348,8 +359,12 @@ func _on_cancel_pressed():
 			ActionForecast.hide()
 			TargetedUnit = null
 			CurrentAction = null
-			ActionMenu.ShowMenu(ActiveUnit)
+			MyActionMenu.ShowMenu(ActiveUnit)
 			CurrentSubState = SubState.ACTION_SELECTION_PHASE
+
+#func _on_action_menu_action_selected(action: Action) -> void:
+	#HideUI()
+	#action._on_select(ActiveUnit, self)
 
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
@@ -486,6 +501,7 @@ func _ready() -> void:
 	InputManager.direction_pressed.connect(_on_direction_pressed)
 	InputManager.confirm_pressed.connect(_on_confirm_pressed)
 	InputManager.cancel_pressed.connect(_on_cancel_pressed)
+	MyActionMenu.action_selected.connect(_on_action_menu_action_selected)
 	
 	SetLevel()
 	
