@@ -17,12 +17,15 @@ signal action_selected(action: Action)
 ######################
 #     SCRIPT-WIDE    #
 ######################
-
+var ActiveUnit : Unit = null
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
 func NavigateUp():
+	if MyItemList.get_selected_items().is_empty():
+		MyItemList.select(0)
+		return
 	var current_selection = MyItemList.get_selected_items()[0]
 	# % gives the remain of the division. 
 	# Ex: if there are 4 itens and you are on item 2: (2-1+4)%4 = 5%4 = 1 remain.
@@ -30,16 +33,22 @@ func NavigateUp():
 	MyItemList.select(new_selection)
 
 func NavigateDown():
+	if MyItemList.get_selected_items().is_empty():
+		MyItemList.select(0)
+		return
 	var current_selection = MyItemList.get_selected_items()[0]
 	var new_selection = (current_selection + 1) % MyItemList.item_count
 	MyItemList.select(new_selection)
 
 func HideMenu():
 	MyItemList.clear()
+	ActiveUnit = null
 	hide()
 
 func ShowMenu(unit: Unit):
 	MyItemList.clear()
+	
+	ActiveUnit = unit
 	
 	var actions = unit.Data.Actions
 	actions.sort_custom(func(a, b): 
@@ -50,14 +59,12 @@ func ShowMenu(unit: Unit):
 		var action = actions[i]
 		MyItemList.add_item(action.Name)
 		MyItemList.set_item_metadata(i, action)
+		var is_enabled = IsActionValid(i)
 		
-		if action is MoveAction and unit.HasMoved:
-			MyItemList.set_item_disabled(i, true)
-		if action is not MoveAction and action is not WaitAction and unit.HasActed:
-			MyItemList.set_item_disabled(i, true)
+		if not is_enabled:
+			MyItemList.set_item_custom_fg_color(i, Color.DIM_GRAY)
 	
 	MyItemList.select(0)
-	MyItemList.grab_focus()
 	
 	global_position = unit.global_position + Vector2(-8, -20)
 	
@@ -72,8 +79,23 @@ func ShowMenu(unit: Unit):
 	#hide()
 	#action_selected.emit(action)
 
+func IsActionValid(index: int) -> bool:
+	var action = MyItemList.get_item_metadata(index)
+	
+	var is_enabled = true
+	
+	if action is MoveAction and ActiveUnit.HasMoved:
+		is_enabled = false
+	if action is not MoveAction and action is not WaitAction and ActiveUnit.HasActed:
+		is_enabled = false
+	
+	return is_enabled
+
 func SelectAction():
 	var selected_index = MyItemList.get_selected_items()[0]
+	if IsActionValid(selected_index) == false:
+		return
+	
 	var selected_action = MyItemList.get_item_metadata(selected_index)
 	action_selected.emit(selected_action)
 
@@ -84,3 +106,15 @@ func SelectAction():
 func _ready() -> void:
 	UiFunctions.SetMouseIgnore(self)
 	UiFunctions.SetMouseIgnore(MyItemList)
+
+
+func _on_item_list_item_selected(index: int) -> void:
+	var is_enabled = IsActionValid(index)
+	
+	if is_enabled:
+		if MyItemList.has_theme_color_override("font_selected_color"):
+			MyItemList.remove_theme_color_override("font_selected_color")
+	
+	if not is_enabled:
+		if not MyItemList.has_theme_color_override("font_selected_color"):
+			MyItemList.add_theme_color_override("font_selected_color", Color.DIM_GRAY)
