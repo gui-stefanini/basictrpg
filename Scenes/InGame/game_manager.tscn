@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/unit_info_panel.tscn" id="11_uj5f7"]
 [ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/action_forecast.tscn" id="12_v2ahw"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "ActionMenu", "EndScreen", "ActiveUnitInfoPanel", "ClickedUnitInfoPanel", "ActionForecast", "MyMoveManager", "MyActionManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "ActionMenu", "EndScreen", "ActiveUnitInfoPanel", "ActionForecast", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
@@ -24,7 +24,6 @@ ManagerTimer = NodePath("ManagerTimer")
 ActionMenu = NodePath("ActionMenu")
 EndScreen = NodePath("EndScreen")
 ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
-ClickedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 MyMoveManager = NodePath("MoveManager")
 MyActionManager = NodePath("ActionManager")

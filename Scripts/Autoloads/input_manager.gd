@@ -1,0 +1,58 @@
+extends Node
+
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
+
+signal confirm_pressed
+signal cancel_pressed
+signal direction_pressed(direction: Vector2i)
+
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
+
+######################
+#     SCRIPT-WIDE    #
+######################
+
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################
+
+func _input(event: InputEvent) -> void:
+	
+	if event.is_action_just_pressed("confirm"):
+		confirm_pressed.emit()
+		get_viewport().set_input_as_handled() # Mark event as handled
+		return
+	
+	if event.is_action_just_pressed("cancel"):
+		cancel_pressed.emit()
+		get_viewport().set_input_as_handled()
+		return
+	
+	var direction := Vector2i.ZERO
+	if event.is_action_just_pressed("move_right"):
+		direction.x = 1
+	elif event.is_action_just_pressed("move_left"):
+		direction.x = -1
+	elif event.is_action_just_pressed("move_down"):
+		direction.y = 1
+	elif event.is_action_just_pressed("move_up"):
+		direction.y = -1
+	
+	if direction != Vector2i.ZERO:
+		direction_pressed.emit(direction)
+		get_viewport().set_input_as_handled()
