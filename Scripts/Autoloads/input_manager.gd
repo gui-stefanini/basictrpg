@@ -6,9 +6,11 @@ extends Node
 
 signal confirm_pressed
 signal cancel_pressed
-signal direction_pressed(direction: Vector2i)
+signal info_pressed
+signal start_pressed
 signal left_trigger_pressed
 signal right_trigger_pressed
+signal direction_pressed(direction: Vector2i)
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -33,7 +35,6 @@ signal right_trigger_pressed
 ##############################################################
 
 func _input(event: InputEvent) -> void:
-	
 	if not (event is InputEventKey or event is InputEventJoypadButton):
 		return
 	if not event.is_pressed():
@@ -41,11 +42,31 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("confirm"):
 		confirm_pressed.emit()
-		get_viewport().set_input_as_handled() # Mark event as handled
+		get_viewport().set_input_as_handled()
 		return
 	
 	if Input.is_action_just_pressed("cancel"):
 		cancel_pressed.emit()
+		get_viewport().set_input_as_handled()
+		return
+	
+	if Input.is_action_just_pressed("info"):
+		info_pressed.emit()
+		get_viewport().set_input_as_handled()
+		return
+	
+	if Input.is_action_just_pressed("start"):
+		start_pressed.emit()
+		get_viewport().set_input_as_handled()
+		return
+	
+	if Input.is_action_just_pressed("left_trigger"):
+		left_trigger_pressed.emit()
+		get_viewport().set_input_as_handled()
+		return
+	
+	if Input.is_action_just_pressed("right_trigger"):
+		right_trigger_pressed.emit()
 		get_viewport().set_input_as_handled()
 		return
 	
@@ -58,18 +79,7 @@ func _input(event: InputEvent) -> void:
 		direction.x = -1
 	elif Input.is_action_just_pressed("move_right"):
 		direction.x = 1
-	
 	if direction != Vector2i.ZERO:
 		direction_pressed.emit(direction)
 		get_viewport().set_input_as_handled()
-		return
-	
-	if Input.is_action_just_pressed("left_trigger"):
-		left_trigger_pressed.emit()
-		get_viewport().set_input_as_handled() # Mark event as handled
-		return
-	
-	if Input.is_action_just_pressed("right_trigger"):
-		right_trigger_pressed.emit()
-		get_viewport().set_input_as_handled() # Mark event as handled
 		return
