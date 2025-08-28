@@ -33,24 +33,29 @@ signal direction_pressed(direction: Vector2i)
 
 func _input(event: InputEvent) -> void:
 	
-	if event.is_action_just_pressed("confirm"):
+	if not (event is InputEventKey or event is InputEventJoypadButton):
+		return
+	if not event.is_pressed():
+		return
+	
+	if Input.is_action_just_pressed("confirm"):
 		confirm_pressed.emit()
 		get_viewport().set_input_as_handled() # Mark event as handled
 		return
 	
-	if event.is_action_just_pressed("cancel"):
+	if Input.is_action_just_pressed("cancel"):
 		cancel_pressed.emit()
 		get_viewport().set_input_as_handled()
 		return
 	
 	var direction := Vector2i.ZERO
-	if event.is_action_just_pressed("move_right"):
+	if Input.is_action_just_pressed("move_right"):
 		direction.x = 1
-	elif event.is_action_just_pressed("move_left"):
+	elif Input.is_action_just_pressed("move_left"):
 		direction.x = -1
-	elif event.is_action_just_pressed("move_down"):
+	elif Input.is_action_just_pressed("move_down"):
 		direction.y = 1
-	elif event.is_action_just_pressed("move_up"):
+	elif Input.is_action_just_pressed("move_up"):
 		direction.y = -1
 	
 	if direction != Vector2i.ZERO:
