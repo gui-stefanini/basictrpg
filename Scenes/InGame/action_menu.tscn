@@ -18,11 +18,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_p3omo")
 script = ExtResource("1_p3omo")
 ActionButtonScene = ExtResource("2_p3omo")
 MyItemList = NodePath("ItemList")
+ValidSelectionColor = Color(0.955963, 0.955963, 0.955963, 1)
+InvalidSelectionColor = Color(0.29219, 0.29219, 0.29219, 1)
 metadata/_edit_group_ = true
 
 [node name="ItemList" type="ItemList" parent="."]
 layout_mode = 2
-theme_override_colors/font_selected_color = Color(0, 0.717647, 0, 1)
 theme_override_constants/v_separation = 2
 theme_override_constants/line_separation = 1
 theme_override_font_sizes/font_size = 7
@@ -30,5 +31,3 @@ allow_search = false
 auto_width = true
 auto_height = true
 text_overrun_behavior = 0
-
-[connection signal="item_selected" from="ItemList" to="." method="_on_item_list_item_selected"]

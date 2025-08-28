@@ -14,13 +14,24 @@ signal action_selected(action: Action)
 ######################
 @export var ActionButtonScene: PackedScene
 @export var MyItemList: ItemList
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
+@export var ValidSelectionColor: Color
+@export var InvalidSelectionColor: Color
 var ActiveUnit : Unit = null
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+func UpdateColor(index: int):
+	var is_enabled = IsActionValid(index)
+	print(is_enabled)
+	if is_enabled:
+		MyItemList.add_theme_color_override("font_selected_color", ValidSelectionColor)
+	else:
+		MyItemList.add_theme_color_override("font_selected_color", InvalidSelectionColor)
 
 func NavigateUp():
 	if MyItemList.get_selected_items().is_empty():
@@ -31,6 +42,7 @@ func NavigateUp():
 	# Ex: if there are 4 itens and you are on item 2: (2-1+4)%4 = 5%4 = 1 remain.
 	var new_selection = (current_selection - 1 + MyItemList.item_count) % MyItemList.item_count
 	MyItemList.select(new_selection)
+	UpdateColor(new_selection)
 
 func NavigateDown():
 	if MyItemList.get_selected_items().is_empty():
@@ -39,6 +51,7 @@ func NavigateDown():
 	var current_selection = MyItemList.get_selected_items()[0]
 	var new_selection = (current_selection + 1) % MyItemList.item_count
 	MyItemList.select(new_selection)
+	UpdateColor(new_selection)
 
 func HideMenu():
 	MyItemList.clear()
@@ -65,6 +78,7 @@ func ShowMenu(unit: Unit):
 			MyItemList.set_item_custom_fg_color(i, Color.DIM_GRAY)
 	
 	MyItemList.select(0)
+	UpdateColor(0)
 	
 	global_position = unit.global_position + Vector2(-8, -20)
 	
@@ -106,15 +120,3 @@ func SelectAction():
 func _ready() -> void:
 	UiFunctions.SetMouseIgnore(self)
 	UiFunctions.SetMouseIgnore(MyItemList)
-
-
-func _on_item_list_item_selected(index: int) -> void:
-	var is_enabled = IsActionValid(index)
-	
-	if is_enabled:
-		if MyItemList.has_theme_color_override("font_selected_color"):
-			MyItemList.remove_theme_color_override("font_selected_color")
-	
-	if not is_enabled:
-		if not MyItemList.has_theme_color_override("font_selected_color"):
-			MyItemList.add_theme_color_override("font_selected_color", Color.DIM_GRAY)
