@@ -24,11 +24,11 @@ extends Action
 
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
-	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
+	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	manager.MyActionManager.HighlightMoveArea(user)
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.PlayerTurnState.PROCESSING_PHASE
+	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	if target is not Vector2i:
 		print(str(self) + "has an invalid target type")
 		return null
@@ -48,11 +48,11 @@ func _execute(user: Unit, manager: GameManager, target = null, _simulation : boo
 	
 	match manager.CurrentGameState:
 		manager.GameState.PLAYER_TURN:
-			manager.CurrentSubState = manager.PlayerTurnState.PROCESSING_PHASE
+			manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 			tween.tween_callback(manager.OnPlayerActionFinished)
 		
 		manager.GameState.ENEMY_TURN:
-			manager.CurrentSubState = manager.EnemyTurnState.PROCESSING_PHASE
+			manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	
 	user.HasMoved = true
 	return tween

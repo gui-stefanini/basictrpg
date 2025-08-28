@@ -26,7 +26,7 @@ func _on_select(user: Unit, manager: GameManager):
 	_execute(user, manager)
 
 func _execute(_user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.PlayerTurnState.PROCESSING_PHASE
+	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	manager.EndPlayerTurn()
 	return null
 

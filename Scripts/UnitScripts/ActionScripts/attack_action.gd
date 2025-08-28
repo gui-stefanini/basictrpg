@@ -25,11 +25,11 @@ extends Action
 
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
-	manager.CurrentSubState = manager.PlayerTurnState.TARGETING_PHASE
+	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	manager.MyActionManager.HighlightAttackArea(user, user.AttackRange)
 
 func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.PlayerTurnState.PROCESSING_PHASE
+	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	if target is not Unit:
 		print(str(self) + "has an invalid target type")
 		return null
