@@ -367,6 +367,12 @@ func _on_cancel_pressed():
 	#HideUI()
 	#action._on_select(ActiveUnit, self)
 
+func on_left_trigger_pressed():
+	pass
+
+func on_right_trigger_pressed():
+	pass
+
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)

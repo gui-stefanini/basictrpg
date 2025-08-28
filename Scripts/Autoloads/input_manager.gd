@@ -7,7 +7,8 @@ extends Node
 signal confirm_pressed
 signal cancel_pressed
 signal direction_pressed(direction: Vector2i)
-
+signal left_trigger_pressed
+signal right_trigger_pressed
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -49,15 +50,26 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	var direction := Vector2i.ZERO
-	if Input.is_action_just_pressed("move_right"):
-		direction.x = 1
-	elif Input.is_action_just_pressed("move_left"):
-		direction.x = -1
+	if Input.is_action_just_pressed("move_up"):
+		direction.y = -1
 	elif Input.is_action_just_pressed("move_down"):
 		direction.y = 1
-	elif Input.is_action_just_pressed("move_up"):
-		direction.y = -1
+	elif Input.is_action_just_pressed("move_left"):
+		direction.x = -1
+	elif Input.is_action_just_pressed("move_right"):
+		direction.x = 1
 	
 	if direction != Vector2i.ZERO:
 		direction_pressed.emit(direction)
 		get_viewport().set_input_as_handled()
+		return
+	
+	if Input.is_action_just_pressed("left_trigger"):
+		left_trigger_pressed.emit()
+		get_viewport().set_input_as_handled() # Mark event as handled
+		return
+	
+	if Input.is_action_just_pressed("right_trigger"):
+		right_trigger_pressed.emit()
+		get_viewport().set_input_as_handled() # Mark event as handled
+		return
