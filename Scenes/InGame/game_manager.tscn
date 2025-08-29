@@ -1,33 +1,35 @@
-[gd_scene load_steps=16 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=17 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/Managers/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="2_wg6t1"]
-[ext_resource type="PackedScene" uid="uid://8hd5gec3f71l" path="res://Scenes/InGame/combat_screen.tscn" id="3_frkii"]
+[ext_resource type="PackedScene" uid="uid://8hd5gec3f71l" path="res://Scenes/InGame/HUD/combat_screen.tscn" id="3_frkii"]
 [ext_resource type="PackedScene" uid="uid://byvoiyqkydyyy" path="res://Scenes/Effects/vfx.tscn" id="4_2yddo"]
 [ext_resource type="Script" uid="uid://dh3seoviprk6r" path="res://Scripts/GameScripts/Managers/move_manager.gd" id="4_wg6t1"]
 [ext_resource type="Script" uid="uid://c4bgwv0xvr6cl" path="res://Scripts/GameScripts/Managers/action_manager.gd" id="5_frkii"]
-[ext_resource type="PackedScene" uid="uid://cnkdwa0ws23hk" path="res://Scenes/InGame/grid_cursor.tscn" id="5_hghx2"]
+[ext_resource type="PackedScene" uid="uid://cnkdwa0ws23hk" path="res://Scenes/InGame/HUD/grid_cursor.tscn" id="5_hghx2"]
 [ext_resource type="Script" uid="uid://cguqbducphruj" path="res://Scripts/UnitScripts/movement_data.gd" id="6_ehr7b"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="7_hghx2"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="8_gunjt"]
-[ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/InGame/action_menu.tscn" id="9_iav25"]
+[ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/InGame/HUD/action_menu.tscn" id="9_iav25"]
 [ext_resource type="Resource" uid="uid://djj0huxmw2fd4" path="res://Resources/Data/MovementData/water_infantry_movement.tres" id="9_njqqu"]
 [ext_resource type="PackedScene" uid="uid://dg028svcnu8gy" path="res://Scenes/Menus/end_screen.tscn" id="10_fuy7q"]
-[ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/unit_info_panel.tscn" id="11_uj5f7"]
-[ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/action_forecast.tscn" id="12_v2ahw"]
+[ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/HUD/unit_info_panel.tscn" id="11_uj5f7"]
+[ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/HUD/action_forecast.tscn" id="12_v2ahw"]
+[ext_resource type="PackedScene" uid="uid://c6y6b8er1uee0" path="res://Scenes/InGame/HUD/info_screen.tscn" id="15_gunjt"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "MyActionMenu", "EndScreen", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "MyMoveManager", "MyActionManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
 VfxScene = ExtResource("4_2yddo")
 ManagerTimer = NodePath("ManagerTimer")
 MyActionMenu = NodePath("ActionMenu")
-EndScreen = NodePath("EndScreen")
 ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 SelectedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 MyCursor = NodePath("GridCursor")
+InfoScreen = NodePath("InfoScreen")
+EndScreen = NodePath("EndScreen")
 MyMoveManager = NodePath("MoveManager")
 MyActionManager = NodePath("ActionManager")
 
@@ -47,10 +49,6 @@ one_shot = true
 [node name="ActionMenu" parent="." instance=ExtResource("9_iav25")]
 visible = false
 
-[node name="EndScreen" parent="." instance=ExtResource("10_fuy7q")]
-process_mode = 3
-visible = false
-
 [node name="UnitInfoPanel" parent="." instance=ExtResource("11_uj5f7")]
 visible = false
 offset_top = 132.0
@@ -65,6 +63,13 @@ offset_right = 320.0
 offset_bottom = 192.0
 
 [node name="ActionForecast" parent="." instance=ExtResource("12_v2ahw")]
+visible = false
+
+[node name="InfoScreen" parent="." instance=ExtResource("15_gunjt")]
+visible = false
+
+[node name="EndScreen" parent="." instance=ExtResource("10_fuy7q")]
+process_mode = 3
 visible = false
 
 [connection signal="action_selected" from="ActionMenu" to="." method="_on_action_menu_action_selected"]

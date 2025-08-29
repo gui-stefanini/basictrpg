@@ -11,6 +11,18 @@ signal unit_died(unit: Unit)
 signal unit_spawned(unit: Unit)
 signal unit_removed(unit: Unit)
 
+#@warning_ignore("unused_signal")
+#signal confirm_passed()
+@warning_ignore("unused_signal")
+signal cancel_passed()
+@warning_ignore("unused_signal")
+signal info_passed()
+@warning_ignore("unused_signal")
+signal left_trigger_passed()
+@warning_ignore("unused_signal")
+signal right_trigger_passed()
+#@warning_ignore("unused_signal")
+#signal direction_passed(direction: Vector2i)
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -23,11 +35,14 @@ signal unit_removed(unit: Unit)
 
 @export var ManagerTimer: Timer
 @export var MyActionMenu: ActionMenu
-@export var EndScreen: CanvasLayer
+
 @export var ActiveUnitInfoPanel: PanelContainer
 @export var SelectedUnitInfoPanel: PanelContainer
 @export var ActionForecast: PanelContainer
 @export var MyCursor: GridCursor
+
+@export var InfoScreen: CanvasLayer
+@export var EndScreen: CanvasLayer
 
 @export var MyMoveManager: MoveManager
 @export var MyActionManager: ActionManager
@@ -40,9 +55,10 @@ var HighlightLayer : TileMapLayer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum GameState {NULL, PLAYER_TURN, ENEMY_TURN}
+enum GameState {NULL, HUD, PLAYER_TURN, ENEMY_TURN}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 var CurrentGameState = GameState.NULL
+var PreviousGameState = GameState.NULL
 var CurrentSubState = SubState.NULL
 
 var PlayerUnits: Array[Unit] = []
@@ -77,10 +93,14 @@ func SetLevel():
 	HighlightLayer = CurrentLevel.HighlightLayer
 
 func SetAuxiliaryManagers():
-	CurrentLevelManager.initialize(self)
+	CurrentLevelManager.Initialize(self)
 	level_set.emit()
-	MyMoveManager.initialize(self)
-	MyActionManager.initialize(self)
+	MyMoveManager.Initialize(self)
+	MyActionManager.Initialize(self)
+
+func SetInfoScreen():
+	InfoScreen.Initialize(self)
+	InfoScreen.screen_closed.connect(_on_unit_info_screen_closed)
 
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
@@ -96,20 +116,6 @@ func HideUI():
 	MyActionMenu.HideMenu()
 	ActiveUnitInfoPanel.hide()
 	SelectedUnitInfoPanel.hide()
-
-#func DisplayClickedUnitInfo(clicked_tile: Vector2i) -> bool:
-	#for unit in PlayerUnits:
-		#if clicked_tile == GroundGrid.local_to_map(unit.global_position):
-			#if unit == ActiveUnit:
-				#return true
-			#else:
-				#SelectedUnitInfoPanel.UpdatePanel(unit)
-				#return true
-	#for unit in EnemyUnits:
-		#if clicked_tile == GroundGrid.local_to_map(unit.global_position):
-			#SelectedUnitInfoPanel.UpdatePanel(unit)
-			#return true
-	#return false
 
 func DisplaySelectedUnitInfo():
 	var unit_on_tile : Unit = GetUnitAtTile(MyCursor.TilePosition)
@@ -272,23 +278,6 @@ func EndGame(player_won: bool):
 #                      3.0 Signal Functions                  #
 ##############################################################
 
-func _on_direction_pressed(direction: Vector2i):
-	if not CurrentGameState == GameState.PLAYER_TURN:
-		return
-	
-	match CurrentSubState:
-		# We only want the cursor to move in specific phases.
-		SubState.UNIT_SELECTION_PHASE, SubState.TARGETING_PHASE:
-			var new_position = MyCursor.TilePosition + direction
-			UpdateCursor(new_position)
-		
-		SubState.ACTION_SELECTION_PHASE:
-			if direction.y == 1:
-				MyActionMenu.NavigateDown()
-			elif direction.y == -1:
-				MyActionMenu.NavigateUp()
-			return
-
 func _on_confirm_pressed():
 	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
@@ -340,6 +329,9 @@ func _on_confirm_pressed():
 				EndPlayerTurn()
 
 func _on_cancel_pressed():
+	if CurrentGameState == GameState.HUD:
+		cancel_passed.emit
+		return
 	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
 	
@@ -367,7 +359,31 @@ func _on_cancel_pressed():
 	#HideUI()
 	#action._on_select(ActiveUnit, self)
 
+func _on_info_pressed():
+	if CurrentGameState == GameState.HUD:
+		info_passed.emit
+		return
+	if not CurrentGameState == GameState.PLAYER_TURN:
+		return
+	if not (CurrentSubState == SubState.UNIT_SELECTION_PHASE or CurrentSubState == SubState.TARGETING_PHASE):
+		return
+	
+	var unit_on_tile = GetUnitAtTile(MyCursor.TilePosition)
+	if unit_on_tile:
+		PreviousGameState = CurrentGameState
+		CurrentGameState = GameState.HUD
+		InfoScreen.ShowScreen(unit_on_tile)
+
 func on_trigger_pressed(direction : int):
+	if CurrentGameState == GameState.HUD:
+		if direction == -1:
+			left_trigger_passed.emit
+		elif direction == 1:
+			right_trigger_passed.emit
+		return
+	
+	if not CurrentGameState == GameState.PLAYER_TURN:
+		return
 	if CurrentSubState != SubState.UNIT_SELECTION_PHASE and CurrentSubState != SubState.TARGETING_PHASE:
 		return
 	
@@ -391,10 +407,30 @@ func on_trigger_pressed(direction : int):
 	
 	next_unit = unit_faction_array[next_index]
 	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
+
+func _on_direction_pressed(direction: Vector2i):
+	if not CurrentGameState == GameState.PLAYER_TURN:
+		return
 	
+	match CurrentSubState:
+		# We only want the cursor to move in specific phases.
+		SubState.UNIT_SELECTION_PHASE, SubState.TARGETING_PHASE:
+			var new_position = MyCursor.TilePosition + direction
+			UpdateCursor(new_position)
+		
+		SubState.ACTION_SELECTION_PHASE:
+			if direction.y == 1:
+				MyActionMenu.NavigateDown()
+			elif direction.y == -1:
+				MyActionMenu.NavigateUp()
+			return
+
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)
+
+func _on_unit_info_screen_closed():
+	CurrentGameState = PreviousGameState
 
 func _on_end_screen_restart_requested() -> void:
 	get_tree().paused = false
@@ -524,11 +560,12 @@ func _ready() -> void:
 		var class_data = GameData.TestClass
 		GameData.player_units = [class_data]
 	
-	InputManager.direction_pressed.connect(_on_direction_pressed)
 	InputManager.confirm_pressed.connect(_on_confirm_pressed)
 	InputManager.cancel_pressed.connect(_on_cancel_pressed)
+	InputManager.info_pressed.connect(_on_info_pressed) 
 	InputManager.left_trigger_pressed.connect(on_trigger_pressed.bind(-1))
 	InputManager.right_trigger_pressed.connect(on_trigger_pressed.bind(1))
+	InputManager.direction_pressed.connect(_on_direction_pressed)
 	
 	SetLevel()
 	
@@ -537,6 +574,7 @@ func _ready() -> void:
 	DefinePlayerUnits()
 	SpawnStartingUnits()
 	
+	SetInfoScreen()
 	SetCursor()
 	
 	StartPlayerTurn()

@@ -30,7 +30,7 @@ var EnemyUnits: Array[Unit]
 #                      2.0 Functions                         #
 ##############################################################
 
-func initialize(game_manager: GameManager):
+func Initialize(game_manager: GameManager):
 	victory.connect(game_manager.EndGame.bind(true))
 	defeat.connect(game_manager.EndGame.bind(false))
 	request_spawn.connect(game_manager._on_spawn_requested)

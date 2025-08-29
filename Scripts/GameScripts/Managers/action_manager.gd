@@ -27,7 +27,7 @@ var HighlightedHealTiles: Array[Vector2i] = []
 #                      2.0 Functions                         #
 ##############################################################
 
-func initialize(game_manager: GameManager):
+func Initialize(game_manager: GameManager):
 	GameManagerRef = game_manager
 	GroundGrid = GameManagerRef.GroundGrid
 	HighlightLayer = GameManagerRef.HighlightLayer
