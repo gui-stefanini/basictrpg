@@ -119,5 +119,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 [node name="Level2Manager" type="Node" parent="." node_paths=PackedStringArray("LevelHighlightLayer")]
 script = ExtResource("7_fphuk")
 EscapeTiles = Array[Vector2i]([Vector2i(0, 4), Vector2i(0, 5), Vector2i(0, 6), Vector2i(0, 7)])
+LevelObjective = "Escape"
 LevelHighlightLayer = NodePath("../LevelHighlightLayer")
 EnemyReinforcements = Array[ExtResource("2_fphuk")]([SubResource("Resource_0x4y1"), SubResource("Resource_ia1lp"), SubResource("Resource_5buja"), SubResource("Resource_wyygt"), SubResource("Resource_u87on")])

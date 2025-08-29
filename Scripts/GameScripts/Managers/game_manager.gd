@@ -42,6 +42,7 @@ signal right_trigger_passed(manager: GameManager)
 @export var MyCursor: GridCursor
 
 @export var InfoScreen: CanvasLayer
+@export var PauseScreen: CanvasLayer
 @export var EndScreen: CanvasLayer
 
 @export var MyMoveManager: MoveManager
@@ -81,6 +82,24 @@ func Wait(seconds: float):
 	ManagerTimer.wait_time = seconds
 	ManagerTimer.start()
 	await ManagerTimer.timeout
+
+func ConnectInputSignals():
+	InputManager.confirm_pressed.connect(_on_confirm_pressed)
+	InputManager.cancel_pressed.connect(_on_cancel_pressed)
+	InputManager.info_pressed.connect(_on_info_pressed)
+	InputManager.start_pressed.connect(_on_start_pressed)
+	InputManager.left_trigger_pressed.connect(on_trigger_pressed.bind(-1))
+	InputManager.right_trigger_pressed.connect(on_trigger_pressed.bind(1))
+	InputManager.direction_pressed.connect(_on_direction_pressed)
+
+func ClearInputSignals():
+	InputManager.confirm_pressed.disconnect(_on_confirm_pressed)
+	InputManager.cancel_pressed.disconnect(_on_cancel_pressed)
+	InputManager.info_pressed.disconnect(_on_info_pressed)
+	InputManager.start_pressed.disconnect(_on_start_pressed)
+	InputManager.left_trigger_pressed.disconnect(on_trigger_pressed.bind(-1))
+	InputManager.right_trigger_pressed.disconnect(on_trigger_pressed.bind(1))
+	InputManager.direction_pressed.disconnect(_on_direction_pressed)
 
 ##############################################################
 #                      2.1 SET GAME                          #
@@ -375,6 +394,13 @@ func _on_info_pressed():
 		CurrentGameState = GameState.HUD
 		InfoScreen.ShowScreen(unit_on_tile)
 
+func _on_start_pressed():
+	# We can only pause during the player's turn and not while an action is processing.
+	if CurrentGameState != GameState.ENEMY_TURN and CurrentSubState != SubState.PROCESSING_PHASE:
+		# Also check if other full-screen UIs are not already open.
+		if not EndScreen.visible:
+			PauseScreen.ShowScreen(self, CurrentLevelManager.LevelObjective)
+
 func on_trigger_pressed(direction : int):
 	if CurrentGameState == GameState.HUD:
 		if direction == -1:
@@ -426,7 +452,7 @@ func _on_action_menu_action_selected(action: Action) -> void:
 func _on_unit_info_screen_closed():
 	CurrentGameState = PreviousGameState
 
-func _on_end_screen_restart_requested() -> void:
+func _on_restart_requested() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 
@@ -556,12 +582,7 @@ func _ready() -> void:
 		var class_data = GameData.TestClass
 		GameData.player_units = [class_data]
 	
-	InputManager.confirm_pressed.connect(_on_confirm_pressed)
-	InputManager.cancel_pressed.connect(_on_cancel_pressed)
-	InputManager.info_pressed.connect(_on_info_pressed) 
-	InputManager.left_trigger_pressed.connect(on_trigger_pressed.bind(-1))
-	InputManager.right_trigger_pressed.connect(on_trigger_pressed.bind(1))
-	InputManager.direction_pressed.connect(_on_direction_pressed)
+	ConnectInputSignals()
 	
 	SetLevel()
 	

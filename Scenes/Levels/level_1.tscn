@@ -72,4 +72,5 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 
 [node name="Level1Manager" type="Node" parent="." node_paths=PackedStringArray("LevelHighlightLayer")]
 script = ExtResource("9_rb0md")
+LevelObjective = "Defeat All Enemies"
 LevelHighlightLayer = NodePath("../LevelHighlightLayer")

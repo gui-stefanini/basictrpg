@@ -33,6 +33,8 @@ signal direction_pressed(direction: Vector2i)
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _input(event: InputEvent) -> void:
 	if not (event is InputEventKey or event is InputEventJoypadButton):

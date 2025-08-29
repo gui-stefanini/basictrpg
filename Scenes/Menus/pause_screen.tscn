@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dg028svcnu8gy"]
+[gd_scene load_steps=3 format=3 uid="uid://dtm8d3ehd1jp0"]
 
-[ext_resource type="Script" uid="uid://fi6fudmkw73p" path="res://Scripts/MenuScripts/end_screen.gd" id="1_f2mtv"]
-[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="2_1gwaw"]
+[ext_resource type="Script" uid="uid://draidam64328" path="res://Scripts/MenuScripts/pause_screen.gd" id="1_8qml2"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="2_x2cxh"]
 
-[node name="EndScreen" type="CanvasLayer" node_paths=PackedStringArray("MessageLabel")]
-script = ExtResource("1_f2mtv")
-MessageLabel = NodePath("ColorRect/VBoxContainer/MessageLabel")
+[node name="PauseScreen" type="CanvasLayer" node_paths=PackedStringArray("ObjectiveLabel")]
+process_mode = 3
+script = ExtResource("1_8qml2")
+ObjectiveLabel = NodePath("ColorRect/VBoxContainer/ObjectiveLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -30,26 +31,27 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MessageLabel" type="Label" parent="ColorRect/VBoxContainer"]
+[node name="ObjectiveLabel" type="Label" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
+text = "Objective"
 horizontal_alignment = 1
 
 [node name="RestartButton" type="Button" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/normal = ExtResource("2_1gwaw")
+theme_override_styles/normal = ExtResource("2_x2cxh")
 text = "Restart"
 
 [node name="MenuButton" type="Button" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/normal = ExtResource("2_1gwaw")
+theme_override_styles/normal = ExtResource("2_x2cxh")
 text = "Main Menu"
 
 [node name="QuitButton" type="Button" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/normal = ExtResource("2_1gwaw")
+theme_override_styles/normal = ExtResource("2_x2cxh")
 text = "Quit"
 
 [connection signal="pressed" from="ColorRect/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
