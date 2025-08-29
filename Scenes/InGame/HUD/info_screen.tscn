@@ -1,23 +1,28 @@
 [gd_scene load_steps=6 format=3 uid="uid://c6y6b8er1uee0"]
 
 [ext_resource type="Script" uid="uid://0nbaemccq50h" path="res://Scripts/GameScripts/HUD/info_screen.gd" id="1_3pumf"]
-[ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Styles/panel_Style.tres" id="1_i3wly"]
+[ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="1_i3wly"]
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/Test/DefaultSprite.png" id="2_3pumf"]
-[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="3_80q7e"]
-[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="4_b2nnt"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="3_80q7e"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="4_b2nnt"]
 
-[node name="InfoScreen" type="CanvasLayer" node_paths=PackedStringArray("UnitSprite", "NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "RangeLabel", "StatusContainer", "AbilityContainer", "ActionContainer")]
+[node name="InfoScreen" type="CanvasLayer" node_paths=PackedStringArray("MyTabContainer", "UnitList", "UnitSprite", "NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "RangeLabel", "StatusContainer", "AbilityContainer", "ActionContainer", "ObjectiveLabel")]
 process_mode = 3
 script = ExtResource("1_3pumf")
-UnitSprite = NodePath("PanelContainer/MarginContainer/HBoxContainer/LeftColumn/SpriteControl/UnitSprite")
-NameLabel = NodePath("PanelContainer/MarginContainer/HBoxContainer/LeftColumn/NameLabel")
-HPLabel = NodePath("PanelContainer/MarginContainer/HBoxContainer/LeftColumn/HPLabel")
-AttackLabel = NodePath("PanelContainer/MarginContainer/HBoxContainer/LeftColumn/AttackLabel")
-MoveLabel = NodePath("PanelContainer/MarginContainer/HBoxContainer/LeftColumn/MoveLabel")
-RangeLabel = NodePath("PanelContainer/MarginContainer/HBoxContainer/LeftColumn/RangeLabel")
-StatusContainer = NodePath("PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/StatusContainer")
-AbilityContainer = NodePath("PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/AbilityContainer")
-ActionContainer = NodePath("PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/ActionContainer")
+MyTabContainer = NodePath("TabContainer")
+UnitList = NodePath("TabContainer/Units/HBoxContainer/UnitList")
+UnitSprite = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/SpriteControl/UnitSprite")
+NameLabel = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/NameLabel")
+HPLabel = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/HPLabel")
+AttackLabel = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/AttackLabel")
+MoveLabel = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/MoveLabel")
+RangeLabel = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/RangeLabel")
+StatusContainer = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/StatusContainer")
+AbilityContainer = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/AbilityContainer")
+ActionContainer = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/ActionContainer")
+PlayerUnitColor = Color(0.1518, 0.192893, 0.46, 1)
+EnemyUnitColor = Color(0.59, 0.1593, 0.1593, 1)
+ObjectiveLabel = NodePath("TabContainer/Level/ObjectiveLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -27,111 +32,175 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.627451)
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(250, 150)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+[node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/side_margin = 0
+theme_override_font_sizes/font_size = 14
+current_tab = 0
+
+[node name="Units" type="PanelContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Units"]
+layout_mode = 2
+alignment = 1
+
+[node name="UnitList" type="ItemList" parent="TabContainer/Units/HBoxContainer"]
+custom_minimum_size = Vector2(80, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/v_separation = 2
+theme_override_constants/line_separation = 1
+theme_override_font_sizes/font_size = 7
+allow_search = false
+auto_width = true
+auto_height = true
+text_overrun_behavior = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="TabContainer/Units/HBoxContainer"]
+custom_minimum_size = Vector2(220, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("1_i3wly")
 
-[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Units/HBoxContainer/PanelContainer"]
 layout_mode = 2
 color = Color(0.144, 0.1792, 0.24, 0.862745)
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LeftColumn" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="LeftColumn" type="VBoxContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="SpriteControl" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
+[node name="SpriteControl" type="Control" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="UnitSprite" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn/SpriteControl"]
+[node name="UnitSprite" type="Sprite2D" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/SpriteControl"]
 position = Vector2(16, 16)
 scale = Vector2(2, 2)
 texture = ExtResource("2_3pumf")
 
-[node name="NameLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
+[node name="NameLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "Name"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="HPLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
+[node name="HPLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "HP"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="AttackLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
+[node name="AttackLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "ATK"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="MoveLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
+[node name="MoveLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "Move Range"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="RangeLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
+[node name="RangeLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "Atk Range"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="RightColumn" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="RightColumn" type="ScrollContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Status Label" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
+[node name="Status Label" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "Status:"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="StatusContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
+[node name="StatusContainer" type="VBoxContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
 layout_mode = 2
 
-[node name="AbilityLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
+[node name="AbilityLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "Abilities:"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="AbilityContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
+[node name="AbilityContainer" type="VBoxContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
 layout_mode = 2
 
-[node name="ActionLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
+[node name="ActionLabel" type="Label" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("3_80q7e")
 text = "Actions:"
 label_settings = ExtResource("4_b2nnt")
 
-[node name="ActionContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
+[node name="ActionContainer" type="VBoxContainer" parent="TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer"]
 layout_mode = 2
+
+[node name="Level" type="PanelContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ObjectiveLabel" type="Label" parent="TabContainer/Level"]
+layout_mode = 2
+text = "Objective"
+horizontal_alignment = 1
+
+[node name="Menu" type="PanelContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Menu"]
+layout_mode = 2
+
+[node name="RestartButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+theme_override_styles/normal = ExtResource("3_80q7e")
+text = "Restart"
+
+[node name="MenuButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+theme_override_styles/normal = ExtResource("3_80q7e")
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+theme_override_styles/normal = ExtResource("3_80q7e")
+text = "Quit"
+
+[connection signal="pressed" from="TabContainer/Menu/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="TabContainer/Menu/VBoxContainer/MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="TabContainer/Menu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

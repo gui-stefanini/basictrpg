@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c3qg6snsia8hg" path="res://Scripts/MenuScripts/main_menu.gd" id="1_penys"]
 [ext_resource type="PackedScene" uid="uid://dbjcwgms3fd78" path="res://Scenes/Menus/selection_menu.tscn" id="2_aur2u"]
-[ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Styles/button_style.tres" id="3_5wi6m"]
+[ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="3_5wi6m"]
 
 [node name="MainMenu" type="Control" node_paths=PackedStringArray("ResolutionButton")]
 layout_mode = 3

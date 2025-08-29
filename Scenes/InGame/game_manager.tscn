@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=17 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/Managers/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="2_wg6t1"]
@@ -16,9 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/HUD/unit_info_panel.tscn" id="11_uj5f7"]
 [ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/HUD/action_forecast.tscn" id="12_v2ahw"]
 [ext_resource type="PackedScene" uid="uid://c6y6b8er1uee0" path="res://Scenes/InGame/HUD/info_screen.tscn" id="15_gunjt"]
-[ext_resource type="PackedScene" uid="uid://dtm8d3ehd1jp0" path="res://Scenes/Menus/pause_screen.tscn" id="16_njqqu"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "InfoScreen", "PauseScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
@@ -30,7 +29,6 @@ SelectedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 MyCursor = NodePath("GridCursor")
 InfoScreen = NodePath("InfoScreen")
-PauseScreen = NodePath("PauseScreen")
 EndScreen = NodePath("EndScreen")
 MyMoveManager = NodePath("MoveManager")
 MyActionManager = NodePath("ActionManager")
@@ -70,13 +68,9 @@ visible = false
 [node name="InfoScreen" parent="." instance=ExtResource("15_gunjt")]
 visible = false
 
-[node name="PauseScreen" parent="." instance=ExtResource("16_njqqu")]
-visible = false
-
 [node name="EndScreen" parent="." instance=ExtResource("10_fuy7q")]
 process_mode = 3
 visible = false
 
 [connection signal="action_selected" from="ActionMenu" to="." method="_on_action_menu_action_selected"]
-[connection signal="restart_requested" from="PauseScreen" to="." method="_on_restart_requested"]
 [connection signal="restart_requested" from="EndScreen" to="." method="_on_restart_requested"]

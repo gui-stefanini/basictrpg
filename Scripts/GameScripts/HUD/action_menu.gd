@@ -27,7 +27,6 @@ var ActiveUnit : Unit = null
 ##############################################################
 func UpdateColor(index: int):
 	var is_enabled = IsActionValid(index)
-	print(is_enabled)
 	if is_enabled:
 		MyItemList.add_theme_color_override("font_selected_color", ValidSelectionColor)
 	else:

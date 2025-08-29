@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bk7gw2ed0ldxc"]
 
-[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Styles/label_style.tres" id="1_45mwo"]
-[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Styles/label_settings.tres" id="2_lm4hb"]
-[ext_resource type="Theme" uid="uid://07ptt23e2eaq" path="res://Resources/Styles/option_button_theme.tres" id="3_lm4hb"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="1_45mwo"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="2_lm4hb"]
+[ext_resource type="Theme" uid="uid://07ptt23e2eaq" path="res://Resources/Overrides/Themes/option_button_theme.tres" id="3_lm4hb"]
 
 [node name="UnitSelectionSlot" type="HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)

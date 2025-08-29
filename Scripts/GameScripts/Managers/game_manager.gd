@@ -11,18 +11,6 @@ signal unit_died(unit: Unit)
 signal unit_spawned(unit: Unit)
 signal unit_removed(unit: Unit)
 
-#@warning_ignore("unused_signal")
-#signal confirm_passed()
-@warning_ignore("unused_signal")
-signal cancel_passed(manager: GameManager)
-@warning_ignore("unused_signal")
-signal info_passed(manager: GameManager)
-@warning_ignore("unused_signal")
-signal left_trigger_passed(manager: GameManager)
-@warning_ignore("unused_signal")
-signal right_trigger_passed(manager: GameManager)
-#@warning_ignore("unused_signal")
-#signal direction_passed(direction: Vector2i)
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -42,7 +30,6 @@ signal right_trigger_passed(manager: GameManager)
 @export var MyCursor: GridCursor
 
 @export var InfoScreen: CanvasLayer
-@export var PauseScreen: CanvasLayer
 @export var EndScreen: CanvasLayer
 
 @export var MyMoveManager: MoveManager
@@ -56,10 +43,9 @@ var HighlightLayer : TileMapLayer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum GameState {NULL, HUD, PLAYER_TURN, ENEMY_TURN}
+enum GameState {NULL, PLAYER_TURN, ENEMY_TURN}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 var CurrentGameState = GameState.NULL
-var PreviousGameState = GameState.NULL
 var CurrentSubState = SubState.NULL
 
 var PlayerUnits: Array[Unit] = []
@@ -120,7 +106,6 @@ func SetAuxiliaryManagers():
 
 func SetInfoScreen():
 	InfoScreen.Initialize(self)
-	InfoScreen.screen_closed.connect(_on_unit_info_screen_closed)
 
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
@@ -349,9 +334,6 @@ func _on_confirm_pressed():
 				EndPlayerTurn()
 
 func _on_cancel_pressed():
-	if CurrentGameState == GameState.HUD:
-		cancel_passed.emit(self)
-		return
 	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
 	
@@ -380,36 +362,18 @@ func _on_cancel_pressed():
 	#action._on_select(ActiveUnit, self)
 
 func _on_info_pressed():
-	if CurrentGameState == GameState.HUD:
-		info_passed.emit(self)
-		return
-	if not CurrentGameState == GameState.PLAYER_TURN:
-		return
 	if not (CurrentSubState == SubState.UNIT_SELECTION_PHASE or CurrentSubState == SubState.TARGETING_PHASE):
 		return
 	
 	var unit_on_tile = GetUnitAtTile(MyCursor.TilePosition)
 	if unit_on_tile:
-		PreviousGameState = CurrentGameState
-		CurrentGameState = GameState.HUD
-		InfoScreen.ShowScreen(unit_on_tile)
+		InfoScreen.ShowScreen(unit_on_tile, 0)
 
 func _on_start_pressed():
-	# We can only pause during the player's turn and not while an action is processing.
 	if CurrentGameState != GameState.ENEMY_TURN and CurrentSubState != SubState.PROCESSING_PHASE:
-		# Also check if other full-screen UIs are not already open.
-		if not EndScreen.visible:
-			PauseScreen.ShowScreen(self, CurrentLevelManager.LevelObjective)
+		InfoScreen.ShowScreen(null, 2)
 
 func on_trigger_pressed(direction : int):
-	if CurrentGameState == GameState.HUD:
-		if direction == -1:
-			left_trigger_passed.emit(self)
-		elif direction == 1:
-			right_trigger_passed.emit(self)
-		return
-	if not CurrentGameState == GameState.PLAYER_TURN:
-		return
 	if CurrentSubState != SubState.UNIT_SELECTION_PHASE and CurrentSubState != SubState.TARGETING_PHASE:
 		return
 	
@@ -429,9 +393,6 @@ func on_trigger_pressed(direction : int):
 	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
 
 func _on_direction_pressed(direction: Vector2i):
-	if not CurrentGameState == GameState.PLAYER_TURN:
-		return
-	
 	match CurrentSubState:
 		# We only want the cursor to move in specific phases.
 		SubState.UNIT_SELECTION_PHASE, SubState.TARGETING_PHASE:
@@ -448,9 +409,6 @@ func _on_direction_pressed(direction: Vector2i):
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)
-
-func _on_unit_info_screen_closed():
-	CurrentGameState = PreviousGameState
 
 func _on_restart_requested() -> void:
 	get_tree().paused = false

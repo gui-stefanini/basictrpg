@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cqs2k0e5j88v8"]
 
-[ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Styles/button_style.tres" id="1_k8n73"]
+[ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="1_k8n73"]
 
 [node name="ActionButton" type="Button"]
 offset_right = 8.0
