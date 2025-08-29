@@ -76,7 +76,7 @@ func UpdatePanel():
 		Unit.Factions.ENEMY:
 			UnitSprite.material.set_shader_parameter("new_color", CurrentUnit.EnemyFactionColor)
 	
-	NameLabel.text = CurrentUnit.Data.Name
+	NameLabel.text = CurrentUnit.name
 	HPLabel.text = "HP: %d/%d" % [CurrentUnit.CurrentHP, CurrentUnit.MaxHP]
 	AttackLabel.text = "ATK: %d" % CurrentUnit.AttackPower
 	MoveLabel.text = "MOV: %d" % CurrentUnit.MoveRange
@@ -120,10 +120,13 @@ func UpdatePanel():
 			new_label.label_settings = NameLabel.label_settings
 			ActionContainer.add_child(new_label)
 
+func UpdateCursor(manager: GameManager):
+	var unit_tile: Vector2i = manager.GroundGrid.local_to_map(CurrentUnit.global_position)
+	manager.UpdateCursor(unit_tile)
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-func _on_input_received(action: String):
+func _on_input_received(manager: GameManager, action: String):
 	if not visible:
 		return
 	
@@ -133,10 +136,12 @@ func _on_input_received(action: String):
 		"next":
 			CurrentUnitIndex = (CurrentUnitIndex + 1) % AllUnits.size()
 			CurrentUnit = AllUnits[CurrentUnitIndex]
+			UpdateCursor(manager)
 			UpdatePanel()
 		"previous":
 			CurrentUnitIndex = (CurrentUnitIndex - 1 + AllUnits.size()) % AllUnits.size()
 			CurrentUnit = AllUnits[CurrentUnitIndex]
+			UpdateCursor(manager)
 			UpdatePanel()
 
 func _on_unit_spawned(unit: Unit):

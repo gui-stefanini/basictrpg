@@ -14,13 +14,13 @@ signal unit_removed(unit: Unit)
 #@warning_ignore("unused_signal")
 #signal confirm_passed()
 @warning_ignore("unused_signal")
-signal cancel_passed()
+signal cancel_passed(manager: GameManager)
 @warning_ignore("unused_signal")
-signal info_passed()
+signal info_passed(manager: GameManager)
 @warning_ignore("unused_signal")
-signal left_trigger_passed()
+signal left_trigger_passed(manager: GameManager)
 @warning_ignore("unused_signal")
-signal right_trigger_passed()
+signal right_trigger_passed(manager: GameManager)
 #@warning_ignore("unused_signal")
 #signal direction_passed(direction: Vector2i)
 ##############################################################
@@ -63,6 +63,7 @@ var CurrentSubState = SubState.NULL
 
 var PlayerUnits: Array[Unit] = []
 var EnemyUnits: Array[Unit] = []
+var AllUnits: Array[Unit] = []
 var UnitsWhoHaveActed: Array[Unit] = []
 
 var TurnNumber: int = 0
@@ -136,8 +137,7 @@ func CheckGridBounds(tile: Vector2i) -> bool:
 	return grid_rect.has_point(tile)
 
 func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
-	var all_units : Array[Unit] = PlayerUnits + EnemyUnits
-	for unit in all_units:
+	for unit in AllUnits:
 		if GroundGrid.local_to_map(unit.global_position) == tile_pos:
 			return unit
 	return null
@@ -195,6 +195,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 			PlayerUnits.append(new_unit)
 		Unit.Factions.ENEMY:
 			EnemyUnits.append(new_unit)
+	AllUnits = PlayerUnits + EnemyUnits
 	
 	var occupied_tiles = MyMoveManager.GetOccupiedTiles()
 	if occupied_tiles.has(spawn_pos):
@@ -330,7 +331,7 @@ func _on_confirm_pressed():
 
 func _on_cancel_pressed():
 	if CurrentGameState == GameState.HUD:
-		cancel_passed.emit
+		cancel_passed.emit(self)
 		return
 	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
@@ -361,7 +362,7 @@ func _on_cancel_pressed():
 
 func _on_info_pressed():
 	if CurrentGameState == GameState.HUD:
-		info_passed.emit
+		info_passed.emit(self)
 		return
 	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
@@ -377,35 +378,28 @@ func _on_info_pressed():
 func on_trigger_pressed(direction : int):
 	if CurrentGameState == GameState.HUD:
 		if direction == -1:
-			left_trigger_passed.emit
+			left_trigger_passed.emit(self)
 		elif direction == 1:
-			right_trigger_passed.emit
+			right_trigger_passed.emit(self)
 		return
-	
 	if not CurrentGameState == GameState.PLAYER_TURN:
 		return
 	if CurrentSubState != SubState.UNIT_SELECTION_PHASE and CurrentSubState != SubState.TARGETING_PHASE:
 		return
 	
 	var unit_on_tile = GetUnitAtTile(MyCursor.TilePosition)
-	var unit_faction_array: Array[Unit] = []
 	var next_unit: Unit = null
 	
 	if unit_on_tile == null:
-		next_unit = PlayerUnits[0]
+		next_unit = AllUnits[0]
 		UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
 		return
 	
-	if unit_on_tile in PlayerUnits:
-		unit_faction_array = PlayerUnits
-	elif unit_on_tile in EnemyUnits:
-		unit_faction_array = EnemyUnits
-	
-	var current_index = unit_faction_array.find(unit_on_tile)
-	var array_size = unit_faction_array.size()
+	var current_index = AllUnits.find(unit_on_tile)
+	var array_size = AllUnits.size()
 	var next_index = (current_index + direction + array_size) % array_size
 	
-	next_unit = unit_faction_array[next_index]
+	next_unit = AllUnits[next_index]
 	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
 
 func _on_direction_pressed(direction: Vector2i):
@@ -444,6 +438,8 @@ func _on_unit_died(unit: Unit):
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
+	AllUnits = PlayerUnits + EnemyUnits
+	
 	unit_removed.emit(unit)
 	unit_died.emit(unit)
 	unit.queue_free()
