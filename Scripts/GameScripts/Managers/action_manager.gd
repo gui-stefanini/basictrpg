@@ -10,10 +10,10 @@ extends Node
 ######################
 #     REFERENCES     #
 ######################
-var GameManagerRef: GameManager
+var MyGameManager: GameManager
 var GroundGrid: TileMapLayer
 var HighlightLayer: TileMapLayer
-var MoveManagerRef: MoveManager
+var MyMoveManager: MoveManager
 var ActionForecast: PanelContainer
 
 ######################
@@ -28,11 +28,11 @@ var HighlightedHealTiles: Array[Vector2i] = []
 ##############################################################
 
 func Initialize(game_manager: GameManager):
-	GameManagerRef = game_manager
-	GroundGrid = GameManagerRef.GroundGrid
-	HighlightLayer = GameManagerRef.HighlightLayer
-	MoveManagerRef = GameManagerRef.MyMoveManager
-	ActionForecast = GameManagerRef.ActionForecast
+	MyGameManager = game_manager
+	GroundGrid = MyGameManager.GroundGrid
+	HighlightLayer = MyGameManager.HighlightLayer
+	MyMoveManager = MyGameManager.MyMoveManager
+	ActionForecast = MyGameManager.ActionForecast
 
 ##############################################################
 #                      2.1 RANGE CALC                        #
@@ -71,7 +71,7 @@ func HighlightMoveArea(unit: Unit):
 	ClearHighlights()
 	var unit_grid_position = GroundGrid.local_to_map(unit.global_position)
 	
-	HighlightedMoveTiles = MoveManagerRef.GetReachableTiles(unit, unit_grid_position)
+	HighlightedMoveTiles = MyMoveManager.GetReachableTiles(unit, unit_grid_position)
 	
 	DrawHighlights(HighlightedMoveTiles, 1, Vector2i(0,0))
 
@@ -90,20 +90,23 @@ func HighlightHealArea(unit: Unit, action_range: int):
 ##############################################################
 #                      2.3 EXECUTION                         #
 ##############################################################
+func CheckValidTarget(action: Action, unit: Unit, target = null) -> bool:
+	return action._check_target(unit, target)
+
 func ExecuteAction(action: Action, unit: Unit, target = null):
-	await action._execute(unit, GameManagerRef, target)
-	GameManagerRef.CurrentAction = null
-	GameManagerRef.TargetedUnit = null
+	await action._execute(unit, MyGameManager, target)
+	MyGameManager.CurrentAction = null
+	MyGameManager.TargetedUnit = null
 
 func SimulateAction(action: Action, unit: Unit, target = null):
-	await action._execute(unit, GameManagerRef, target, true)
+	await action._execute(unit, MyGameManager, target, true)
 
 func PreviewAction(action: Action, unit: Unit, target: Unit, forecast: bool = false) -> int:
 	var simulated_unit = unit.duplicate() as Unit
-	GameManagerRef.add_child(simulated_unit)
+	MyGameManager.add_child(simulated_unit)
 	simulated_unit.CopyState(unit)
 	var simulated_target = target.duplicate() as Unit
-	GameManagerRef.add_child(simulated_target)
+	MyGameManager.add_child(simulated_target)
 	simulated_target.CopyState(target)
 	
 	await SimulateAction(action, simulated_unit, simulated_target)

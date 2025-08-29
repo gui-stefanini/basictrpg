@@ -88,10 +88,6 @@ func ShowMenu(unit: Unit):
 #                      3.0 Signal Functions                  #
 ##############################################################
 
-#func _on_action_button_pressed(action:Action):
-	#hide()
-	#action_selected.emit(action)
-
 func IsActionValid(index: int) -> bool:
 	var action = MyItemList.get_item_metadata(index)
 	

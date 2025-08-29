@@ -27,12 +27,16 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	manager.MyActionManager.HighlightAttackArea(user, user.AttackRange)
+	manager.MyCursor.show()
+
+func _check_target(user: Unit, target = null) -> bool:
+	if target is not Unit or target.Faction == user.Faction:
+		return false
+	
+	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	if target is not Unit:
-		print(str(self) + "has an invalid target type")
-		return null
 	
 	print(user.name + " attacks " + target.name + "!")
 	

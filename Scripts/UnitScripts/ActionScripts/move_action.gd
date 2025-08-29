@@ -26,12 +26,16 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	manager.MyActionManager.HighlightMoveArea(user)
+	manager.MyCursor.show()
+
+func _check_target(_user: Unit, target = null) -> bool:
+	if target is not Vector2i:
+		return false
+	
+	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	if target is not Vector2i:
-		print(str(self) + "has an invalid target type")
-		return null
 	
 	var start_tile = manager.GroundGrid.local_to_map(user.global_position)
 	var path = manager.MyMoveManager.FindPath(user, start_tile, target)

@@ -112,6 +112,7 @@ func SetCursor():
 	initial_position = GroundGrid.local_to_map(PlayerUnits[0].global_position)
 	MyCursor.MoveToTile(initial_position, GroundGrid)
 	DisplaySelectedUnitInfo()
+	MyCursor.show()
 
 ##############################################################
 #                      2.2 UI                                #
@@ -121,6 +122,7 @@ func HideUI():
 	MyActionMenu.HideMenu()
 	ActiveUnitInfoPanel.hide()
 	SelectedUnitInfoPanel.hide()
+	MyCursor.hide()
 
 func DisplaySelectedUnitInfo():
 	var unit_on_tile : Unit = GetUnitAtTile(MyCursor.TilePosition)
@@ -135,6 +137,7 @@ func UpdateCursor(new_tile_position: Vector2i):
 	if CheckGridBounds(new_tile_position):
 		MyCursor.MoveToTile(new_tile_position, GroundGrid)
 		DisplaySelectedUnitInfo()
+		MyCursor.show()
 
 func CheckGridBounds(tile: Vector2i) -> bool:
 	var grid_rect = GroundGrid.get_used_rect()
@@ -236,6 +239,7 @@ func StartPlayerTurn():
 	for player in PlayerUnits:
 		player.StartTurn()
 	TurnNumber += 1
+	MyCursor.show()
 	turn_started.emit(TurnNumber)
 
 func OnPlayerActionFinished():
@@ -252,6 +256,7 @@ func EndPlayerTurn():
 	ActiveUnit = null
 	
 	if UnitsWhoHaveActed.size() == PlayerUnits.size():
+		MyCursor.hide()
 		turn_ended.emit(TurnNumber)
 		await Wait(0.5)
 		await StartEnemyTurn()
@@ -308,8 +313,9 @@ func _on_confirm_pressed():
 			if MyActionManager.HighlightedMoveTiles.has(selected_tile):
 				target = selected_tile
 				MyActionManager.ClearHighlights()
-				CurrentSubState = SubState.PROCESSING_PHASE
-				await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					CurrentSubState = SubState.PROCESSING_PHASE
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
 				# OnPlayerActionFinished() is called by a tween in MoveAction's _execute
 				return
 			
@@ -321,17 +327,19 @@ func _on_confirm_pressed():
 			
 			if target is Unit:
 				TargetedUnit = target
-				await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
-				CurrentSubState = SubState.ACTION_CONFIRMATION_PHASE
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
+					CurrentSubState = SubState.ACTION_CONFIRMATION_PHASE
 		
 		SubState.ACTION_CONFIRMATION_PHASE:
 			ActionForecast.hide()
 			MyActionManager.ClearHighlights()
 			
 			if selected_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-				CurrentSubState = SubState.PROCESSING_PHASE
-				await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
-				EndPlayerTurn()
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, TargetedUnit) == true:
+					CurrentSubState = SubState.PROCESSING_PHASE
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
+					EndPlayerTurn()
 
 func _on_cancel_pressed():
 	if not CurrentGameState == GameState.PLAYER_TURN:
@@ -340,6 +348,7 @@ func _on_cancel_pressed():
 	match CurrentSubState:
 		SubState.ACTION_SELECTION_PHASE:
 			HideUI()
+			MyCursor.show()
 			ActiveUnit = null
 			CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		
@@ -356,10 +365,6 @@ func _on_cancel_pressed():
 			CurrentAction = null
 			MyActionMenu.ShowMenu(ActiveUnit)
 			CurrentSubState = SubState.ACTION_SELECTION_PHASE
-
-#func _on_action_menu_action_selected(action: Action) -> void:
-	#HideUI()
-	#action._on_select(ActiveUnit, self)
 
 func _on_info_pressed():
 	if not (CurrentSubState == SubState.UNIT_SELECTION_PHASE or CurrentSubState == SubState.TARGETING_PHASE):
@@ -445,93 +450,6 @@ func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: 
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
-
-#func _unhandled_input(event):
-	#if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
-		#return
-	#
-	#match CurrentGameState:
-		#GameState.PLAYER_TURN:
-					#var global_mouse_position = get_global_mouse_position()
-					#var grid_mouse_position = GroundGrid.to_local(global_mouse_position)
-					#var clicked_tile = GroundGrid.local_to_map(grid_mouse_position)
-					#var unit_clicked : bool = false
-					#
-					#match CurrentSubState:
-						#
-						#SubState.UNIT_SELECTION_PHASE:
-							#unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-							#for unit in PlayerUnits:
-								#if not unit in UnitsWhoHaveActed and clicked_tile == GroundGrid.local_to_map(unit.global_position):
-									#HideUI()
-									#ActiveUnit = unit
-									#ActiveUnitInfoPanel.UpdatePanel(ActiveUnit)
-									#ActionMenu.ShowMenu(ActiveUnit)
-									#CurrentSubState = SubState.ACTION_SELECTION_PHASE
-									#break
-							#if unit_clicked == false:
-								#HideUI()
-						#
-						#SubState.ACTION_SELECTION_PHASE:
-							#unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-							#if unit_clicked == false:
-								#HideUI()
-								#CurrentSubState = SubState.UNIT_SELECTION_PHASE
-						#
-						#SubState.TARGETING_PHASE:
-							#var target = null
-							#
-							#if MyActionManager.HighlightedMoveTiles.has(clicked_tile):
-								#target = clicked_tile
-								#MyActionManager.ClearHighlights()
-								#CurrentSubState = SubState.PROCESSING_PHASE
-								#await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
-								#return
-							#
-							#if MyActionManager.HighlightedAttackTiles.has(clicked_tile):
-								#for enemy in EnemyUnits:
-									#var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-									#if enemy_tile == clicked_tile:
-										#target = enemy
-										#break
-										#
-							#if MyActionManager.HighlightedHealTiles.has(clicked_tile):
-								#for ally in PlayerUnits:
-									#var ally_tile = GroundGrid.local_to_map(ally.global_position)
-									#if ally_tile == clicked_tile:
-										#target = ally
-										#break
-							#
-							#if target is Unit:
-								#TargetedUnit = target
-								#await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
-								#CurrentSubState = SubState.ACTION_CONFIRMATION_PHASE
-								#return
-							#
-							#else:
-								#unit_clicked = DisplayClickedUnitInfo(clicked_tile)
-								#if unit_clicked == false:
-									#HideUI()
-									#MyActionManager.ClearHighlights()
-									#ActionMenu.ShowMenu(ActiveUnit)
-									#CurrentAction = null
-									#CurrentSubState = SubState.ACTION_SELECTION_PHASE
-						#
-						#SubState.ACTION_CONFIRMATION_PHASE:
-							#ActionForecast.hide()
-							#MyActionManager.ClearHighlights()
-							#
-							#var target_tile = GroundGrid.local_to_map(TargetedUnit.global_position)
-							#
-							#if clicked_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
-								#CurrentSubState = SubState.PROCESSING_PHASE
-								#await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
-								#EndPlayerTurn()
-							#else:
-								#TargetedUnit = null
-								#CurrentAction = null
-								#ActionMenu.ShowMenu(ActiveUnit)
-								#CurrentSubState = SubState.ACTION_SELECTION_PHASE
 
 func _ready() -> void:
 	if not GameData.selected_level:

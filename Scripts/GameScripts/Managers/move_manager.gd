@@ -10,7 +10,7 @@ extends Node
 ######################
 #     REFERENCES     #
 ######################
-var GameManagerRef : GameManager
+var MyGameManager : GameManager
 var GroundGrid: TileMapLayer
 @export var AllMovementData: Array[MovementData]
 
@@ -28,13 +28,13 @@ var AStarInstances: Dictionary = {}
 ##############################################################
 
 func Initialize(game_manager: GameManager):
-	GameManagerRef = game_manager
+	MyGameManager = game_manager
 	
-	GroundGrid = GameManagerRef.GroundGrid
+	GroundGrid = MyGameManager.GroundGrid
 	SetAStarGrids()
 	
-	GameManagerRef.unit_spawned.connect(_on_unit_spawned)
-	GameManagerRef.unit_removed.connect(_on_unit_removed)
+	MyGameManager.unit_spawned.connect(_on_unit_spawned)
+	MyGameManager.unit_removed.connect(_on_unit_removed)
 
 ##############################################################
 #                      2.1 OBSTACLE LOGIC                    #
