@@ -24,13 +24,17 @@ signal unit_died(unit: Unit)
 @export var Sprite: Sprite2D
 @export var MyAnimationPlayer: AnimationPlayer
 @export var HealthBar: Control
-@export var PlayerFactionColor: Color = Color("4169E1") # Royal Blue
-@export var EnemyFactionColor: Color = Color("DC143C") # Crimson
+@export var PlayerFactionColor: Color = Color("4169E1")
+@export var EnemyFactionColor: Color = Color("DC143C")
+@export var BossColor: Color = Color("DC143C")
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
+var IsBoss: bool = false
+
 enum Status {PASS, DEFENDING, POISONED, HASTED}
 enum StatusInfo {DURATION, VALUE}
 var HasMoved: bool = false

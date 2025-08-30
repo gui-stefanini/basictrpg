@@ -13,6 +13,7 @@ extends Resource
 ######################
 #     SCRIPT-WIDE    #
 ######################
+@export var IsMobile : bool = true
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -197,13 +198,6 @@ func execute_offensive_routine(owner: Unit, manager: GameManager):
 			await MoveCommand(owner, manager, destination)
 		await AttackCommand(owner, manager, target)
 
-#func execute_offensive_routine(owner: Unit, manager: GameManager):
-	#await AttackRoutine(owner, manager)
-	#if owner.HasActed == true:
-		#return
-	#await ActionMovementRoutine(owner, manager, manager.PlayerUnits)
-	#await AttackRoutine(owner, manager)
-
 func execute_move_offensive_routine(owner: Unit, manager: GameManager):
 	await execute_offensive_routine(owner, manager)
 	if owner.HasActed == true:
@@ -223,13 +217,6 @@ func execute_healing_routine(owner: Unit, manager: GameManager):
 				return
 			await MoveCommand(owner, manager, destination)
 		await HealCommand(owner, manager, target)
-
-#func execute_healing_routine(owner: Unit, manager: GameManager):
-	#await HealRoutine(owner, manager)
-	#if owner.HasActed == true:
-		#return
-	#await ActionMovementRoutine(owner, manager, manager.EnemyUnits)
-	#await HealRoutine(owner, manager)
 
 func execute_move_healing_routine(owner: Unit, manager: GameManager):
 	await execute_healing_routine(owner, manager)

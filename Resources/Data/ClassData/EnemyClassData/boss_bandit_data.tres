@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=10 format=3 uid="uid://c43x178dhq22c"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_rl1g6"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_811go"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="3_bjckr"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="4_w28iv"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_uwck8"]
+[ext_resource type="Texture2D" uid="uid://c2wi61baigfw4" path="res://Assets/Art/Sprites/Bandit/BanditSpriteSheet_1.png" id="6_64d8q"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="7_iq70e"]
+[ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="8_uer52"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="9_uclkr"]
+
+[resource]
+script = ExtResource("9_uclkr")
+Name = "Bandit"
+BaseMaxHP = 8
+BaseAttackPower = 2
+BaseHealPower = 0
+BaseMoveRange = 3
+BaseAttackRange = 1
+BaseAggro = 0
+Abilities = Array[ExtResource("1_rl1g6")]([])
+Actions = Array[ExtResource("2_811go")]([ExtResource("3_bjckr"), ExtResource("4_w28iv"), ExtResource("5_uwck8")])
+MovementType = ExtResource("7_iq70e")
+ClassSpriteSheet = ExtResource("6_64d8q")
+Hframes = 4
+Vframes = 2
+MyAnimationLibrary = ExtResource("8_uer52")
+metadata/_custom_type_script = "uid://dajw61vh5kchp"

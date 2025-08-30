@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dbjcwgms3fd78"]
+[gd_scene load_steps=15 format=3 uid="uid://dbjcwgms3fd78"]
 
 [ext_resource type="Script" uid="uid://bulp4g77en3qf" path="res://Scripts/MenuScripts/selection_menu.gd" id="1_r2ge3"]
 [ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/InGame/game_manager.tscn" id="2_atlk2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_1.tscn" id="2_e2lmm"]
 [ext_resource type="PackedScene" uid="uid://b6r4jmpo85fr7" path="res://Scenes/Levels/level_2.tscn" id="3_bw2gc"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="4_547t1"]
+[ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_3.tscn" id="5_hmo5g"]
 [ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/Data/ClassData/PlayerClassData/knight_data.tres" id="5_pr5gi"]
 [ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/Data/ClassData/PlayerClassData/priest_data.tres" id="6_hrbqk"]
 [ext_resource type="PackedScene" uid="uid://bk7gw2ed0ldxc" path="res://Scenes/Menus/unit_selection_slot.tscn" id="7_hrbqk"]
@@ -31,6 +32,7 @@ script = ExtResource("1_r2ge3")
 GameManagerScene = ExtResource("2_atlk2")
 Level1Scene = ExtResource("2_e2lmm")
 Level2Scene = ExtResource("3_bw2gc")
+Level3Scene = ExtResource("5_hmo5g")
 LevelSelectionContainer = NodePath("MarginContainer/VBoxContainer/LevelSelectionContainer")
 UnitCustomizationContainer = NodePath("MarginContainer/VBoxContainer/MainContentContainer/UnitCustomizationContainer")
 StartLevelButton = NodePath("MarginContainer/VBoxContainer/StartLevelButton")
@@ -83,6 +85,13 @@ theme_override_font_sizes/font_size = 10
 theme_override_styles/disabled = ExtResource("2_e1ouj")
 theme_override_styles/normal = ExtResource("2_e1ouj")
 text = " Level 2 "
+
+[node name="Level3Button" type="Button" parent="MarginContainer/VBoxContainer/LevelSelectionContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/disabled = ExtResource("2_e1ouj")
+theme_override_styles/normal = ExtResource("2_e1ouj")
+text = " Level 3 "
 
 [node name="MainContentContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -143,4 +152,5 @@ text = "Start Level"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/LevelSelectionContainer/Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/LevelSelectionContainer/Level2Button" to="." method="_on_level_2_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/LevelSelectionContainer/Level3Button" to="." method="_on_level_3_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/StartLevelButton" to="." method="_on_start_level_button_pressed"]

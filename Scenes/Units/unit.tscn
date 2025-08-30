@@ -22,6 +22,7 @@ RotationTracker = NodePath("RotationTracker")
 Sprite = NodePath("RotationTracker/MoveTracker/Sprite")
 MyAnimationPlayer = NodePath("AnimationPlayer")
 HealthBar = NodePath("RotationTracker/MoveTracker/HealthBar")
+BossColor = Color(0.38, 0.0359733, 0.0114, 1)
 
 [node name="RotationTracker" type="Node2D" parent="."]
 

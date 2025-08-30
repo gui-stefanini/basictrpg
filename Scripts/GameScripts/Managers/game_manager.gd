@@ -101,7 +101,6 @@ func SetLevel():
 
 func SetAuxiliaryManagers():
 	CurrentLevelManager.Initialize(self)
-	level_set.emit()
 	MyMoveManager.Initialize(self)
 	MyActionManager.Initialize(self)
 
@@ -487,4 +486,5 @@ func _ready() -> void:
 	SetInfoScreen()
 	SetCursor()
 	
+	level_set.emit()
 	StartPlayerTurn()

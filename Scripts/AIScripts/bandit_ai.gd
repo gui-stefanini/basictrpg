@@ -20,7 +20,14 @@ extends AIBehavior
 func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.name + " is thinking like a Bandit...")
 	
+	if IsMobile == false:
+		await execute_offensive_routine(owner, manager)
+		if owner.HasActed == true:
+			IsMobile = true
+		return
+	
 	await execute_move_offensive_routine(owner, manager)
+	
 
 ##############################################################
 #                      3.0 Signal Functions                  #

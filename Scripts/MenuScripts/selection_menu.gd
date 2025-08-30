@@ -12,6 +12,7 @@ extends Control
 @export var GameManagerScene: PackedScene
 @export var Level1Scene: PackedScene
 @export var Level2Scene: PackedScene
+@export var Level3Scene: PackedScene
 
 @export var LevelSelectionContainer : HBoxContainer
 @export var UnitCustomizationContainer : VBoxContainer
@@ -137,6 +138,9 @@ func _on_level_1_button_pressed() -> void:
 
 func _on_level_2_button_pressed() -> void:
 	SelectLevel(Level2Scene)
+
+func _on_level_3_button_pressed() -> void:
+	SelectLevel(Level3Scene)
 
 func _on_start_level_button_pressed() -> void:
 	GameData.selected_level = SelectedLevel
