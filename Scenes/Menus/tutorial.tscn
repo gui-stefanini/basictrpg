@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://brdjd8od6ufvf"]
+
+[ext_resource type="Texture2D" uid="uid://cs27517ugfncg" path="res://Assets/Art/HUD/Keyboard.png" id="1_bfjj8"]
+[ext_resource type="Script" uid="uid://bj8gglt0bmig7" path="res://Scripts/MenuScripts/tutorial.gd" id="1_ilx3b"]
+[ext_resource type="Texture2D" uid="uid://dga62ap7r2vmu" path="res://Assets/Art/HUD/Controller.png" id="2_ilx3b"]
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ilx3b")
+MainMenuPath = "uid://dbwv5lbunki7e"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.145098, 0.184314, 0.219608, 1)
+
+[node name="TabContainer" type="TabContainer" parent="ColorRect"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/side_margin = 0
+theme_override_font_sizes/font_size = 15
+current_tab = 0
+
+[node name="Keyboard" type="PanelContainer" parent="ColorRect/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/TabContainer/Keyboard"]
+layout_mode = 2
+texture = ExtResource("1_bfjj8")
+
+[node name="Controller" type="PanelContainer" parent="ColorRect/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/TabContainer/Controller"]
+layout_mode = 2
+texture = ExtResource("2_ilx3b")
+
+[node name="Back" type="Button" parent="ColorRect/TabContainer"]
+visible = false
+layout_mode = 2
+text = "Main Menu"
+metadata/_tab_index = 2
+
+[connection signal="pressed" from="ColorRect/TabContainer/Back" to="." method="_on_back_pressed"]
