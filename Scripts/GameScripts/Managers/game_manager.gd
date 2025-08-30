@@ -59,6 +59,7 @@ var NumberOfUnits : int = 0 #For unit naming
 var ActiveUnit: Unit = null
 var TargetedUnit: Unit = null
 var CurrentAction : Action = null
+var OriginalUnitTile: Vector2i
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -230,14 +231,21 @@ func SpawnStartingUnits():
 ##############################################################
 #                      2.4 GAME FLOW                         #
 ##############################################################
+func SetActiveUnit(unit: Unit):
+	ActiveUnit = unit
+	OriginalUnitTile = GroundGrid.local_to_map(unit.global_position)
+
+func ClearActiveUnit():
+	ActiveUnit = null
+	OriginalUnitTile = Vector2i (-1,-1)
 
 func StartPlayerTurn():
 	CurrentGameState = GameState.PLAYER_TURN
 	CurrentSubState = SubState.UNIT_SELECTION_PHASE
 	print("Player turn begins.")
 	UnitsWhoHaveActed.clear()
-	for player in PlayerUnits:
-		player.StartTurn()
+	for unit in PlayerUnits:
+		unit.StartTurn()
 	TurnNumber += 1
 	MyCursor.show()
 	turn_started.emit(TurnNumber)
@@ -253,10 +261,13 @@ func EndPlayerTurn():
 	unit_turn_ended.emit(ActiveUnit, unit_tile)
 	
 	UnitsWhoHaveActed.append(ActiveUnit)
-	ActiveUnit = null
+	ActiveUnit.SetInactive()
+	ClearActiveUnit()
 	
 	if UnitsWhoHaveActed.size() == PlayerUnits.size():
 		MyCursor.hide()
+		for unit in PlayerUnits:
+			unit.SetActive()
 		turn_ended.emit(TurnNumber)
 		await Wait(0.5)
 		await StartEnemyTurn()
@@ -299,7 +310,7 @@ func _on_confirm_pressed():
 			var unit_on_tile = GetUnitAtTile(selected_tile)
 			if unit_on_tile in PlayerUnits and not unit_on_tile in UnitsWhoHaveActed:
 				HideUI()
-				ActiveUnit = unit_on_tile
+				SetActiveUnit(unit_on_tile)
 				ActiveUnitInfoPanel.UpdatePanel(ActiveUnit)
 				MyActionMenu.ShowMenu(ActiveUnit)
 				CurrentSubState = SubState.ACTION_SELECTION_PHASE
@@ -348,8 +359,14 @@ func _on_cancel_pressed():
 	match CurrentSubState:
 		SubState.ACTION_SELECTION_PHASE:
 			HideUI()
+			if ActiveUnit.HasMoved and not ActiveUnit.HasActed:
+				var original_global_pos = GroundGrid.to_global(GroundGrid.map_to_local(OriginalUnitTile))
+				ActiveUnit.global_position = original_global_pos
+				ActiveUnit.HasMoved = false
+				UpdateCursor(OriginalUnitTile)
+				
 			MyCursor.show()
-			ActiveUnit = null
+			ClearActiveUnit()
 			CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		
 		SubState.TARGETING_PHASE:

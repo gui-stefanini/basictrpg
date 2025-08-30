@@ -26,6 +26,9 @@ func ClampUI(ui_node: Control):
 
 	ui_node.global_position = node_pos
 
+func ResetUI(ui_node: Control):
+	ui_node.size = Vector2(0,0)
+
 func SetMouseIgnore(ui_node: Control):
 	ui_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 

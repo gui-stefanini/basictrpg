@@ -6,6 +6,9 @@ uniform float tolerance : hint_range(0.0, 2.0) = 0.01;
 uniform vec4 flash_color : source_color = vec4(1.0, 0.0, 0.0, 1.0);
 uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
 
+uniform vec4 grayscale_color : source_color = vec4(0.33, 0.33, 0.33, 1.0);
+uniform float grayscale_modifier : hint_range(0.0, 1.0) = 0.0;
+
 void fragment() {
 	vec4 current_color = texture(TEXTURE, UV);
 
@@ -13,6 +16,7 @@ void fragment() {
 		current_color = new_color;
 	}
 
+	current_color.rgb = mix(current_color.rgb, grayscale_color.rgb, grayscale_modifier);
 	current_color.rgb = mix(current_color.rgb, flash_color.rgb, flash_modifier);
 
 	COLOR = current_color;

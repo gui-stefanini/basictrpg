@@ -54,6 +54,9 @@ func NavigateDown():
 
 func HideMenu():
 	MyItemList.clear()
+	UiFunctions.ResetUI(self)
+	UiFunctions.ResetUI(MyItemList)
+
 	ActiveUnit = null
 	hide()
 

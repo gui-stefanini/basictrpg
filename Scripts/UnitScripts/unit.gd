@@ -142,6 +142,12 @@ func StackStatus(status: Status, information: StatusInfo, amount: int):
 #                      2.3 SET STATE                         #
 ##############################################################
 
+func SetInactive():
+	Sprite.material.set_shader_parameter("grayscale_modifier", 0.6)
+
+func SetActive():
+	Sprite.material.set_shader_parameter("grayscale_modifier", 0.0)
+
 func SetData():
 	Data = Data.duplicate()
 	
@@ -179,6 +185,7 @@ func StartTurn():
 	turn_started.emit(self)
 	HasMoved = false
 	HasActed = false
+	SetActive()
 	
 	var statuses_to_remove = []
 	for status in ActiveStatuses:
