@@ -15,7 +15,8 @@ extends Node
 ######################
 #     SCRIPT-WIDE    #
 ######################
-
+var BGMBusIndex : int
+var SFXBusIndex : int
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -34,11 +35,11 @@ func PlaySFX(audio_stream: AudioStream) -> void:
 	SFXPlayer.stream = audio_stream
 	SFXPlayer.play()
 
-func SetBGMVolume(volume_percent: float) -> void:
-	BGMPlayer.volume_db = linear_to_db(volume_percent)
+func SetBGMVolume(volume: float) -> void:
+	AudioServer.set_bus_volume_db(BGMBusIndex, linear_to_db(volume * volume))
 
-func SetSFXVolume(volume_percent: float) -> void:
-	SFXPlayer.volume_db = linear_to_db(volume_percent)
+func SetSFXVolume(volume: float) -> void:
+	AudioServer.set_bus_volume_db(SFXBusIndex, linear_to_db(volume * volume))
 
 ##############################################################
 #                      3.0 Signal Functions                  #
@@ -47,3 +48,6 @@ func SetSFXVolume(volume_percent: float) -> void:
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+func _ready():
+	BGMBusIndex = AudioServer.get_bus_index("BGM")
+	SFXBusIndex = AudioServer.get_bus_index("SFX")

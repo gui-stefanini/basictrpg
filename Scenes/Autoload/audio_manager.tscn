@@ -8,5 +8,7 @@ BGMPlayer = NodePath("BGMPlayer")
 SFXPlayer = NodePath("SFXPlayer")
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"BGM"
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"

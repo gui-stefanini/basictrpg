@@ -116,3 +116,4 @@ libraries = {
 }
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"

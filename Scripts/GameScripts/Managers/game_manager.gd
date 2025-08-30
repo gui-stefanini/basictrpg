@@ -115,8 +115,8 @@ func SetCursor():
 	MyCursor.show()
 
 func SetAudio():
-	AudioManager.SetBGMVolume(0.1)
-	AudioManager.SetSFXVolume(0.1)
+	AudioManager.SetBGMVolume(0.4)
+	AudioManager.SetSFXVolume(0.75)
 	AudioManager.PlayBGM(CurrentLevelManager.LevelBGM)
 
 ##############################################################
