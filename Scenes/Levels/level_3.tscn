@@ -1,16 +1,24 @@
-[gd_scene load_steps=26 format=4 uid="uid://br2og6b77q65l"]
+[gd_scene load_steps=35 format=4 uid="uid://br2og6b77q65l"]
 
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_md4x4"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_1hf40"]
 [ext_resource type="Resource" uid="uid://b4y6w0s7t7xsd" path="res://Resources/Data/AIData/static_bandit_ai.tres" id="3_sy7oa"]
-[ext_resource type="Resource" uid="uid://c43x178dhq22c" path="res://Resources/Data/ClassData/EnemyClassData/boss_bandit_data.tres" id="4_md4x4"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="4_341pv"]
 [ext_resource type="Resource" uid="uid://dhluwymglp7yn" path="res://Resources/Data/AIData/bandit_ai.tres" id="5_anjjd"]
 [ext_resource type="Resource" uid="uid://cmeimwwr6o2u2" path="res://Resources/Data/AIData/static_priest_ai.tres" id="5_md4x4"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="5_wnlxl"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="6_jgaqf"]
 [ext_resource type="Resource" uid="uid://cvadj7vvigrpa" path="res://Resources/Data/ClassData/EnemyClassData/enemy_bandit_data.tres" id="6_ocbj8"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="7_x66yp"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="8_8ve8p"]
 [ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/Data/ClassData/EnemyClassData/enemy_priest_data.tres" id="8_rcyh2"]
+[ext_resource type="Texture2D" uid="uid://c2wi61baigfw4" path="res://Assets/Art/Sprites/Bandit/BanditSpriteSheet_1.png" id="9_3m4x7"]
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="9_341pv"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="10_q2kiq"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="10_wnlxl"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="11_jgaqf"]
+[ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="11_wvd0d"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="12_gupo0"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="12_x66yp"]
 [ext_resource type="Script" uid="uid://c2dwvyfroj1fr" path="res://Scripts/LevelScripts/LevelManagers/level_3_manager.gd" id="13_md4x4"]
 
@@ -32,9 +40,28 @@ Faction = 0
 Position = Vector2i(16, 6)
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
+[sub_resource type="Resource" id="Resource_3l8qv"]
+script = ExtResource("12_gupo0")
+Name = "BanditBoss"
+BaseMaxHP = 8
+BaseAttackPower = 2
+BaseHealPower = 0
+BaseMoveRange = 3
+BaseAttackRange = 1
+BaseAggro = 0
+BaseSupportAggro = 1
+Abilities = Array[ExtResource("4_341pv")]([])
+Actions = Array[ExtResource("5_wnlxl")]([ExtResource("6_jgaqf"), ExtResource("7_x66yp"), ExtResource("8_8ve8p")])
+MovementType = ExtResource("10_q2kiq")
+ClassSpriteSheet = ExtResource("9_3m4x7")
+Hframes = 4
+Vframes = 2
+MyAnimationLibrary = ExtResource("11_wvd0d")
+metadata/_custom_type_script = "uid://dajw61vh5kchp"
+
 [sub_resource type="Resource" id="Resource_af3po"]
 script = ExtResource("2_1hf40")
-UnitClass = ExtResource("4_md4x4")
+UnitClass = SubResource("Resource_3l8qv")
 Faction = 1
 Position = Vector2i(4, 5)
 AI = ExtResource("3_sy7oa")

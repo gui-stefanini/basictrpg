@@ -94,9 +94,11 @@ func GetReachableTargets(ai_owner: Unit, manager: GameManager, targets: Array[Un
 			reachable_targets.append({
 				"target": target_unit,
 				"destination": best_destination,
-				#"cost": lowest_cost
+				"cost": lowest_cost
 			})
-			
+	
+	reachable_targets.sort_custom(func(a, b): return a.cost < b.cost)
+	
 	return reachable_targets
 
 ##############################################################

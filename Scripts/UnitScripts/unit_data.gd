@@ -24,6 +24,7 @@ extends Resource
 @export var BaseMoveRange: int = 1
 @export var BaseAttackRange: int = 1
 @export var BaseAggro: int = 0
+@export var BaseSupportAggro: int = 0
 
 #Info
 @export var Abilities: Array[Ability]

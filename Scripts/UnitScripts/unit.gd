@@ -76,6 +76,10 @@ var Aggro: int:
 	get: return Data.BaseAggro + AggroModifier
 var AggroModifier: int = 0
 
+var SupportAggro: int:
+	get: return Data.BaseSupportAggro + SupportAggroModifier
+var SupportAggroModifier: int = 0
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################

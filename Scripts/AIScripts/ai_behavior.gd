@@ -176,10 +176,11 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var target_allies: Array[Unit] = []
 	for target_data in reachable_damaged_allies:
 		target_allies.append(target_data["target"])
-	var final_target = AILogic.TargetByStat(target_allies, func(u: Unit): return u.HPPercent)
+	var high_aggro_targets = AILogic.FilterTargetsByStat(target_allies, func(u: Unit): return u.SupportAggro, true)
+	var final_target = AILogic.TargetByStat(high_aggro_targets, func(u: Unit): return u.HPPercent)
 	
 	return FindBestDestination(final_target, reachable_damaged_allies)
-	
+
 
 ######################
 #    ROUTINE LOGIC   #
