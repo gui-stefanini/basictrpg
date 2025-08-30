@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://b6r4jmpo85fr7"]
+[gd_scene load_steps=26 format=4 uid="uid://b6r4jmpo85fr7"]
 
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_8qsmg"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_fphuk"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cn52isv3hb1pm" path="res://Scripts/LevelScripts/LevelManagers/level_2_manager.gd" id="7_fphuk"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="7_pnnky"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="10_u40f0"]
+[ext_resource type="AudioStream" uid="uid://cwp60xhelb8cb" path="res://Assets/Music/BGM/Battle1.ogg" id="14_eopvx"]
 
 [sub_resource type="Resource" id="Resource_wrinw"]
 script = ExtResource("2_fphuk")
@@ -120,5 +121,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 script = ExtResource("7_fphuk")
 EscapeTiles = Array[Vector2i]([Vector2i(0, 4), Vector2i(0, 5), Vector2i(0, 6), Vector2i(0, 7)])
 LevelObjective = "Escape"
+LevelBGM = ExtResource("14_eopvx")
 LevelHighlightLayer = NodePath("../LevelHighlightLayer")
 EnemyReinforcements = Array[ExtResource("2_fphuk")]([SubResource("Resource_0x4y1"), SubResource("Resource_ia1lp"), SubResource("Resource_5buja"), SubResource("Resource_wyygt"), SubResource("Resource_u87on")])

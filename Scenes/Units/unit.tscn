@@ -42,3 +42,5 @@ offset_bottom = -8.0
 libraries = {
 &"": SubResource("AnimationLibrary_mxgbu")
 }
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]

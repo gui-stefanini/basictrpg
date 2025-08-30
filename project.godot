@@ -19,10 +19,11 @@ config/icon="res://Assets/Art/icon.svg"
 [autoload]
 
 GameData="*res://Scenes/Autoload/game_data.tscn"
-InputManager="*res://Scripts/Autoloads/input_manager.gd"
 UiFunctions="*res://Scripts/Autoloads/ui_functions.gd"
 StatusLogic="*res://Scripts/Autoloads/status_logic.gd"
 AILogic="*res://Scripts/Autoloads/ai_logic.gd"
+InputManager="*res://Scripts/Autoloads/input_manager.gd"
+AudioManager="*res://Scenes/Autoload/audio_manager.tscn"
 
 [display]
 

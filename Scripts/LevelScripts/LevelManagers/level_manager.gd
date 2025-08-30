@@ -17,6 +17,7 @@ signal request_spawn(spawn_array: Array[SpawnInfo])
 #     REFERENCES     #
 ######################
 @export var LevelObjective: String
+@export var LevelBGM: AudioStream
 @export var LevelHighlightLayer: TileMapLayer
 @export var PlayerReinforcements: Array[SpawnInfo]
 @export var EnemyReinforcements: Array[SpawnInfo]

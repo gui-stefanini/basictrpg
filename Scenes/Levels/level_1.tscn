@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://6mgfl26hy227"]
+[gd_scene load_steps=20 format=4 uid="uid://6mgfl26hy227"]
 
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="1_8ffim"]
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_xfk5q"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bdi5ieubgr075" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_rb0md"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="9_u5ghp"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="10_hwvp3"]
+[ext_resource type="AudioStream" uid="uid://cwp60xhelb8cb" path="res://Assets/Music/BGM/Battle1.ogg" id="14_k2mw1"]
 
 [sub_resource type="Resource" id="Resource_wrinw"]
 script = ExtResource("2_evi0p")
@@ -73,3 +74,4 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 [node name="Level1Manager" type="Node" parent="."]
 script = ExtResource("9_rb0md")
 LevelObjective = "Defeat All Enemies"
+LevelBGM = ExtResource("14_k2mw1")

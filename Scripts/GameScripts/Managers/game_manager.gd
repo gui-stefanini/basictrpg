@@ -114,6 +114,11 @@ func SetCursor():
 	DisplaySelectedUnitInfo()
 	MyCursor.show()
 
+func SetAudio():
+	AudioManager.SetBGMVolume(0.1)
+	AudioManager.SetSFXVolume(0.1)
+	AudioManager.PlayBGM(CurrentLevelManager.LevelBGM)
+
 ##############################################################
 #                      2.2 UI                                #
 ##############################################################
@@ -474,10 +479,7 @@ func _ready() -> void:
 		var class_data = GameData.TestClass
 		GameData.player_units = [class_data]
 	
-	ConnectInputSignals()
-	
 	SetLevel()
-	
 	SetAuxiliaryManagers()
 	
 	DefinePlayerUnits()
@@ -485,6 +487,9 @@ func _ready() -> void:
 	
 	SetInfoScreen()
 	SetCursor()
+	SetAudio()
+	
+	ConnectInputSignals()
 	
 	level_set.emit()
 	StartPlayerTurn()

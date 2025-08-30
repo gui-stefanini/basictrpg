@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqhpnq5eisg4q"]
+
+[ext_resource type="Script" uid="uid://cqa5u5cejfr7k" path="res://Scripts/Autoloads/audio_manager.gd" id="1_1npab"]
+
+[node name="AudioManager" type="Node" node_paths=PackedStringArray("BGMPlayer", "SFXPlayer")]
+script = ExtResource("1_1npab")
+BGMPlayer = NodePath("BGMPlayer")
+SFXPlayer = NodePath("SFXPlayer")
+
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
