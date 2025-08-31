@@ -49,6 +49,3 @@ offset_left = 158.0
 offset_top = 111.0
 offset_right = 158.0
 offset_bottom = 111.0
-
-[connection signal="panel_closed" from="UnitSelectionPanel" to="." method="_on_panel_closed"]
-[connection signal="selection_complete" from="UnitSelectionPanel" to="." method="_on_selection_complete"]

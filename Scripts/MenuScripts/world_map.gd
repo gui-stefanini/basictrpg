@@ -65,9 +65,6 @@ func _on_selection_complete(level: PackedScene, units: Array[UnitData]) -> void:
 	
 	get_tree().change_scene_to_packed(GameManagerScene)
 
-func _on_panel_closed():
-	IsPanelOpen = false
-
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################

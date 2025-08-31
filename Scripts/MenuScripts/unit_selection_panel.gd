@@ -5,7 +5,6 @@ extends Control
 #                      0.0 Signals                           #
 ##############################################################
 signal selection_complete(level: PackedScene, units: Array[UnitData])
-signal panel_closed
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -35,11 +34,6 @@ var CurrentSelectionIndex: int = 0
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
-func ConnectInputSignals() -> void:
-	InputManager.cancel_pressed.connect(_on_cancel_pressed)
-
-func ClearInputSignals() -> void:
-	InputManager.cancel_pressed.disconnect(_on_cancel_pressed)
 
 func Initialize(level_scene: PackedScene):
 	CurrentLevel = level_scene
@@ -93,18 +87,12 @@ func UpdateInfoPanel(unit_data: UnitData):
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-func _on_cancel_pressed():
-	if not is_visible(): return
-	panel_closed.emit()
-	hide()
-
 func _on_slot_selected(slot: Node):
 	UpdateInfoPanel(slot.SelectedClass)
 	CurrentSelectionIndex = CurrentSlots.find(slot)
 
 
 func _on_start_level_button_pressed():
-	print("Start button pressed!")
 	var selected_units: Array[UnitData] = []
 	for slot in CurrentSlots:
 		selected_units.append(slot.SelectedClass)
@@ -117,9 +105,5 @@ func _on_start_level_button_pressed():
 ##############################################################
 
 func _ready():
-	ConnectInputSignals()
 	StartLevelButton.disabled = true
 	hide()
-
-func _exit_tree():
-	ClearInputSignals()
