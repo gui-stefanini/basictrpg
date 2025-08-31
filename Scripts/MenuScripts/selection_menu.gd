@@ -20,9 +20,7 @@ extends Control
 @export var UnitInfoPanel : PanelContainer
 @export var NameLabel: Label
 @export var HPAttackLabel: Label
-#@export var AttackLabel: Label
 @export var MoveRangeLabel: Label
-#@export var AttackRangeLabel: Label
 @export var AbilitiesLabel: Label
 @export var ActionsLabel: Label
 @export var UnitSelectionSlotScene: PackedScene

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dbwv5lbunki7e"]
 
 [ext_resource type="Script" uid="uid://c3qg6snsia8hg" path="res://Scripts/MenuScripts/main_menu.gd" id="1_penys"]
-[ext_resource type="PackedScene" uid="uid://dbjcwgms3fd78" path="res://Scenes/Menus/selection_menu.tscn" id="2_aur2u"]
+[ext_resource type="PackedScene" uid="uid://dbs08im6cwwae" path="res://Scenes/Menus/world_map.tscn" id="2_aur2u"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="3_5wi6m"]
 [ext_resource type="PackedScene" uid="uid://brdjd8od6ufvf" path="res://Scenes/Menus/tutorial.tscn" id="3_aur2u"]
 
@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_penys")
-SelectionMenuScene = ExtResource("2_aur2u")
+WorldMapScene = ExtResource("2_aur2u")
 TutorialScene = ExtResource("3_aur2u")
 ResolutionButton = NodePath("VBoxContainer2/ResolutionButton")
 
@@ -58,12 +58,12 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StartButton" type="Button" parent="VBoxContainer"]
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 theme_override_styles/disabled = ExtResource("3_5wi6m")
 theme_override_styles/normal = ExtResource("3_5wi6m")
-text = "Start"
+text = "Play"
 
 [node name="TutorialButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -80,6 +80,6 @@ theme_override_styles/normal = ExtResource("3_5wi6m")
 text = "Quit"
 
 [connection signal="item_selected" from="VBoxContainer2/ResolutionButton" to="." method="_on_resolution_button_item_selected"]
-[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/TutorialButton" to="." method="_on_tutorial_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
