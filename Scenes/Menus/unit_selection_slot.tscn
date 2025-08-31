@@ -1,16 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://bk7gw2ed0ldxc"]
+[gd_scene load_steps=4 format=3 uid="uid://bk7gw2ed0ldxc"]
 
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="1_45mwo"]
-[ext_resource type="Script" uid="uid://ctainlo2yo1px" path="res://Scripts/MenuScripts/unit_selection_slot.gd" id="1_l3q6m"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="2_lm4hb"]
 [ext_resource type="Theme" uid="uid://07ptt23e2eaq" path="res://Resources/Overrides/Themes/option_button_theme.tres" id="3_lm4hb"]
 
-[node name="UnitSelectionSlot" type="HBoxContainer" node_paths=PackedStringArray("ClassOptionButton")]
+[node name="UnitSelectionSlot" type="HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_l3q6m")
-ClassOptionButton = NodePath("ClassOptionButton")
+focus_mode = 2
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
@@ -18,9 +16,7 @@ theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = ExtResource("1_45mwo")
 label_settings = ExtResource("2_lm4hb")
 
-[node name="ClassOptionButton" type="OptionButton" parent="."]
+[node name="OptionButton" type="OptionButton" parent="."]
 layout_mode = 2
 theme = ExtResource("3_lm4hb")
 theme_override_font_sizes/font_size = 8
-
-[connection signal="item_selected" from="ClassOptionButton" to="." method="_on_class_option_button_item_selected"]

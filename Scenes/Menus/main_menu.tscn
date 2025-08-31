@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbwv5lbunki7e"]
+[gd_scene load_steps=4 format=3 uid="uid://dbwv5lbunki7e"]
 
 [ext_resource type="Script" uid="uid://c3qg6snsia8hg" path="res://Scripts/MenuScripts/main_menu.gd" id="1_penys"]
-[ext_resource type="PackedScene" uid="uid://dbs08im6cwwae" path="res://Scenes/Menus/world_map.tscn" id="2_aur2u"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="3_5wi6m"]
 [ext_resource type="PackedScene" uid="uid://brdjd8od6ufvf" path="res://Scenes/Menus/tutorial.tscn" id="3_aur2u"]
 
@@ -13,7 +12,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_penys")
-WorldMapScene = ExtResource("2_aur2u")
 TutorialScene = ExtResource("3_aur2u")
 ResolutionButton = NodePath("VBoxContainer2/ResolutionButton")
 

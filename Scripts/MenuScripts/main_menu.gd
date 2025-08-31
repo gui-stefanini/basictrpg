@@ -9,7 +9,7 @@ extends Control
 ######################
 #     REFERENCES     #
 ######################
-@export var WorldMapScene: PackedScene
+@export var SelectionMenuScene: PackedScene
 @export var TutorialScene: PackedScene
 @export var ResolutionButton: OptionButton
 
@@ -43,7 +43,7 @@ func SetResolutions():
 ##############################################################
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_packed(WorldMapScene)
+	get_tree().change_scene_to_packed(SelectionMenuScene)
 
 func _on_tutorial_button_pressed() -> void:
 	get_tree().change_scene_to_packed(TutorialScene)
