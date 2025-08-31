@@ -29,7 +29,7 @@ var Resolutions: Array[Vector2i] = [
 
 func SetResolutions():
 	for resolution in Resolutions:
-		ResolutionButton.add_item("%d x %d" % [resolution.x, resolution.y])
+		ResolutionButton.add_item("%dx%d" % [resolution.x, resolution.y])
 	
 	# Set the default selection to match the current window size
 	var current_size = DisplayServer.window_get_size()
