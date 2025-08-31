@@ -21,11 +21,11 @@ var SFXBusIndex : int
 #                      2.0 Functions                         #
 ##############################################################
 
+func StopAudio():
+	BGMPlayer.stop()
+	SFXPlayer.stop()
+
 func PlayBGM(audio_stream: AudioStream) -> void:
-	if not audio_stream:
-		BGMPlayer.stop()
-		return
-	
 	BGMPlayer.stream = audio_stream
 	BGMPlayer.play()
 	# Make sure the BGM loops

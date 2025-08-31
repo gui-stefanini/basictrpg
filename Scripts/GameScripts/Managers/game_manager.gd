@@ -382,6 +382,7 @@ func _on_cancel_pressed():
 		
 		SubState.ACTION_CONFIRMATION_PHASE:
 			ActionForecast.hide()
+			MyActionManager.ClearHighlights()
 			TargetedUnit = null
 			CurrentAction = null
 			MyActionMenu.ShowMenu(ActiveUnit)

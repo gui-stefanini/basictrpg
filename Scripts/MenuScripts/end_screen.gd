@@ -33,10 +33,12 @@ func ShowEndScreen(is_victory: bool):
 
 func _on_restart_button_pressed():
 	get_tree().paused = false
+	AudioManager.StopAudio()
 	restart_requested.emit()
 
 func _on_menu_button_pressed() -> void:
 	get_tree().paused = false
+	AudioManager.StopAudio()
 	GameData.reset_data()
 	GameData.restart_game()
 
