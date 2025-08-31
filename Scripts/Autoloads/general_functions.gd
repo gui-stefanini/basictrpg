@@ -1,5 +1,5 @@
-class_name KnightAI
-extends AIBehavior
+extends Node
+
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -10,23 +10,35 @@ extends AIBehavior
 ######################
 #     REFERENCES     #
 ######################
+@export var TimeManager: Timer
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func execute_turn(owner: Unit, manager: GameManager):
-	print(owner.name + " is thinking like a Knight...")
-	
-	if owner.HPPercent <= 0.4:
-		var rand = GeneralFunctions.RandomizeInt(1, 100)
-		if rand <= 66:
-			await DefendCommand(owner, manager)
-			return
-	
-	await execute_move_offensive_routine(owner, manager)
+func Wait(seconds: float):
+	TimeManager.wait_time = seconds
+	TimeManager.start()
+	await TimeManager.timeout
+
+func RandomizeInt(low: int, high: int, include : bool = true) -> int: 
+	if include == true:
+		return randi_range(low, high) 
+	else:
+		var new_low: int = low + 1
+		var new_high: int = high - 1
+		return randi_range(new_low, new_high)
+
+func RandomizeFloat(low: float, high: float, include : bool = true) -> float: 
+	if include == true:
+		return randf_range(low, high) 
+	else:
+		var new_low: float = low + 0.01
+		var new_high: float = high - 0.01
+		return randf_range(new_low, new_high)
 
 ##############################################################
 #                      3.0 Signal Functions                  #
@@ -35,3 +47,5 @@ func execute_turn(owner: Unit, manager: GameManager):
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+func _ready() -> void:
+	randomize()

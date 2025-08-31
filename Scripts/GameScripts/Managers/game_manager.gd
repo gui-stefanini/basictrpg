@@ -21,7 +21,6 @@ signal unit_removed(unit: Unit)
 @export var CombatScreenScene: PackedScene
 @export var VfxScene: PackedScene
 
-@export var ManagerTimer: Timer
 @export var MyActionMenu: ActionMenu
 
 @export var ActiveUnitInfoPanel: PanelContainer
@@ -65,10 +64,7 @@ var OriginalUnitTile: Vector2i
 #                      2.0 Functions                         #
 ##############################################################
 
-func Wait(seconds: float):
-	ManagerTimer.wait_time = seconds
-	ManagerTimer.start()
-	await ManagerTimer.timeout
+
 
 func ConnectInputSignals():
 	InputManager.confirm_pressed.connect(_on_confirm_pressed)
@@ -138,11 +134,12 @@ func DisplaySelectedUnitInfo():
 	else:
 		SelectedUnitInfoPanel.UpdatePanel(unit_on_tile)
 
-func UpdateCursor(new_tile_position: Vector2i):
-	if CheckGridBounds(new_tile_position):
-		MyCursor.MoveToTile(new_tile_position, GroundGrid)
-		DisplaySelectedUnitInfo()
-		MyCursor.show()
+func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
+	if new_tile_position != Vector2i(-1,-1):
+		if CheckGridBounds(new_tile_position):
+			MyCursor.MoveToTile(new_tile_position, GroundGrid)
+	DisplaySelectedUnitInfo()
+	MyCursor.show()
 
 func CheckGridBounds(tile: Vector2i) -> bool:
 	var grid_rect = GroundGrid.get_used_rect()
@@ -251,7 +248,7 @@ func StartPlayerTurn():
 	for unit in PlayerUnits:
 		unit.StartTurn()
 	TurnNumber += 1
-	MyCursor.show()
+	UpdateCursor()
 	turn_started.emit(TurnNumber)
 
 func OnPlayerActionFinished():
@@ -269,11 +266,11 @@ func EndPlayerTurn():
 	ClearActiveUnit()
 	
 	if UnitsWhoHaveActed.size() == PlayerUnits.size():
-		MyCursor.hide()
+		HideUI()
 		for unit in PlayerUnits:
 			unit.SetActive()
 		turn_ended.emit(TurnNumber)
-		await Wait(0.5)
+		await GeneralFunctions.Wait(0.5)
 		await StartEnemyTurn()
 	else:
 		CurrentSubState = SubState.UNIT_SELECTION_PHASE
@@ -284,7 +281,7 @@ func StartEnemyTurn():
 	CurrentSubState = SubState.MOVEMENT_PHASE
 	
 	for enemy in EnemyUnits:
-		await Wait(0.2)
+		await GeneralFunctions.Wait(0.2)
 		enemy.StartTurn()
 		print(enemy.name + " is taking its turn.")
 		await enemy.AI.execute_turn(enemy, self)
@@ -348,12 +345,14 @@ func _on_confirm_pressed():
 		
 		SubState.ACTION_CONFIRMATION_PHASE:
 			ActionForecast.hide()
+			HideUI()
 			MyActionManager.ClearHighlights()
 			
 			if selected_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, TargetedUnit) == true:
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
+					UpdateCursor()
 					EndPlayerTurn()
 
 func _on_cancel_pressed():
@@ -369,7 +368,7 @@ func _on_cancel_pressed():
 				ActiveUnit.HasMoved = false
 				UpdateCursor(OriginalUnitTile)
 				
-			MyCursor.show()
+			UpdateCursor()
 			ClearActiveUnit()
 			CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		

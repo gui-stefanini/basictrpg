@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbx7ylj60xqag"]
+
+[ext_resource type="Script" uid="uid://b4yypth3era7t" path="res://Scripts/Autoloads/general_functions.gd" id="1_np7wf"]
+
+[node name="GeneralFunctions" type="Node" node_paths=PackedStringArray("TimeManager")]
+script = ExtResource("1_np7wf")
+TimeManager = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

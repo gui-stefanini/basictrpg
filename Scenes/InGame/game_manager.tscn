@@ -17,12 +17,11 @@
 [ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/HUD/action_forecast.tscn" id="12_v2ahw"]
 [ext_resource type="PackedScene" uid="uid://c6y6b8er1uee0" path="res://Scenes/InGame/HUD/info_screen.tscn" id="15_gunjt"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("ManagerTimer", "MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
 VfxScene = ExtResource("4_2yddo")
-ManagerTimer = NodePath("ManagerTimer")
 MyActionMenu = NodePath("ActionMenu")
 ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 SelectedUnitInfoPanel = NodePath("UnitInfoPanel2")
@@ -41,10 +40,6 @@ AllMovementData = Array[ExtResource("6_ehr7b")]([ExtResource("7_hghx2"), ExtReso
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("5_frkii")
-
-[node name="ManagerTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
 
 [node name="ActionMenu" parent="." instance=ExtResource("9_iav25")]
 visible = false
