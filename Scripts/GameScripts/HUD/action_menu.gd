@@ -84,7 +84,7 @@ func ShowMenu(unit: Unit):
 	
 	global_position = unit.global_position + Vector2(-8, -20)
 	
-	UiFunctions.ClampUI(self)
+	UiFunctions.call_deferred("ClampUI", self)
 	show()
 
 ##############################################################

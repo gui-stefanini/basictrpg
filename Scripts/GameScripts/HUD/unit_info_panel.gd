@@ -32,7 +32,7 @@ func UpdatePanel(unit: Unit):
 	AttackLabel.text = "ATK: " + str(unit.AttackPower)
 	MoveLabel.text = "MOV: " + str(unit.MoveRange)
 	AttackRangeLabel.text = "RNG: " + str(unit.AttackRange)
-	UiFunctions.ClampUI(self)
+	UiFunctions.call_deferred("ClampUI", self)
 	show()
 
 ##############################################################

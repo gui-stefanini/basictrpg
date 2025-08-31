@@ -30,7 +30,7 @@ func UpdateForecast(attacker: Unit, defender: Unit, damage: int):
 	TargetHPLabel.text = "HP: " + str(defender.CurrentHP) + " -> " + str(final_hp)
 	
 	global_position = attacker.global_position + Vector2(10, -10)
-	UiFunctions.ClampUI(self)
+	UiFunctions.call_deferred("ClampUI", self)
 	show()
 
 ##############################################################
