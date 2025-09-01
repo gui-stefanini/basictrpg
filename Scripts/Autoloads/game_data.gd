@@ -25,11 +25,6 @@ var SelectedLevel: PackedScene
 #                      2.0 Functions                         #
 ##############################################################
 
-func restart_game():
-	
-	get_tree().paused = false
-	get_tree().change_scene_to_packed(MainMenuScene)
-
 func reset_data():
 	SelectedLevel = null
 

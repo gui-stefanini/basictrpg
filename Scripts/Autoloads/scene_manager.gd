@@ -1,4 +1,5 @@
-extends CanvasLayer
+extends Node
+
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -9,7 +10,11 @@ extends CanvasLayer
 ######################
 #     REFERENCES     #
 ######################
-@export var MessageLabel : Label
+
+@export var MainMenuScene: PackedScene
+@export var WorldMapScene: PackedScene
+@export var GameManagerScene: PackedScene
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -18,31 +23,21 @@ extends CanvasLayer
 #                      2.0 Functions                         #
 ##############################################################
 
-func ShowEndScreen(is_victory: bool):
-	if is_victory:
-		MessageLabel.text = "You Win!"
-	else:
-		MessageLabel.text = "Game Over"
-	get_tree().paused = true
-	show()
+func ChangeSceneMainMenu():
+	get_tree().paused = false
+	get_tree().change_scene_to_packed(MainMenuScene)
+
+func ChangeSceneWorldMap():
+	get_tree().paused = false
+	get_tree().change_scene_to_packed(WorldMapScene)
+
+func ChangeSceneGame():
+	get_tree().paused = false
+	get_tree().change_scene_to_packed(GameManagerScene)
 
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-
-func _on_world_map_button_pressed() -> void:
-	get_tree().paused = false
-	AudioManager.StopAudio()
-	SceneManager.ChangeSceneWorldMap()
-
-func _on_menu_button_pressed() -> void:
-	get_tree().paused = false
-	AudioManager.StopAudio()
-	GameData.reset_data()
-	SceneManager.ChangeSceneMainMenu()
-
-func _on_quit_button_pressed() -> void:
-	get_tree().quit()
 
 ##############################################################
 #                      4.0 Godot Functions                   #

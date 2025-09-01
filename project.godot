@@ -19,6 +19,7 @@ config/icon="res://Assets/Art/Rest/icon.svg"
 [autoload]
 
 GameData="*res://Scenes/Autoload/game_data.tscn"
+SceneManager="*res://Scenes/Autoload/scene_manager.tscn"
 GeneralFunctions="*res://Scenes/Autoload/general_functions.tscn"
 UiFunctions="*res://Scripts/Autoloads/ui_functions.gd"
 StatusLogic="*res://Scripts/Autoloads/status_logic.gd"

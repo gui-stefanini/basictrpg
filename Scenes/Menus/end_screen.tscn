@@ -1,12 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg028svcnu8gy"]
+[gd_scene load_steps=3 format=3 uid="uid://dg028svcnu8gy"]
 
 [ext_resource type="Script" uid="uid://fi6fudmkw73p" path="res://Scripts/MenuScripts/end_screen.gd" id="1_f2mtv"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="2_1gwaw"]
-[ext_resource type="PackedScene" uid="uid://dagoxwn4eplbq" path="res://Scenes/Menus/world_map.tscn" id="2_g2wel"]
 
 [node name="EndScreen" type="CanvasLayer" node_paths=PackedStringArray("MessageLabel")]
 script = ExtResource("1_f2mtv")
-WorldMapScene = ExtResource("2_g2wel")
 MessageLabel = NodePath("ColorRect/VBoxContainer/MessageLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]

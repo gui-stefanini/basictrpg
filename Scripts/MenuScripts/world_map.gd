@@ -63,7 +63,7 @@ func SelectLevel():
 func _on_confirm_pressed():
 	if LevelInfoPanel.is_visible_in_tree():
 		GameData.SelectedLevel = SelectedLevel.LevelScene
-		get_tree().change_scene_to_packed(GameScene)
+		SceneManager.ChangeSceneGame()
 	
 	else:
 		SelectLevel()
@@ -74,7 +74,7 @@ func _on_cancel_pressed():
 		LevelInfoPanel.hide()
 
 func _on_start_pressed():
-	pass
+	SceneManager.ChangeSceneMainMenu()
 
 func _on_direction_pressed(direction: Vector2i):
 	if LevelInfoPanel.is_visible_in_tree():

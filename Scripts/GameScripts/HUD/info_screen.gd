@@ -10,7 +10,6 @@ extends CanvasLayer
 ######################
 #     REFERENCES     #
 ######################
-@export var WorldMapScene : PackedScene
 @export var MyTabContainer: TabContainer
 @export var UnitList: ItemList
 #UnitTab
@@ -234,11 +233,11 @@ func _on_unit_removed(unit: Unit):
 
 func _on_world_map_button_pressed() -> void:
 	hide()
-	get_tree().change_scene_to_packed(WorldMapScene)
+	SceneManager.ChangeSceneWorldMap()
 
 func _on_menu_button_pressed() -> void:
 	GameData.reset_data()
-	GameData.restart_game()
+	SceneManager.ChangeSceneMainMenu()
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
