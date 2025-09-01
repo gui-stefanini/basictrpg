@@ -65,7 +65,8 @@ func _on_confirm_pressed():
 		GameData.SelectedLevel = SelectedLevel.LevelScene
 		get_tree().change_scene_to_packed(GameScene)
 	
-	SelectLevel()
+	else:
+		SelectLevel()
 
 
 func _on_cancel_pressed():

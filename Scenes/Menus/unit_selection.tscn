@@ -1,7 +1,70 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0qxw63lhwfaj"]
+[gd_scene load_steps=6 format=3 uid="uid://dticlvsfa10g6"]
 
-[ext_resource type="Script" uid="uid://bgi063nbryfyg" path="res://Scripts/MenuScripts/unit_selection_scene.gd" id="1_34no2"]
-[ext_resource type="PackedScene" uid="uid://bk7gw2ed0ldxc" path="res://Scenes/Menus/unit_selection_slot.tscn" id="2_cedfu"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="1_avbq3"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="2_4o1kq"]
+[ext_resource type="Theme" uid="uid://07ptt23e2eaq" path="res://Resources/Overrides/Themes/option_button_theme.tres" id="3_16lpf"]
+
+[sub_resource type="GDScript" id="GDScript_2squ6"]
+script/source = "extends Control
+
+##############################################################
+#                      0.0 Signals                           #
+##############################################################
+
+##############################################################
+#                      1.0 Variables                         #
+##############################################################
+######################
+#     REFERENCES     #
+######################
+
+@export var UnitSelectionSlotScene : PackedScene
+var CurrentLevel : Level
+
+######################
+#     SCRIPT-WIDE    #
+######################
+
+var PlayerCount: int
+var SpawnPositions : Array[Vector2i]
+
+##############################################################
+#                      2.0 Functions                         #
+##############################################################
+
+func SetLevel():
+	CurrentLevel = GameData.selected_level.instantiate()
+	add_child(CurrentLevel)
+	
+	PlayerCount = CurrentLevel.PlayerSpawns.size()
+	for spawn_info in CurrentLevel.PlayerSpawns:
+		SpawnPositions.append(spawn_info.Position)
+
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################
+
+func _ready() -> void:
+	SetLevel()
+"
+
+[sub_resource type="PackedScene" id="PackedScene_nmt34"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("UnitSelectionSlot", "custom_minimum_size", "offset_right", "offset_bottom", "HBoxContainer", "Label", "layout_mode", "theme_override_font_sizes/font_size", "theme_override_styles/normal", "label_settings", "OptionButton", "theme"),
+"node_count": 3,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 4, 0, -1, 3, 1, 0, 2, 1, 3, 1, 0, 0, 0, 5, 5, -1, 4, 6, 2, 7, 3, 8, 4, 9, 5, 0, 0, 0, 10, 10, -1, 3, 6, 2, 11, 6, 7, 3, 0),
+"variants": [Vector2(80, 0), 40.0, 2, 8, ExtResource("1_avbq3"), ExtResource("2_4o1kq"), ExtResource("3_16lpf")],
+"version": 3
+}
 
 [node name="UnitSelection" type="Control"]
 layout_mode = 3
@@ -10,5 +73,5 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_34no2")
-UnitSelectionSlotScene = ExtResource("2_cedfu")
+script = SubResource("GDScript_2squ6")
+UnitSelectionSlotScene = SubResource("PackedScene_nmt34")
