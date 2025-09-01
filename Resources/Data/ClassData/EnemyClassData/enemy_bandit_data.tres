@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_r6ahf"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="2_c1qfw"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_ku7i3"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_mlkdv"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="2_mlkdv"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_5ednp"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_hqf16"]
 [ext_resource type="Texture2D" uid="uid://c2wi61baigfw4" path="res://Assets/Art/Sprites/Bandit/BanditSpriteSheet_1.png" id="6_427ot"]

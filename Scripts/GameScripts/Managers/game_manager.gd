@@ -153,7 +153,7 @@ func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
 #                      2.3 SPAWNING                          #
 ##############################################################
 
-func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: UnitData) -> Vector2i:
+func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: ClassData) -> Vector2i:
 	var move_data_name = unit_data.MovementType.Name
 	
 	if not MyMoveManager.AStarInstances.has(move_data_name):

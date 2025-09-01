@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ccdseexackriv" path="res://Scenes/Tests/test_level.tscn" id="3_26qp2"]
 [ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/Data/ClassData/PlayerClassData/priest_data.tres" id="4_x2ira"]
 [ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/Data/ClassData/PlayerClassData/knight_data.tres" id="5_0t10v"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="5_x8tvg"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="5_x8tvg"]
 [ext_resource type="Resource" uid="uid://bqfoaj6jgi4aa" path="res://Resources/Data/ClassData/PlayerClassData/assassin_data.tres" id="6_x8tvg"]
 
 [node name="GameData" type="Node"]

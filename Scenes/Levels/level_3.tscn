@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="10_wnlxl"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="11_jgaqf"]
 [ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="11_wvd0d"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="12_gupo0"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="12_gupo0"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="12_x66yp"]
 [ext_resource type="Script" uid="uid://c2dwvyfroj1fr" path="res://Scripts/LevelScripts/LevelManagers/level_3_manager.gd" id="13_md4x4"]
 [ext_resource type="AudioStream" uid="uid://inuggdyus0w6" path="res://Assets/Music/BGM/Boss1.ogg" id="20_wnlxl"]

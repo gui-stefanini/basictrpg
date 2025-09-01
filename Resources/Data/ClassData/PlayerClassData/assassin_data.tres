@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_frp0e"]
 [ext_resource type="Resource" uid="uid://bbuqp4k0lgk0s" path="res://Resources/Data/AbilityData/pass_ability.tres" id="2_peky0"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_qn55b"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/unit_data.gd" id="2_uolvr"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="2_uolvr"]
 [ext_resource type="Resource" uid="uid://bfhbck6mxmwqq" path="res://Resources/Data/AbilityData/stealth_ability.tres" id="3_ix5yj"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_u803q"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_jjsmb"]
