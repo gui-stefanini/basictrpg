@@ -64,8 +64,6 @@ var OriginalUnitTile: Vector2i
 #                      2.0 Functions                         #
 ##############################################################
 
-
-
 func ConnectInputSignals():
 	InputManager.confirm_pressed.connect(_on_confirm_pressed)
 	InputManager.cancel_pressed.connect(_on_cancel_pressed)
@@ -89,7 +87,7 @@ func ClearInputSignals():
 ##############################################################
 
 func SetLevel():
-	CurrentLevel = GameData.selected_level.instantiate()
+	CurrentLevel = GameData.SelectedLevel.instantiate()
 	add_child(CurrentLevel)
 	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
@@ -222,8 +220,8 @@ func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 		SpawnUnit(spawn_info)
 
 func DefinePlayerUnits():
-	for i in range(GameData.player_units.size()):
-		CurrentLevel.PlayerSpawns[i].UnitClass = GameData.player_units[i]
+	for i in range(CurrentLevel.PlayerSpawns.size()):
+		CurrentLevel.PlayerSpawns[i].UnitClass = GameData.PlayerUnits[i]
 
 func SpawnStartingUnits():
 	SpawnUnitGroup(CurrentLevel.PlayerSpawns)
@@ -412,10 +410,9 @@ func on_trigger_pressed(direction : int):
 		return
 	
 	var current_index = AllUnits.find(unit_on_tile)
-	var array_size = AllUnits.size()
-	var next_index = (current_index + direction + array_size) % array_size
-	
+	var next_index = GeneralFunctions.ClampIndexInArray(current_index, direction, AllUnits)
 	next_unit = AllUnits[next_index]
+	
 	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
 
 func _on_direction_pressed(direction: Vector2i):
@@ -473,11 +470,11 @@ func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: 
 ##############################################################
 
 func _ready() -> void:
-	if not GameData.selected_level:
+	if not GameData.SelectedLevel:
 		push_warning("GameData is empty. Loading default Level for testing.")
-		GameData.selected_level = GameData.TestLevel
+		GameData.SelectedLevel = GameData.TestLevel
 		var class_data = GameData.TestClass
-		GameData.player_units = [class_data]
+		GameData.PlayerUnits = [class_data]
 	
 	SetLevel()
 	SetAuxiliaryManagers()

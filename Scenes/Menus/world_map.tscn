@@ -1,0 +1,117 @@
+[gd_scene load_steps=13 format=3 uid="uid://dagoxwn4eplbq"]
+
+[ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
+[ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MenuScripts/world_map.gd" id="1_immrm"]
+[ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/InGame/game_manager.tscn" id="2_jgv10"]
+[ext_resource type="Texture2D" uid="uid://cbo6mac32qbyk" path="res://Assets/Art/Rest/Level_Circle.png" id="2_yue45"]
+[ext_resource type="Script" uid="uid://xevkx7hkbxqy" path="res://Scripts/MenuScripts/map_level.gd" id="3_0kw6s"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="3_650wr"]
+[ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_1.tscn" id="4_pnvcu"]
+[ext_resource type="PackedScene" uid="uid://b6r4jmpo85fr7" path="res://Scenes/Levels/level_2.tscn" id="6_kvmql"]
+[ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_3.tscn" id="7_d6b3t"]
+[ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="9_pnvcu"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="10_d6b3t"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="11_jgv10"]
+
+[node name="WorldMap" type="Node2D" node_paths=PackedStringArray("Player", "Levels", "LevelInfoPanel", "LevelNameLabel", "LevelObjectiveLabel", "PlayerCountLabel")]
+script = ExtResource("1_immrm")
+Player = NodePath("Player")
+Levels = [NodePath("Level1"), NodePath("Level2"), NodePath("Level3")]
+LevelInfoPanel = NodePath("LevelInfoPanel")
+LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
+LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
+PlayerCountLabel = NodePath("LevelInfoPanel/VBoxContainer/PlayerCount")
+GameScene = ExtResource("2_jgv10")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="BackgroundLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_bccv8")
+
+[node name="Level1" type="Node2D" parent="."]
+position = Vector2(64, 112)
+script = ExtResource("3_0kw6s")
+LevelScene = ExtResource("4_pnvcu")
+LevelName = "Level 1"
+LevelObjective = "Defeat all Enemies"
+PlayerCount = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Level1"]
+texture = ExtResource("2_yue45")
+
+[node name="Level2" type="Node2D" parent="."]
+position = Vector2(160, 80)
+script = ExtResource("3_0kw6s")
+LevelScene = ExtResource("6_kvmql")
+LevelName = "Level 2"
+LevelObjective = "Escape"
+PlayerCount = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Level2"]
+texture = ExtResource("2_yue45")
+
+[node name="Level3" type="Node2D" parent="."]
+position = Vector2(256, 112)
+script = ExtResource("3_0kw6s")
+LevelScene = ExtResource("7_d6b3t")
+LevelName = "Level 3"
+LevelObjective = "Defeat Boss"
+PlayerCount = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Level3"]
+texture = ExtResource("2_yue45")
+
+[node name="Player" type="Node2D" parent="."]
+z_index = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("3_650wr")
+hframes = 4
+vframes = 2
+
+[node name="LevelInfoPanel" type="PanelContainer" parent="."]
+visible = false
+z_index = 10
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -28.0
+offset_right = 28.0
+offset_bottom = 40.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("9_pnvcu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelInfoPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="LevelName" type="Label" parent="LevelInfoPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("10_d6b3t")
+text = "Level X"
+label_settings = ExtResource("11_jgv10")
+horizontal_alignment = 1
+
+[node name="LevelObjective" type="Label" parent="LevelInfoPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("10_d6b3t")
+text = "Defeat"
+label_settings = ExtResource("11_jgv10")
+horizontal_alignment = 1
+
+[node name="PlayerCount" type="Label" parent="LevelInfoPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("10_d6b3t")
+text = "Player Units: X"
+label_settings = ExtResource("11_jgv10")
+horizontal_alignment = 1

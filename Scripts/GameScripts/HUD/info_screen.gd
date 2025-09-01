@@ -203,11 +203,11 @@ func _on_direction_pressed(direction: Vector2i):
 		return
 	
 	var current_selection = current_selection_array[0]
-	var new_selection = current_selection + direction.y
+	#var new_selection = current_selection + direction.y
 	
 	# Clamp the selection to the list bounds
 	var item_count = UnitList.get_item_count()
-	new_selection = (current_selection + direction.y + item_count) % item_count
+	var new_selection = GeneralFunctions.ClampIndex(current_selection, direction.y, item_count)
 	
 	UpdateUnitSelection(new_selection)
 
@@ -215,7 +215,8 @@ func _on_trigger_pressed(direction: int):
 	var tab_count = MyTabContainer.get_tab_count()
 	var current_tab = MyTabContainer.current_tab
 	# This formula correctly wraps around in both directions
-	var next_tab = (current_tab + direction + tab_count) % tab_count
+	var next_tab = GeneralFunctions.ClampIndex(current_tab, direction, tab_count)
+	
 	MyTabContainer.current_tab = next_tab
 
 func _on_unit_spawned(unit: Unit):

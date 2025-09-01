@@ -14,7 +14,7 @@ config/name="BasicTRPG"
 config/tags=PackedStringArray("learning")
 run/main_scene="uid://dbwv5lbunki7e"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://Assets/Art/icon.svg"
+config/icon="res://Assets/Art/Rest/icon.svg"
 
 [autoload]
 

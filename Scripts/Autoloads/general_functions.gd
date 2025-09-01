@@ -40,6 +40,14 @@ func RandomizeFloat(low: float, high: float, include : bool = true) -> float:
 		var new_high: float = high - 0.01
 		return randf_range(new_low, new_high)
 
+func ClampIndex(current_index: int, direction: int, size: int) -> int:
+	var new_index = (current_index + direction + size) % size
+	return new_index
+
+func ClampIndexInArray(current_index: int, direction: int, array: Array) -> int:
+	var array_size: int = array.size()
+	return ClampIndex(current_index, direction, array_size)
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

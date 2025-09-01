@@ -16,9 +16,10 @@ extends Node
 ######################
 #     SCRIPT-WIDE    #
 ######################
-var selected_level: PackedScene
-#var selected_level: String = ""
-var player_units: Array = [UnitData]
+
+@export var PlayerUnits: Array[UnitData]
+
+var SelectedLevel: PackedScene
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -29,10 +30,8 @@ func restart_game():
 	get_tree().paused = false
 	get_tree().change_scene_to_packed(MainMenuScene)
 
-
 func reset_data():
-	selected_level = null
-	player_units = []
+	SelectedLevel = null
 
 ##############################################################
 #                      3.0 Signal Functions                  #
