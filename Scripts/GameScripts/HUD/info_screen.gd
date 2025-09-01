@@ -3,14 +3,14 @@ extends CanvasLayer
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
-signal restart_requested
+
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
 ######################
 #     REFERENCES     #
 ######################
-
+@export var WorldMapScene : PackedScene
 @export var MyTabContainer: TabContainer
 @export var UnitList: ItemList
 #UnitTab
@@ -50,7 +50,6 @@ func Initialize(game_manager: GameManager):
 	EnemyUnits = game_manager.EnemyUnits.duplicate()
 	AllUnits = game_manager.PlayerUnits.duplicate() + game_manager.EnemyUnits.duplicate()
 	
-	restart_requested.connect(game_manager._on_restart_requested)
 	game_manager.unit_spawned.connect(_on_unit_spawned)
 	game_manager.unit_removed.connect(_on_unit_removed)
 
@@ -233,13 +232,9 @@ func _on_unit_removed(unit: Unit):
 		EnemyUnits.erase(unit)
 	AllUnits = PlayerUnits + EnemyUnits
 
-##############################################################
-#                      4.0 Godot Functions                   #
-##############################################################
-
-func _on_restart_button_pressed() -> void:
-	restart_requested.emit()
+func _on_world_map_button_pressed() -> void:
 	hide()
+	get_tree().change_scene_to_packed(WorldMapScene)
 
 func _on_menu_button_pressed() -> void:
 	GameData.reset_data()
@@ -247,3 +242,7 @@ func _on_menu_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
+
+##############################################################
+#                      4.0 Godot Functions                   #
+##############################################################

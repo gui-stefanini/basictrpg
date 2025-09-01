@@ -68,4 +68,3 @@ process_mode = 3
 visible = false
 
 [connection signal="action_selected" from="ActionMenu" to="." method="_on_action_menu_action_selected"]
-[connection signal="restart_requested" from="EndScreen" to="." method="_on_restart_requested"]

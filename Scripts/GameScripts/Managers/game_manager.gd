@@ -433,10 +433,6 @@ func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
 	action._on_select(ActiveUnit, self)
 
-func _on_restart_requested() -> void:
-	get_tree().paused = false
-	get_tree().reload_current_scene()
-
 func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
 	SpawnUnitGroup(spawn_array)
 

@@ -1,14 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6y6b8er1uee0"]
+[gd_scene load_steps=7 format=3 uid="uid://c6y6b8er1uee0"]
 
 [ext_resource type="Script" uid="uid://0nbaemccq50h" path="res://Scripts/GameScripts/HUD/info_screen.gd" id="1_3pumf"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="1_i3wly"]
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/Test/DefaultSprite.png" id="2_3pumf"]
+[ext_resource type="PackedScene" uid="uid://dagoxwn4eplbq" path="res://Scenes/Menus/world_map.tscn" id="2_80q7e"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="3_80q7e"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="4_b2nnt"]
 
 [node name="InfoScreen" type="CanvasLayer" node_paths=PackedStringArray("MyTabContainer", "UnitList", "UnitSprite", "NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "RangeLabel", "StatusContainer", "AbilityContainer", "ActionContainer", "ObjectiveLabel")]
 process_mode = 3
 script = ExtResource("1_3pumf")
+WorldMapScene = ExtResource("2_80q7e")
 MyTabContainer = NodePath("TabContainer")
 UnitList = NodePath("TabContainer/Units/HBoxContainer/UnitList")
 UnitSprite = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftColumn/SpriteControl/UnitSprite")
@@ -41,9 +43,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 theme_override_constants/side_margin = 0
 theme_override_font_sizes/font_size = 14
-current_tab = 0
+current_tab = 2
 
 [node name="Units" type="PanelContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -176,31 +179,32 @@ text = "Objective"
 horizontal_alignment = 1
 
 [node name="Menu" type="PanelContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Menu"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="RestartButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
+[node name="WorldMapButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = ExtResource("3_80q7e")
-text = "Restart"
+text = " Return to Map "
 
 [node name="MenuButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = ExtResource("3_80q7e")
-text = "Main Menu"
+text = " Main Menu "
 
 [node name="QuitButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = ExtResource("3_80q7e")
-text = "Quit"
+text = " Quit "
 
-[connection signal="pressed" from="TabContainer/Menu/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="TabContainer/Menu/VBoxContainer/WorldMapButton" to="." method="_on_world_map_button_pressed"]
 [connection signal="pressed" from="TabContainer/Menu/VBoxContainer/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="TabContainer/Menu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

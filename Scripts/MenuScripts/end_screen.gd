@@ -2,7 +2,6 @@ extends CanvasLayer
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
-signal restart_requested
 
 ##############################################################
 #                      1.0 Variables                         #
@@ -10,6 +9,7 @@ signal restart_requested
 ######################
 #     REFERENCES     #
 ######################
+@export var WorldMapScene : PackedScene
 @export var MessageLabel : Label
 ######################
 #     SCRIPT-WIDE    #
@@ -31,10 +31,10 @@ func ShowEndScreen(is_victory: bool):
 #                      3.0 Signal Functions                  #
 ##############################################################
 
-func _on_restart_button_pressed():
+func _on_world_map_button_pressed() -> void:
 	get_tree().paused = false
 	AudioManager.StopAudio()
-	restart_requested.emit()
+	get_tree().change_scene_to_packed(WorldMapScene)
 
 func _on_menu_button_pressed() -> void:
 	get_tree().paused = false
