@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbo6mac32qbyk"
-path="res://.godot/imported/Level_Circle.png-1fbe26d25f484a4436731bca8f03bcb2.ctex"
+uid="uid://dwqf71f3ao43y"
+path="res://.godot/imported/MapLevel.png-3d23151bdf19e47d1f4f95753c82a053.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Rest/Level_Circle.png"
-dest_files=["res://.godot/imported/Level_Circle.png-1fbe26d25f484a4436731bca8f03bcb2.ctex"]
+source_file="res://Assets/Art/Rest/MapLevel.png"
+dest_files=["res://.godot/imported/MapLevel.png-3d23151bdf19e47d1f4f95753c82a053.ctex"]
 
 [params]
 

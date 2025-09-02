@@ -19,14 +19,20 @@ extends Node
 
 @export var PlayerUnits: Array[CharacterData]
 
-var SelectedLevel: PackedScene
+@export var CurrentLevel: MapLevel
+@export var ClearedLevels: Array[MapLevel]
+var SelectedLevelScene: PackedScene
 
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func reset_data():
-	SelectedLevel = null
+func ClearLevel():
+	ClearedLevels.append(CurrentLevel)
+
+func ResetLevelData():
+	CurrentLevel = null
+	SelectedLevelScene = null
 
 ##############################################################
 #                      3.0 Signal Functions                  #

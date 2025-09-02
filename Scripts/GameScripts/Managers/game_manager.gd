@@ -87,7 +87,7 @@ func ClearInputSignals():
 ##############################################################
 
 func SetLevel():
-	CurrentLevel = GameData.SelectedLevel.instantiate()
+	CurrentLevel = GameData.SelectedLevelScene.instantiate()
 	add_child(CurrentLevel)
 	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
@@ -465,9 +465,9 @@ func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: 
 ##############################################################
 
 func _ready() -> void:
-	if not GameData.SelectedLevel:
+	if not GameData.SelectedLevelScene:
 		push_warning("GameData is empty. Loading default Level for testing.")
-		GameData.SelectedLevel = GameData.TestLevel
+		GameData.SelectedLevelScene = GameData.TestLevel
 		var character_data = GameData.TestCharacter
 		GameData.PlayerUnits.clear()
 		GameData.PlayerUnits.append(character_data)

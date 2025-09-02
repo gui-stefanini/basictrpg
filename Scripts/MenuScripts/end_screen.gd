@@ -21,6 +21,7 @@ extends CanvasLayer
 func ShowEndScreen(is_victory: bool):
 	if is_victory:
 		MessageLabel.text = "You Win!"
+		GameData.ClearLevel()
 	else:
 		MessageLabel.text = "Game Over"
 	get_tree().paused = true
@@ -33,12 +34,13 @@ func ShowEndScreen(is_victory: bool):
 func _on_world_map_button_pressed() -> void:
 	get_tree().paused = false
 	AudioManager.StopAudio()
+	GameData.ResetLevelData()
 	SceneManager.ChangeSceneWorldMap()
 
 func _on_menu_button_pressed() -> void:
 	get_tree().paused = false
 	AudioManager.StopAudio()
-	GameData.reset_data()
+	GameData.ResetLevelData()
 	SceneManager.ChangeSceneMainMenu()
 
 func _on_quit_button_pressed() -> void:

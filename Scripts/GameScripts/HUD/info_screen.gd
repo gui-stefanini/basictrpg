@@ -236,7 +236,7 @@ func _on_world_map_button_pressed() -> void:
 	SceneManager.ChangeSceneWorldMap()
 
 func _on_menu_button_pressed() -> void:
-	GameData.reset_data()
+	GameData.ResetLevelData()
 	SceneManager.ChangeSceneMainMenu()
 
 func _on_quit_button_pressed() -> void:
