@@ -21,6 +21,7 @@ extends Resource
 #Ignoring default order for Inspector
 @export var Name: String = ""
 @export var CharacterLevel: int = 1
+
 #Stats
 @export var CharacterMaxHP: int = 0
 @export var CharacterAttackPower: int = 0
@@ -30,6 +31,16 @@ extends Resource
 @export var CharacterAttackRange: int = 0
 @export var CharacterAggro: int = 0
 @export var CharacterSupportAggro: int = 0
+
+#BaseStats
+var BaseMaxHP: int
+var BaseAttackPower: int
+var BaseHealPower: int
+
+var BaseMoveRange: int
+var BaseAttackRange: int
+var BaseAggro: int
+var BaseSupportAggro: int
 
 #Info
 @export var Abilities: Array[Ability]
@@ -42,22 +53,7 @@ extends Resource
 @export var Vframes: int = 0
 @export var MyAnimationLibrary: AnimationLibrary
 
-var BaseMaxHP: int:
-	#int() correctly ignores decimals
-	get: return CharacterMaxHP + Class.ClassMaxHP + int(Class.ClassGrowthMaxHP * (CharacterLevel-1))
-var BaseAttackPower: int:
-	get: return CharacterAttackPower + Class.ClassAttackPower + int(Class.ClassGrowthAttackPower * (CharacterLevel-1))
-var BaseHealPower: int:
-	get: return CharacterHealPower + Class.ClassHealPower + int(Class.ClassGrowthHealPower * (CharacterLevel-1))
 
-var BaseMoveRange: int:
-	get: return CharacterMoveRange + Class.ClassMoveRange
-var BaseAttackRange: int:
-	get: return CharacterAttackRange + Class.ClassAttackRange 
-var BaseAggro: int:
-	get: return CharacterAggro + Class.ClassAggro
-var BaseSupportAggro: int:
-	get: return CharacterSupportAggro + Class.ClassSupportAggro 
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -86,16 +82,29 @@ func SpriteOverride():
 	if MyAnimationLibrary == null:
 		MyAnimationLibrary = Class.MyAnimationLibrary
 
+func SetStats():
+	#int() correctly ignores decimals
+	BaseMaxHP = CharacterMaxHP + Class.ClassMaxHP + int(Class.ClassGrowthMaxHP * (CharacterLevel-1))
+	BaseAttackPower = CharacterAttackPower + Class.ClassAttackPower + int(Class.ClassGrowthAttackPower * (CharacterLevel-1))
+	BaseHealPower = CharacterHealPower + Class.ClassHealPower + int(Class.ClassGrowthHealPower * (CharacterLevel-1))
+	
+	BaseMoveRange = CharacterMoveRange + Class.ClassMoveRange
+	BaseAttackRange = CharacterAttackRange + Class.ClassAttackRange 
+	BaseAggro = CharacterAggro + Class.ClassAggro
+	BaseSupportAggro = CharacterSupportAggro + Class.ClassSupportAggro 
+
 func ClassOverride():
 	NameOverride()
 	AbilitiesOverride()
 	ActionsOverride()
 	MovementOverride()
 	SpriteOverride()
+	SetStats()
 
-func LevelUP():
+func LevelUp():
 	if CharacterLevel < 3:
 		CharacterLevel += 1
+	SetStats()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -5,7 +5,7 @@
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="2_2l7e7"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="3_oam1w"]
 
-[node name="UnitInfoPanel" type="PanelContainer" node_paths=PackedStringArray("NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "AttackRangeLabel")]
+[node name="UnitInfoPanel" type="PanelContainer" node_paths=PackedStringArray("NameLabel", "LevelLabel", "HPLabel", "AttackLabel", "MoveLabel", "AttackRangeLabel")]
 z_index = 15
 offset_right = 34.0
 offset_bottom = 60.0
@@ -14,6 +14,7 @@ mouse_filter = 2
 theme_override_styles/panel = ExtResource("1_qo1xh")
 script = ExtResource("1_dsd7g")
 NameLabel = NodePath("VBoxContainer/NameLabel")
+LevelLabel = NodePath("VBoxContainer/LevelLabel")
 HPLabel = NodePath("VBoxContainer/HPLabel")
 AttackLabel = NodePath("VBoxContainer/AttackLabel")
 MoveLabel = NodePath("VBoxContainer/MoveLabel")
@@ -25,6 +26,13 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 
 [node name="NameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 0
+theme_override_styles/normal = ExtResource("2_2l7e7")
+label_settings = ExtResource("3_oam1w")
+
+[node name="LevelLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 0

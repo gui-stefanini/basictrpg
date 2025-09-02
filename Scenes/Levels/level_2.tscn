@@ -18,18 +18,21 @@
 
 [sub_resource type="Resource" id="Resource_wrinw"]
 script = ExtResource("2_fphuk")
+CharacterLevel = 1
 Faction = 0
 Position = Vector2i(18, 2)
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_pnnky"]
 script = ExtResource("2_fphuk")
+CharacterLevel = 1
 Faction = 0
 Position = Vector2i(17, 2)
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_blpqv"]
 script = ExtResource("2_fphuk")
+CharacterLevel = 1
 Faction = 0
 Position = Vector2i(18, 3)
 metadata/_custom_type_script = "uid://ji7crggxdou"
@@ -37,6 +40,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_af3po"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("4_eopvx")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(14, 8)
 AI = ExtResource("3_t27xo")
@@ -45,6 +49,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_uqiic"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("6_t27xo")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(10, 5)
 AI = ExtResource("5_yxf76")
@@ -53,6 +58,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_eopvx"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("8_yxf76")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(9, 8)
 AI = ExtResource("7_ia1lp")
@@ -61,6 +67,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_0x4y1"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("4_eopvx")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(19, 6)
 AI = ExtResource("3_8qsmg")
@@ -69,6 +76,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_ia1lp"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("4_eopvx")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(19, 8)
 AI = ExtResource("3_8qsmg")
@@ -77,6 +85,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_5buja"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("4_eopvx")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(19, 6)
 AI = ExtResource("3_8qsmg")
@@ -85,6 +94,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_wyygt"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("4_eopvx")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(2, 0)
 AI = ExtResource("3_8qsmg")
@@ -93,6 +103,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_u87on"]
 script = ExtResource("2_fphuk")
 Character = ExtResource("4_eopvx")
+CharacterLevel = 2
 Faction = 1
 Position = Vector2i(4, 11)
 AI = ExtResource("3_8qsmg")

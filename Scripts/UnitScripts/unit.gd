@@ -157,10 +157,11 @@ func SetInactive():
 func SetActive():
 	Sprite.material.set_shader_parameter("grayscale_modifier", 0.0)
 
-func SetData():
-	#It IS supposed to be able to edit the character data itself
+func SetData(spawn_level: int = -1):
+	#When no Generic, it IS supposed to be able to edit the character data itself
 	if Data.Generic == true:
 		Data = Data.duplicate()
+		Data.CharacterLevel = spawn_level
 	
 	Data.ClassOverride()
 	

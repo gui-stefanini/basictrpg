@@ -104,7 +104,7 @@ func PopulateUnitList():
 	UnitList.clear()
 	for i in range(AllUnits.size()):
 		var unit = AllUnits[i]
-		UnitList.add_item(unit.name)
+		UnitList.add_item(unit.Data.Name)
 		# We store the actual unit node in the item's metadata
 		var unit_index = UnitList.get_item_count() - 1
 		UnitList.set_item_metadata(unit_index, unit)
@@ -132,7 +132,7 @@ func UpdateUnitPanel():
 		Unit.Factions.ENEMY:
 			UnitSprite.material.set_shader_parameter("new_color", CurrentUnit.EnemyFactionColor)
 	
-	NameLabel.text = CurrentUnit.name
+	NameLabel.text = CurrentUnit.Data.Name
 	HPLabel.text = "HP: %d/%d" % [CurrentUnit.CurrentHP, CurrentUnit.MaxHP]
 	AttackLabel.text = "ATK: %d" % CurrentUnit.AttackPower
 	MoveLabel.text = "MOV: %d" % CurrentUnit.MoveRange

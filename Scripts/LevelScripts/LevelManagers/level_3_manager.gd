@@ -44,7 +44,7 @@ func _on_turn_started(turn_number: int):
 	request_spawn.emit(reinforcements)
 
 func _on_unit_died(unit: Unit):
-	print("%s has been defeated!" % unit.name)
+	print("%s has been defeated!" % unit.Data.Name)
 	
 	if PlayerUnits.is_empty():
 		print("All player units defeated!")
@@ -52,7 +52,7 @@ func _on_unit_died(unit: Unit):
 		return
 	
 	if unit in BossUnits:
-		print("%s, a boss, has been defeated!" % unit.name)
+		print("%s, a boss, has been defeated!" % unit.Data.Name)
 		BossUnits.erase(unit)
 		
 		if BossUnits.is_empty():

@@ -10,6 +10,7 @@ extends Control
 #     REFERENCES     #
 ######################
 @export var NameLabel = Label
+@export var LevelLabel = Label
 @export var HPLabel = Label
 @export var AttackLabel = Label
 @export var MoveLabel = Label
@@ -27,7 +28,8 @@ func UpdatePanel(unit: Unit):
 		hide()
 		return
 	
-	NameLabel.text = unit.name
+	NameLabel.text = unit.Data.Name
+	LevelLabel.text = "Level: " + str(unit.Data.CharacterLevel)
 	HPLabel.text = "HP: " + str(unit.CurrentHP) + " / " + str(unit.MaxHP)
 	AttackLabel.text = "ATK: " + str(unit.AttackPower)
 	MoveLabel.text = "MOV: " + str(unit.MoveRange)

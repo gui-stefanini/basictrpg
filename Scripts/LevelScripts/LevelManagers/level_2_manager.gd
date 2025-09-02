@@ -45,11 +45,11 @@ func _on_turn_started(turn_number: int):
 func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
 	if unit.Faction == Unit.Factions.PLAYER:
 		if unit_tile in EscapeTiles:
-			print("%s has escaped!" % unit.name)
+			print("%s has escaped!" % unit.Data.Name)
 			victory.emit()
 
 func _on_unit_died(unit: Unit):
-	print("%s has been defeated!" % unit.name)
+	print("%s has been defeated!" % unit.Data.Name)
 	
 	if PlayerUnits.is_empty():
 		print("All player units defeated!")

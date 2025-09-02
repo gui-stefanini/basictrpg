@@ -11,6 +11,7 @@ extends Resource
 #     REFERENCES     #
 ######################
 @export var Character: CharacterData
+@export var CharacterLevel: int = 1
 @export var Faction: Unit.Factions
 @export var Position: Vector2i
 @export var AI: AIBehavior

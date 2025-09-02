@@ -22,7 +22,7 @@ extends LevelManager
 #                      3.0 Signal Functions                  #
 ##############################################################
 func _on_unit_died(unit: Unit):
-	print("%s has been defeated!" % unit.name)
+	print("%s has been defeated!" % unit.Data.Name)
 	
 	if PlayerUnits.is_empty():
 		print("All player units defeated!")

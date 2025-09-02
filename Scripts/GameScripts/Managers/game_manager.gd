@@ -191,7 +191,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	if spawn_info.Faction != Unit.Factions.PLAYER:
 		new_unit.AI = spawn_info.AI
 	
-	new_unit.SetData()
+	new_unit.SetData(spawn_info.CharacterLevel)
 	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction)[0], unit_data.Name, NumberOfUnits]
 	NumberOfUnits += 1
 	add_child(new_unit)
@@ -293,7 +293,7 @@ func EndGame(player_won: bool):
 	
 	if player_won == true:
 		for unit in PlayerUnits:
-			unit.Data.LevelUP()
+			unit.Data.LevelUp()
 		GameData.ClearLevel()
 	
 	get_tree().paused = true
