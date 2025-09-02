@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://beysm0dkull1i"]
+
+[ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_1.tscn" id="1_60dem"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/LevelScripts/level_data.gd" id="1_egoum"]
+
+[resource]
+script = ExtResource("1_egoum")
+LevelScene = ExtResource("1_60dem")
+LevelName = "Level 1"
+LevelObjective = "Defeat All Enemies"
+PlayerCount = 2
+Cleared = false
+metadata/_custom_type_script = "uid://web3er5e1sbv"

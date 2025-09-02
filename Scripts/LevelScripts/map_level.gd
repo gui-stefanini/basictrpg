@@ -12,18 +12,12 @@ extends Node2D
 #     REFERENCES     #
 ######################
 
-@export var LevelScene: PackedScene
+@export var Data: LevelData
 @export var Sprite: Sprite2D
 
 ######################
 #     SCRIPT-WIDE    #
 ######################
-
-@export var LevelIndex: int
-@export var LevelName: String
-@export var LevelObjective: String
-@export var PlayerCount: int
-@export var Cleared: bool = false
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -37,8 +31,7 @@ extends Node2D
 #                      4.0 Godot Functions                   #
 ##############################################################
 func _ready() -> void:
-	if GameData.ClearedLevelsIndex.has(LevelIndex):
-		Cleared = true
+	if Data.Cleared == true:
 		Sprite.frame = 1
 		return
 	Sprite.frame = 0

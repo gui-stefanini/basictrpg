@@ -14,7 +14,7 @@
 [resource]
 script = ExtResource("3_pbfyy")
 Name = "Priest"
-ClassMaxHP = 4
+ClassMaxHP = 3
 ClassAttackPower = 1
 ClassHealPower = 2
 ClassMoveRange = 3

@@ -50,14 +50,15 @@ func SetAudio():
 
 func SelectLevel():
 	SelectedLevel = CurrentLevel
+	var level_data = CurrentLevel.Data
 	
 	LevelInfoPanel.global_position = CurrentLevel.global_position + Vector2(0,16)
 	
-	LevelNameLabel.text = " %s " % [CurrentLevel.LevelName]
-	if CurrentLevel.Cleared == true:
+	LevelNameLabel.text = " %s " % [level_data.LevelName]
+	if level_data.Cleared == true:
 		LevelNameLabel.text += "- Clear "
-	LevelObjectiveLabel.text = " %s " % [CurrentLevel.LevelObjective]
-	PlayerCountLabel.text = " Player Units: %d " % [CurrentLevel.PlayerCount]
+	LevelObjectiveLabel.text = " %s " % [level_data.LevelObjective]
+	PlayerCountLabel.text = " Player Units: %d " % [level_data.PlayerCount]
 	
 	UiFunctions.call_deferred("ClampUI", LevelInfoPanel)
 	LevelInfoPanel.show()
@@ -68,8 +69,8 @@ func SelectLevel():
 
 func _on_confirm_pressed():
 	if LevelInfoPanel.is_visible_in_tree():
-		GameData.CurrentLevelIndex = SelectedLevel.LevelIndex
-		GameData.SelectedLevelScene = SelectedLevel.LevelScene
+		GameData.CurrentLevel = SelectedLevel.Data
+		GameData.SelectedLevelScene = SelectedLevel.Data.LevelScene
 		SceneManager.ChangeSceneGame()
 	
 	else:

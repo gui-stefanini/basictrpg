@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://hcy5g1kv4p1g"]
 
-[ext_resource type="Script" uid="uid://xevkx7hkbxqy" path="res://Scripts/MenuScripts/map_level.gd" id="1_52200"]
+[ext_resource type="Script" uid="uid://xevkx7hkbxqy" path="res://Scripts/LevelScripts/map_level.gd" id="1_52200"]
 [ext_resource type="Texture2D" uid="uid://dwqf71f3ao43y" path="res://Assets/Art/Rest/MapLevel.png" id="2_7taxp"]
 
 [node name="MapLevel" type="Node2D" node_paths=PackedStringArray("Sprite")]
