@@ -38,7 +38,7 @@ func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
 				break
 
 func DefendCommand(owner: Unit, manager: GameManager):
-	print(owner.name + " is low on health and chooses to defend!")
+	print(owner.Data.Name + " is low on health and chooses to defend!")
 	for action in owner.Data.Actions:
 		if action is DefendAction:
 			await action._execute(owner, manager)
@@ -48,7 +48,7 @@ func DefendCommand(owner: Unit, manager: GameManager):
 func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 	for action in owner.Data.Actions:
 		if action is HealAction:
-			print(owner.name + " heals " + target.name)
+			print(owner.Data.Name + " heals " + target.Data.Name)
 			await action._execute(owner, manager, target)
 			await GeneralFunctions.Wait(0.5)
 			break
@@ -90,19 +90,19 @@ func HealTargeting(owner: Unit, manager: GameManager):
 func AttackRoutine(owner: Unit, manager: GameManager):
 	var target = AttackTargeting(owner, manager)
 	if target is Unit:
-		print("%s chooses to attack %s" % [owner.name, target.name])
+		print("%s chooses to attack %s" % [owner.Data.Name, target.Data.Name])
 		await AttackCommand(owner, manager, target)
 
 func HealRoutine(owner: Unit, manager: GameManager):
 	var target = HealTargeting(owner, manager)
 	if target is Unit:
-		print("%s chooses to heal %s" % [owner.name, target.name])
+		print("%s chooses to heal %s" % [owner.Data.Name, target.Data.Name])
 		await HealCommand(owner, manager, target)
 
 func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var valid_targets = AILogic.GetValidTargets(owner, manager, targets)
 	if valid_targets.is_empty():
-		print("%s has no valid path to any target." % owner.name)
+		print("%s has no valid path to any target." % owner.Data.Name)
 		return
 		
 	valid_targets.sort_custom(func(a, b): 
@@ -141,7 +141,7 @@ func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 			break
 	
 	var destination = final_target_data["destination"]
-	print("Found action opportunity for %s" % [final_target.name])
+	print("Found action opportunity for %s" % [final_target.Data.Name])
 	
 	return {
 		"target": final_target,
@@ -152,7 +152,7 @@ func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	var player_units : Array[Unit] = manager.PlayerUnits
 	var reachable_player_units = AILogic.GetReachableTargets(owner, manager, player_units)
 	if reachable_player_units.is_empty():
-		print("%s cannot reach any target to attack this turn" % owner.name)
+		print("%s cannot reach any target to attack this turn" % owner.Data.Name)
 		return {}
 	
 	var target_units: Array[Unit] = []
@@ -173,7 +173,7 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	
 	var reachable_damaged_allies = AILogic.GetReachableTargets(owner, manager, damaged_allies)
 	if reachable_damaged_allies.is_empty():
-		print("%s cannot reach any target to heal this turn" % owner.name)
+		print("%s cannot reach any target to heal this turn" % owner.Data.Name)
 		return {}
 	
 	var target_allies: Array[Unit] = []

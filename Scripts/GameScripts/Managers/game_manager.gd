@@ -280,7 +280,7 @@ func StartEnemyTurn():
 	for enemy in EnemyUnits:
 		await GeneralFunctions.Wait(0.2)
 		enemy.StartTurn()
-		print(enemy.name + " is taking its turn.")
+		print(enemy.Data.Name + " is taking its turn.")
 		await enemy.AI.execute_turn(enemy, self)
 		var enemy_tile = GroundGrid.local_to_map(enemy.global_position) 
 		unit_turn_ended.emit(enemy, enemy_tile)

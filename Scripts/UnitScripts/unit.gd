@@ -102,7 +102,7 @@ func TakeDamage(damage_amount: int):
 	CurrentHP = max(0, CurrentHP)
 	
 	
-	print(name + " takes " + str(final_damage) + " damage! " + str(CurrentHP) + " HP remaining.")
+	print(Data.Name + " takes " + str(final_damage) + " damage! " + str(CurrentHP) + " HP remaining.")
 	UpdateHealth()
 	
 	if CurrentHP <= 0:
@@ -113,7 +113,7 @@ func ReceiveHealing(heal_amount: int):
 	CurrentHP += heal_amount
 	CurrentHP = min(CurrentHP, MaxHP)
 	
-	print(name + " is healed for " + str(heal_amount) + " HP! Now at " + str(CurrentHP) + " HP.")
+	print(Data.Name + " is healed for " + str(heal_amount) + " HP! Now at " + str(CurrentHP) + " HP.")
 	
 	UpdateHealth()
 
@@ -132,7 +132,7 @@ func AddStatus(status: Status, duration: int, value: int = 0):
 		var new_status = {StatusInfo.DURATION: duration, StatusInfo.VALUE: value}
 		ActiveStatuses[status] = new_status
 		StatusLogic.ApplyStatusLogic(self, status)
-		print("%s gained status: %s for %d turns" % [name, Status.find_key(status), duration])
+		print("%s gained status: %s for %d turns" % [Data.Name, Status.find_key(status), duration])
 
 func StackStatus(status: Status, information: StatusInfo, amount: int):
 	
@@ -192,6 +192,9 @@ func SetData(spawn_level: int = -1):
 
 func CopyState(target : Unit):
 	Data = target.Data.duplicate()
+	Data.CharacterLevel = target.Data.CharacterLevel
+	Data.SetStats()
+	
 	CurrentHP = target.CurrentHP
 	AggroModifier = target.AggroModifier
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
@@ -225,7 +228,7 @@ func PlayActionAnimation(animation_name: String, target: Unit):
 	await MyAnimationPlayer.animation_finished
 	ActionTarget = null
 
-func RequestVFX(vfx_data: VFXData, animation_name: String, is_combat: bool = false):
+func RequestVFX(vfx_data: VFXData, animation_name: String, is_combat: bool = false):	
 	var vfx_position : Vector2 = self.global_position
 	if ActionTarget is Unit:
 		vfx_position = ActionTarget.global_position

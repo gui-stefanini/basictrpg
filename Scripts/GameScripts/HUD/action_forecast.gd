@@ -24,8 +24,8 @@ extends PanelContainer
 func UpdateForecast(attacker: Unit, defender: Unit, damage: int):
 	var final_hp = defender.CurrentHP - damage
 	
-	UnitNameLabel.text = attacker.name
-	TargetNameLabel.text = "Target: " + defender.name
+	UnitNameLabel.text = attacker.Data.Name
+	TargetNameLabel.text = "Target: " + defender.Data.Name
 	DamageLabel.text = "Damage: " + str(damage)
 	TargetHPLabel.text = "HP: " + str(defender.CurrentHP) + " -> " + str(final_hp)
 	

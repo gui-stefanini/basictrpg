@@ -18,7 +18,7 @@ extends AIBehavior
 ##############################################################
 
 func execute_turn(owner: Unit, manager: GameManager):
-	print(owner.name + " is thinking like a Priest...")
+	print(owner.Data.Name + " is thinking like a Priest...")
 	
 	if IsMobile == false:
 		await execute_healing_routine(owner, manager)
@@ -26,7 +26,7 @@ func execute_turn(owner: Unit, manager: GameManager):
 			IsMobile = true
 			return
 		
-		print(owner.name + " found no one to heal, and will attack instead.")
+		print(owner.Data.Name + " found no one to heal, and will attack instead.")
 		await execute_offensive_routine(owner, manager)
 		if owner.HasActed == true:
 			IsMobile = true
@@ -36,7 +36,7 @@ func execute_turn(owner: Unit, manager: GameManager):
 	if owner.HasActed == true:
 		return
 	
-	print(owner.name + " found no one to heal, and will attack instead.")
+	print(owner.Data.Name + " found no one to heal, and will attack instead.")
 	if owner.HasMoved == true:
 		await execute_offensive_routine(owner, manager)
 		return

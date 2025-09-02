@@ -38,7 +38,7 @@ func _check_target(user: Unit, target = null) -> bool:
 func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	
-	print(user.name + " attacks " + target.name + "!")
+	print(user.Data.Name + " attacks " + target.Data.Name + "!")
 	
 	var damage = user.AttackPower
 	

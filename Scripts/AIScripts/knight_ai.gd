@@ -18,7 +18,7 @@ extends AIBehavior
 ##############################################################
 
 func execute_turn(owner: Unit, manager: GameManager):
-	print(owner.name + " is thinking like a Knight...")
+	print(owner.Data.Name + " is thinking like a Knight...")
 	
 	if owner.HPPercent <= 0.4:
 		var rand = GeneralFunctions.RandomizeInt(1, 100)
