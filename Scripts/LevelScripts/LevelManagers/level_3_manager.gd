@@ -14,7 +14,7 @@ extends LevelManager
 #     SCRIPT-WIDE    #
 ######################
 
-var BossUnit: Unit
+var BossUnits: Array[Unit]
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -25,9 +25,9 @@ var BossUnit: Unit
 ##############################################################
 
 func _on_level_set():
-	BossUnit = EnemyUnits[0]
-	EnemyUnits[0].IsBoss = true
-	EnemyUnits[0].Sprite.material.set_shader_parameter("new_color", EnemyUnits[0].BossColor)
+	for unit in EnemyUnits:
+		if unit.Data.Boss == true:
+			BossUnits.append(unit)
 
 func _on_turn_started(turn_number: int):
 	var reinforcements : Array[SpawnInfo]
@@ -51,9 +51,12 @@ func _on_unit_died(unit: Unit):
 		defeat.emit()
 		return
 	
-	if unit == BossUnit:
-		print("%s, the boss, has been defeated!" % unit.name)
-		victory.emit()
+	if unit in BossUnits:
+		print("%s, a boss, has been defeated!" % unit.name)
+		BossUnits.erase(unit)
+		
+		if BossUnits.is_empty():
+			victory.emit()
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################

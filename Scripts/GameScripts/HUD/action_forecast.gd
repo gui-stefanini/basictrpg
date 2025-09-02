@@ -40,6 +40,3 @@ func UpdateForecast(attacker: Unit, defender: Unit, damage: int):
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
-
-func _ready() -> void:
-	UiFunctions.SetMouseIgnore(self)

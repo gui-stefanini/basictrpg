@@ -10,7 +10,7 @@ extends Resource
 ######################
 #     REFERENCES     #
 ######################
-@export var UnitClass: ClassData
+@export var Character: CharacterData
 @export var Faction: Unit.Factions
 @export var Position: Vector2i
 @export var AI: AIBehavior

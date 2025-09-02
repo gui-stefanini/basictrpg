@@ -109,8 +109,6 @@ func SetCursor():
 	MyCursor.show()
 
 func SetAudio():
-	AudioManager.SetBGMVolume(0.4)
-	AudioManager.SetSFXVolume(0.75)
 	AudioManager.PlayBGM(CurrentLevelManager.LevelBGM)
 
 ##############################################################
@@ -153,7 +151,7 @@ func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
 #                      2.3 SPAWNING                          #
 ##############################################################
 
-func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: ClassData) -> Vector2i:
+func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: CharacterData) -> Vector2i:
 	var move_data_name = unit_data.MovementType.Name
 	
 	if not MyMoveManager.AStarInstances.has(move_data_name):
@@ -183,7 +181,7 @@ func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i]
 	return start_tile
 
 func SpawnUnit(spawn_info : SpawnInfo):
-	var unit_data = spawn_info.UnitClass
+	var unit_data = spawn_info.Character
 	var spawn_pos = spawn_info.Position
 	var new_unit: Unit = UnitScene.instantiate()
 	
@@ -193,6 +191,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	if spawn_info.Faction != Unit.Factions.PLAYER:
 		new_unit.AI = spawn_info.AI
 	
+	new_unit.SetData()
 	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction)[0], unit_data.Name, NumberOfUnits]
 	NumberOfUnits += 1
 	add_child(new_unit)
@@ -221,7 +220,7 @@ func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 
 func DefinePlayerUnits():
 	for i in range(CurrentLevel.PlayerSpawns.size()):
-		CurrentLevel.PlayerSpawns[i].UnitClass = GameData.PlayerUnits[i]
+		CurrentLevel.PlayerSpawns[i].Character = GameData.PlayerUnits[i]
 
 func SpawnStartingUnits():
 	SpawnUnitGroup(CurrentLevel.PlayerSpawns)
@@ -469,8 +468,9 @@ func _ready() -> void:
 	if not GameData.SelectedLevel:
 		push_warning("GameData is empty. Loading default Level for testing.")
 		GameData.SelectedLevel = GameData.TestLevel
-		var class_data = GameData.TestClass
-		GameData.PlayerUnits = [class_data]
+		var character_data = GameData.TestCharacter
+		GameData.PlayerUnits.clear()
+		GameData.PlayerUnits.append(character_data)
 	
 	SetLevel()
 	SetAuxiliaryManagers()

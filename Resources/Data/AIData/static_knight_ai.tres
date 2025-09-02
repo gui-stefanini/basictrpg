@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="KnightAI" load_steps=2 format=3 uid="uid://b526p7y3khhja"]
+
+[ext_resource type="Script" uid="uid://wq6b65cclcvw" path="res://Scripts/AIScripts/knight_ai.gd" id="1_delea"]
+
+[resource]
+script = ExtResource("1_delea")
+IsMobile = false
+metadata/_custom_type_script = "uid://wq6b65cclcvw"

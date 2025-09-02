@@ -12,7 +12,7 @@ extends Control
 @export var WorldMapScene: PackedScene
 @export var TutorialScene: PackedScene
 @export var ResolutionButton: OptionButton
-
+@export var MenuBGM: AudioStream
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -38,6 +38,11 @@ func SetResolutions():
 			ResolutionButton.select(i)
 			return
 
+func SetAudio():
+	AudioManager.SetBGMVolume(0.4)
+	AudioManager.SetSFXVolume(0.75)
+	AudioManager.PlayBGM(MenuBGM)
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
@@ -60,3 +65,4 @@ func _on_resolution_button_item_selected(index: int) -> void:
 
 func _ready() -> void:
 	SetResolutions()
+	SetAudio()

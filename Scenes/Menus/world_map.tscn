@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dagoxwn4eplbq"]
+[gd_scene load_steps=14 format=3 uid="uid://dagoxwn4eplbq"]
 
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
 [ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MenuScripts/world_map.gd" id="1_immrm"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cbo6mac32qbyk" path="res://Assets/Art/Rest/Level_Circle.png" id="2_yue45"]
 [ext_resource type="Script" uid="uid://xevkx7hkbxqy" path="res://Scripts/MenuScripts/map_level.gd" id="3_0kw6s"]
 [ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="3_650wr"]
+[ext_resource type="AudioStream" uid="uid://dp1ibgkpe3xum" path="res://Assets/Music/BGM/Map1.ogg" id="3_sbqsc"]
 [ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_1.tscn" id="4_pnvcu"]
 [ext_resource type="PackedScene" uid="uid://b6r4jmpo85fr7" path="res://Scenes/Levels/level_2.tscn" id="6_kvmql"]
 [ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_3.tscn" id="7_d6b3t"]
@@ -22,6 +23,7 @@ LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
 LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
 PlayerCountLabel = NodePath("LevelInfoPanel/VBoxContainer/PlayerCount")
 GameScene = ExtResource("2_jgv10")
+MapBGM = ExtResource("3_sbqsc")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1

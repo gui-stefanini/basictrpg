@@ -26,6 +26,8 @@ func StopAudio():
 	SFXPlayer.stop()
 
 func PlayBGM(audio_stream: AudioStream) -> void:
+	if BGMPlayer.stream == audio_stream:
+		return
 	BGMPlayer.stream = audio_stream
 	BGMPlayer.play()
 	# Make sure the BGM loops

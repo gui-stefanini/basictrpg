@@ -1,31 +1,32 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=12 format=3 uid="uid://bqfoaj6jgi4aa"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=12 format=3 uid="uid://b73e34hm143yr"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_fjgcb"]
-[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_frp0e"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_awyl0"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_106ja"]
 [ext_resource type="Resource" uid="uid://bbuqp4k0lgk0s" path="res://Resources/Data/AbilityData/pass_ability.tres" id="2_peky0"]
-[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_qn55b"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="2_uolvr"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="3_cvwb6"]
 [ext_resource type="Resource" uid="uid://bfhbck6mxmwqq" path="res://Resources/Data/AbilityData/stealth_ability.tres" id="3_ix5yj"]
-[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_u803q"]
-[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_jjsmb"]
-[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="5_x1a18"]
-[ext_resource type="Texture2D" uid="uid://dx1h4jqtbuu74" path="res://Assets/Art/Sprites/Assassin/AssassinSpriteSheet_1.png" id="8_peky0"]
-[ext_resource type="AnimationLibrary" uid="uid://b36ng25oq3jhi" path="res://Resources/Animations/assassin_library.res" id="10_ix5yj"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="5_tnndt"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="6_1m21n"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="7_jfjm6"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="8_dylnn"]
+[ext_resource type="Texture2D" uid="uid://dx1h4jqtbuu74" path="res://Assets/Art/Sprites/Assassin/AssassinSpriteSheet_1.png" id="9_8imxf"]
+[ext_resource type="AnimationLibrary" uid="uid://b36ng25oq3jhi" path="res://Resources/Animations/assassin_library.res" id="10_1lryt"]
 
 [resource]
-script = ExtResource("2_uolvr")
+script = ExtResource("3_cvwb6")
 Name = "Assassin"
-BaseMaxHP = 5
-BaseAttackPower = 3
-BaseHealPower = 0
-BaseMoveRange = 4
-BaseAttackRange = 1
-BaseAggro = 0
-Abilities = Array[ExtResource("1_frp0e")]([ExtResource("2_peky0"), ExtResource("3_ix5yj")])
-Actions = Array[ExtResource("1_fjgcb")]([ExtResource("2_qn55b"), ExtResource("3_u803q"), ExtResource("4_jjsmb")])
-MovementType = ExtResource("5_x1a18")
-ClassSpriteSheet = ExtResource("8_peky0")
+ClassMaxHP = 5
+ClassAttackPower = 3
+ClassHealPower = 0
+ClassMoveRange = 4
+ClassAttackRange = 1
+ClassAggro = 0
+ClassSupportAggro = 0
+ClassAbilities = Array[ExtResource("1_awyl0")]([ExtResource("2_peky0"), ExtResource("3_ix5yj")])
+ClassActions = Array[ExtResource("2_106ja")]([ExtResource("5_tnndt"), ExtResource("6_1m21n"), ExtResource("7_jfjm6")])
+ClassMovementType = ExtResource("8_dylnn")
+ClassSpriteSheet = ExtResource("9_8imxf")
 Hframes = 4
 Vframes = 2
-MyAnimationLibrary = ExtResource("10_ix5yj")
+MyAnimationLibrary = ExtResource("10_1lryt")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

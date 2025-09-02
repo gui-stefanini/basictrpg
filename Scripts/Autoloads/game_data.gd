@@ -12,12 +12,12 @@ extends Node
 ######################
 @export var MainMenuScene: PackedScene
 @export var TestLevel: PackedScene
-@export var TestClass: ClassData
+@export var TestCharacter: CharacterData
 ######################
 #     SCRIPT-WIDE    #
 ######################
 
-@export var PlayerUnits: Array[ClassData]
+@export var PlayerUnits: Array[CharacterData]
 
 var SelectedLevel: PackedScene
 

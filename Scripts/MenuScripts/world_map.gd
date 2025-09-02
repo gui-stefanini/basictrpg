@@ -21,6 +21,7 @@ extends Node2D
 
 @export var GameScene: PackedScene
 
+@export var MapBGM: AudioStream
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -43,6 +44,9 @@ func ClearInputSignals():
 	InputManager.cancel_pressed.disconnect(_on_cancel_pressed)
 	InputManager.start_pressed.disconnect(_on_start_pressed)
 	InputManager.direction_pressed.disconnect(_on_direction_pressed)
+
+func SetAudio():
+	AudioManager.PlayBGM(MapBGM)
 
 func SelectLevel():
 	SelectedLevel = CurrentLevel
@@ -67,7 +71,6 @@ func _on_confirm_pressed():
 	
 	else:
 		SelectLevel()
-
 
 func _on_cancel_pressed():
 	if LevelInfoPanel.is_visible_in_tree():
@@ -97,7 +100,7 @@ func _ready() -> void:
 	ConnectInputSignals()
 	CurrentLevel = Levels[0]
 	Player.global_position = Levels[0].global_position
-
+	SetAudio()
 
 func _exit_tree() -> void:
 	ClearInputSignals()

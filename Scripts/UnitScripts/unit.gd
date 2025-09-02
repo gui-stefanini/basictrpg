@@ -18,7 +18,7 @@ signal unit_died(unit: Unit)
 ######################
 #     REFERENCES     #
 ######################
-@export var Data: ClassData
+@export var Data: CharacterData
 @export var AI: AIBehavior
 @export var RotationTracker: Node2D
 @export var Sprite: Sprite2D
@@ -33,7 +33,6 @@ signal unit_died(unit: Unit)
 
 enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
-var IsBoss: bool = false
 
 enum Status {PASS, DEFENDING, POISONED, HASTED}
 enum StatusInfo {DURATION, VALUE}
@@ -44,41 +43,43 @@ var ActiveStatuses: Dictionary = {}
 var AbilityStates: Dictionary = {}
 
 var ActionTarget : Unit
+
 ######################
 #       STATS        #
 ######################
+
+var MaxHPModifier: int = 0
 var MaxHP: int:
 	get: return Data.BaseMaxHP + MaxHPModifier
-var MaxHPModifier: int = 0
 
 var CurrentHP: int = 1
 
 var HPPercent: float:
 	get: return float(CurrentHP)/MaxHP
 
+var AttackPowerModifier: int = 0
 var AttackPower: int:
 	get: return Data.BaseAttackPower + AttackPowerModifier
-var AttackPowerModifier: int = 0
 
+var HealPowerModifier: int = 0
 var HealPower: int:
 	get: return Data.BaseHealPower + HealPowerModifier
-var HealPowerModifier: int = 0
 
+var MoveRangeModifier: int = 0
 var MoveRange: int:
 	get: return Data.BaseMoveRange + MoveRangeModifier
-var MoveRangeModifier: int = 0
 
+var AttackRangeModifier: int = 0
 var AttackRange: int:
 	get: return Data.BaseAttackRange + AttackRangeModifier
-var AttackRangeModifier: int = 0
 
+var AggroModifier: int = 0
 var Aggro: int:
 	get: return Data.BaseAggro + AggroModifier
-var AggroModifier: int = 0
 
+var SupportAggroModifier: int = 0
 var SupportAggro: int:
 	get: return Data.BaseSupportAggro + SupportAggroModifier
-var SupportAggroModifier: int = 0
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -157,23 +158,28 @@ func SetActive():
 	Sprite.material.set_shader_parameter("grayscale_modifier", 0.0)
 
 func SetData():
-	Data = Data.duplicate()
+	#It IS supposed to be able to edit the character data itself
+	#Data = Data.duplicate()
 	
-	Sprite.texture = Data.ClassSpriteSheet
+	Data.ClassOverride()
+	
+	Sprite.texture = Data.CharacterSpriteSheet
 	Sprite.hframes = Data.Hframes
 	Sprite.vframes = Data.Vframes
 	Sprite.frame = 0
 	Sprite.material = Sprite.material.duplicate()
 	
-	if Data.MyAnimationLibrary and not MyAnimationPlayer.has_animation_library("class_library"):
-		# Replace the existing animation library with the one from our ClassData.
-		MyAnimationPlayer.add_animation_library("class_library", Data.MyAnimationLibrary)
+	if Data.MyAnimationLibrary and not MyAnimationPlayer.has_animation_library("character_library"):
+		MyAnimationPlayer.add_animation_library("character_library", Data.MyAnimationLibrary)
 	
 	match Faction:
 		Factions.PLAYER:
 			Sprite.material.set_shader_parameter("new_color", PlayerFactionColor)
 		Factions.ENEMY:
-			Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
+			if Data.Boss == true:
+				Sprite.material.set_shader_parameter("new_color",BossColor)
+			else:
+				Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
 	
 	for ability in Data.Abilities:
 		ability.connect_listeners(self)
@@ -213,7 +219,7 @@ func StartTurn():
 
 func PlayActionAnimation(animation_name: String, target: Unit):
 	ActionTarget = target
-	MyAnimationPlayer.play("class_library/" + animation_name)
+	MyAnimationPlayer.play("character_library/" + animation_name)
 	await MyAnimationPlayer.animation_finished
 	ActionTarget = null
 
@@ -232,12 +238,12 @@ func _on_animation_hit():
 	animation_hit.emit()
 
 func _on_animation_being_hit():
-	MyAnimationPlayer.play("class_library/hit")
+	MyAnimationPlayer.play("character_library/hit")
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
 
 func _ready():
-	SetData()
+	#SetData()
 	CurrentHP = MaxHP
 	UpdateHealth()

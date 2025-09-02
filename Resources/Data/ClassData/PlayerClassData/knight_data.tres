@@ -1,31 +1,31 @@
-[gd_resource type="Resource" script_class="ClassData" load_steps=11 format=3 uid="uid://dulep71up18jy"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=11 format=3 uid="uid://b3n71tqx5rrv7"]
 
-[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_qkkkx"]
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_tfski"]
-[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_tfski"]
-[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_jb8kx"]
-[ext_resource type="Resource" uid="uid://q18pkc5oigo7" path="res://Resources/Data/ActionData/SpecialActionData/defend_action.tres" id="4_pr0li"]
-[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_6q03k"]
-[ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="6_tfski"]
-[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="7_xtbdl"]
-[ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="9_xtbdl"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="10_xtbdl"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_syosq"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_1hp8b"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="3_x3uoh"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="3_xtbdl"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="4_1pnnq"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_2h4p8"]
+[ext_resource type="Resource" uid="uid://q18pkc5oigo7" path="res://Resources/Data/ActionData/SpecialActionData/defend_action.tres" id="6_cv0gg"]
+[ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="7_accej"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="8_81aj0"]
+[ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="9_q8kej"]
 
 [resource]
-script = ExtResource("10_xtbdl")
+script = ExtResource("3_x3uoh")
 Name = "Knight"
-BaseMaxHP = 8
-BaseAttackPower = 2
-BaseHealPower = 0
-BaseMoveRange = 3
-BaseAttackRange = 1
-BaseAggro = 0
-BaseSupportAggro = 0
-Abilities = Array[ExtResource("1_qkkkx")]([])
-Actions = Array[ExtResource("1_tfski")]([ExtResource("2_tfski"), ExtResource("3_jb8kx"), ExtResource("5_6q03k"), ExtResource("4_pr0li")])
-MovementType = ExtResource("6_tfski")
-ClassSpriteSheet = ExtResource("7_xtbdl")
+ClassMaxHP = 8
+ClassAttackPower = 2
+ClassHealPower = 0
+ClassMoveRange = 3
+ClassAttackRange = 1
+ClassAggro = 0
+ClassSupportAggro = 0
+ClassAbilities = Array[ExtResource("1_syosq")]([])
+ClassActions = Array[ExtResource("2_1hp8b")]([ExtResource("3_xtbdl"), ExtResource("4_1pnnq"), ExtResource("5_2h4p8"), ExtResource("6_cv0gg")])
+ClassMovementType = ExtResource("7_accej")
+ClassSpriteSheet = ExtResource("8_81aj0")
 Hframes = 4
 Vframes = 2
-MyAnimationLibrary = ExtResource("9_xtbdl")
+MyAnimationLibrary = ExtResource("9_q8kej")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

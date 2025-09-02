@@ -1,30 +1,31 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=11 format=3 uid="uid://cqt4iqhx3dixq"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=11 format=3 uid="uid://b4mo7iwkagifr"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_f4ylx"]
-[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="1_qktlv"]
-[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_t03af"]
-[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="2_f4ylx"]
-[ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/Data/ActionData/SpecialActionData/heal_action.tres" id="3_8s1pf"]
-[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_1ttme"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="5_i7wl3"]
-[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="6_8s1pf"]
-[ext_resource type="Texture2D" uid="uid://0lkshhwm4rav" path="res://Assets/Art/Sprites/Priest/PriestSpriteSheet_1.png" id="7_0gwrq"]
-[ext_resource type="AnimationLibrary" uid="uid://b0lr554ijj65h" path="res://Resources/Animations/priest_library.res" id="9_wnsn8"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_n0n4p"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_0ahhs"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="3_0gwrq"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="3_pbfyy"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="4_wnsn8"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_afixl"]
+[ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/Data/ActionData/SpecialActionData/heal_action.tres" id="6_tpiwf"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="7_5a3b2"]
+[ext_resource type="Texture2D" uid="uid://0lkshhwm4rav" path="res://Assets/Art/Sprites/Priest/PriestSpriteSheet_1.png" id="8_uoijm"]
+[ext_resource type="AnimationLibrary" uid="uid://b0lr554ijj65h" path="res://Resources/Animations/priest_library.res" id="9_1sw7n"]
 
 [resource]
-script = ExtResource("5_i7wl3")
+script = ExtResource("3_pbfyy")
 Name = "Priest"
-BaseMaxHP = 3
-BaseAttackPower = 1
-BaseHealPower = 2
-BaseMoveRange = 3
-BaseAttackRange = 2
-BaseAggro = 0
-Abilities = Array[ExtResource("1_t03af")]([])
-Actions = Array[ExtResource("1_f4ylx")]([ExtResource("1_qktlv"), ExtResource("2_f4ylx"), ExtResource("3_8s1pf"), ExtResource("4_1ttme")])
-MovementType = ExtResource("6_8s1pf")
-ClassSpriteSheet = ExtResource("7_0gwrq")
+ClassMaxHP = 4
+ClassAttackPower = 1
+ClassHealPower = 2
+ClassMoveRange = 3
+ClassAttackRange = 2
+ClassAggro = 0
+ClassSupportAggro = 0
+ClassAbilities = Array[ExtResource("1_n0n4p")]([])
+ClassActions = Array[ExtResource("2_0ahhs")]([ExtResource("3_0gwrq"), ExtResource("4_wnsn8"), ExtResource("5_afixl"), ExtResource("6_tpiwf")])
+ClassMovementType = ExtResource("7_5a3b2")
+ClassSpriteSheet = ExtResource("8_uoijm")
 Hframes = 4
 Vframes = 2
-MyAnimationLibrary = ExtResource("9_wnsn8")
+MyAnimationLibrary = ExtResource("9_1sw7n")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

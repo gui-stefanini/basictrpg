@@ -26,6 +26,12 @@ func execute_turn(owner: Unit, manager: GameManager):
 			await DefendCommand(owner, manager)
 			return
 	
+	if IsMobile == false:
+		await execute_offensive_routine(owner, manager)
+		if owner.HasActed == true:
+			IsMobile = true
+		return
+	
 	await execute_move_offensive_routine(owner, manager)
 
 ##############################################################

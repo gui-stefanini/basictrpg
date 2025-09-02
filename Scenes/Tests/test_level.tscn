@@ -1,14 +1,15 @@
-[gd_scene load_steps=12 format=4 uid="uid://ccdseexackriv"]
+[gd_scene load_steps=13 format=4 uid="uid://ccdseexackriv"]
 
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_7rivk"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_hyk2w"]
 [ext_resource type="Resource" uid="uid://dhgxabbiekamu" path="res://Resources/Data/AIData/priest_ai.tres" id="3_7rivk"]
-[ext_resource type="Resource" uid="uid://cqt4iqhx3dixq" path="res://Resources/Data/ClassData/EnemyClassData/enemy_priest_data.tres" id="4_7rivk"]
+[ext_resource type="Resource" uid="uid://doklttvyy577j" path="res://Resources/Data/CharacterData/GenericCharacters/generic_priest.tres" id="4_jseal"]
 [ext_resource type="PackedScene" uid="uid://bra4syws05jdo" path="res://Scenes/TileMaps/ground_grid.tscn" id="5_sufl4"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="6_rkdv3"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="7_xnpcw"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="8_3bggx"]
 [ext_resource type="Script" uid="uid://bdi5ieubgr075" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_ch0ib"]
+[ext_resource type="AudioStream" uid="uid://cwp60xhelb8cb" path="res://Assets/Music/BGM/Battle1.ogg" id="10_whfy8"]
 
 [sub_resource type="Resource" id="Resource_wrinw"]
 script = ExtResource("2_hyk2w")
@@ -18,7 +19,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_af3po"]
 script = ExtResource("2_hyk2w")
-UnitClass = ExtResource("4_7rivk")
+Character = ExtResource("4_jseal")
 Faction = 1
 Position = Vector2i(6, 6)
 AI = ExtResource("3_7rivk")
@@ -45,4 +46,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 
 [node name="TestLevelManager" type="Node" parent="." node_paths=PackedStringArray("LevelHighlightLayer")]
 script = ExtResource("9_ch0ib")
+LevelObjective = "Test"
+LevelBGM = ExtResource("10_whfy8")
 LevelHighlightLayer = NodePath("../LevelHighlightLayer")

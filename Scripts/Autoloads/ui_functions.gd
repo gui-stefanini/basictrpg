@@ -30,8 +30,8 @@ func ResetUI(ui_node: Control):
 	ui_node.custom_minimum_size = Vector2(0,0)
 	ui_node.reset_size()
 
-func SetMouseIgnore(ui_node: Control):
-	ui_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+#func SetMouseIgnore(ui_node: Control):
+	#ui_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 ##############################################################
 #                      3.0 Signal Functions                  #

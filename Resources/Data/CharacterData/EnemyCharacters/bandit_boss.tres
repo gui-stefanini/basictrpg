@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://ricdrrqn3d64"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_ltwwj"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_y0gn3"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_3iuhr"]
+[ext_resource type="Resource" uid="uid://dr6tix8l80ul1" path="res://Resources/Data/ClassData/EnemyClassData/enemy_bandit_data.tres" id="3_y0gn3"]
+
+[resource]
+script = ExtResource("3_3iuhr")
+Class = ExtResource("3_y0gn3")
+Boss = true
+Name = "BanditBoss"
+CharacterMaxHP = 5
+CharacterAttackPower = 0
+CharacterHealPower = 0
+CharacterMoveRange = 0
+CharacterAttackRange = 0
+CharacterAggro = 0
+CharacterSupportAggro = 0
+Abilities = Array[ExtResource("1_ltwwj")]([])
+Actions = Array[ExtResource("2_y0gn3")]([])
+Hframes = 0
+Vframes = 0
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

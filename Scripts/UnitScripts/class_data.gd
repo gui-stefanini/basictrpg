@@ -18,18 +18,18 @@ extends Resource
 @export var Name: String = "none"
 
 #Stats
-@export var BaseMaxHP: int = 1
-@export var BaseAttackPower: int = 1
-@export var BaseHealPower: int = 0
-@export var BaseMoveRange: int = 1
-@export var BaseAttackRange: int = 1
-@export var BaseAggro: int = 0
-@export var BaseSupportAggro: int = 0
+@export var ClassMaxHP: int = 1
+@export var ClassAttackPower: int = 1
+@export var ClassHealPower: int = 0
+@export var ClassMoveRange: int = 1
+@export var ClassAttackRange: int = 1
+@export var ClassAggro: int = 0
+@export var ClassSupportAggro: int = 0
 
 #Info
-@export var Abilities: Array[Ability]
-@export var Actions: Array[Action]
-@export var MovementType: MovementData
+@export var ClassAbilities: Array[Ability]
+@export var ClassActions: Array[Action]
+@export var ClassMovementType: MovementData
 
 #Animation
 @export var ClassSpriteSheet: Texture2D

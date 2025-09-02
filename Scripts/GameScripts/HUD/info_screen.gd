@@ -120,7 +120,7 @@ func ClearContainer(container: VBoxContainer):
 
 func UpdateUnitPanel():
 	# --- Left Column ---
-	UnitSprite.texture = CurrentUnit.Data.ClassSpriteSheet
+	UnitSprite.texture = CurrentUnit.Data.CharacterSpriteSheet
 	UnitSprite.hframes = CurrentUnit.Data.Hframes
 	UnitSprite.vframes = CurrentUnit.Data.Vframes
 	UnitSprite.frame = 0

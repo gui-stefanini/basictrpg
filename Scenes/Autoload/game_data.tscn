@@ -3,14 +3,14 @@
 [ext_resource type="Script" uid="uid://bml0pvr4cbktx" path="res://Scripts/Autoloads/game_data.gd" id="1_up1na"]
 [ext_resource type="PackedScene" uid="uid://dbwv5lbunki7e" path="res://Scenes/Menus/main_menu.tscn" id="2_26qp2"]
 [ext_resource type="PackedScene" uid="uid://ccdseexackriv" path="res://Scenes/Tests/test_level.tscn" id="3_26qp2"]
-[ext_resource type="Resource" uid="uid://ckbg3nxtt1cky" path="res://Resources/Data/ClassData/PlayerClassData/priest_data.tres" id="4_x2ira"]
-[ext_resource type="Resource" uid="uid://dulep71up18jy" path="res://Resources/Data/ClassData/PlayerClassData/knight_data.tres" id="5_0t10v"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="5_x8tvg"]
-[ext_resource type="Resource" uid="uid://bqfoaj6jgi4aa" path="res://Resources/Data/ClassData/PlayerClassData/assassin_data.tres" id="6_x8tvg"]
+[ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="4_x8tvg"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="5_66t24"]
+[ext_resource type="Resource" uid="uid://djr48l6vj0dpb" path="res://Resources/Data/CharacterData/PlayerCharacters/mantis.tres" id="6_nwevp"]
+[ext_resource type="Resource" uid="uid://c0t0h32gaojul" path="res://Resources/Data/CharacterData/PlayerCharacters/orca.tres" id="7_0ob6l"]
 
 [node name="GameData" type="Node"]
 script = ExtResource("1_up1na")
 MainMenuScene = ExtResource("2_26qp2")
 TestLevel = ExtResource("3_26qp2")
-TestClass = ExtResource("4_x2ira")
-PlayerUnits = Array[ExtResource("5_x8tvg")]([ExtResource("5_0t10v"), ExtResource("4_x2ira"), ExtResource("6_x8tvg")])
+TestCharacter = ExtResource("7_0ob6l")
+PlayerUnits = Array[ExtResource("5_66t24")]([ExtResource("4_x8tvg"), ExtResource("6_nwevp"), ExtResource("7_0ob6l")])

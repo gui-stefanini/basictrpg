@@ -42,6 +42,3 @@ func UpdatePanel(unit: Unit):
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
-
-func _ready() -> void:
-	UiFunctions.SetMouseIgnore(self)

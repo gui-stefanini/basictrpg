@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://doklttvyy577j"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_3yic8"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_1ae2q"]
+[ext_resource type="Resource" uid="uid://b4mo7iwkagifr" path="res://Resources/Data/ClassData/EnemyClassData/enemy_priest_data.tres" id="3_1ae2q"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_1o53h"]
+
+[resource]
+script = ExtResource("3_1o53h")
+Class = ExtResource("3_1ae2q")
+Boss = false
+Name = "generic"
+CharacterMaxHP = 0
+CharacterAttackPower = 0
+CharacterHealPower = 0
+CharacterMoveRange = 0
+CharacterAttackRange = 0
+CharacterAggro = 0
+CharacterSupportAggro = 0
+Abilities = Array[ExtResource("1_3yic8")]([])
+Actions = Array[ExtResource("2_1ae2q")]([])
+Hframes = 0
+Vframes = 0
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

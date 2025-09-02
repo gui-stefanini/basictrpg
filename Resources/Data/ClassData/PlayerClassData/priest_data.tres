@@ -1,31 +1,32 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=12 format=3 uid="uid://ckbg3nxtt1cky"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=12 format=3 uid="uid://balnk0visepyp"]
 
-[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="1_0ceik"]
-[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_ktkr7"]
-[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="2_6j2m6"]
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_5q801"]
 [ext_resource type="Resource" uid="uid://cw80qfdcdtfog" path="res://Resources/Data/AbilityData/water_walk_ability.tres" id="2_ghemg"]
-[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="3_jq3s7"]
-[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_arha4"]
-[ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/Data/ActionData/SpecialActionData/heal_action.tres" id="5_77cxc"]
-[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="6_wknj1"]
-[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="7_nes0u"]
-[ext_resource type="Texture2D" uid="uid://0lkshhwm4rav" path="res://Assets/Art/Sprites/Priest/PriestSpriteSheet_1.png" id="8_ghemg"]
-[ext_resource type="AnimationLibrary" uid="uid://b0lr554ijj65h" path="res://Resources/Animations/priest_library.res" id="10_qlc58"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_xuc2n"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="3_mb1wq"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="4_qlc58"]
+[ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="5_camxd"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="6_p3ouf"]
+[ext_resource type="Resource" uid="uid://cgxhgyywn3mp2" path="res://Resources/Data/ActionData/SpecialActionData/heal_action.tres" id="7_gces3"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="8_fgyre"]
+[ext_resource type="Texture2D" uid="uid://0lkshhwm4rav" path="res://Assets/Art/Sprites/Priest/PriestSpriteSheet_1.png" id="9_t5ddu"]
+[ext_resource type="AnimationLibrary" uid="uid://b0lr554ijj65h" path="res://Resources/Animations/priest_library.res" id="10_0w1bp"]
 
 [resource]
-script = ExtResource("7_nes0u")
+script = ExtResource("3_mb1wq")
 Name = "Priest"
-BaseMaxHP = 6
-BaseAttackPower = 1
-BaseHealPower = 2
-BaseMoveRange = 3
-BaseAttackRange = 2
-BaseAggro = 0
-Abilities = Array[ExtResource("1_ktkr7")]([ExtResource("2_ghemg")])
-Actions = Array[ExtResource("1_0ceik")]([ExtResource("2_6j2m6"), ExtResource("3_jq3s7"), ExtResource("4_arha4"), ExtResource("5_77cxc")])
-MovementType = ExtResource("6_wknj1")
-ClassSpriteSheet = ExtResource("8_ghemg")
+ClassMaxHP = 5
+ClassAttackPower = 1
+ClassHealPower = 2
+ClassMoveRange = 3
+ClassAttackRange = 2
+ClassAggro = 0
+ClassSupportAggro = 0
+ClassAbilities = Array[ExtResource("1_5q801")]([ExtResource("2_ghemg")])
+ClassActions = Array[ExtResource("2_xuc2n")]([ExtResource("4_qlc58"), ExtResource("5_camxd"), ExtResource("6_p3ouf"), ExtResource("7_gces3")])
+ClassMovementType = ExtResource("8_fgyre")
+ClassSpriteSheet = ExtResource("9_t5ddu")
 Hframes = 4
 Vframes = 2
-MyAnimationLibrary = ExtResource("10_qlc58")
+MyAnimationLibrary = ExtResource("10_0w1bp")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"
