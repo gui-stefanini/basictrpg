@@ -87,6 +87,7 @@ horizontal_alignment = 1
 [node name="Level1" parent="." instance=ExtResource("14_h1xgf")]
 position = Vector2(64, 112)
 LevelScene = ExtResource("4_pnvcu")
+LevelIndex = 1
 LevelName = "Level 1"
 LevelObjective = "Defeat All Enemies"
 PlayerCount = 2
@@ -94,6 +95,7 @@ PlayerCount = 2
 [node name="Level2" parent="." instance=ExtResource("14_h1xgf")]
 position = Vector2(160, 80)
 LevelScene = ExtResource("6_kvmql")
+LevelIndex = 2
 LevelName = "Level 2"
 LevelObjective = "Escape"
 PlayerCount = 3
@@ -101,6 +103,7 @@ PlayerCount = 3
 [node name="Level3" parent="." instance=ExtResource("14_h1xgf")]
 position = Vector2(256, 112)
 LevelScene = ExtResource("7_d6b3t")
+LevelIndex = 3
 LevelName = "Level 3"
 LevelObjective = "Defeat Boss"
 PlayerCount = 3

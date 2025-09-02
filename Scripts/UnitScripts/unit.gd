@@ -159,7 +159,8 @@ func SetActive():
 
 func SetData():
 	#It IS supposed to be able to edit the character data itself
-	#Data = Data.duplicate()
+	if Data.Generic == true:
+		Data = Data.duplicate()
 	
 	Data.ClassOverride()
 	

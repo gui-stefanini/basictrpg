@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b3u53ioort16s" path="res://Scripts/LevelScripts/level.gd" id="1_md4x4"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_1hf40"]
 [ext_resource type="Resource" uid="uid://b4y6w0s7t7xsd" path="res://Resources/Data/AIData/static_bandit_ai.tres" id="3_sy7oa"]
-[ext_resource type="Resource" uid="uid://ricdrrqn3d64" path="res://Resources/Data/CharacterData/EnemyCharacters/bandit_boss.tres" id="4_md4x4"]
+[ext_resource type="Resource" uid="uid://ricdrrqn3d64" path="res://Resources/Data/CharacterData/GenericCharacters/bandit_boss.tres" id="4_md4x4"]
 [ext_resource type="Resource" uid="uid://dhluwymglp7yn" path="res://Resources/Data/AIData/bandit_ai.tres" id="5_anjjd"]
 [ext_resource type="Resource" uid="uid://cmeimwwr6o2u2" path="res://Resources/Data/AIData/static_priest_ai.tres" id="5_md4x4"]
 [ext_resource type="Resource" uid="uid://doklttvyy577j" path="res://Resources/Data/CharacterData/GenericCharacters/generic_priest.tres" id="6_1hf40"]

@@ -19,6 +19,7 @@ extends Node2D
 #     SCRIPT-WIDE    #
 ######################
 
+@export var LevelIndex: int
 @export var LevelName: String
 @export var LevelObjective: String
 @export var PlayerCount: int
@@ -36,7 +37,8 @@ extends Node2D
 #                      4.0 Godot Functions                   #
 ##############################################################
 func _ready() -> void:
-	if Cleared == false and GameData.ClearedLevels.has(self):
+	if GameData.ClearedLevelsIndex.has(LevelIndex):
 		Cleared = true
 		Sprite.frame = 1
 		return
+	Sprite.frame = 0

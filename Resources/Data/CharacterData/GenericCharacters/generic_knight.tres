@@ -8,8 +8,9 @@
 [resource]
 script = ExtResource("3_d0pct")
 Class = ExtResource("3_7okfv")
+Generic = true
 Boss = false
-Name = "generic"
+Name = ""
 CharacterMaxHP = 0
 CharacterAttackPower = 0
 CharacterHealPower = 0

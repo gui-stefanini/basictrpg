@@ -13,12 +13,13 @@ extends Resource
 ######################
 
 @export var Class: ClassData
+@export var Generic: bool = false
 @export var Boss: bool = false
 ######################
 #     SCRIPT-WIDE    #
 ######################
 #Ignoring default order for Inspector
-@export var Name: String = "generic"
+@export var Name: String = ""
 
 #Stats
 @export var CharacterMaxHP: int = 0
@@ -73,8 +74,10 @@ func ClassOverride():
 	SpriteOverride()
 
 func NameOverride():
-	if Name == "generic":
-		Name = Class.Name
+	if Generic == true:
+		Name += Class.Name
+		if Boss == true:
+			Name += " Boss"
 
 func AbilitiesOverride():
 	Abilities.append_array(Class.ClassAbilities)

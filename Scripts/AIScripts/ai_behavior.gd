@@ -27,6 +27,7 @@ func MoveCommand(owner: Unit, manager: GameManager, destination: Vector2i):
 			var move_tween = action._execute(owner, manager, destination)
 			if move_tween is Tween:
 				await move_tween.finished
+			break
 
 func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
 		for action in owner.Data.Actions:
@@ -34,6 +35,7 @@ func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
 				await GeneralFunctions.Wait(0.5)
 				await action._execute(owner, manager, target)
 				await GeneralFunctions.Wait(0.5)
+				break
 
 func DefendCommand(owner: Unit, manager: GameManager):
 	print(owner.name + " is low on health and chooses to defend!")
@@ -41,15 +43,16 @@ func DefendCommand(owner: Unit, manager: GameManager):
 		if action is DefendAction:
 			await action._execute(owner, manager)
 			await GeneralFunctions.Wait(0.5)
+			break
 
 func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 	for action in owner.Data.Actions:
 		if action is HealAction:
 			print(owner.name + " heals " + target.name)
 			await action._execute(owner, manager, target)
+			await GeneralFunctions.Wait(0.5)
 			break
-	
-	await GeneralFunctions.Wait(0.5)
+
 
 ##############################################################
 #                        2.2 TARGETTING                      #

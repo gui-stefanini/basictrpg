@@ -19,8 +19,8 @@ extends Node
 
 @export var PlayerUnits: Array[CharacterData]
 
-@export var CurrentLevel: MapLevel
-@export var ClearedLevels: Array[MapLevel]
+@export var CurrentLevelIndex: int
+@export var ClearedLevelsIndex: Array[int]
 var SelectedLevelScene: PackedScene
 
 ##############################################################
@@ -28,10 +28,10 @@ var SelectedLevelScene: PackedScene
 ##############################################################
 
 func ClearLevel():
-	ClearedLevels.append(CurrentLevel)
+	ClearedLevelsIndex.append(CurrentLevelIndex)
 
 func ResetLevelData():
-	CurrentLevel = null
+	CurrentLevelIndex = -1
 	SelectedLevelScene = null
 
 ##############################################################

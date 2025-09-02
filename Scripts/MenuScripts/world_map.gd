@@ -62,18 +62,13 @@ func SelectLevel():
 	UiFunctions.call_deferred("ClampUI", LevelInfoPanel)
 	LevelInfoPanel.show()
 
-func ClearLevels():
-	for level in Levels:
-		if GameData.ClearedLevels.has(level):
-			level.Cleared = true
-
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_confirm_pressed():
 	if LevelInfoPanel.is_visible_in_tree():
-		GameData.CurrentLevel = SelectedLevel
+		GameData.CurrentLevelIndex = SelectedLevel.LevelIndex
 		GameData.SelectedLevelScene = SelectedLevel.LevelScene
 		SceneManager.ChangeSceneGame()
 	
@@ -105,7 +100,6 @@ func _on_direction_pressed(direction: Vector2i):
 ##############################################################
 
 func _ready() -> void:
-	ClearLevels()
 	ConnectInputSignals()
 	CurrentLevel = Levels[0]
 	Player.global_position = Levels[0].global_position

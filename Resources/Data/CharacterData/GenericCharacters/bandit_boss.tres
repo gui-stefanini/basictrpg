@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("3_3iuhr")
 Class = ExtResource("3_y0gn3")
+Generic = true
 Boss = true
 Name = "BanditBoss"
 CharacterMaxHP = 5
