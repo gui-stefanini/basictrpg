@@ -295,6 +295,7 @@ func EndGame(player_won: bool):
 		for unit in PlayerUnits:
 			unit.Data.LevelUp()
 		GameData.ClearLevel()
+		SaveManager.Save()
 	
 	get_tree().paused = true
 	EndScreen.ShowEndScreen(player_won)
