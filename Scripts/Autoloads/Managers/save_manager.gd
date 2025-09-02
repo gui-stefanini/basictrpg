@@ -46,7 +46,7 @@ func LoadData():
 func Save():
 	SaveData()
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	file.store_var(SaveData)
+	file.store_var(Data)
 	file.close()
 
 func Load():
@@ -59,6 +59,13 @@ func Load():
 	
 	Data = data.duplicate()
 	LoadData()
+
+func DeleteData():
+	if FileAccess.file_exists(SAVE_PATH):
+		var error_check = DirAccess.remove_absolute(SAVE_PATH)
+		if error_check == OK:
+			Data.clear()
+			print("Save data deleted successfully.")
 
 ##############################################################
 #                      3.0 Signal Functions                  #

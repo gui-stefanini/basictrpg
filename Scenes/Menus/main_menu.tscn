@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbwv5lbunki7e"]
+[gd_scene load_steps=7 format=3 uid="uid://dbwv5lbunki7e"]
 
 [ext_resource type="Script" uid="uid://c3qg6snsia8hg" path="res://Scripts/MenuScripts/main_menu.gd" id="1_penys"]
 [ext_resource type="PackedScene" uid="uid://dagoxwn4eplbq" path="res://Scenes/Menus/world_map.tscn" id="2_aur2u"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="3_5wi6m"]
 [ext_resource type="PackedScene" uid="uid://brdjd8od6ufvf" path="res://Scenes/Menus/tutorial.tscn" id="3_aur2u"]
 [ext_resource type="AudioStream" uid="uid://cleaxrs3qa1fi" path="res://Assets/Music/BGM/Menu1.ogg" id="4_5wi6m"]
+[ext_resource type="StyleBox" uid="uid://b8qvd8f80v885" path="res://Resources/Overrides/Styles/hover_button_style.tres" id="6_chkef"]
 
 [node name="MainMenu" type="Control" node_paths=PackedStringArray("ResolutionButton")]
 layout_mode = 3
@@ -40,8 +41,12 @@ grow_horizontal = 0
 
 [node name="ResolutionButton" type="OptionButton" parent="VBoxContainer2"]
 layout_mode = 2
+focus_mode = 0
 theme_override_font_sizes/font_size = 16
 theme_override_styles/disabled = ExtResource("3_5wi6m")
+theme_override_styles/hover_pressed = ExtResource("6_chkef")
+theme_override_styles/hover = ExtResource("6_chkef")
+theme_override_styles/pressed = ExtResource("6_chkef")
 theme_override_styles/normal = ExtResource("3_5wi6m")
 alignment = 1
 
@@ -64,6 +69,7 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 theme_override_styles/disabled = ExtResource("3_5wi6m")
+theme_override_styles/hover = ExtResource("6_chkef")
 theme_override_styles/normal = ExtResource("3_5wi6m")
 text = "Start"
 
@@ -71,17 +77,28 @@ text = "Start"
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 theme_override_styles/disabled = ExtResource("3_5wi6m")
+theme_override_styles/hover = ExtResource("6_chkef")
 theme_override_styles/normal = ExtResource("3_5wi6m")
 text = " Tutorial "
+
+[node name="DeleteButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/disabled = ExtResource("3_5wi6m")
+theme_override_styles/hover = ExtResource("6_chkef")
+theme_override_styles/normal = ExtResource("3_5wi6m")
+text = " Delete Save "
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 theme_override_styles/disabled = ExtResource("3_5wi6m")
+theme_override_styles/hover = ExtResource("6_chkef")
 theme_override_styles/normal = ExtResource("3_5wi6m")
 text = "Quit"
 
 [connection signal="item_selected" from="VBoxContainer2/ResolutionButton" to="." method="_on_resolution_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/TutorialButton" to="." method="_on_tutorial_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

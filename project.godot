@@ -19,7 +19,7 @@ config/icon="res://Assets/Art/Rest/icon.svg"
 [autoload]
 
 GameData="*res://Scenes/Autoload/game_data.tscn"
-SaveManager="*res://Scripts/Autoloads/Managers/save_manager.gd"
+SaveManager="*res://Scenes/Autoload/save_manager.tscn"
 SceneManager="*res://Scenes/Autoload/scene_manager.tscn"
 GeneralFunctions="*res://Scenes/Autoload/general_functions.tscn"
 UiFunctions="*res://Scripts/Autoloads/FunctionHelpers/ui_functions.gd"

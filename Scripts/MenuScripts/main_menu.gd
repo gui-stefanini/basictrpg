@@ -53,6 +53,9 @@ func _on_start_button_pressed() -> void:
 func _on_tutorial_button_pressed() -> void:
 	get_tree().change_scene_to_packed(TutorialScene)
 
+func _on_delete_button_pressed() -> void:
+	SaveManager.DeleteData()
+
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 

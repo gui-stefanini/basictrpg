@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6y6b8er1uee0"]
+[gd_scene load_steps=8 format=3 uid="uid://c6y6b8er1uee0"]
 
 [ext_resource type="Script" uid="uid://0nbaemccq50h" path="res://Scripts/GameScripts/HUD/info_screen.gd" id="1_3pumf"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="1_i3wly"]
 [ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/Test/DefaultSprite.png" id="2_3pumf"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="3_80q7e"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="4_b2nnt"]
+[ext_resource type="StyleBox" uid="uid://b8qvd8f80v885" path="res://Resources/Overrides/Styles/hover_button_style.tres" id="6_b2nnt"]
+[ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="7_pdy4g"]
 
 [node name="InfoScreen" type="CanvasLayer" node_paths=PackedStringArray("MyTabContainer", "UnitList", "UnitSprite", "NameLabel", "HPLabel", "AttackLabel", "MoveLabel", "RangeLabel", "StatusContainer", "AbilityContainer", "ActionContainer", "ObjectiveLabel")]
 process_mode = 3
@@ -193,19 +195,28 @@ size_flags_vertical = 4
 [node name="WorldMapButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/normal = ExtResource("3_80q7e")
+theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
+theme_override_styles/hover = ExtResource("6_b2nnt")
+theme_override_styles/pressed = ExtResource("6_b2nnt")
+theme_override_styles/normal = ExtResource("7_pdy4g")
 text = " Return to Map "
 
 [node name="MenuButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/normal = ExtResource("3_80q7e")
+theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
+theme_override_styles/hover = ExtResource("6_b2nnt")
+theme_override_styles/pressed = ExtResource("6_b2nnt")
+theme_override_styles/normal = ExtResource("7_pdy4g")
 text = " Main Menu "
 
 [node name="QuitButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/normal = ExtResource("3_80q7e")
+theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
+theme_override_styles/hover = ExtResource("6_b2nnt")
+theme_override_styles/pressed = ExtResource("6_b2nnt")
+theme_override_styles/normal = ExtResource("7_pdy4g")
 text = " Quit "
 
 [connection signal="pressed" from="TabContainer/Menu/VBoxContainer/WorldMapButton" to="." method="_on_world_map_button_pressed"]
