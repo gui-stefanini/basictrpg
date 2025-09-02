@@ -20,11 +20,12 @@ extends Resource
 ######################
 #Ignoring default order for Inspector
 @export var Name: String = ""
-
+@export var CharacterLevel: int = 1
 #Stats
 @export var CharacterMaxHP: int = 0
 @export var CharacterAttackPower: int = 0
 @export var CharacterHealPower: int = 0
+
 @export var CharacterMoveRange: int = 0
 @export var CharacterAttackRange: int = 0
 @export var CharacterAggro: int = 0
@@ -42,37 +43,25 @@ extends Resource
 @export var MyAnimationLibrary: AnimationLibrary
 
 var BaseMaxHP: int:
-	get: return Class.ClassMaxHP + CharacterMaxHP
-
+	#int() correctly ignores decimals
+	get: return CharacterMaxHP + Class.ClassMaxHP + int(Class.ClassGrowthMaxHP * (CharacterLevel-1))
 var BaseAttackPower: int:
-	get: return Class.ClassAttackPower + CharacterAttackPower
-
+	get: return CharacterAttackPower + Class.ClassAttackPower + int(Class.ClassGrowthAttackPower * (CharacterLevel-1))
 var BaseHealPower: int:
-	get: return Class.ClassHealPower + CharacterHealPower
+	get: return CharacterHealPower + Class.ClassHealPower + int(Class.ClassGrowthHealPower * (CharacterLevel-1))
 
 var BaseMoveRange: int:
-	get: return Class.ClassMoveRange + CharacterMoveRange
-
+	get: return CharacterMoveRange + Class.ClassMoveRange
 var BaseAttackRange: int:
-	get: return Class.ClassAttackRange + CharacterAttackRange
-
+	get: return CharacterAttackRange + Class.ClassAttackRange 
 var BaseAggro: int:
-	get: return Class.ClassAggro + CharacterAggro
-
+	get: return CharacterAggro + Class.ClassAggro
 var BaseSupportAggro: int:
-	get: return Class.ClassSupportAggro + CharacterSupportAggro
+	get: return CharacterSupportAggro + Class.ClassSupportAggro 
 
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
-
-func ClassOverride():
-	NameOverride()
-	AbilitiesOverride()
-	ActionsOverride()
-	MovementOverride()
-	SpriteOverride()
-
 func NameOverride():
 	if Generic == true:
 		Name += Class.Name
@@ -96,6 +85,17 @@ func SpriteOverride():
 		Vframes = Class.Vframes
 	if MyAnimationLibrary == null:
 		MyAnimationLibrary = Class.MyAnimationLibrary
+
+func ClassOverride():
+	NameOverride()
+	AbilitiesOverride()
+	ActionsOverride()
+	MovementOverride()
+	SpriteOverride()
+
+func LevelUP():
+	if CharacterLevel < 3:
+		CharacterLevel += 1
 
 ##############################################################
 #                      3.0 Signal Functions                  #

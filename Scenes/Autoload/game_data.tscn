@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c6ya6gg57d1hb"]
 
-[ext_resource type="Script" uid="uid://bml0pvr4cbktx" path="res://Scripts/Autoloads/game_data.gd" id="1_up1na"]
+[ext_resource type="Script" uid="uid://bml0pvr4cbktx" path="res://Scripts/Autoloads/DataHolders/game_data.gd" id="1_up1na"]
 [ext_resource type="PackedScene" uid="uid://dbwv5lbunki7e" path="res://Scenes/Menus/main_menu.tscn" id="2_26qp2"]
 [ext_resource type="PackedScene" uid="uid://ccdseexackriv" path="res://Scenes/Tests/test_level.tscn" id="3_26qp2"]
 [ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="4_x8tvg"]

@@ -15,8 +15,11 @@
 script = ExtResource("3_pbfyy")
 Name = "Priest"
 ClassMaxHP = 3
+ClassGrowthMaxHP = 0.5
 ClassAttackPower = 1
+ClassGrowthAttackPower = 0.0
 ClassHealPower = 2
+ClassGrowthHealPower = 0.5
 ClassMoveRange = 3
 ClassAttackRange = 2
 ClassAggro = 0

@@ -14,8 +14,11 @@
 script = ExtResource("3_sfo87")
 Name = "Bandit"
 ClassMaxHP = 3
+ClassGrowthMaxHP = 1.0
 ClassAttackPower = 2
+ClassGrowthAttackPower = 0.5
 ClassHealPower = 0
+ClassGrowthHealPower = 0.0
 ClassMoveRange = 3
 ClassAttackRange = 1
 ClassAggro = 0

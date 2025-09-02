@@ -18,11 +18,15 @@ extends Resource
 @export var Name: String = "none"
 
 #Stats
-@export var ClassMaxHP: int = 1
-@export var ClassAttackPower: int = 1
+@export var ClassMaxHP: int = 0
+@export var ClassGrowthMaxHP: float = 0.0
+@export var ClassAttackPower: int = 0
+@export var ClassGrowthAttackPower: float = 0.0
 @export var ClassHealPower: int = 0
-@export var ClassMoveRange: int = 1
-@export var ClassAttackRange: int = 1
+@export var ClassGrowthHealPower: float = 0.0
+
+@export var ClassMoveRange: int = 0
+@export var ClassAttackRange: int = 0
 @export var ClassAggro: int = 0
 @export var ClassSupportAggro: int = 0
 

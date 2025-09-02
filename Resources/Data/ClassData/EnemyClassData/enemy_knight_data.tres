@@ -15,8 +15,11 @@
 script = ExtResource("10_n7fnc")
 Name = "Knight"
 ClassMaxHP = 5
+ClassGrowthMaxHP = 1.0
 ClassAttackPower = 2
+ClassGrowthAttackPower = 0.0
 ClassHealPower = 0
+ClassGrowthHealPower = 0.0
 ClassMoveRange = 3
 ClassAttackRange = 1
 ClassAggro = 0

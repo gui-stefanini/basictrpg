@@ -16,8 +16,11 @@
 script = ExtResource("3_mb1wq")
 Name = "Priest"
 ClassMaxHP = 5
+ClassGrowthMaxHP = 1.0
 ClassAttackPower = 1
+ClassGrowthAttackPower = 0.0
 ClassHealPower = 2
+ClassGrowthHealPower = 0.5
 ClassMoveRange = 3
 ClassAttackRange = 2
 ClassAggro = 0

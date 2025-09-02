@@ -290,6 +290,12 @@ func StartEnemyTurn():
 
 func EndGame(player_won: bool):
 	HideUI()
+	
+	if player_won == true:
+		for unit in PlayerUnits:
+			unit.Data.LevelUP()
+		GameData.ClearLevel()
+	
 	get_tree().paused = true
 	EndScreen.ShowEndScreen(player_won)
 

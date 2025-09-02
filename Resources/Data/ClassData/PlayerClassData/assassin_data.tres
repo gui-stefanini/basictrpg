@@ -16,8 +16,11 @@
 script = ExtResource("3_cvwb6")
 Name = "Assassin"
 ClassMaxHP = 5
+ClassGrowthMaxHP = 1.0
 ClassAttackPower = 3
+ClassGrowthAttackPower = 1.0
 ClassHealPower = 0
+ClassGrowthHealPower = 0.0
 ClassMoveRange = 4
 ClassAttackRange = 1
 ClassAggro = 0
