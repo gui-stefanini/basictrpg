@@ -46,7 +46,12 @@ func LoadData():
 func Save():
 	SaveData()
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	file.store_var(Data)
+	# Convert the 'Data' dictionary into a text-based JSON string.
+	# The "\t" argument makes the saved file indented and easy to read.
+	var json_data = JSON.stringify(Data, "\t")
+	# Store the text string in the file.
+	file.store_string(json_data)
+	#file.store_var(Data)
 	file.close()
 
 func Load():
@@ -54,11 +59,23 @@ func Load():
 		return
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
-	var data = file.get_var()
+	# Read the entire file content as a single text string.
+	var json_data = file.get_as_text()
+	#var data = file.get_var()
 	file.close()
+	# Parse the JSON string to convert it back into a Godot Dictionary.
+	var gdscript_data = JSON.parse_string(json_data)
 	
-	Data = data.duplicate()
-	LoadData()
+	# Check if parsing was successful and the result is a dictionary.
+	# This prevents errors if the save file is empty or corrupted.
+	if gdscript_data is Dictionary:
+		Data = gdscript_data.duplicate()
+		LoadData()
+	else:
+		print("Error parsing save file or file is not a valid dictionary.")
+	
+	#Data = data.duplicate()
+	#LoadData()
 
 func DeleteData():
 	if FileAccess.file_exists(SAVE_PATH):
