@@ -32,9 +32,9 @@ func MoveCommand(owner: Unit, manager: GameManager, destination: Vector2i):
 func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
 		for action in owner.Data.Actions:
 			if action is AttackAction:
-				await GeneralFunctions.Wait(0.5)
+				await GeneralFunctions.Wait(0.3)
 				await action._execute(owner, manager, target)
-				await GeneralFunctions.Wait(0.5)
+				await GeneralFunctions.Wait(0.4)
 				break
 
 func DefendCommand(owner: Unit, manager: GameManager):
@@ -42,7 +42,7 @@ func DefendCommand(owner: Unit, manager: GameManager):
 	for action in owner.Data.Actions:
 		if action is DefendAction:
 			await action._execute(owner, manager)
-			await GeneralFunctions.Wait(0.5)
+			await GeneralFunctions.Wait(0.3)
 			break
 
 func HealCommand(owner: Unit, manager: GameManager, target: Unit):
@@ -50,7 +50,7 @@ func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 		if action is HealAction:
 			print(owner.Data.Name + " heals " + target.Data.Name)
 			await action._execute(owner, manager, target)
-			await GeneralFunctions.Wait(0.5)
+			await GeneralFunctions.Wait(0.3)
 			break
 
 

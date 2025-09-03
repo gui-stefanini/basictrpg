@@ -1,0 +1,14 @@
+[gd_scene load_steps=6 format=3 uid="uid://rujfew8o3s1f"]
+
+[ext_resource type="Script" uid="uid://dd0xgyxe6blkx" path="res://Scripts/Autoloads/AssetHolders/combat_background.gd" id="1_7xknx"]
+[ext_resource type="Texture2D" uid="uid://b10hojgyboxa1" path="res://Assets/Art/Backgrounds/GrassTileBackgroundL.png" id="2_qft61"]
+[ext_resource type="Texture2D" uid="uid://bhtipo5ibggd8" path="res://Assets/Art/Backgrounds/GrassTileBackgroundR.png" id="3_wmc6h"]
+[ext_resource type="Texture2D" uid="uid://b2fhifeu7q1q5" path="res://Assets/Art/Backgrounds/WaterTileBackgroundL.png" id="4_tt6eb"]
+[ext_resource type="Texture2D" uid="uid://ck3t8r5gafkku" path="res://Assets/Art/Backgrounds/WaterTileBackgroundR.png" id="5_eii6s"]
+
+[node name="CombatBackground" type="Node"]
+script = ExtResource("1_7xknx")
+GrassL = ExtResource("2_qft61")
+GrassR = ExtResource("3_wmc6h")
+WaterL = ExtResource("4_tt6eb")
+WaterR = ExtResource("5_eii6s")

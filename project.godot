@@ -27,6 +27,7 @@ StatusLogic="*res://Scripts/Autoloads/FunctionHelpers/status_logic.gd"
 AILogic="*res://Scripts/Autoloads/FunctionHelpers/ai_logic.gd"
 InputManager="*res://Scripts/Autoloads/Managers/input_manager.gd"
 AudioManager="*res://Scenes/Autoload/audio_manager.tscn"
+CombatBackground="*res://Scenes/Autoload/combat_background.tscn"
 
 [display]
 

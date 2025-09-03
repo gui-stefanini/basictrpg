@@ -14,9 +14,14 @@ signal animation_hit
 #     REFERENCES     #
 ######################
 @export var VfxScene: PackedScene
-@export var Background: TextureRect
+
 @export var PlayerPosition: Marker2D
 @export var EnemyPosition: Marker2D
+
+@export var Background: TextureRect
+@export var DefenderBackground: TextureRect
+@export var AttackerBackground: TextureRect
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -36,11 +41,37 @@ var DefenderOriginalFrame: int
 #                      2.0 Functions                         #
 ##############################################################
 
-func StartCombat(attacker: Unit, defender: Unit, damage: int):
+func SetBackground(attacker_tile: String, defender_tile: String, swap: bool = false):
+	if attacker_tile == "Grass":
+		if swap == false:
+			AttackerBackground.texture = CombatBackground.GrassL
+		else:
+			AttackerBackground.texture = CombatBackground.GrassR
+	
+	elif attacker_tile == "Water":
+		if swap == false:
+			AttackerBackground.texture = CombatBackground.WaterL
+		else:
+			AttackerBackground.texture = CombatBackground.WaterR
+	
+	#Inverst swap logic for defender
+	if defender_tile == "Grass":
+		if swap == true:
+			DefenderBackground.texture = CombatBackground.GrassL
+		else:
+			DefenderBackground.texture = CombatBackground.GrassR
+	
+	elif defender_tile == "Water":
+		if swap == true:
+			DefenderBackground.texture = CombatBackground.WaterL
+		else:
+			DefenderBackground.texture = CombatBackground.WaterR
+
+func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_tile: String, damage: int):
 	Attacker = attacker
 	Defender = defender
 	Damage = damage
-
+	
 	# --- Store Original State ---
 	AttackerOriginalParent = Attacker.get_parent()
 	AttackerOriginalPosition = Attacker.global_position
@@ -67,13 +98,17 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 		Attacker.global_position = PlayerPosition.global_position
 		
 		Defender.global_position = EnemyPosition.global_position
-		#Defender.Sprite.flip_h = true
 		Defender.RotationTracker.scale.x = -1
+		
+		SetBackground(attacker_tile, defender_tile)
+	
 	else:
 		Attacker.global_position = EnemyPosition.global_position
 		Attacker.RotationTracker.scale.x = -1
 		
 		Defender.global_position = PlayerPosition.global_position
+		
+		SetBackground(attacker_tile, defender_tile, true)
 
 	# --- Play Animation ---
 	Attacker.MyAnimationPlayer.play("character_library/attack")
@@ -100,13 +135,12 @@ func ReturnUnits():
 	# --- Restore Original State ---
 	Attacker.global_position = AttackerOriginalPosition
 	Attacker.Sprite.frame = AttackerOriginalFrame
-	Attacker.RotationTracker.scale.x = 1 # Reset RotationTracker scale
-	#Attacker.Sprite.flip_h = false
+	Attacker.RotationTracker.scale.x = 1
 	
 	Defender.global_position = DefenderOriginalPosition
 	Defender.Sprite.frame = DefenderOriginalFrame
-	Defender.RotationTracker.scale.x = 1 # Reset RotationTracker scale
-	#Defender.Sprite.flip_h = false
+	Defender.RotationTracker.scale.x = 1
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

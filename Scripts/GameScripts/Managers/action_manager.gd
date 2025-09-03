@@ -88,7 +88,17 @@ func HighlightHealArea(unit: Unit, action_range: int):
 	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
 ##############################################################
-#                      2.3 EXECUTION                         #
+#                2.3 INFORMATION GATHERING                   #
+##############################################################
+
+func GetUnitTileType(unit: Unit) -> String:
+	var tile: Vector2i = GroundGrid.local_to_map(unit.global_position)
+	var tile_data = GroundGrid.get_cell_tile_data(tile)
+	var terrain_type: String = tile_data.get_custom_data("terrain_type")
+	return terrain_type
+
+##############################################################
+#                      2.4 EXECUTION                         #
 ##############################################################
 func CheckValidTarget(action: Action, unit: Unit, target = null) -> bool:
 	return action._check_target(unit, target)
@@ -120,6 +130,16 @@ func PreviewAction(action: Action, unit: Unit, target: Unit, forecast: bool = fa
 	simulated_target.queue_free()
 	
 	return damage
+
+func StartCombat(attacker: Unit, defender: Unit, damage: int):
+	var attacker_tile: String = GetUnitTileType(attacker)
+	var defender_tile: String = GetUnitTileType(defender)
+	
+	var combat_scene = MyGameManager.CombatScreenScene.instantiate()
+	MyGameManager.add_child(combat_scene)
+	
+	combat_scene.ShowCombat(attacker, attacker_tile, defender, defender_tile, damage)
+	await combat_scene.combat_finished
 
 ##############################################################
 #                      3.0 Signal Functions                  #
