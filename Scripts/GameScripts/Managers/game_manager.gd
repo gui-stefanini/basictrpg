@@ -232,6 +232,7 @@ func SpawnStartingUnits():
 func SetActiveUnit(unit: Unit):
 	ActiveUnit = unit
 	OriginalUnitTile = GroundGrid.local_to_map(unit.global_position)
+	ActiveUnit.PlayIdleAnimation()
 
 func ClearActiveUnit():
 	ActiveUnit = null
@@ -316,6 +317,7 @@ func _on_confirm_pressed():
 			if unit_on_tile in PlayerUnits and not unit_on_tile in UnitsWhoHaveActed:
 				HideUI()
 				SetActiveUnit(unit_on_tile)
+				ActiveUnit.PlayIdleAnimation()
 				ActiveUnitInfoPanel.UpdatePanel(ActiveUnit)
 				MyActionMenu.ShowMenu(ActiveUnit)
 				CurrentSubState = SubState.ACTION_SELECTION_PHASE
@@ -324,6 +326,7 @@ func _on_confirm_pressed():
 			MyActionMenu.SelectAction()
 		
 		SubState.TARGETING_PHASE:
+			ActiveUnit.StopAnimation()
 			var target = null
 			# Check for Move action
 			if MyActionManager.HighlightedMoveTiles.has(selected_tile):
@@ -373,14 +376,16 @@ func _on_cancel_pressed():
 				UpdateCursor(OriginalUnitTile)
 				
 			UpdateCursor()
+			ActiveUnit.StopAnimation()
 			ClearActiveUnit()
 			CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		
 		SubState.TARGETING_PHASE:
 			HideUI()
 			MyActionManager.ClearHighlights()
-			MyActionMenu.ShowMenu(ActiveUnit)
 			CurrentAction = null
+			MyActionMenu.ShowMenu(ActiveUnit)
+			ActiveUnit.PlayIdleAnimation()
 			CurrentSubState = SubState.ACTION_SELECTION_PHASE
 		
 		SubState.ACTION_CONFIRMATION_PHASE:
@@ -389,6 +394,7 @@ func _on_cancel_pressed():
 			TargetedUnit = null
 			CurrentAction = null
 			MyActionMenu.ShowMenu(ActiveUnit)
+			ActiveUnit.PlayIdleAnimation()
 			CurrentSubState = SubState.ACTION_SELECTION_PHASE
 
 func _on_info_pressed():

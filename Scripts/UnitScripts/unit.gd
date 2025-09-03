@@ -222,6 +222,13 @@ func StartTurn():
 #                      2.3 ANIMATIONS                        #
 ##############################################################
 
+func StopAnimation():
+	MyAnimationPlayer.stop()
+	Sprite.frame = 0
+
+func PlayIdleAnimation():
+	MyAnimationPlayer.play("character_library/idle")
+
 func PlayActionAnimation(animation_name: String, target: Unit):
 	ActionTarget = target
 	MyAnimationPlayer.play("character_library/" + animation_name)
