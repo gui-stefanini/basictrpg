@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="RecruitEventData" load_steps=3 format=3 uid="uid://cm83wt6c4kuuw"]
+[gd_resource type="Resource" script_class="RecruitEventData" load_steps=5 format=3 uid="uid://cm83wt6c4kuuw"]
 
 [ext_resource type="Script" uid="uid://m30pwbw1d01m" path="res://Scripts/MapScripts/recruit_event_data.gd" id="1_3fdc6"]
 [ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="1_fg7f7"]
+[ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="2_hpm54"]
+[ext_resource type="Resource" uid="uid://cxfdwyf2n7cqm" path="res://Resources/Data/LevelData/level_0_data.tres" id="3_yg10a"]
 
 [resource]
 script = ExtResource("1_3fdc6")
 RecruitedCharacter = ExtResource("1_fg7f7")
-EventName = "Axolot Recruitment"
 EventDescription = "Axolot Joins the Army!"
+Name = "Axolot Recruitment"
+Locked = false
 Cleared = false
+UnlockableLocations = Array[ExtResource("2_hpm54")]([ExtResource("3_yg10a")])
 metadata/_custom_type_script = "uid://m30pwbw1d01m"

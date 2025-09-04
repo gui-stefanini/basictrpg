@@ -94,42 +94,42 @@ horizontal_alignment = 1
 
 [node name="Event1" parent="." node_paths=PackedStringArray("RightLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(16, 96)
-MyEventData = ExtResource("11_h1xgf")
+MyLocationData = ExtResource("11_h1xgf")
 RightLocation = NodePath("../Level0")
 
 [node name="Level0" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(64, 96)
-MyLevelData = ExtResource("11_5rm1i")
+MyLocationData = ExtResource("11_5rm1i")
 LeftLocation = NodePath("../Event1")
 RightLocation = NodePath("../Level1")
 UpLocation = NodePath("../Event2")
 
 [node name="Event2" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(64, 64)
-MyEventData = ExtResource("12_giifa")
+MyLocationData = ExtResource("12_giifa")
 DownLocation = NodePath("../Level0")
 
 [node name="Level1" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(112, 96)
-MyLevelData = ExtResource("10_jgv10")
+MyLocationData = ExtResource("10_jgv10")
 LeftLocation = NodePath("../Level0")
 RightLocation = NodePath("../Level2")
 DownLocation = NodePath("../Event3")
 
 [node name="Event3" parent="." node_paths=PackedStringArray("UpLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(112, 128)
-MyEventData = ExtResource("14_8jyld")
+MyLocationData = ExtResource("14_8jyld")
 UpLocation = NodePath("../Level1")
 
 [node name="Level2" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(160, 96)
-MyLevelData = ExtResource("11_sbqsc")
+MyLocationData = ExtResource("11_sbqsc")
 LeftLocation = NodePath("../Level1")
 RightLocation = NodePath("../Level3")
 
 [node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(208, 96)
-MyLevelData = ExtResource("12_h1xgf")
+MyLocationData = ExtResource("12_h1xgf")
 LeftLocation = NodePath("../Level2")
 
 [node name="EventLayer" type="CanvasLayer" parent="."]

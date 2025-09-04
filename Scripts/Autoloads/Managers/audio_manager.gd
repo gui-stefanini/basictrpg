@@ -17,6 +17,8 @@ extends Node
 ######################
 var BGMBusIndex : int
 var SFXBusIndex : int
+
+var Muted: bool = false
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -37,11 +39,24 @@ func PlaySFX(audio_stream: AudioStream) -> void:
 	SFXPlayer.stream = audio_stream
 	SFXPlayer.play()
 
+func Mute():
+	SetBGMVolume(0.0)
+	SetSFXVolume(0.0)
+	Muted = true
+
+func UnMute():
+	Muted = false
+	SetBGMVolume(0.4)
+	SetSFXVolume(0.75)
+
+
 func SetBGMVolume(volume: float) -> void:
-	AudioServer.set_bus_volume_db(BGMBusIndex, linear_to_db(volume * volume))
+	if Muted == false:
+		AudioServer.set_bus_volume_db(BGMBusIndex, linear_to_db(volume * volume))
 
 func SetSFXVolume(volume: float) -> void:
-	AudioServer.set_bus_volume_db(SFXBusIndex, linear_to_db(volume * volume))
+	if Muted == false:
+		AudioServer.set_bus_volume_db(SFXBusIndex, linear_to_db(volume * volume))
 
 ##############################################################
 #                      3.0 Signal Functions                  #

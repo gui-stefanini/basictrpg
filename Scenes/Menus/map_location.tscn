@@ -10,5 +10,5 @@ metadata/_custom_type_script = "uid://xevkx7hkbxqy"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_2aqkq")
-hframes = 2
+hframes = 3
 vframes = 2

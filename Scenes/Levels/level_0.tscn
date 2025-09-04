@@ -15,7 +15,7 @@
 script = ExtResource("2_447f6")
 CharacterLevel = 1
 Faction = 0
-Position = Vector2i(4, 5)
+Position = Vector2i(5, 5)
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_af3po"]
@@ -23,7 +23,7 @@ script = ExtResource("2_447f6")
 Character = ExtResource("8_fqxiv")
 CharacterLevel = 1
 Faction = 1
-Position = Vector2i(14, 5)
+Position = Vector2i(13, 5)
 AI = ExtResource("3_456kb")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 

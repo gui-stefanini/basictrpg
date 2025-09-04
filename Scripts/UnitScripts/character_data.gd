@@ -65,10 +65,10 @@ func NameOverride():
 			Name += " Boss"
 
 func AbilitiesOverride():
-	Abilities.append_array(Class.ClassAbilities)
+	GeneralFunctions.AddUniqueArrays(Abilities, Class.ClassAbilities)
 
 func ActionsOverride():
-	Actions.append_array(Class.ClassActions)
+	GeneralFunctions.AddUniqueArrays(Actions, Class.ClassActions)
 
 func MovementOverride():
 	if MovementType == null: 

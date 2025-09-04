@@ -1,6 +1,6 @@
-class_name RecruitEventData
+class_name LocationData
 
-extends EventData
+extends Resource
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -17,17 +17,21 @@ extends EventData
 #     SCRIPT-WIDE    #
 ######################
 
-@export var RecruitedCharacter: CharacterData
+@export var Name: String
+
+@export var Locked: bool = true
+@export var Cleared: bool = false
+
+@export var UnlockableLocations: Array[LocationData]
 
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func play_event():
-	if not GameData.PlayerArmy.has(RecruitedCharacter):
-		GameData.PlayerArmy.append(RecruitedCharacter)
-	
-	ClearLocationData()
+func ClearLocationData():
+	Cleared = true
+	for location in UnlockableLocations:
+		location.Locked = false
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -13,13 +13,9 @@ extends Node
 
 const SAVE_PATH = "user://SaveFile.json"
 
-
-@export var PlayerArmy : Array[CharacterData]
-
 @export var PlayerCharacters : Array[CharacterData]
 
-@export var Levels: Array[LevelData]
-@export var Events: Array[EventData]
+@export var Locations: Array[LocationData]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -30,36 +26,39 @@ var Data : Dictionary
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
 func SaveData():
 	var temp_data : Dictionary
+	var player_army: Array[String]
+	for character in GameData.PlayerArmy:
+		player_army.append(character.resource_path)
 	
-	temp_data["PlayerArmy"] = PlayerArmy
+	temp_data["PlayerArmy"] = player_army
 	
 	for character in PlayerCharacters:
 		temp_data[character.Name] = character.CharacterLevel
 	
-	for level in Levels:
-		temp_data[level.LevelName] = level.Cleared
-	for event in Events:
-		temp_data[event.EventName] = event.Cleared
+	for location in Locations:
+		temp_data["%s: Locked" % [location.Name]] = location.Locked
+		temp_data["%s: Cleared" % [location.Name]] = location.Cleared
 	
 	Data = temp_data
 
 func LoadData():
+	var player_army = Data.get("PlayerArmy")
 	
-	PlayerArmy = Data.get("PlayerArmy")
-	GameData.PlayerArmy = PlayerArmy
+	for character_path in player_army:
+		GameData.PlayerArmy.append(load(character_path))
 	
 	for character in PlayerCharacters:
 		if Data.has(character.Name):
 			character.CharacterLevel = Data.get(character.Name)
 	
-	for level in Levels:
-		if Data.has(level.LevelName):
-			level.Cleared = Data.get(level.LevelName)
-	for event in Events:
-		if Data.has(event.EventName):
-			event.Cleared = Data.get(event.EventName)
+	for location in Locations:
+		if Data.has("%s: Locked" % [location.Name]):
+			location.Locked = Data.get("%s: Locked" % [location.Name])
+		if Data.has("%s: Cleared" % [location.Name]):
+			location.Cleared = Data.get("%s: Cleared" % [location.Name])
 
 func Save():
 	SaveData()

@@ -1,6 +1,6 @@
 class_name EventData
 
-extends Resource
+extends LocationData
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -17,9 +17,7 @@ extends Resource
 #     SCRIPT-WIDE    #
 ######################
 
-@export var EventName : String
 @export var EventDescription : String
-@export var Cleared: bool = false
 
 ##############################################################
 #                      2.0 Functions                         #

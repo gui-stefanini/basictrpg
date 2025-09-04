@@ -16,6 +16,7 @@ extends Control
 ######################
 #     SCRIPT-WIDE    #
 ######################
+var GameLoaded: bool = false
 
 var Resolutions: Array[Vector2i] = [
 	Vector2i(1600, 960),
@@ -59,14 +60,24 @@ func _on_delete_button_pressed() -> void:
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
+func _on_resolution_button_item_selected(index: int) -> void:
+	DisplayServer.window_set_size(Resolutions[index])
+
+func _on_mute_button_toggled(toggled_on: bool) -> void:
+	if toggled_on == true:
+		AudioManager.Mute()
+	else:
+		AudioManager.UnMute()
+
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
 
-func _on_resolution_button_item_selected(index: int) -> void:
-	DisplayServer.window_set_size(Resolutions[index])
 
 func _ready() -> void:
-	SaveManager.Load()
+	if not OS.has_feature("editor") and GameLoaded == false:
+		SaveManager.Load()
+		GameLoaded = true
+	
 	SetResolutions()
 	SetAudio()

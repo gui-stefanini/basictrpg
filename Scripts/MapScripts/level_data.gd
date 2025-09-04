@@ -1,6 +1,6 @@
 class_name LevelData
 
-extends Resource
+extends LocationData
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -19,10 +19,8 @@ extends Resource
 #     SCRIPT-WIDE    #
 ######################
 
-@export var LevelName: String
 @export var LevelObjective: String
 @export var PlayerCount: int
-@export var Cleared: bool = false
 
 ##############################################################
 #                      2.0 Functions                         #

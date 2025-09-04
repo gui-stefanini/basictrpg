@@ -1,16 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://d2q6p53icjhmo"]
+[gd_scene load_steps=14 format=3 uid="uid://d2q6p53icjhmo"]
 
 [ext_resource type="Script" uid="uid://ba8gu2u1oy2gp" path="res://Scripts/Autoloads/Managers/save_manager.gd" id="1_ykqg4"]
 [ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="2_x6mfv"]
 [ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="3_t4tq2"]
 [ext_resource type="Resource" uid="uid://djr48l6vj0dpb" path="res://Resources/Data/CharacterData/PlayerCharacters/mantis.tres" id="4_tfvvn"]
 [ext_resource type="Resource" uid="uid://c0t0h32gaojul" path="res://Resources/Data/CharacterData/PlayerCharacters/orca.tres" id="5_5s06j"]
-[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="6_vbdnf"]
+[ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="6_r435g"]
 [ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LevelData/level_1_data.tres" id="7_r435g"]
 [ext_resource type="Resource" uid="uid://cxfdwyf2n7cqm" path="res://Resources/Data/LevelData/level_0_data.tres" id="7_vbdnf"]
 [ext_resource type="Resource" uid="uid://6v5afxrv265e" path="res://Resources/Data/LevelData/level_2_data.tres" id="8_hrof7"]
 [ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LevelData/level_3_data.tres" id="9_3m8xf"]
-[ext_resource type="Script" uid="uid://cdehehnv6ylo5" path="res://Scripts/MapScripts/event_data.gd" id="10_t4tq2"]
 [ext_resource type="Resource" uid="uid://cm83wt6c4kuuw" path="res://Resources/Data/EventData/event_1_data.tres" id="11_tfvvn"]
 [ext_resource type="Resource" uid="uid://c36xyohjgen5q" path="res://Resources/Data/EventData/event_2_data.tres" id="13_r435g"]
 [ext_resource type="Resource" uid="uid://q1rbjmpddthc" path="res://Resources/Data/EventData/event_3_data.tres" id="14_hrof7"]
@@ -18,5 +17,4 @@
 [node name="SaveManager" type="Node"]
 script = ExtResource("1_ykqg4")
 PlayerCharacters = Array[ExtResource("2_x6mfv")]([ExtResource("3_t4tq2"), ExtResource("4_tfvvn"), ExtResource("5_5s06j")])
-Levels = Array[ExtResource("6_vbdnf")]([ExtResource("7_vbdnf"), ExtResource("7_r435g"), ExtResource("8_hrof7"), ExtResource("9_3m8xf")])
-Events = Array[ExtResource("10_t4tq2")]([ExtResource("11_tfvvn"), ExtResource("13_r435g"), ExtResource("14_hrof7")])
+Locations = Array[ExtResource("6_r435g")]([ExtResource("7_vbdnf"), ExtResource("7_r435g"), ExtResource("8_hrof7"), ExtResource("9_3m8xf"), ExtResource("11_tfvvn"), ExtResource("13_r435g"), ExtResource("14_hrof7")])

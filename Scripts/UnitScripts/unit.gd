@@ -97,7 +97,7 @@ func TakeDamage(damage_amount: int):
 	
 	damage_taken.emit(self, damage_data)
 	
-	var final_damage = damage_data["damage"]
+	var final_damage = roundi(damage_data["damage"])
 	CurrentHP -= final_damage
 	CurrentHP = max(0, CurrentHP)
 	
@@ -198,6 +198,14 @@ func CopyState(target : Unit):
 	CurrentHP = target.CurrentHP
 	AggroModifier = target.AggroModifier
 	ActiveStatuses = target.ActiveStatuses.duplicate(true)
+	
+	for status in ActiveStatuses:
+		StatusLogic.ApplyStatusLogic(self, status)
+	
+	for ability in Data.Abilities:
+		ability.connect_listeners(self)
+		ability.apply_ability(self)
+	
 	AbilityStates = target.AbilityStates.duplicate(true)
 
 func StartTurn():

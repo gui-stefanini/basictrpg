@@ -56,28 +56,28 @@ func SetAudio():
 func SelectLevel():
 	SelectedLocation = CurrentLocation
 	
-	if CurrentLocation.MyLevelData != null:
-		var level_data = CurrentLocation.MyLevelData
+	if CurrentLocation.MyLocationData is LevelData:
+		var level_data = CurrentLocation.MyLocationData
 		
 		LevelInfoPanel.global_position = CurrentLocation.global_position + Vector2(0,16)
 		
-		LevelNameLabel.text = " %s " % [level_data.LevelName]
+		LevelNameLabel.text = " %s " % [level_data.Name]
 		if level_data.Cleared == true:
-			LevelNameLabel.text += "- Clear "
+			LevelNameLabel.text += "- Cleared "
 		LevelObjectiveLabel.text = " %s " % [level_data.LevelObjective]
 		PlayerCountLabel.text = " Player Units: %d " % [level_data.PlayerCount]
 		
 		UiFunctions.call_deferred("ClampUI", LevelInfoPanel)
 		LevelInfoPanel.show()
 	
-	elif CurrentLocation.MyEventData != null:
-		var event_data = CurrentLocation.MyEventData
+	elif CurrentLocation.MyLocationData is EventData:
+		var event_data = CurrentLocation.MyLocationData
 		
 		if event_data.Cleared == true:
 			SelectedLocation = null
 			return
 		
-		EventNameLabel.text = event_data.EventName
+		EventNameLabel.text = event_data.Name
 		EventTextLabel.text = event_data.EventDescription
 		
 		EventPanel.show()
@@ -87,20 +87,24 @@ func ClearEventPanel():
 	EventNameLabel.text = ""
 	EventTextLabel.text = ""
 
+func UpdateLocations():
+	for location in Locations:
+		location.UpdateLocation()
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_confirm_pressed():
 	if LevelInfoPanel.is_visible_in_tree():
-		GameData.CurrentLevel = SelectedLocation.MyLevelData
-		GameData.SelectedLevelScene = SelectedLocation.MyLevelData.LevelScene
+		GameData.CurrentLevel = SelectedLocation.MyLocationData
+		GameData.SelectedLevelScene = SelectedLocation.MyLocationData.LevelScene
 		SceneManager.ChangeSceneGame()
 	
 	elif EventPanel.is_visible_in_tree():
-		SelectedLocation.MyEventData.play_event()
+		SelectedLocation.MyLocationData.play_event()
+		UpdateLocations()
 		ClearEventPanel()
-		SelectedLocation.UpdateSprite()
 		SelectedLocation = null
 	
 	else:
@@ -123,24 +127,20 @@ func _on_direction_pressed(direction: Vector2i):
 		return
 	
 	if direction.x == -1:
-		if CurrentLocation.LeftLocation != null:
+		if CurrentLocation.LeftLocation != null and CurrentLocation.LeftLocation.Locked == false:
 			CurrentLocation = CurrentLocation.LeftLocation
 	
 	elif direction.x == 1:
-		if CurrentLocation.RightLocation != null:
+		if CurrentLocation.RightLocation != null and CurrentLocation.RightLocation.Locked == false:
 			CurrentLocation = CurrentLocation.RightLocation
 	
 	elif direction.y == -1:
-		if CurrentLocation.UpLocation != null:
+		if CurrentLocation.UpLocation != null and CurrentLocation.UpLocation.Locked == false:
 			CurrentLocation = CurrentLocation.UpLocation
 	
 	elif direction.y == 1:
-		if CurrentLocation.DownLocation != null:
+		if CurrentLocation.DownLocation != null and CurrentLocation.DownLocation.Locked == false:
 			CurrentLocation = CurrentLocation.DownLocation
-	
-	#var current_level_index = Locations.find(CurrentLocation)
-	#var new_level_index = GeneralFunctions.ClampIndexInArray(current_level_index, direction.x, Locations)
-	#CurrentLocation = Locations[new_level_index]
 	
 	Player.global_position = CurrentLocation.global_position
 

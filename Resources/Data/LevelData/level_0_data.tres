@@ -1,13 +1,18 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://cxfdwyf2n7cqm"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=6 format=3 uid="uid://cxfdwyf2n7cqm"]
 
 [ext_resource type="PackedScene" uid="uid://b8a878l5dq8tc" path="res://Scenes/Levels/level_0.tscn" id="1_sgis6"]
+[ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="2_0tbty"]
 [ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_hqi3r"]
+[ext_resource type="Resource" uid="uid://c36xyohjgen5q" path="res://Resources/Data/EventData/event_2_data.tres" id="3_bh017"]
+[ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LevelData/level_1_data.tres" id="4_etafc"]
 
 [resource]
 script = ExtResource("2_hqi3r")
 LevelScene = ExtResource("1_sgis6")
-LevelName = "Level 0"
 LevelObjective = "Defeat All Enemies"
 PlayerCount = 1
+Name = "Level 0"
+Locked = true
 Cleared = false
+UnlockableLocations = Array[ExtResource("2_0tbty")]([ExtResource("3_bh017"), ExtResource("4_etafc")])
 metadata/_custom_type_script = "uid://web3er5e1sbv"

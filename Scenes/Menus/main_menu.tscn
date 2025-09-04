@@ -39,6 +39,14 @@ offset_left = -40.0
 offset_bottom = 38.0
 grow_horizontal = 0
 
+[node name="MuteButton" type="CheckButton" parent="VBoxContainer2"]
+layout_mode = 2
+theme_override_styles/hover_pressed = ExtResource("6_chkef")
+theme_override_styles/hover = ExtResource("6_chkef")
+theme_override_styles/pressed = ExtResource("6_chkef")
+theme_override_styles/normal = ExtResource("3_5wi6m")
+text = "Mute"
+
 [node name="ResolutionButton" type="OptionButton" parent="VBoxContainer2"]
 layout_mode = 2
 focus_mode = 0
@@ -97,6 +105,7 @@ theme_override_styles/hover = ExtResource("6_chkef")
 theme_override_styles/normal = ExtResource("3_5wi6m")
 text = "Quit"
 
+[connection signal="toggled" from="VBoxContainer2/MuteButton" to="." method="_on_mute_button_toggled"]
 [connection signal="item_selected" from="VBoxContainer2/ResolutionButton" to="." method="_on_resolution_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/TutorialButton" to="." method="_on_tutorial_button_pressed"]

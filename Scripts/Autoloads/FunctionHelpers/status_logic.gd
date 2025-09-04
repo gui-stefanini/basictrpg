@@ -55,7 +55,7 @@ func ApplyDEFENDINGLogic(unit: Unit, remove: bool = false):
 func _defend_dmgtaken(unit: Unit, damage_data: Dictionary):
 	if unit.ActiveStatuses.has(Unit.Status.DEFENDING):
 		print("Defense applied! Damage halved.")
-		damage_data["damage"] = round(damage_data["damage"] / 2.0)
+		damage_data["damage"] = damage_data["damage"] / 2.0
 
 ######################
 #        PASS        #

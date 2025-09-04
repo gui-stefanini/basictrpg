@@ -12,8 +12,7 @@ extends Node2D
 #     REFERENCES     #
 ######################
 
-@export var MyLevelData: LevelData
-@export var MyEventData: EventData
+@export var MyLocationData: LocationData
 
 @export var Sprite: Sprite2D
 
@@ -32,17 +31,29 @@ extends Node2D
 #                      2.0 Functions                         #
 ##############################################################
 
-func UpdateSprite():
-	if MyLevelData != null:
-		if MyLevelData.Cleared == true:
+func UpdateLocation():
+	Locked = MyLocationData.Locked
+	
+	if MyLocationData is LevelData:
+		if MyLocationData.Locked == true:
+			Sprite.frame_coords = Vector2i(2,0)
+			return
+		
+		if MyLocationData.Cleared == true:
 			Sprite.frame_coords = Vector2i(1,0)
 			return
+		
 		Sprite.frame_coords = Vector2i(0,0)
 	
-	elif MyEventData != null:
-		if MyEventData.Cleared == true:
+	elif MyLocationData is EventData:
+		if MyLocationData.Locked == true:
+			Sprite.frame_coords = Vector2i(2,1)
+			return
+		
+		if MyLocationData.Cleared == true:
 			Sprite.frame_coords = Vector2i(1,1)
 			return
+		
 		Sprite.frame_coords = Vector2i(0,1)
 
 ##############################################################
@@ -54,4 +65,4 @@ func UpdateSprite():
 ##############################################################
 
 func _ready() -> void:
-	UpdateSprite()
+	UpdateLocation()

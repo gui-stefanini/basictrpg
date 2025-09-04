@@ -1,13 +1,16 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://c1flibeduhi60"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=4 format=3 uid="uid://c1flibeduhi60"]
 
 [ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_3.tscn" id="1_e31v5"]
-[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="1_yy37k"]
+[ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="2_t7e1w"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="3_tq5i5"]
 
 [resource]
-script = ExtResource("1_yy37k")
+script = ExtResource("3_tq5i5")
 LevelScene = ExtResource("1_e31v5")
-LevelName = "Level 3"
 LevelObjective = "Defeat Boss"
 PlayerCount = 3
+Name = "Level 3"
+Locked = true
 Cleared = false
+UnlockableLocations = Array[ExtResource("2_t7e1w")]([])
 metadata/_custom_type_script = "uid://web3er5e1sbv"
