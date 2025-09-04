@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://b60nfcufr1306"]
+
+[ext_resource type="Script" uid="uid://dfmahar4sdli4" path="res://Scripts/Autoloads/DataHolders/class_list.gd" id="1_uqlil"]
+[ext_resource type="Resource" uid="uid://b3n71tqx5rrv7" path="res://Resources/Data/ClassData/PlayerClassData/knight_data.tres" id="2_i6tc0"]
+[ext_resource type="Resource" uid="uid://balnk0visepyp" path="res://Resources/Data/ClassData/PlayerClassData/priest_data.tres" id="3_c6r7r"]
+[ext_resource type="Resource" uid="uid://b73e34hm143yr" path="res://Resources/Data/ClassData/PlayerClassData/assassin_data.tres" id="4_irxh5"]
+
+[node name="ClassList" type="Node"]
+script = ExtResource("1_uqlil")
+Knight = ExtResource("2_i6tc0")
+Priest = ExtResource("3_c6r7r")
+Assassin = ExtResource("4_irxh5")

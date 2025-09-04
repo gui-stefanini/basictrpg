@@ -21,12 +21,12 @@ func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.Data.Name + " is thinking like a Bandit...")
 	
 	if IsMobile == false:
-		await execute_offensive_routine(owner, manager)
+		await ExecuteOffensiveRoutine(owner, manager)
 		if owner.HasActed == true:
 			IsMobile = true
 		return
 	
-	await execute_move_offensive_routine(owner, manager)
+	await ExecuteMoveOffensiveRoutine(owner, manager)
 	
 
 ##############################################################

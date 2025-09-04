@@ -1,5 +1,6 @@
-class_name MapLevel
-extends Node2D
+class_name RecruitEventData
+
+extends EventData
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -12,16 +13,21 @@ extends Node2D
 #     REFERENCES     #
 ######################
 
-@export var Data: LevelData
-@export var Sprite: Sprite2D
-
 ######################
 #     SCRIPT-WIDE    #
 ######################
 
+@export var RecruitedCharacter: CharacterData
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func play_event():
+	if not GameData.PlayerArmy.has(RecruitedCharacter):
+		GameData.PlayerArmy.append(RecruitedCharacter)
+	
+	Cleared = true
 
 ##############################################################
 #                      3.0 Signal Functions                  #
@@ -30,8 +36,3 @@ extends Node2D
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
-func _ready() -> void:
-	if Data.Cleared == true:
-		Sprite.frame = 1
-		return
-	Sprite.frame = 0

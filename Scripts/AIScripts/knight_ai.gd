@@ -27,12 +27,12 @@ func execute_turn(owner: Unit, manager: GameManager):
 			return
 	
 	if IsMobile == false:
-		await execute_offensive_routine(owner, manager)
+		await ExecuteOffensiveRoutine(owner, manager)
 		if owner.HasActed == true:
 			IsMobile = true
 		return
 	
-	await execute_move_offensive_routine(owner, manager)
+	await ExecuteMoveOffensiveRoutine(owner, manager)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

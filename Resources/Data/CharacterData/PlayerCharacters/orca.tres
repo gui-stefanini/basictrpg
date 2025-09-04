@@ -8,7 +8,10 @@
 [resource]
 script = ExtResource("3_d17aw")
 Class = ExtResource("3_hcn2m")
+Generic = false
+Boss = false
 Name = "Orca"
+CharacterLevel = 2
 CharacterMaxHP = 0
 CharacterAttackPower = 0
 CharacterHealPower = 0

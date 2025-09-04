@@ -18,6 +18,8 @@ config/icon="res://Assets/Art/Rest/icon.svg"
 
 [autoload]
 
+CharacterList="*res://Scenes/Autoload/character_list.tscn"
+ClassList="*res://Scenes/Autoload/class_list.tscn"
 GameData="*res://Scenes/Autoload/game_data.tscn"
 SaveManager="*res://Scenes/Autoload/save_manager.tscn"
 SceneManager="*res://Scenes/Autoload/scene_manager.tscn"

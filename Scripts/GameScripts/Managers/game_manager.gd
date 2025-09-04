@@ -219,11 +219,22 @@ func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 		SpawnUnit(spawn_info)
 
 func DefinePlayerUnits():
-	for i in range(CurrentLevel.PlayerSpawns.size()):
-		CurrentLevel.PlayerSpawns[i].Character = GameData.PlayerUnits[i]
+	#Temporary while can't choose characters
+	GameData.PlayerSquad = GameData.PlayerArmy
+	
+	var smaller_array : int = min(GameData.PlayerSquad.size(), CurrentLevel.PlayerSpawns.size())
+	
+	for i in range(smaller_array):
+		CurrentLevel.PlayerSpawns[i].Character = GameData.PlayerSquad[i]
 
 func SpawnStartingUnits():
-	SpawnUnitGroup(CurrentLevel.PlayerSpawns)
+	#Temporary while can't choose characters
+	var player_spawns: Array[SpawnInfo]
+	for player_spawn in CurrentLevel.PlayerSpawns:
+		if player_spawn.Character != null:
+			player_spawns.append(player_spawn)
+	
+	SpawnUnitGroup(player_spawns)
 	SpawnUnitGroup(CurrentLevel.EnemySpawns)
 
 ##############################################################
@@ -482,8 +493,8 @@ func _ready() -> void:
 		push_warning("GameData is empty. Loading default Level for testing.")
 		GameData.SelectedLevelScene = GameData.TestLevel
 		var character_data = GameData.TestCharacter
-		GameData.PlayerUnits.clear()
-		GameData.PlayerUnits.append(character_data)
+		GameData.PlayerSquad.clear()
+		GameData.PlayerSquad.append(character_data)
 	
 	SetLevel()
 	SetAuxiliaryManagers()

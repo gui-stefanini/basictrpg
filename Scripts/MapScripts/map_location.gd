@@ -1,5 +1,6 @@
-class_name PriestAI
-extends AIBehavior
+class_name MapLocation
+extends Node2D
+
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -10,39 +11,39 @@ extends AIBehavior
 ######################
 #     REFERENCES     #
 ######################
+
+@export var MyLevelData: LevelData
+@export var MyEventData: EventData
+
+@export var Sprite: Sprite2D
+
+@export var LeftLocation: MapLocation
+@export var RightLocation: MapLocation
+@export var UpLocation: MapLocation
+@export var DownLocation: MapLocation
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
+@export var Locked: bool = true
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func execute_turn(owner: Unit, manager: GameManager):
-	print(owner.Data.Name + " is thinking like a Priest...")
-	
-	if IsMobile == false:
-		await ExecuteHealingRoutine(owner, manager)
-		if owner.HasActed == true:
-			IsMobile = true
+func UpdateSprite():
+	if MyLevelData != null:
+		if MyLevelData.Cleared == true:
+			Sprite.frame_coords = Vector2i(1,0)
 			return
-		
-		print(owner.Data.Name + " found no one to heal, and will attack instead.")
-		await ExecuteOffensiveRoutine(owner, manager)
-		if owner.HasActed == true:
-			IsMobile = true
-		return
+		Sprite.frame_coords = Vector2i(0,0)
 	
-	await ExecuteMoveHealingRoutine(owner, manager)
-	if owner.HasActed == true:
-		return
-	
-	print(owner.Data.Name + " found no one to heal, and will attack instead.")
-	if owner.HasMoved == true:
-		await ExecuteOffensiveRoutine(owner, manager)
-		return
-	
-	await ExecuteMoveOffensiveRoutine(owner, manager)
-	
+	elif MyEventData != null:
+		if MyEventData.Cleared == true:
+			Sprite.frame_coords = Vector2i(1,1)
+			return
+		Sprite.frame_coords = Vector2i(0,1)
 
 ##############################################################
 #                      3.0 Signal Functions                  #
@@ -51,3 +52,6 @@ func execute_turn(owner: Unit, manager: GameManager):
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+
+func _ready() -> void:
+	UpdateSprite()

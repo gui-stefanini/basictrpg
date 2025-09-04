@@ -1,26 +1,34 @@
-[gd_scene load_steps=13 format=3 uid="uid://dagoxwn4eplbq"]
+[gd_scene load_steps=18 format=3 uid="uid://dagoxwn4eplbq"]
 
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
-[ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MenuScripts/world_map.gd" id="1_immrm"]
+[ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MapScripts/world_map.gd" id="1_immrm"]
 [ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/InGame/game_manager.tscn" id="2_jgv10"]
 [ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="3_650wr"]
 [ext_resource type="AudioStream" uid="uid://dp1ibgkpe3xum" path="res://Assets/Music/BGM/Map1.ogg" id="3_sbqsc"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="9_pnvcu"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="10_d6b3t"]
 [ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LevelData/level_1_data.tres" id="10_jgv10"]
+[ext_resource type="Resource" uid="uid://cxfdwyf2n7cqm" path="res://Resources/Data/LevelData/level_0_data.tres" id="11_5rm1i"]
+[ext_resource type="Resource" uid="uid://cm83wt6c4kuuw" path="res://Resources/Data/EventData/event_1_data.tres" id="11_h1xgf"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="11_jgv10"]
 [ext_resource type="Resource" uid="uid://6v5afxrv265e" path="res://Resources/Data/LevelData/level_2_data.tres" id="11_sbqsc"]
+[ext_resource type="Resource" uid="uid://c36xyohjgen5q" path="res://Resources/Data/EventData/event_2_data.tres" id="12_giifa"]
 [ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LevelData/level_3_data.tres" id="12_h1xgf"]
-[ext_resource type="PackedScene" uid="uid://hcy5g1kv4p1g" path="res://Scenes/Menus/map_level.tscn" id="14_h1xgf"]
+[ext_resource type="Texture2D" uid="uid://cy2mpfkgxrhw0" path="res://Assets/Art/HUD/DialogueBox.png" id="13_sbqsc"]
+[ext_resource type="Resource" uid="uid://q1rbjmpddthc" path="res://Resources/Data/EventData/event_3_data.tres" id="14_8jyld"]
+[ext_resource type="PackedScene" uid="uid://hcy5g1kv4p1g" path="res://Scenes/Menus/map_location.tscn" id="14_h1xgf"]
 
-[node name="WorldMap" type="Node2D" node_paths=PackedStringArray("Player", "Levels", "LevelInfoPanel", "LevelNameLabel", "LevelObjectiveLabel", "PlayerCountLabel")]
+[node name="WorldMap" type="Node2D" node_paths=PackedStringArray("Player", "Locations", "LevelInfoPanel", "LevelNameLabel", "LevelObjectiveLabel", "PlayerCountLabel", "EventPanel", "EventNameLabel", "EventTextLabel")]
 script = ExtResource("1_immrm")
 Player = NodePath("Player")
-Levels = [NodePath("Level1"), NodePath("Level2"), NodePath("Level3")]
+Locations = [NodePath("Event1"), NodePath("Level0"), NodePath("Event2"), NodePath("Level1"), NodePath("Event3"), NodePath("Level2"), NodePath("Level3")]
 LevelInfoPanel = NodePath("LevelInfoPanel")
 LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
 LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
 PlayerCountLabel = NodePath("LevelInfoPanel/VBoxContainer/PlayerCount")
+EventPanel = NodePath("EventLayer/EventPanel")
+EventNameLabel = NodePath("EventLayer/EventPanel/MarginContainer/VBoxContainer/EventName")
+EventTextLabel = NodePath("EventLayer/EventPanel/MarginContainer/VBoxContainer/EventText")
 GameScene = ExtResource("2_jgv10")
 MapBGM = ExtResource("3_sbqsc")
 
@@ -84,14 +92,92 @@ text = "Player Units: X"
 label_settings = ExtResource("11_jgv10")
 horizontal_alignment = 1
 
-[node name="Level1" parent="." instance=ExtResource("14_h1xgf")]
-position = Vector2(64, 112)
-Data = ExtResource("10_jgv10")
+[node name="Event1" parent="." node_paths=PackedStringArray("RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(16, 96)
+MyEventData = ExtResource("11_h1xgf")
+RightLocation = NodePath("../Level0")
 
-[node name="Level2" parent="." instance=ExtResource("14_h1xgf")]
-position = Vector2(160, 80)
-Data = ExtResource("11_sbqsc")
+[node name="Level0" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(64, 96)
+MyLevelData = ExtResource("11_5rm1i")
+LeftLocation = NodePath("../Event1")
+RightLocation = NodePath("../Level1")
+UpLocation = NodePath("../Event2")
 
-[node name="Level3" parent="." instance=ExtResource("14_h1xgf")]
-position = Vector2(256, 112)
-Data = ExtResource("12_h1xgf")
+[node name="Event2" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(64, 64)
+MyEventData = ExtResource("12_giifa")
+DownLocation = NodePath("../Level0")
+
+[node name="Level1" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(112, 96)
+MyLevelData = ExtResource("10_jgv10")
+LeftLocation = NodePath("../Level0")
+RightLocation = NodePath("../Level2")
+DownLocation = NodePath("../Event3")
+
+[node name="Event3" parent="." node_paths=PackedStringArray("UpLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(112, 128)
+MyEventData = ExtResource("14_8jyld")
+UpLocation = NodePath("../Level1")
+
+[node name="Level2" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(160, 96)
+MyLevelData = ExtResource("11_sbqsc")
+LeftLocation = NodePath("../Level1")
+RightLocation = NodePath("../Level3")
+
+[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(208, 96)
+MyLevelData = ExtResource("12_h1xgf")
+LeftLocation = NodePath("../Level2")
+
+[node name="EventLayer" type="CanvasLayer" parent="."]
+
+[node name="EventPanel" type="NinePatchRect" parent="EventLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_sbqsc")
+patch_margin_left = 30
+patch_margin_top = 30
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="MarginContainer" type="MarginContainer" parent="EventLayer/EventPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 35
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EventLayer/EventPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="EventName" type="Label" parent="EventLayer/EventPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/normal = ExtResource("10_d6b3t")
+label_settings = ExtResource("11_jgv10")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="EventText" type="Label" parent="EventLayer/EventPanel/MarginContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/normal = ExtResource("10_d6b3t")
+label_settings = ExtResource("11_jgv10")
+horizontal_alignment = 1
+autowrap_mode = 3

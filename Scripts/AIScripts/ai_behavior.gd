@@ -189,7 +189,7 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 #    ROUTINE LOGIC   #
 ######################
 
-func execute_offensive_routine(owner: Unit, manager: GameManager):
+func ExecuteOffensiveRoutine(owner: Unit, manager: GameManager):
 	var attack_opportunity = FindAttackOpportunity(owner, manager)
 	if not attack_opportunity.is_empty():
 		var destination = attack_opportunity["destination"]
@@ -202,14 +202,14 @@ func execute_offensive_routine(owner: Unit, manager: GameManager):
 			await MoveCommand(owner, manager, destination)
 		await AttackCommand(owner, manager, target)
 
-func execute_move_offensive_routine(owner: Unit, manager: GameManager):
-	await execute_offensive_routine(owner, manager)
+func ExecuteMoveOffensiveRoutine(owner: Unit, manager: GameManager):
+	await ExecuteOffensiveRoutine(owner, manager)
 	if owner.HasActed == true:
 		return
 	
 	await ActionMovementRoutine(owner, manager, manager.PlayerUnits)
 
-func execute_healing_routine(owner: Unit, manager: GameManager):
+func ExecuteHealingRoutine(owner: Unit, manager: GameManager):
 	var heal_opportunity = FindHealOpportunity(owner, manager)
 	if not heal_opportunity.is_empty():
 		var destination = heal_opportunity["destination"]
@@ -222,8 +222,8 @@ func execute_healing_routine(owner: Unit, manager: GameManager):
 			await MoveCommand(owner, manager, destination)
 		await HealCommand(owner, manager, target)
 
-func execute_move_healing_routine(owner: Unit, manager: GameManager):
-	await execute_healing_routine(owner, manager)
+func ExecuteMoveHealingRoutine(owner: Unit, manager: GameManager):
+	await ExecuteHealingRoutine(owner, manager)
 	if owner.HasActed == true:
 		return
 	

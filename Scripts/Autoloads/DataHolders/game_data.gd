@@ -17,7 +17,8 @@ extends Node
 #     SCRIPT-WIDE    #
 ######################
 
-@export var PlayerUnits: Array[CharacterData]
+@export var PlayerArmy: Array[CharacterData]
+@export var PlayerSquad: Array[CharacterData]
 
 @export var CurrentLevel: LevelData
 @export var ClearedLevels: Array[LevelData]

@@ -13,8 +13,13 @@ extends Node
 
 const SAVE_PATH = "user://SaveFile.json"
 
+
+@export var PlayerArmy : Array[CharacterData]
+
 @export var PlayerCharacters : Array[CharacterData]
+
 @export var Levels: Array[LevelData]
+@export var Events: Array[EventData]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -26,15 +31,25 @@ var Data : Dictionary
 #                      2.0 Functions                         #
 ##############################################################
 func SaveData():
-	Data.clear()
+	var temp_data : Dictionary
+	
+	temp_data["PlayerArmy"] = PlayerArmy
 	
 	for character in PlayerCharacters:
-		Data[character.Name] = character.CharacterLevel
+		temp_data[character.Name] = character.CharacterLevel
 	
 	for level in Levels:
-		Data[level.LevelName] = level.Cleared
+		temp_data[level.LevelName] = level.Cleared
+	for event in Events:
+		temp_data[event.EventName] = event.Cleared
+	
+	Data = temp_data
 
 func LoadData():
+	
+	PlayerArmy = Data.get("PlayerArmy")
+	GameData.PlayerArmy = PlayerArmy
+	
 	for character in PlayerCharacters:
 		if Data.has(character.Name):
 			character.CharacterLevel = Data.get(character.Name)
@@ -42,6 +57,9 @@ func LoadData():
 	for level in Levels:
 		if Data.has(level.LevelName):
 			level.Cleared = Data.get(level.LevelName)
+	for event in Events:
+		if Data.has(event.EventName):
+			event.Cleared = Data.get(event.EventName)
 
 func Save():
 	SaveData()
