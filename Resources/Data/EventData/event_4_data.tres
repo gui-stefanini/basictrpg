@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UpgradeEventData" load_steps=3 format=3 uid="uid://dwm6qfyag302y"]
+
+[ext_resource type="Resource" uid="uid://djr48l6vj0dpb" path="res://Resources/Data/CharacterData/PlayerCharacters/mantis.tres" id="2_t1cgr"]
+[ext_resource type="Script" uid="uid://cv4w4iswuo1se" path="res://Scripts/MapScripts/upgrade_event_data.gd" id="3_qb6uc"]
+
+[resource]
+script = ExtResource("3_qb6uc")
+UpgradedCharacter = ExtResource("2_t1cgr")
+StatName = "CharacterAttackPower"
+StatValue = 1
+EventDescription = "Mantis chooses violence! Attack +1"
+Name = "Mantis Upgrade"
+Locked = true
+Cleared = false
+UnlockableLocations = Array[String](["Level3"])
+LockableLocations = Array[String](["Event5", "Event6"])
+metadata/_custom_type_script = "uid://cv4w4iswuo1se"

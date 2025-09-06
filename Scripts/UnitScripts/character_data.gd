@@ -53,7 +53,8 @@ var BaseSupportAggro: int
 @export var Vframes: int = 0
 @export var MyAnimationLibrary: AnimationLibrary
 
-
+#Save
+@export var InfoToSave: Array[String] = ["CharacterLevel"]
 
 ##############################################################
 #                      2.0 Functions                         #

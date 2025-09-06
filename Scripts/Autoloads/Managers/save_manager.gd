@@ -36,7 +36,10 @@ func SaveData():
 	temp_data["PlayerArmy"] = player_army
 	
 	for character in PlayerCharacters:
-		temp_data[character.Name] = character.CharacterLevel
+		temp_data[character.Name] = character.InfoToSave
+		
+		for variable_name in character.InfoToSave:
+			temp_data["%s: %s" % [character.Name, variable_name]] = character.get(variable_name)
 	
 	for location in Locations:
 		temp_data["%s: Locked" % [location.Name]] = location.Locked
@@ -52,7 +55,10 @@ func LoadData():
 	
 	for character in PlayerCharacters:
 		if Data.has(character.Name):
-			character.CharacterLevel = Data.get(character.Name)
+			var info_to_load = Data.get(character.Name)
+			for variable_name in info_to_load:
+				var value = Data.get("%s: %s" % [character.Name, variable_name])
+				character.set(variable_name, value) 
 	
 	for location in Locations:
 		if Data.has("%s: Locked" % [location.Name]):

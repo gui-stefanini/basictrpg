@@ -1,6 +1,6 @@
-class_name LocationData
+class_name UpgradeEventData
 
-extends Resource
+extends EventData
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -17,30 +17,26 @@ extends Resource
 #     SCRIPT-WIDE    #
 ######################
 
-@export var Name: String
+@export var UpgradedCharacter: CharacterData
+@export var StatName: String
+@export var StatValue: int
 
-@export var Locked: bool = true
-@export var Cleared: bool = false
-
-@export var UnlockableLocations: Array[String]
-@export var LockableLocations: Array[String]
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func ClearLocationData():
-	if Cleared == true:
+func play_event():
+	if not GameData.PlayerArmy.has(UpgradedCharacter):
 		return
 	
-	Cleared = true
+	var value = UpgradedCharacter.get(StatName)
+	value += StatValue
+	UpgradedCharacter.set(StatName, value)
 	
-	for location_name in UnlockableLocations:
-		var location: LocationData = LocationList.get(location_name)
-		location.Locked = false
+	if not UpgradedCharacter.InfoToSave.has(StatName):
+		UpgradedCharacter.InfoToSave.append(StatName)
 	
-	for location_name in LockableLocations:
-		var location: LocationData = LocationList.get(location_name)
-		location.Locked = true
+	ClearLocationData()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

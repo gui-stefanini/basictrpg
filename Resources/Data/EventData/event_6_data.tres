@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UpgradeEventData" load_steps=3 format=3 uid="uid://dgigid5agiv4b"]
+
+[ext_resource type="Script" uid="uid://cv4w4iswuo1se" path="res://Scripts/MapScripts/upgrade_event_data.gd" id="2_k124p"]
+[ext_resource type="Resource" uid="uid://c0t0h32gaojul" path="res://Resources/Data/CharacterData/PlayerCharacters/orca.tres" id="2_pybcg"]
+
+[resource]
+script = ExtResource("2_k124p")
+UpgradedCharacter = ExtResource("2_pybcg")
+StatName = "CharacterAttackRange"
+StatValue = 1
+EventDescription = "Orca cheats! Range +1"
+Name = "Orca Upgrade"
+Locked = true
+Cleared = false
+UnlockableLocations = Array[String](["Level3"])
+LockableLocations = Array[String](["Event4", "Event5"])
+metadata/_custom_type_script = "uid://cv4w4iswuo1se"

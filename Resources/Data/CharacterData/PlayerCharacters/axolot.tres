@@ -8,7 +8,10 @@
 [resource]
 script = ExtResource("3_lsf2m")
 Class = ExtResource("3_vwj26")
+Generic = false
+Boss = false
 Name = "Sir Axolot"
+CharacterLevel = 1
 CharacterMaxHP = 0
 CharacterAttackPower = 0
 CharacterHealPower = 0
@@ -20,4 +23,5 @@ Abilities = Array[ExtResource("1_bsbi5")]([])
 Actions = Array[ExtResource("2_vwj26")]([])
 Hframes = 0
 Vframes = 0
+InfoToSave = Array[String](["CharacterLevel"])
 metadata/_custom_type_script = "uid://fhqj6evu0bn8"

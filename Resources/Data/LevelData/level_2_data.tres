@@ -1,8 +1,6 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=5 format=3 uid="uid://6v5afxrv265e"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://6v5afxrv265e"]
 
 [ext_resource type="PackedScene" uid="uid://b6r4jmpo85fr7" path="res://Scenes/Levels/level_2.tscn" id="1_a57go"]
-[ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="2_t5t6u"]
-[ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LevelData/level_3_data.tres" id="3_qys2b"]
 [ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="4_ylf37"]
 
 [resource]
@@ -13,5 +11,6 @@ PlayerCount = 3
 Name = "Level 2"
 Locked = true
 Cleared = false
-UnlockableLocations = Array[ExtResource("2_t5t6u")]([ExtResource("3_qys2b")])
+UnlockableLocations = Array[String](["Event4", "Event5", "Event6"])
+LockableLocations = Array[String]([])
 metadata/_custom_type_script = "uid://web3er5e1sbv"

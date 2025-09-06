@@ -36,13 +36,12 @@ signal direction_pressed(direction: Vector2i)
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
-#func _input(event: InputEvent) -> void:
-	#if not (event is InputEventKey or event is InputEventJoypadButton):
-		#return
-	#if not event.is_pressed():
-		#return
-
-func _process(_delta: float) -> void:
+func _input(event: InputEvent) -> void:
+	if not (event is InputEventKey or event is InputEventJoypadButton):
+		return
+	if not event.is_pressed():
+		return
+	
 	if Input.is_action_just_pressed("confirm"):
 		confirm_pressed.emit()
 		get_viewport().set_input_as_handled()

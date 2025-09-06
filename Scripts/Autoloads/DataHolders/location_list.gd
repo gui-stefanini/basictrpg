@@ -1,6 +1,4 @@
-class_name LocationData
-
-extends Resource
+extends Node
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -13,34 +11,25 @@ extends Resource
 #     REFERENCES     #
 ######################
 
+@export var Level0 : LocationData
+@export var Level1 : LocationData
+@export var Level2 : LocationData
+@export var Level3 : LocationData
+
+@export var Event1: LocationData
+@export var Event2: LocationData
+@export var Event3: LocationData
+@export var Event4: LocationData
+@export var Event5: LocationData
+@export var Event6: LocationData
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
 
-@export var Name: String
-
-@export var Locked: bool = true
-@export var Cleared: bool = false
-
-@export var UnlockableLocations: Array[String]
-@export var LockableLocations: Array[String]
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
-
-func ClearLocationData():
-	if Cleared == true:
-		return
-	
-	Cleared = true
-	
-	for location_name in UnlockableLocations:
-		var location: LocationData = LocationList.get(location_name)
-		location.Locked = false
-	
-	for location_name in LockableLocations:
-		var location: LocationData = LocationList.get(location_name)
-		location.Locked = true
 
 ##############################################################
 #                      3.0 Signal Functions                  #

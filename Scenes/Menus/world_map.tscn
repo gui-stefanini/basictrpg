@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dagoxwn4eplbq"]
+[gd_scene load_steps=23 format=3 uid="uid://dagoxwn4eplbq"]
 
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
 [ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MapScripts/world_map.gd" id="1_immrm"]
@@ -17,11 +17,16 @@
 [ext_resource type="Texture2D" uid="uid://cy2mpfkgxrhw0" path="res://Assets/Art/HUD/DialogueBox.png" id="13_sbqsc"]
 [ext_resource type="Resource" uid="uid://q1rbjmpddthc" path="res://Resources/Data/EventData/event_3_data.tres" id="14_8jyld"]
 [ext_resource type="PackedScene" uid="uid://hcy5g1kv4p1g" path="res://Scenes/Menus/map_location.tscn" id="14_h1xgf"]
+[ext_resource type="Resource" uid="uid://dwm6qfyag302y" path="res://Resources/Data/EventData/event_4_data.tres" id="16_f0uhf"]
+[ext_resource type="Resource" uid="uid://bfpwldsjm2cxt" path="res://Resources/Data/EventData/event_5_data.tres" id="17_62u4o"]
+[ext_resource type="Resource" uid="uid://dgigid5agiv4b" path="res://Resources/Data/EventData/event_6_data.tres" id="18_0o0p7"]
+[ext_resource type="StyleBox" uid="uid://b8qvd8f80v885" path="res://Resources/Overrides/Styles/hover_button_style.tres" id="21_0o0p7"]
+[ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="22_ej0cr"]
 
 [node name="WorldMap" type="Node2D" node_paths=PackedStringArray("Player", "Locations", "LevelInfoPanel", "LevelNameLabel", "LevelObjectiveLabel", "PlayerCountLabel", "EventPanel", "EventNameLabel", "EventTextLabel")]
 script = ExtResource("1_immrm")
 Player = NodePath("Player")
-Locations = [NodePath("Event1"), NodePath("Level0"), NodePath("Event2"), NodePath("Level1"), NodePath("Event3"), NodePath("Level2"), NodePath("Level3")]
+Locations = [NodePath("Event1"), NodePath("Level0"), NodePath("Event2"), NodePath("Level1"), NodePath("Event3"), NodePath("Level2"), NodePath("Event4"), NodePath("Event5"), NodePath("Event6"), NodePath("Level3")]
 LevelInfoPanel = NodePath("LevelInfoPanel")
 LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
 LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
@@ -121,16 +126,37 @@ position = Vector2(112, 128)
 MyLocationData = ExtResource("14_8jyld")
 UpLocation = NodePath("../Level1")
 
-[node name="Level2" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+[node name="Level2" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(160, 96)
 MyLocationData = ExtResource("11_sbqsc")
 LeftLocation = NodePath("../Level1")
+RightLocation = NodePath("../Event5")
+UpLocation = NodePath("../Event4")
+DownLocation = NodePath("../Event6")
+
+[node name="Event4" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(192, 64)
+MyLocationData = ExtResource("16_f0uhf")
+LeftLocation = NodePath("../Level2")
 RightLocation = NodePath("../Level3")
 
-[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
+[node name="Event5" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(208, 96)
+MyLocationData = ExtResource("17_62u4o")
+LeftLocation = NodePath("../Level2")
+RightLocation = NodePath("../Level3")
+
+[node name="Event6" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(192, 128)
+MyLocationData = ExtResource("18_0o0p7")
+LeftLocation = NodePath("../Level2")
+RightLocation = NodePath("../Level3")
+
+[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(256, 96)
 MyLocationData = ExtResource("12_h1xgf")
 LeftLocation = NodePath("../Level2")
+RightLocation = NodePath(".")
 
 [node name="EventLayer" type="CanvasLayer" parent="."]
 
@@ -181,3 +207,14 @@ theme_override_styles/normal = ExtResource("10_d6b3t")
 label_settings = ExtResource("11_jgv10")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="UnlockButton" type="Button" parent="."]
+offset_right = 32.0
+offset_bottom = 8.0
+theme_override_styles/hover_pressed = ExtResource("21_0o0p7")
+theme_override_styles/hover = ExtResource("21_0o0p7")
+theme_override_styles/pressed = ExtResource("21_0o0p7")
+theme_override_styles/normal = ExtResource("22_ej0cr")
+text = " Unlock All "
+
+[connection signal="pressed" from="UnlockButton" to="." method="_on_unlock_button_pressed"]

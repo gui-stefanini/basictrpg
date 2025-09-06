@@ -156,3 +156,9 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	ClearInputSignals()
+
+
+func _on_unlock_button_pressed() -> void:
+	for location in Locations:
+		location.MyLocationData.Locked = false
+	UpdateLocations()
