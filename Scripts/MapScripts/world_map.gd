@@ -73,7 +73,7 @@ func SelectLevel():
 	elif CurrentLocation.MyLocationData is EventData:
 		var event_data = CurrentLocation.MyLocationData
 		
-		if event_data.Cleared == true:
+		if event_data.Cleared == true and event_data.Repeatable == false:
 			SelectedLocation = null
 			return
 		

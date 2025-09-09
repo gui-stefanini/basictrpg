@@ -43,12 +43,21 @@ var BaseAggro: int
 var BaseSupportAggro: int
 
 #Info
+@export var CharacterAbilities: Array[Ability]
+@export var CharacterActions: Array[Action]
+@export var CharacterMovementType: MovementData
+
 @export var Abilities: Array[Ability]
 @export var Actions: Array[Action]
 @export var MovementType: MovementData
 
 #Animation
 @export var CharacterSpriteSheet: Texture2D
+@export var CharacterHframes: int = 0
+@export var CharacterVframes: int = 0
+@export var CharacterAnimationLibrary: AnimationLibrary
+
+@export var SpriteSheet: Texture2D
 @export var Hframes: int = 0
 @export var Vframes: int = 0
 @export var MyAnimationLibrary: AnimationLibrary
@@ -66,22 +75,38 @@ func NameOverride():
 			Name += " Boss"
 
 func AbilitiesOverride():
-	GeneralFunctions.AddUniqueArrays(Abilities, Class.ClassAbilities)
+	Abilities.clear()
+	var all_abilities = GeneralFunctions.AddUniqueArrays(CharacterAbilities, Class.ClassAbilities) as Array[Ability]
+	for ability in all_abilities:
+		Abilities.append(ability as Ability)
 
 func ActionsOverride():
-	GeneralFunctions.AddUniqueArrays(Actions, Class.ClassActions)
+	Actions.clear()
+	var all_actions = GeneralFunctions.AddUniqueArrays(CharacterActions, Class.ClassActions) as Array[Action]
+	for action in all_actions:
+		Actions.append(action as Action)
 
 func MovementOverride():
-	if MovementType == null: 
+	if CharacterMovementType == null: 
 		MovementType = Class.ClassMovementType
+	else:
+		MovementType = CharacterMovementType
 
 func SpriteOverride():
 	if CharacterSpriteSheet == null: 
-		CharacterSpriteSheet = Class.ClassSpriteSheet
+		SpriteSheet = Class.ClassSpriteSheet
 		Hframes = Class.Hframes
 		Vframes = Class.Vframes
-	if MyAnimationLibrary == null:
+	
+	else:
+		SpriteSheet = CharacterSpriteSheet
+		Hframes = CharacterHframes
+		Vframes = CharacterVframes
+		
+	if CharacterAnimationLibrary == null:
 		MyAnimationLibrary = Class.MyAnimationLibrary
+	else:
+		MyAnimationLibrary = CharacterAnimationLibrary
 
 func SetStats():
 	#int() correctly ignores decimals

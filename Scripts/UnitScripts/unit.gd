@@ -43,7 +43,9 @@ var ActiveStatuses: Dictionary = {}
 var AbilityStates: Dictionary = {}
 
 var ActionTarget : Unit
+var CurrentTile: Vector2i
 
+var IsMobile: bool = true
 ######################
 #       STATS        #
 ######################
@@ -165,7 +167,7 @@ func SetData(spawn_level: int = -1):
 	
 	Data.ClassOverride()
 	
-	Sprite.texture = Data.CharacterSpriteSheet
+	Sprite.texture = Data.SpriteSheet
 	Sprite.hframes = Data.Hframes
 	Sprite.vframes = Data.Vframes
 	Sprite.frame = 0

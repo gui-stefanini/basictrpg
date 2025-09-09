@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dv3gsi7p1j248"]
+[gd_scene load_steps=14 format=3 uid="uid://dv3gsi7p1j248"]
 
 [ext_resource type="Script" uid="uid://j5ltnkbxw3sf" path="res://Scripts/Autoloads/DataHolders/location_list.gd" id="1_0e8bv"]
 [ext_resource type="Resource" uid="uid://cxfdwyf2n7cqm" path="res://Resources/Data/LevelData/level_0_data.tres" id="2_pof3c"]
@@ -11,6 +11,8 @@
 [ext_resource type="Resource" uid="uid://dwm6qfyag302y" path="res://Resources/Data/EventData/event_4_data.tres" id="9_bap35"]
 [ext_resource type="Resource" uid="uid://bfpwldsjm2cxt" path="res://Resources/Data/EventData/event_5_data.tres" id="10_mcb4m"]
 [ext_resource type="Resource" uid="uid://dgigid5agiv4b" path="res://Resources/Data/EventData/event_6_data.tres" id="11_sn4ij"]
+[ext_resource type="Resource" uid="uid://cku8kq778w8xn" path="res://Resources/Data/EventData/event_7_data.tres" id="12_fdwc8"]
+[ext_resource type="Resource" uid="uid://cx2i5pymfuy6r" path="res://Resources/Data/EventData/event_8_data.tres" id="13_els23"]
 
 [node name="LocationList" type="Node"]
 script = ExtResource("1_0e8bv")
@@ -24,3 +26,5 @@ Event3 = ExtResource("8_tka4f")
 Event4 = ExtResource("9_bap35")
 Event5 = ExtResource("10_mcb4m")
 Event6 = ExtResource("11_sn4ij")
+Event7 = ExtResource("12_fdwc8")
+Event8 = ExtResource("13_els23")

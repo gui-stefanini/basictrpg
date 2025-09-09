@@ -48,10 +48,13 @@ func ClampIndexInArray(current_index: int, direction: int, array: Array) -> int:
 	var array_size: int = array.size()
 	return ClampIndex(current_index, direction, array_size)
 
-func AddUniqueArrays(base_array: Array, added_array: Array):
+func AddUniqueArrays(base_array: Array, added_array: Array) -> Array:
+	var new_array: Array = []
+	new_array.append_array(base_array)
 	for element in added_array:
 		if not base_array.has(element):
-			base_array.append(element)
+			new_array.append(element)
+	return new_array
 
 ##############################################################
 #                      3.0 Signal Functions                  #

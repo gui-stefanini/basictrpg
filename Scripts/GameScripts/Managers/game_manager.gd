@@ -190,6 +190,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	
 	if spawn_info.Faction != Unit.Factions.PLAYER:
 		new_unit.AI = spawn_info.AI
+		new_unit.IsMobile = spawn_info.AI.IsMobile
 	
 	new_unit.SetData(spawn_info.CharacterLevel)
 	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction)[0], unit_data.Name, NumberOfUnits]
@@ -209,6 +210,8 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 	var tile_global_position = GroundGrid.to_global(tile_grid_position)
 	new_unit.global_position = tile_global_position
+	
+	new_unit.CurrentTile = tile_grid_position
 	
 	new_unit.unit_died.connect(_on_unit_died)
 	new_unit.vfx_requested.connect(_on_vfx_requested)
@@ -263,12 +266,15 @@ func StartPlayerTurn():
 func OnPlayerActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
 	MyActionMenu.ShowMenu(ActiveUnit)
+	ActiveUnit.PlayIdleAnimation()
+	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
 
 func EndPlayerTurn():
 	if not ActiveUnit: return
+	ActiveUnit.StopAnimation()
 	
-	var unit_tile = GroundGrid.local_to_map(ActiveUnit.global_position)
-	unit_turn_ended.emit(ActiveUnit, unit_tile)
+	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
+	unit_turn_ended.emit(ActiveUnit, ActiveUnit.CurrentTile)
 	
 	UnitsWhoHaveActed.append(ActiveUnit)
 	ActiveUnit.SetInactive()

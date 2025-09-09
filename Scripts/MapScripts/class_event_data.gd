@@ -1,5 +1,7 @@
-class_name KnightAI
-extends AIBehavior
+class_name ClassEventData
+
+extends EventData
+
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -10,29 +12,27 @@ extends AIBehavior
 ######################
 #     REFERENCES     #
 ######################
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
+@export var Character: CharacterData
+@export var ClassResource: ClassData
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func execute_turn(owner: Unit, manager: GameManager):
-	print(owner.Data.Name + " is thinking like a Knight...")
-	
-	if owner.HPPercent <= 0.4:
-		var rand = GeneralFunctions.RandomizeInt(1, 100)
-		if rand <= 66:
-			await DefendCommand(owner, manager)
-			return
-	
-	if owner.IsMobile == false:
-		await ExecuteOffensiveRoutine(owner, manager)
-		if owner.HasActed == true:
-			owner.IsMobile = true
+func play_event():
+	if not GameData.PlayerArmy.has(Character):
 		return
 	
-	await ExecuteMoveOffensiveRoutine(owner, manager)
+	Character.Class = ClassResource
+	
+	Character.ClassOverride()
+	
+	ClearLocationData()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

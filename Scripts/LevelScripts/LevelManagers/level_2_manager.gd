@@ -15,6 +15,14 @@ extends LevelManager
 ######################
 @export var EscapeTiles: Array[Vector2i]
 
+var FirstEnemyGroup: Array[Unit]
+var FirstEnemyGroupStatic: bool = true
+@export var FirstEnemyGroupAggroRangeX : int
+
+var SecondEnemyGroup: Array[Unit]
+var SecondEnemyGroupStatic: bool = true
+@export var SecondEnemyGroupAggroRangeX : int
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -28,6 +36,11 @@ func _on_level_set():
 	for tile in EscapeTiles:
 		# Draws the yellow highlight tile (Source ID 1, Atlas Coords 3,0)
 		LevelHighlightLayer.set_cell(tile, 1, Vector2i(3, 0))
+	
+	FirstEnemyGroup.append(EnemyUnits[0])
+	
+	SecondEnemyGroup.append(EnemyUnits[1])
+	SecondEnemyGroup.append(EnemyUnits[2])
 
 func _on_turn_started(turn_number: int):
 	var reinforcements : Array[SpawnInfo]
@@ -44,6 +57,19 @@ func _on_turn_started(turn_number: int):
 
 func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
 	if unit.Faction == Unit.Factions.PLAYER:
+	
+		if FirstEnemyGroupStatic == true:
+			if unit_tile.x < FirstEnemyGroupAggroRangeX:
+				for enemy in FirstEnemyGroup:
+					enemy.IsMobile = true
+				FirstEnemyGroupStatic = false
+		
+		if SecondEnemyGroupStatic == true:
+			if unit_tile.x < SecondEnemyGroupAggroRangeX:
+				for enemy in SecondEnemyGroup:
+					enemy.IsMobile = true
+				SecondEnemyGroupStatic = false
+		
 		if unit_tile in EscapeTiles:
 			print("%s has escaped!" % unit.Data.Name)
 			victory.emit()

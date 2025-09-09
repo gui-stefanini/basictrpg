@@ -39,7 +39,7 @@ func UpdateLocation():
 			Sprite.frame_coords = Vector2i(2,0)
 			return
 		
-		if MyLocationData.Cleared == true:
+		if MyLocationData.Cleared == true and MyLocationData.Repeatable == false:
 			Sprite.frame_coords = Vector2i(1,0)
 			return
 		
@@ -50,7 +50,7 @@ func UpdateLocation():
 			Sprite.frame_coords = Vector2i(2,1)
 			return
 		
-		if MyLocationData.Cleared == true:
+		if MyLocationData.Cleared == true and MyLocationData.Repeatable == false:
 			Sprite.frame_coords = Vector2i(1,1)
 			return
 		

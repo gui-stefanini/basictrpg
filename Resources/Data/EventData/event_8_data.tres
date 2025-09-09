@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ClassEventData" load_steps=4 format=3 uid="uid://cx2i5pymfuy6r"]
+
+[ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="1_2grae"]
+[ext_resource type="Script" uid="uid://by68of2l1ep8n" path="res://Scripts/MapScripts/class_event_data.gd" id="1_v2kwo"]
+[ext_resource type="Resource" uid="uid://b3n71tqx5rrv7" path="res://Resources/Data/ClassData/PlayerClassData/knight_data.tres" id="2_7pd56"]
+
+[resource]
+script = ExtResource("1_v2kwo")
+Character = ExtResource("1_2grae")
+ClassResource = ExtResource("2_7pd56")
+EventDescription = "Test - Axolot becomes knight"
+Name = "Axolot - Knight Class"
+Locked = true
+Cleared = false
+Repeatable = true
+UnlockableLocations = Array[String](["Event7"])
+LockableLocations = Array[String](["Event8"])
+metadata/_custom_type_script = "uid://by68of2l1ep8n"

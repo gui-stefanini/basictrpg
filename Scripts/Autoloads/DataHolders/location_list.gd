@@ -22,6 +22,8 @@ extends Node
 @export var Event4: LocationData
 @export var Event5: LocationData
 @export var Event6: LocationData
+@export var Event7: LocationData
+@export var Event8: LocationData
 
 ######################
 #     SCRIPT-WIDE    #

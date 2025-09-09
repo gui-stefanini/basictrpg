@@ -21,6 +21,7 @@ extends Resource
 
 @export var Locked: bool = true
 @export var Cleared: bool = false
+@export var Repeatable: bool = false
 
 @export var UnlockableLocations: Array[String]
 @export var LockableLocations: Array[String]
