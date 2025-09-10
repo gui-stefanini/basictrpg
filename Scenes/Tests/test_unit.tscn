@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cawauhuijdnej"]
+[gd_scene load_steps=12 format=3 uid="uid://cawauhuijdnej"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_4tnkl"]
 [ext_resource type="Material" uid="uid://7w1v3fveurkr" path="res://Resources/Shaders/unit_shader_material.tres" id="2_0tfuv"]
+[ext_resource type="Script" uid="uid://dgh38djkkkdmo" path="res://Scripts/AIScripts/ai.gd" id="2_kd14x"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="3_5cpx2"]
 [ext_resource type="Texture2D" uid="uid://dx1h4jqtbuu74" path="res://Assets/Art/Sprites/Assassin/AssassinSpriteSheet_1.png" id="3_vo8lh"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="4_5yiaf"]
@@ -91,6 +92,9 @@ _data = {
 
 [node name="TestUnit" type="Node2D"]
 script = ExtResource("1_4tnkl")
+
+[node name="AI" type="Node" parent="."]
+script = ExtResource("2_kd14x")
 
 [node name="RotationTracker" type="Node2D" parent="."]
 

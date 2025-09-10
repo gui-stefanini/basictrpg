@@ -15,6 +15,7 @@ extends Resource
 ######################
 
 @export var IsMobile : bool = true
+@export var IgnorePlayers: bool = false
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -101,6 +102,39 @@ func HealRoutine(owner: Unit, manager: GameManager):
 		print("%s chooses to heal %s" % [owner.Data.Name, target.Data.Name])
 		await HealCommand(owner, manager, target)
 
+func MovementRoutine(owner: Unit, manager: GameManager, path: Array[Vector2i]):
+	var path_within_move_range: Array[Vector2i] = []
+	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
+	
+	for tile in path:
+		if tile == enemy_tile:
+			continue
+		if tile in reachable_tiles:
+			path_within_move_range.append(tile)
+		else:
+			break
+	
+	var final_destination = enemy_tile
+	if not path_within_move_range.is_empty():
+		final_destination = path_within_move_range.back()
+		if final_destination != enemy_tile:
+			await MoveCommand(owner, manager, final_destination)
+
+func TileMovementRoutine(owner: Unit, manager: GameManager, target_tiles: Array[Vector2i]):
+	var valid_tiles = AILogic.GetValidTiles(owner, manager, target_tiles)
+	if valid_tiles.is_empty():
+		print("%s has no valid path to any target tile." % owner.Data.Name)
+		return
+	
+	valid_tiles.sort_custom(func(a, b): 
+		return a.cost < b.cost
+		)
+	
+	var best_tile = valid_tiles[0]
+	var path_to_destination = best_tile["path"]
+	await MovementRoutine(owner, manager, path_to_destination)
+
 func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var valid_targets = AILogic.GetValidTargets(owner, manager, targets)
 	if valid_targets.is_empty():
@@ -115,24 +149,7 @@ func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Uni
 	var target_player = best_target["target"]
 	var path_to_destination = best_target["path"]
 	print(target_player)
-	var path_within_move_range: Array[Vector2i] = []
-	
-	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
-	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
-	
-	for tile in path_to_destination:
-		if tile == enemy_tile:
-			continue
-		if tile in reachable_tiles:
-			path_within_move_range.append(tile)
-		else:
-			break
-	
-	var final_destination = enemy_tile
-	if not path_within_move_range.is_empty():
-		final_destination = path_within_move_range.back()
-		if final_destination != enemy_tile:
-			await MoveCommand(owner, manager, final_destination)
+	await MovementRoutine(owner, manager, path_to_destination)
 
 func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 	var final_target_data = null
@@ -245,9 +262,9 @@ func ExecuteMoveHealingRoutine(owner: Unit, manager: GameManager):
 ######################
 #    AI TURN LOGIC   #
 ######################
-func execute_turn(owner: Unit, _manager: GameManager):
+func execute_turn(_owner: Unit, _manager: GameManager):
 	# Await is needed for the function to be async.
-	await owner.get_tree().create_timer(0.01).timeout
+	await GeneralFunctions.Wait(0.01)
 	pass
 
 ##############################################################

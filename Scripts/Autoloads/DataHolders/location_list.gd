@@ -15,6 +15,7 @@ extends Node
 @export var Level1 : LocationData
 @export var Level2 : LocationData
 @export var Level3 : LocationData
+@export var Level4 : LocationData
 
 @export var Event1: LocationData
 @export var Event2: LocationData

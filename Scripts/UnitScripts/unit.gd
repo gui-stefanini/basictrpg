@@ -19,7 +19,7 @@ signal unit_died(unit: Unit)
 #     REFERENCES     #
 ######################
 @export var Data: CharacterData
-@export var AI: AIBehavior
+@export var MyAI: AI
 @export var RotationTracker: Node2D
 @export var Sprite: Sprite2D
 @export var MyAnimationPlayer: AnimationPlayer
@@ -45,7 +45,6 @@ var AbilityStates: Dictionary = {}
 var ActionTarget : Unit
 var CurrentTile: Vector2i
 
-var IsMobile: bool = true
 ######################
 #       STATS        #
 ######################

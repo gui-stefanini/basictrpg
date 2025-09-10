@@ -12,6 +12,7 @@ EventDescription = "Mantis chooses violence! Attack +1"
 Name = "Mantis Upgrade"
 Locked = true
 Cleared = false
+Repeatable = false
 UnlockableLocations = Array[String](["Level3"])
 LockableLocations = Array[String](["Event5", "Event6"])
 metadata/_custom_type_script = "uid://cv4w4iswuo1se"

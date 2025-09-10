@@ -23,13 +23,31 @@ extends Node
 #                      2.1  TARGET FINDING                   #
 ##############################################################
 
-func GetValidActionTiles(unit: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
-	var move_data_name = unit.Data.MovementType.Name
+func GetValidTiles(ai_owner: Unit, manager: GameManager, tiles: Array[Vector2i]) -> Array:
+	var valid_tiles = []
+	
+	for tile in tiles:
+		var path = manager.MyMoveManager.FindPath(ai_owner, manager.GroundGrid.local_to_map(ai_owner.global_position), tile)
+		if not path.is_empty():
+			var tile_info = {
+				"destination": tile,
+				"path": path.path,
+				"cost": path.cost
+			}
+			valid_tiles.append(tile_info)
+	
+	if valid_tiles.is_empty():
+		print("No possible tiles")
+	
+	return valid_tiles
+
+func GetValidActionTiles(ai_owner: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
+	var move_data_name = ai_owner.Data.MovementType.Name
 	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
 	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
-	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, unit.AttackRange)
-	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(unit)
+	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, ai_owner.AttackRange)
+	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(ai_owner)
 
 	for tile in tiles_in_range:
 		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):

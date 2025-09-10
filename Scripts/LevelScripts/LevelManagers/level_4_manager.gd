@@ -1,4 +1,4 @@
-class_name BossLevelManager
+class_name DefendLevelManager
 extends LevelManager
 ##############################################################
 #                      0.0 Signals                           #
@@ -14,7 +14,7 @@ extends LevelManager
 #     SCRIPT-WIDE    #
 ######################
 
-var BossUnits: Array[Unit]
+@export var DefendTiles: Array[Vector2i]
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -25,9 +25,11 @@ var BossUnits: Array[Unit]
 ##############################################################
 
 func _on_level_set():
-	for unit in EnemyUnits:
-		if unit.Data.Boss == true:
-			BossUnits.append(unit)
+	if not LevelHighlightLayer: return
+	
+	for tile in DefendTiles:
+		# Draws the yellow highlight tile (Source ID 1, Atlas Coords 3,0)
+		LevelHighlightLayer.set_cell(tile, 1, Vector2i(3, 0))
 
 func _on_turn_started(turn_number: int):
 	var reinforcements : Array[SpawnInfo]
@@ -35,13 +37,29 @@ func _on_turn_started(turn_number: int):
 		2:
 			reinforcements.append(EnemyReinforcements[0])
 			reinforcements.append(EnemyReinforcements[1])
-		4:
+		3:
 			reinforcements.append(EnemyReinforcements[2])
 			reinforcements.append(EnemyReinforcements[3])
-		6:
-			reinforcements.append(EnemyReinforcements[4])
-			reinforcements.append(EnemyReinforcements[5])
 	request_spawn.emit(reinforcements)
+
+func _on_turn_ended(turn_number: int):
+	match turn_number:
+		5:
+			print("defense successful")
+			victory.emit()
+
+func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
+	if unit.Faction == Unit.Factions.ENEMY:
+		if unit_tile in DefendTiles:
+			print("%s has breached the defenses!" % unit.Data.Name)
+			defeat.emit()
+
+func _on_unit_spawned(unit: Unit):
+	if unit.Faction == Unit.Factions.PLAYER:
+		PlayerUnits.append(unit)
+	elif unit.Faction == Unit.Factions.ENEMY:
+		EnemyUnits.append(unit)
+		unit.MyAI.TargetTiles = DefendTiles
 
 func _on_unit_died(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
@@ -50,13 +68,6 @@ func _on_unit_died(unit: Unit):
 		print("All player units defeated!")
 		defeat.emit()
 		return
-	
-	if unit in BossUnits:
-		print("%s, a boss, has been defeated!" % unit.Data.Name)
-		BossUnits.erase(unit)
-		
-		if BossUnits.is_empty():
-			victory.emit()
 
 ##############################################################
 #                      4.0 Godot Functions                   #

@@ -11,6 +11,7 @@ PlayerCount = 1
 Name = "Level 0"
 Locked = true
 Cleared = false
+Repeatable = false
 UnlockableLocations = Array[String](["Event2", "Level1"])
 LockableLocations = Array[String]([])
 metadata/_custom_type_script = "uid://web3er5e1sbv"

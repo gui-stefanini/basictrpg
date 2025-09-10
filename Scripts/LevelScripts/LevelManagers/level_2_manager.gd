@@ -1,4 +1,4 @@
-class_name Level2Manager
+class_name EscapeLevelManager
 extends LevelManager
 ##############################################################
 #                      0.0 Signals                           #
@@ -61,13 +61,13 @@ func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
 		if FirstEnemyGroupStatic == true:
 			if unit_tile.x < FirstEnemyGroupAggroRangeX:
 				for enemy in FirstEnemyGroup:
-					enemy.IsMobile = true
+					enemy.MyAI.IsMobile = true
 				FirstEnemyGroupStatic = false
 		
 		if SecondEnemyGroupStatic == true:
 			if unit_tile.x < SecondEnemyGroupAggroRangeX:
 				for enemy in SecondEnemyGroup:
-					enemy.IsMobile = true
+					enemy.MyAI.IsMobile = true
 				SecondEnemyGroupStatic = false
 		
 		if unit_tile in EscapeTiles:

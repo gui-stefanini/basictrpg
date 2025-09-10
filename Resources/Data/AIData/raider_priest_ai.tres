@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PriestAI" load_steps=2 format=3 uid="uid://cu2p5k7dhklnt"]
+
+[ext_resource type="Script" uid="uid://d4j5a6nfyku4t" path="res://Scripts/AIScripts/priest_ai.gd" id="1_cg2tj"]
+
+[resource]
+script = ExtResource("1_cg2tj")
+IsMobile = true
+IgnorePlayers = true
+metadata/_custom_type_script = "uid://d4j5a6nfyku4t"

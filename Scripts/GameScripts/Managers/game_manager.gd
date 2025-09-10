@@ -189,8 +189,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	new_unit.Faction = spawn_info.Faction
 	
 	if spawn_info.Faction != Unit.Factions.PLAYER:
-		new_unit.AI = spawn_info.AI
-		new_unit.IsMobile = spawn_info.AI.IsMobile
+		new_unit.MyAI.SetBehavior(spawn_info.Behavior)
 	
 	new_unit.SetData(spawn_info.CharacterLevel)
 	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction)[0], unit_data.Name, NumberOfUnits]
@@ -284,7 +283,6 @@ func EndPlayerTurn():
 		HideUI()
 		for unit in PlayerUnits:
 			unit.SetActive()
-		turn_ended.emit(TurnNumber)
 		await GeneralFunctions.Wait(0.5)
 		await StartEnemyTurn()
 	else:
@@ -299,11 +297,12 @@ func StartEnemyTurn():
 		await GeneralFunctions.Wait(0.2)
 		enemy.StartTurn()
 		print(enemy.Data.Name + " is taking its turn.")
-		await enemy.AI.execute_turn(enemy, self)
+		await enemy.MyAI.execute_turn(enemy, self)
 		var enemy_tile = GroundGrid.local_to_map(enemy.global_position) 
 		unit_turn_ended.emit(enemy, enemy_tile)
 	
 	print("--- Enemy Turn Ends ---")
+	turn_ended.emit(TurnNumber)
 	StartPlayerTurn()
 
 func EndGame(player_won: bool):

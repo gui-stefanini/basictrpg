@@ -12,6 +12,7 @@ EventDescription = "Orca cheats! Range +1"
 Name = "Orca Upgrade"
 Locked = true
 Cleared = false
+Repeatable = false
 UnlockableLocations = Array[String](["Level3"])
 LockableLocations = Array[String](["Event4", "Event5"])
 metadata/_custom_type_script = "uid://cv4w4iswuo1se"

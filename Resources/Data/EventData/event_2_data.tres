@@ -10,6 +10,7 @@ EventDescription = "Mantis Joins the Army!"
 Name = "Mantis Recruitment"
 Locked = true
 Cleared = false
+Repeatable = false
 UnlockableLocations = Array[String]([])
 LockableLocations = Array[String]([])
 metadata/_custom_type_script = "uid://m30pwbw1d01m"

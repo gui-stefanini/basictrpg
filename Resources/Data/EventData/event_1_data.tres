@@ -10,6 +10,7 @@ EventDescription = "Axolot Joins the Army!"
 Name = "Axolot Recruitment"
 Locked = false
 Cleared = false
+Repeatable = false
 UnlockableLocations = Array[String](["Level0"])
 LockableLocations = Array[String]([])
 metadata/_custom_type_script = "uid://m30pwbw1d01m"
