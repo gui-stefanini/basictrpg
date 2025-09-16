@@ -1,5 +1,5 @@
-class_name KnightAI
-extends AIBehavior
+extends Node
+
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -10,24 +10,18 @@ extends AIBehavior
 ######################
 #     REFERENCES     #
 ######################
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
+@export var PlayerFactionColor: Color = Color("4169E1")
+@export var EnemyFactionColor: Color = Color("DC143C")
+@export var BossColor: Color = Color("DC143C")
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
-
-func execute_turn(owner: Unit, manager: GameManager):
-	print(owner.Data.Name + " is thinking like a Knight...")
-	
-	if owner.HPPercent <= 0.4:
-		var rand = GeneralFunctions.RandomizeInt(1, 100)
-		if rand <= 66:
-			await DefendCommand(owner, manager)
-			return
-	
-	var ai = owner.MyAI
-	ExecuteOffensiveLogic(owner, manager, ai)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -18,26 +18,10 @@ extends AIBehavior
 ##############################################################
 
 func execute_turn(owner: Unit, manager: GameManager):
-	var ai = owner.MyAI
 	print(owner.Data.Name + " is thinking like a Bandit...")
 	
-	if ai.IsMobile == false:
-		await ExecuteOffensiveRoutine(owner, manager)
-		if owner.HasActed == true:
-			ai.IsMobile = true
-		return
-	
-	if not ai.TargetTiles.is_empty():
-		if not ai.IgnorePlayers:
-			await ExecuteOffensiveRoutine(owner, manager)
-			if owner.HasActed == true:
-				return
-		
-		await TileMovementRoutine(owner, manager, owner.TargetTiles)
-		return
-	
-	await ExecuteMoveOffensiveRoutine(owner, manager)
-	
+	var ai = owner.MyAI
+	await ExecuteOffensiveLogic(owner, manager, ai)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -128,9 +128,9 @@ func UpdateUnitPanel():
 	var unit_faction = CurrentUnit.Faction
 	match unit_faction:
 		Unit.Factions.PLAYER:
-			UnitSprite.material.set_shader_parameter("new_color", CurrentUnit.PlayerFactionColor)
+			UnitSprite.material.set_shader_parameter("new_color", ColorList.PlayerFactionColor)
 		Unit.Factions.ENEMY:
-			UnitSprite.material.set_shader_parameter("new_color", CurrentUnit.EnemyFactionColor)
+			UnitSprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
 	
 	NameLabel.text = CurrentUnit.Data.Name
 	HPLabel.text = "HP: %d/%d" % [CurrentUnit.CurrentHP, CurrentUnit.MaxHP]

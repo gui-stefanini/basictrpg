@@ -24,9 +24,7 @@ signal unit_died(unit: Unit)
 @export var Sprite: Sprite2D
 @export var MyAnimationPlayer: AnimationPlayer
 @export var HealthBar: Control
-@export var PlayerFactionColor: Color = Color("4169E1")
-@export var EnemyFactionColor: Color = Color("DC143C")
-@export var BossColor: Color = Color("DC143C")
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -158,14 +156,7 @@ func SetInactive():
 func SetActive():
 	Sprite.material.set_shader_parameter("grayscale_modifier", 0.0)
 
-func SetData(spawn_level: int = -1):
-	#When no Generic, it IS supposed to be able to edit the character data itself
-	if Data.Generic == true:
-		Data = Data.duplicate()
-		Data.CharacterLevel = spawn_level
-	
-	Data.ClassOverride()
-	
+func SetSprite():
 	Sprite.texture = Data.SpriteSheet
 	Sprite.hframes = Data.Hframes
 	Sprite.vframes = Data.Vframes
@@ -177,19 +168,31 @@ func SetData(spawn_level: int = -1):
 	
 	match Faction:
 		Factions.PLAYER:
-			Sprite.material.set_shader_parameter("new_color", PlayerFactionColor)
+			Sprite.material.set_shader_parameter("new_color", ColorList.PlayerFactionColor)
 		Factions.ENEMY:
 			if Data.Boss == true:
-				Sprite.material.set_shader_parameter("new_color",BossColor)
+				Sprite.material.set_shader_parameter("new_color", ColorList.BossColor)
 			else:
-				Sprite.material.set_shader_parameter("new_color", EnemyFactionColor)
-	
+				Sprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
+
+func SetSkills():
 	for ability in Data.Abilities:
 		ability.connect_listeners(self)
 		ability.apply_ability(self)
 	
 	for action in Data.Actions:
 		action.connect_listeners(self)
+
+func SetData(spawn_level: int = -1):
+	#When no Generic, it IS supposed to be able to edit the character data itself
+	if Data.Generic == true:
+		Data = Data.duplicate()
+		Data.CharacterLevel = spawn_level
+	Data.ClassOverride()
+	
+	SetSkills()
+	SetSprite()
+
 
 func CopyState(target : Unit):
 	Data = target.Data.duplicate()

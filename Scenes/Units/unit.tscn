@@ -14,14 +14,14 @@ _data = {
 &"default": SubResource("Animation_inn8i")
 }
 
-[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("RotationTracker", "Sprite", "MyAnimationPlayer", "HealthBar")]
+[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("MyAI", "RotationTracker", "Sprite", "MyAnimationPlayer", "HealthBar")]
 z_index = 5
 script = ExtResource("1_c86kq")
+MyAI = NodePath("AI")
 RotationTracker = NodePath("RotationTracker")
 Sprite = NodePath("RotationTracker/MoveTracker/Sprite")
 MyAnimationPlayer = NodePath("AnimationPlayer")
 HealthBar = NodePath("RotationTracker/MoveTracker/HealthBar")
-BossColor = Color(0.38, 0.0359733, 0.0114, 1)
 
 [node name="AI" type="Node" parent="."]
 script = ExtResource("2_fqcdl")

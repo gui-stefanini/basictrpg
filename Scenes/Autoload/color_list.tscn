@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://f6ld6fcxuavh"]
+
+[ext_resource type="Script" uid="uid://b6j5k27fewjqu" path="res://Scripts/Autoloads/DataHolders/color_list.gd" id="1_c4elk"]
+
+[node name="ColorList" type="Node"]
+script = ExtResource("1_c4elk")
+BossColor = Color(0.415678, 0.0398539, 0.0628675, 1)
