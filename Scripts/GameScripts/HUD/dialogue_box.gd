@@ -1,4 +1,4 @@
-extends DefendLevelManager
+extends CanvasLayer
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -10,7 +10,8 @@ extends DefendLevelManager
 ######################
 #     REFERENCES     #
 ######################
-
+@export var TextLabel : Label
+var MyGameManager : GameManager
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -18,22 +19,34 @@ extends DefendLevelManager
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+func Initialize(game_manager: GameManager):
+	MyGameManager = game_manager
+
+func ConnectInputSignals():
+	InputManager.confirm_pressed.connect(AdvanceText)
+	InputManager.cancel_pressed.connect(AdvanceText)
+
+func ClearInputSignals():
+	InputManager.confirm_pressed.disconnect(AdvanceText)
+	InputManager.cancel_pressed.disconnect(AdvanceText)
+
+func DisplayText(text: String):
+	MyGameManager.ClearInputSignals()
+	TextLabel.text = text
+	show()
+	ConnectInputSignals()
+
+func AdvanceText():
+	TextLabel.text = ""
+	ClearInputSignals()
+	hide()
+	MyGameManager.ConnectInputSignals()
+
 
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
-func _on_turn_started(turn_number: int):
-	var reinforcements : Array[SpawnInfo]
-	match turn_number:
-		2:
-			reinforcements.append(EnemyReinforcements[0])
-			reinforcements.append(EnemyReinforcements[1])
-		3:
-			reinforcements.append(EnemyReinforcements[2])
-			reinforcements.append(EnemyReinforcements[3])
-	CallReinforcements(reinforcements)
-	
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################

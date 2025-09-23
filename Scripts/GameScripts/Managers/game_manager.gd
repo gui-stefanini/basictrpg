@@ -28,6 +28,7 @@ signal unit_removed(unit: Unit)
 @export var ActionForecast: PanelContainer
 @export var MyCursor: GridCursor
 
+@export var DialogueBox: CanvasLayer
 @export var InfoScreen: CanvasLayer
 @export var EndScreen: CanvasLayer
 
@@ -42,7 +43,7 @@ var HighlightLayer : TileMapLayer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum GameState {NULL, PLAYER_TURN, ENEMY_TURN}
+enum GameState {NULL, PLAYER_TURN, ENEMY_TURN, END}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 var CurrentGameState = GameState.NULL
 var CurrentSubState = SubState.NULL
@@ -98,8 +99,10 @@ func SetAuxiliaryManagers():
 	MyMoveManager.Initialize(self)
 	MyActionManager.Initialize(self)
 
-func SetInfoScreen():
+func SetHUD():
 	InfoScreen.Initialize(self)
+	DialogueBox.Initialize(self)
+	SetCursor()
 
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
@@ -274,6 +277,8 @@ func EndPlayerTurn():
 	
 	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
 	unit_turn_ended.emit(ActiveUnit, ActiveUnit.CurrentTile)
+	if CurrentGameState == GameState.END:
+		return
 	
 	UnitsWhoHaveActed.append(ActiveUnit)
 	ActiveUnit.SetInactive()
@@ -297,7 +302,7 @@ func StartEnemyTurn():
 		await GeneralFunctions.Wait(0.2)
 		enemy.StartTurn()
 		print(enemy.Data.Name + " is taking its turn.")
-		await enemy.MyAI.execute_turn(enemy, self)
+		await enemy.MyAI.Behavior.execute_turn(enemy, self)
 		var enemy_tile = GroundGrid.local_to_map(enemy.global_position) 
 		unit_turn_ended.emit(enemy, enemy_tile)
 	
@@ -307,12 +312,15 @@ func StartEnemyTurn():
 
 func EndGame(player_won: bool):
 	HideUI()
+	CurrentGameState = GameState.END
 	
 	if player_won == true:
 		for unit in PlayerUnits:
+			unit.RequestVFX(VfxList.UnitVFX, "levelup")
 			unit.Data.LevelUp()
 		GameData.ClearLevel()
 		SaveManager.Save()
+		await GeneralFunctions.Wait(1.5)
 	
 	get_tree().paused = true
 	EndScreen.ShowEndScreen(player_won)
@@ -464,6 +472,9 @@ func _on_action_menu_action_selected(action: Action) -> void:
 func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
 	SpawnUnitGroup(spawn_array)
 
+func _on_dialogue_requested(text: String):
+	DialogueBox.DisplayText(text)
+
 func _on_unit_died(unit: Unit):
 	if unit in PlayerUnits:
 		PlayerUnits.erase(unit)
@@ -507,9 +518,8 @@ func _ready() -> void:
 	DefinePlayerUnits()
 	SpawnStartingUnits()
 	
-	SetInfoScreen()
-	SetCursor()
 	SetAudio()
+	SetHUD()
 	
 	ConnectInputSignals()
 	

@@ -7,4 +7,5 @@ script = ExtResource("1_np7wf")
 TimeManager = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="."]
+process_mode = 3
 one_shot = true

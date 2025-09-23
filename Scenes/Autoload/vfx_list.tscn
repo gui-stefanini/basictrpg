@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1ge4iyeej7gs"]
+
+[ext_resource type="Script" uid="uid://vh8yo3d13n2s" path="res://Scripts/Autoloads/DataHolders/vfx_list.gd" id="1_oj8b7"]
+[ext_resource type="Resource" uid="uid://bo1jb0ajkij3m" path="res://Resources/Data/VFXData/unit_vfx.tres" id="2_qypjt"]
+
+[node name="VFXList" type="Node"]
+script = ExtResource("1_oj8b7")
+UnitVFX = ExtResource("2_qypjt")

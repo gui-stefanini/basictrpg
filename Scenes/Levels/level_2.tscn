@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://b4y6w0s7t7xsd" path="res://Resources/Data/AIData/static_bandit_ai.tres" id="5_yxf76"]
 [ext_resource type="Resource" uid="uid://cjhm75d2iuhl1" path="res://Resources/Data/CharacterData/GenericCharacters/generic_bandit.tres" id="6_t27xo"]
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="6_u40f0"]
-[ext_resource type="Script" uid="uid://cn52isv3hb1pm" path="res://Scripts/LevelScripts/LevelManagers/level_2_manager.gd" id="7_fphuk"]
+[ext_resource type="Script" uid="uid://ds8ak7vpyu487" path="res://Scripts/LevelScripts/LevelManagers/level_2_manager.gd" id="7_fphuk"]
 [ext_resource type="Resource" uid="uid://cmeimwwr6o2u2" path="res://Resources/Data/AIData/static_priest_ai.tres" id="7_ia1lp"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="7_pnnky"]
 [ext_resource type="Resource" uid="uid://doklttvyy577j" path="res://Resources/Data/CharacterData/GenericCharacters/generic_priest.tres" id="8_yxf76"]
@@ -43,7 +43,7 @@ Character = ExtResource("4_eopvx")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(14, 8)
-AI = ExtResource("3_t27xo")
+Behavior = ExtResource("3_t27xo")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_uqiic"]
@@ -52,7 +52,7 @@ Character = ExtResource("6_t27xo")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(10, 5)
-AI = ExtResource("5_yxf76")
+Behavior = ExtResource("5_yxf76")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_eopvx"]
@@ -61,7 +61,7 @@ Character = ExtResource("8_yxf76")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(9, 8)
-AI = ExtResource("7_ia1lp")
+Behavior = ExtResource("7_ia1lp")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_0x4y1"]
@@ -70,7 +70,7 @@ Character = ExtResource("4_eopvx")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(19, 6)
-AI = ExtResource("3_8qsmg")
+Behavior = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_ia1lp"]
@@ -79,7 +79,7 @@ Character = ExtResource("4_eopvx")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(19, 8)
-AI = ExtResource("3_8qsmg")
+Behavior = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_5buja"]
@@ -88,7 +88,7 @@ Character = ExtResource("4_eopvx")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(19, 6)
-AI = ExtResource("3_8qsmg")
+Behavior = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_wyygt"]
@@ -97,7 +97,7 @@ Character = ExtResource("4_eopvx")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(2, 0)
-AI = ExtResource("3_8qsmg")
+Behavior = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_u87on"]
@@ -106,7 +106,7 @@ Character = ExtResource("4_eopvx")
 CharacterLevel = 2
 Faction = 1
 Position = Vector2i(4, 11)
-AI = ExtResource("3_8qsmg")
+Behavior = ExtResource("3_8qsmg")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level2" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer", "LevelHighlightLayer", "MyLevelManager")]
@@ -131,10 +131,11 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 
 [node name="Level2Manager" type="Node" parent="." node_paths=PackedStringArray("LevelHighlightLayer")]
 script = ExtResource("7_fphuk")
-EscapeTiles = Array[Vector2i]([Vector2i(0, 4), Vector2i(0, 5), Vector2i(0, 6), Vector2i(0, 7)])
 FirstEnemyGroupAggroRangeX = 14
 SecondEnemyGroupAggroRangeX = 7
+EscapeTiles = Array[Vector2i]([Vector2i(0, 4), Vector2i(0, 5), Vector2i(0, 6), Vector2i(0, 7)])
 LevelObjective = "Escape"
+LevelDialogue = "Sir Axolot: Someone must reach the castle."
 LevelBGM = ExtResource("14_eopvx")
 LevelHighlightLayer = NodePath("../LevelHighlightLayer")
 EnemyReinforcements = Array[ExtResource("2_fphuk")]([SubResource("Resource_0x4y1"), SubResource("Resource_ia1lp"), SubResource("Resource_5buja"), SubResource("Resource_wyygt"), SubResource("Resource_u87on")])

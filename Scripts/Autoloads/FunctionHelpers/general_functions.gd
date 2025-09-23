@@ -20,8 +20,7 @@ extends Node
 ##############################################################
 
 func Wait(seconds: float):
-	TimeManager.wait_time = seconds
-	TimeManager.start()
+	TimeManager.start(seconds)
 	await TimeManager.timeout
 
 func RandomizeInt(low: int, high: int, include : bool = true) -> int: 

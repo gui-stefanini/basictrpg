@@ -1,5 +1,5 @@
-extends DefendLevelManager
-
+class_name RoutLevelManager
+extends LevelManager
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -22,18 +22,17 @@ extends DefendLevelManager
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-
-func _on_turn_started(turn_number: int):
-	var reinforcements : Array[SpawnInfo]
-	match turn_number:
-		2:
-			reinforcements.append(EnemyReinforcements[0])
-			reinforcements.append(EnemyReinforcements[1])
-		3:
-			reinforcements.append(EnemyReinforcements[2])
-			reinforcements.append(EnemyReinforcements[3])
-	CallReinforcements(reinforcements)
+func _on_unit_died(unit: Unit):
+	print("%s has been defeated!" % unit.Data.Name)
 	
+	if PlayerUnits.is_empty():
+		print("All player units defeated!")
+		defeat.emit()
+	
+	elif EnemyUnits.is_empty():
+		print("All enemies defeated!")
+		victory.emit()
+
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################

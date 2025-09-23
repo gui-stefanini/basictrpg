@@ -10,7 +10,7 @@
 [ext_resource type="Resource" uid="uid://bpxdtgrdr8bm7" path="res://Resources/Data/AIData/knight_ai.tres" id="5_u5ghp"]
 [ext_resource type="Resource" uid="uid://doklttvyy577j" path="res://Resources/Data/CharacterData/GenericCharacters/generic_priest.tres" id="6_tjl6l"]
 [ext_resource type="Resource" uid="uid://cjhm75d2iuhl1" path="res://Resources/Data/CharacterData/GenericCharacters/generic_bandit.tres" id="8_3628d"]
-[ext_resource type="Script" uid="uid://bdi5ieubgr075" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_rb0md"]
+[ext_resource type="Script" uid="uid://ccf83gmo1qf4" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_rb0md"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="9_u5ghp"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="10_hwvp3"]
 [ext_resource type="AudioStream" uid="uid://cwp60xhelb8cb" path="res://Assets/Music/BGM/Battle1.ogg" id="14_k2mw1"]
@@ -35,7 +35,7 @@ Character = ExtResource("4_k2mw1")
 CharacterLevel = 1
 Faction = 1
 Position = Vector2i(15, 4)
-AI = ExtResource("5_u5ghp")
+Behavior = ExtResource("5_u5ghp")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_uy8f0"]
@@ -44,7 +44,7 @@ Character = ExtResource("6_tjl6l")
 CharacterLevel = 1
 Faction = 1
 Position = Vector2i(14, 8)
-AI = ExtResource("5_7r2dd")
+Behavior = ExtResource("5_7r2dd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_7r2dd"]
@@ -53,7 +53,7 @@ Character = ExtResource("8_3628d")
 CharacterLevel = 1
 Faction = 1
 Position = Vector2i(10, 5)
-AI = ExtResource("5_hwvp3")
+Behavior = ExtResource("5_hwvp3")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer", "LevelHighlightLayer", "MyLevelManager")]
@@ -79,4 +79,5 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 [node name="Level1Manager" type="Node" parent="."]
 script = ExtResource("9_rb0md")
 LevelObjective = "Defeat All Enemies"
+LevelDialogue = "Sir Axolot: We must defeat all enemies."
 LevelBGM = ExtResource("14_k2mw1")

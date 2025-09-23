@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://disl1khyc63rr" path="res://Scenes/TileMaps/highlight_layer.tscn" id="10_wnlxl"]
 [ext_resource type="PackedScene" uid="uid://djw4ditbnyjkc" path="res://Scenes/TileMaps/level_highlight_layer.tscn" id="11_jgaqf"]
 [ext_resource type="PackedScene" uid="uid://b2ldymljiiyjm" path="res://Scenes/TileMaps/coordinates_layer.tscn" id="12_x66yp"]
-[ext_resource type="Script" uid="uid://c2dwvyfroj1fr" path="res://Scripts/LevelScripts/LevelManagers/level_3_manager.gd" id="13_md4x4"]
+[ext_resource type="Script" uid="uid://c3jr4nq7mmae3" path="res://Scripts/LevelScripts/LevelManagers/level_3_manager.gd" id="13_md4x4"]
 [ext_resource type="Resource" uid="uid://cjhm75d2iuhl1" path="res://Resources/Data/CharacterData/GenericCharacters/generic_bandit.tres" id="14_1hf40"]
 [ext_resource type="AudioStream" uid="uid://inuggdyus0w6" path="res://Assets/Music/BGM/Boss1.ogg" id="20_wnlxl"]
 
@@ -42,7 +42,7 @@ Character = ExtResource("4_md4x4")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(4, 5)
-AI = ExtResource("3_sy7oa")
+Behavior = ExtResource("3_sy7oa")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_x1k1j"]
@@ -51,7 +51,7 @@ Character = ExtResource("6_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(4, 1)
-AI = ExtResource("5_md4x4")
+Behavior = ExtResource("5_md4x4")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_4ahh4"]
@@ -60,7 +60,7 @@ Character = ExtResource("6_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(4, 9)
-AI = ExtResource("5_md4x4")
+Behavior = ExtResource("5_md4x4")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_dl55b"]
@@ -69,7 +69,7 @@ Character = ExtResource("14_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(18, 4)
-AI = ExtResource("5_anjjd")
+Behavior = ExtResource("5_anjjd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_osqx1"]
@@ -78,7 +78,7 @@ Character = ExtResource("14_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(18, 6)
-AI = ExtResource("5_anjjd")
+Behavior = ExtResource("5_anjjd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_sy7oa"]
@@ -87,7 +87,7 @@ Character = ExtResource("14_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(10, 0)
-AI = ExtResource("5_anjjd")
+Behavior = ExtResource("5_anjjd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_md4x4"]
@@ -96,7 +96,7 @@ Character = ExtResource("14_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(10, 10)
-AI = ExtResource("5_anjjd")
+Behavior = ExtResource("5_anjjd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_1hf40"]
@@ -105,7 +105,7 @@ Character = ExtResource("14_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(9, 0)
-AI = ExtResource("5_anjjd")
+Behavior = ExtResource("5_anjjd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_13yca"]
@@ -114,7 +114,7 @@ Character = ExtResource("14_1hf40")
 CharacterLevel = 3
 Faction = 1
 Position = Vector2i(9, 10)
-AI = ExtResource("5_anjjd")
+Behavior = ExtResource("5_anjjd")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level3" type="Node2D" node_paths=PackedStringArray("GroundGrid", "HighlightLayer", "LevelHighlightLayer", "MyLevelManager")]
@@ -140,5 +140,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAIAAQAAAAI
 [node name="Level3Manager" type="Node" parent="."]
 script = ExtResource("13_md4x4")
 LevelObjective = "Defeat the Boss"
+LevelDialogue = "Sir Axolot: We must defeat the enemy leader."
 LevelBGM = ExtResource("20_wnlxl")
 EnemyReinforcements = Array[ExtResource("2_1hf40")]([SubResource("Resource_dl55b"), SubResource("Resource_osqx1"), SubResource("Resource_sy7oa"), SubResource("Resource_md4x4"), SubResource("Resource_1hf40"), SubResource("Resource_13yca")])

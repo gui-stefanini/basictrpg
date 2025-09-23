@@ -27,7 +27,7 @@ func execute_turn(owner: Unit, manager: GameManager):
 			return
 	
 	var ai = owner.MyAI
-	ExecuteOffensiveLogic(owner, manager, ai)
+	await ExecuteOffensiveLogic(owner, manager, ai)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

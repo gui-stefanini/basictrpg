@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=21 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/Managers/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="2_wg6t1"]
@@ -12,12 +12,16 @@
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="8_gunjt"]
 [ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/InGame/HUD/action_menu.tscn" id="9_iav25"]
 [ext_resource type="Resource" uid="uid://djj0huxmw2fd4" path="res://Resources/Data/MovementData/water_infantry_movement.tres" id="9_njqqu"]
-[ext_resource type="PackedScene" uid="uid://dg028svcnu8gy" path="res://Scenes/Menus/end_screen.tscn" id="10_fuy7q"]
+[ext_resource type="PackedScene" uid="uid://dg028svcnu8gy" path="res://Scenes/InGame/HUD/end_screen.tscn" id="10_fuy7q"]
 [ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/HUD/unit_info_panel.tscn" id="11_uj5f7"]
 [ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/HUD/action_forecast.tscn" id="12_v2ahw"]
 [ext_resource type="PackedScene" uid="uid://c6y6b8er1uee0" path="res://Scenes/InGame/HUD/info_screen.tscn" id="15_gunjt"]
+[ext_resource type="Script" uid="uid://bmcxbi2gtaufr" path="res://Scripts/GameScripts/HUD/dialogue_box.gd" id="15_omwm2"]
+[ext_resource type="Texture2D" uid="uid://cy2mpfkgxrhw0" path="res://Assets/Art/HUD/DialogueBox.png" id="17_njqqu"]
+[ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="18_qeoma"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="19_omwm2"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "DialogueBox", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
@@ -27,6 +31,7 @@ ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 SelectedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 MyCursor = NodePath("GridCursor")
+DialogueBox = NodePath("DialogueBox")
 InfoScreen = NodePath("InfoScreen")
 EndScreen = NodePath("EndScreen")
 MyMoveManager = NodePath("MoveManager")
@@ -59,6 +64,44 @@ offset_bottom = 192.0
 
 [node name="ActionForecast" parent="." instance=ExtResource("12_v2ahw")]
 visible = false
+
+[node name="DialogueBox" type="CanvasLayer" parent="." node_paths=PackedStringArray("TextLabel")]
+script = ExtResource("15_omwm2")
+TextLabel = NodePath("EventPanel/MarginContainer/Label")
+
+[node name="EventPanel" type="NinePatchRect" parent="DialogueBox"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("17_njqqu")
+region_rect = Rect2(28, 27, 34, 36)
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueBox/EventPanel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 5.0
+offset_right = 301.0
+offset_bottom = 55.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 6
+
+[node name="Label" type="Label" parent="DialogueBox/EventPanel/MarginContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("18_qeoma")
+label_settings = ExtResource("19_omwm2")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="InfoScreen" parent="." instance=ExtResource("15_gunjt")]
 visible = false

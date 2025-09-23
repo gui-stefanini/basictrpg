@@ -21,7 +21,7 @@ func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.Data.Name + " is thinking like a Priest...")
 	
 	var ai = owner.MyAI
-	ExecuteSupportLogic(owner, manager, ai)
+	await ExecuteSupportLogic(owner, manager, ai)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

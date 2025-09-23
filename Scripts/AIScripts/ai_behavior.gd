@@ -276,7 +276,7 @@ func ExecuteOffensiveLogic(owner: Unit, manager: GameManager, ai: AI):
 			if owner.HasActed == true:
 				return
 		
-		await TileMovementRoutine(owner, manager, owner.TargetTiles)
+		await TileMovementRoutine(owner, manager, ai.TargetTiles)
 		return
 
 	await ExecuteMoveOffensiveRoutine(owner, manager)
@@ -303,7 +303,7 @@ func ExecuteSupportLogic(owner: Unit, manager: GameManager, ai: AI):
 			if owner.HasActed == true:
 				return
 		
-		await TileMovementRoutine(owner, manager, owner.TargetTiles)
+		await TileMovementRoutine(owner, manager, ai.TargetTiles)
 		return
 	
 	await ExecuteMoveHealingRoutine(owner, manager)

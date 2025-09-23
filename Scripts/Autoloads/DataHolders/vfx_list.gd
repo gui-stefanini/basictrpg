@@ -1,4 +1,4 @@
-extends DefendLevelManager
+extends Node
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -10,6 +10,8 @@ extends DefendLevelManager
 ######################
 #     REFERENCES     #
 ######################
+
+@export var UnitVFX: VFXData
 
 ######################
 #     SCRIPT-WIDE    #
@@ -23,17 +25,6 @@ extends DefendLevelManager
 #                      3.0 Signal Functions                  #
 ##############################################################
 
-func _on_turn_started(turn_number: int):
-	var reinforcements : Array[SpawnInfo]
-	match turn_number:
-		2:
-			reinforcements.append(EnemyReinforcements[0])
-			reinforcements.append(EnemyReinforcements[1])
-		3:
-			reinforcements.append(EnemyReinforcements[2])
-			reinforcements.append(EnemyReinforcements[3])
-	CallReinforcements(reinforcements)
-	
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################

@@ -9,6 +9,8 @@ signal victory
 signal defeat
 @warning_ignore("unused_signal")
 signal request_spawn(spawn_array: Array[SpawnInfo])
+@warning_ignore("unused_signal")
+signal request_dialogue(text: String)
 
 ##############################################################
 #                      1.0 Variables                         #
@@ -17,6 +19,7 @@ signal request_spawn(spawn_array: Array[SpawnInfo])
 #     REFERENCES     #
 ######################
 @export var LevelObjective: String
+@export var LevelDialogue: String
 @export var LevelBGM: AudioStream
 @export var LevelHighlightLayer: TileMapLayer
 @export var PlayerReinforcements: Array[SpawnInfo]
@@ -36,6 +39,7 @@ func Initialize(game_manager: GameManager):
 	victory.connect(game_manager.EndGame.bind(true))
 	defeat.connect(game_manager.EndGame.bind(false))
 	request_spawn.connect(game_manager._on_spawn_requested)
+	request_dialogue.connect(game_manager._on_dialogue_requested)
 	
 	game_manager.level_set.connect(_on_level_set)
 	game_manager.turn_started.connect(_on_turn_started)
@@ -45,12 +49,15 @@ func Initialize(game_manager: GameManager):
 	game_manager.unit_spawned.connect(_on_unit_spawned)
 	game_manager.unit_removed.connect(_on_unit_removed)
 
+func CallReinforcements(reinforcements: Array[SpawnInfo]):
+	request_spawn.emit(reinforcements)
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_level_set():
-	pass
+	request_dialogue.emit(LevelDialogue)
 
 func _on_turn_started(_turn_number: int):
 	pass

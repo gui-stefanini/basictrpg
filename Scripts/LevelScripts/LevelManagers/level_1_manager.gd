@@ -1,5 +1,5 @@
-class_name RoutLevelManager
-extends LevelManager
+extends RoutLevelManager
+
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -10,6 +10,7 @@ extends LevelManager
 ######################
 #     REFERENCES     #
 ######################
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -21,16 +22,6 @@ extends LevelManager
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-func _on_unit_died(unit: Unit):
-	print("%s has been defeated!" % unit.Data.Name)
-	
-	if PlayerUnits.is_empty():
-		print("All player units defeated!")
-		defeat.emit()
-	
-	elif EnemyUnits.is_empty():
-		print("All enemies defeated!")
-		victory.emit()
 
 ##############################################################
 #                      4.0 Godot Functions                   #
