@@ -108,8 +108,6 @@ func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
 	initial_position = GroundGrid.local_to_map(PlayerUnits[0].global_position)
 	MyCursor.MoveToTile(initial_position, GroundGrid)
-	DisplaySelectedUnitInfo()
-	MyCursor.show()
 
 func SetAudio():
 	AudioManager.PlayBGM(CurrentLevelManager.LevelBGM)
@@ -125,6 +123,9 @@ func HideUI():
 	MyCursor.hide()
 
 func DisplaySelectedUnitInfo():
+	if DialogueBox.visible == true:
+		return
+	
 	var unit_on_tile : Unit = GetUnitAtTile(MyCursor.TilePosition)
 	
 	if unit_on_tile == null:
@@ -134,6 +135,9 @@ func DisplaySelectedUnitInfo():
 		SelectedUnitInfoPanel.UpdatePanel(unit_on_tile)
 
 func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
+	if DialogueBox.visible == true:
+		return
+	
 	if new_tile_position != Vector2i(-1,-1):
 		if CheckGridBounds(new_tile_position):
 			MyCursor.MoveToTile(new_tile_position, GroundGrid)
@@ -473,6 +477,7 @@ func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
 	SpawnUnitGroup(spawn_array)
 
 func _on_dialogue_requested(text: String):
+	HideUI()
 	DialogueBox.DisplayText(text)
 
 func _on_unit_died(unit: Unit):

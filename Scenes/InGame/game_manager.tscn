@@ -38,6 +38,7 @@ MyMoveManager = NodePath("MoveManager")
 MyActionManager = NodePath("ActionManager")
 
 [node name="GridCursor" parent="." instance=ExtResource("5_hghx2")]
+visible = false
 
 [node name="MoveManager" type="Node" parent="."]
 script = ExtResource("4_wg6t1")
@@ -66,8 +67,17 @@ offset_bottom = 192.0
 visible = false
 
 [node name="DialogueBox" type="CanvasLayer" parent="." node_paths=PackedStringArray("TextLabel")]
+visible = false
 script = ExtResource("15_omwm2")
 TextLabel = NodePath("EventPanel/MarginContainer/Label")
+
+[node name="ColorRect" type="ColorRect" parent="DialogueBox"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
 
 [node name="EventPanel" type="NinePatchRect" parent="DialogueBox"]
 anchors_preset = 12

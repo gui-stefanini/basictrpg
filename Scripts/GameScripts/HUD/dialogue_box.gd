@@ -41,6 +41,7 @@ func AdvanceText():
 	ClearInputSignals()
 	hide()
 	MyGameManager.ConnectInputSignals()
+	MyGameManager.UpdateCursor()
 
 
 ##############################################################
