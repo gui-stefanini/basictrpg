@@ -1,4 +1,4 @@
-class_name MoveAction
+class_name FireballAction
 extends Action
 ##############################################################
 #                      0.0 Signals                           #
@@ -25,41 +25,40 @@ extends Action
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
-	manager.MyActionManager.HighlightMoveArea(user)
+	var action_range = user.AttackRange + 1
+	var aoe_range = 1
+	manager.MyActionManager.HighlightAOEArea(user, action_range)
+	manager.MyActionManager.AOERange = aoe_range
 	manager.MyCursor.show()
 
-func _check_target(_user: Unit, _manager: GameManager = null, target = null) -> bool:
+func _check_target(_user: Unit, manager: GameManager = null, target = null) -> bool:
 	if target is not Vector2i:
 		return false
 	
+	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, 1, true)
+	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)
+	
+	if targets.is_empty():
+		return false
 	return true
 
-func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
+	print(user.Data.Name + " casts Fireball!")
 	
-	var start_tile = manager.GroundGrid.local_to_map(user.global_position)
-	var path = manager.MyMoveManager.FindPath(user, start_tile, target)
+	var damage = user.AttackPower
 	
-	if path.path.is_empty():
-		return null
+	if simulation == false:
+		var target_global_pos = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(target))
+		await user.PlayActionAnimation("fireball", target_global_pos)
 	
-	var tween = manager.create_tween()
-	tween.set_parallel(false)
+	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, 1, true)
+	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)
 	
-	for step in path.path:
-		var step_global_position = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(step))
-		tween.tween_property(user, "global_position", step_global_position, 0.2)
-	
-	match manager.CurrentGameState:
-		manager.GameState.PLAYER_TURN:
-			manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-			tween.tween_callback(manager.OnPlayerActionFinished)
-		
-		manager.GameState.ENEMY_TURN:
-			manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	
-	user.HasMoved = true
-	return tween
+	for unit in targets:
+		unit.TakeDamage(damage)
+	user.HasActed = true
+	return null
 
 ##############################################################
 #                      4.0 Godot Functions                   #

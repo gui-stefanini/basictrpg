@@ -29,7 +29,7 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.MyActionManager.HighlightAttackArea(user, user.AttackRange)
 	manager.MyCursor.show()
 
-func _check_target(user: Unit, target = null) -> bool:
+func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
 	if target is not Unit or target.Faction == user.Faction:
 		return false
 	

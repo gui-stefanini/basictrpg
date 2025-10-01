@@ -40,7 +40,7 @@ var IsDead: bool = false
 var ActiveStatuses: Dictionary = {}
 var AbilityStates: Dictionary = {}
 
-var ActionTarget : Unit
+var ActionTarget
 var CurrentTile: Vector2i
 
 ######################
@@ -193,7 +193,6 @@ func SetData(spawn_level: int = -1):
 	SetSkills()
 	SetSprite()
 
-
 func CopyState(target : Unit):
 	Data = target.Data.duplicate()
 	Data.CharacterLevel = target.Data.CharacterLevel
@@ -241,7 +240,9 @@ func StopAnimation():
 func PlayIdleAnimation():
 	MyAnimationPlayer.play("character_library/idle")
 
-func PlayActionAnimation(animation_name: String, target: Unit):
+func PlayActionAnimation(animation_name: String, target):
+	if target is not Unit and target is not Vector2:
+		return
 	ActionTarget = target
 	MyAnimationPlayer.play("character_library/" + animation_name)
 	await MyAnimationPlayer.animation_finished
@@ -249,6 +250,8 @@ func PlayActionAnimation(animation_name: String, target: Unit):
 
 func RequestVFX(vfx_data: VFXData, animation_name: String, is_combat: bool = false):	
 	var vfx_position : Vector2 = self.global_position
+	if ActionTarget is Vector2:
+		vfx_position = ActionTarget
 	if ActionTarget is Unit:
 		vfx_position = ActionTarget.global_position
 	vfx_requested.emit(vfx_data, animation_name, vfx_position, is_combat)
@@ -256,7 +259,6 @@ func RequestVFX(vfx_data: VFXData, animation_name: String, is_combat: bool = fal
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-
 #Linked manually on SetAnimations()
 func _on_animation_hit():
 	animation_hit.emit()

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FireballAction" load_steps=2 format=3 uid="uid://dsvavdiunl2mq"]
+
+[ext_resource type="Script" uid="uid://coetxmf8m4pxt" path="res://Scripts/UnitScripts/ActionScripts/fireball_action.gd" id="1_fgwjb"]
+
+[resource]
+script = ExtResource("1_fgwjb")
+Type = 2
+Name = "Fireball"
+Description = "Damages all units in the target area."
+metadata/_custom_type_script = "uid://coetxmf8m4pxt"

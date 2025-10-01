@@ -32,7 +32,7 @@ func connect_listeners(_owner: Unit):
 func _on_select(_user: Unit, _manager: GameManager):
 	pass # Child scripts will implement their own logic here.
 
-func _check_target(_user: Unit, _target = null) -> bool:
+func _check_target(_user: Unit, _manager: GameManager = null, _target = null) -> bool:
 	return true
 
 func _execute(_user: Unit, _manager: GameManager, _target = null, _simulation : bool = false) -> Variant:

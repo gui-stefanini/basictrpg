@@ -39,14 +39,15 @@ var CurrentLevel : Level
 var CurrentLevelManager: LevelManager
 var GroundGrid : TileMapLayer
 var HighlightLayer : TileMapLayer
+var CursorHighlightLayer : TileMapLayer
 
 ######################
 #     SCRIPT-WIDE    #
 ######################
 enum GameState {NULL, PLAYER_TURN, ENEMY_TURN, END}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
-var CurrentGameState = GameState.NULL
-var CurrentSubState = SubState.NULL
+var CurrentGameState : GameState = GameState.NULL
+var CurrentSubState : SubState = SubState.NULL
 
 var PlayerUnits: Array[Unit] = []
 var EnemyUnits: Array[Unit] = []
@@ -93,6 +94,7 @@ func SetLevel():
 	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
 	HighlightLayer = CurrentLevel.HighlightLayer
+	CursorHighlightLayer = CurrentLevel.CursorHighlightLayer
 
 func SetAuxiliaryManagers():
 	CurrentLevelManager.Initialize(self)
@@ -141,6 +143,10 @@ func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
 	if new_tile_position != Vector2i(-1,-1):
 		if CheckGridBounds(new_tile_position):
 			MyCursor.MoveToTile(new_tile_position, GroundGrid)
+	
+	if not MyActionManager.HighlightedAOETiles.is_empty():
+		MyActionManager.UpdateAOE(new_tile_position)
+	
 	DisplaySelectedUnitInfo()
 	MyCursor.show()
 
@@ -377,6 +383,17 @@ func _on_confirm_pressed():
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
 					await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
 					CurrentSubState = SubState.ACTION_CONFIRMATION_PHASE
+		
+			#Check for AOE action
+			if MyActionManager.HighlightedAOETiles.has(selected_tile):
+				target = selected_tile
+				MyActionManager.ClearHighlights()
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					CurrentSubState = SubState.PROCESSING_PHASE
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+					UpdateCursor()
+					EndPlayerTurn()
+				return
 		
 		SubState.ACTION_CONFIRMATION_PHASE:
 			ActionForecast.hide()

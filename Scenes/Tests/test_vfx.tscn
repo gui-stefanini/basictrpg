@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqflg1i41xnh2"]
+[gd_scene load_steps=8 format=3 uid="uid://bqflg1i41xnh2"]
 
 [ext_resource type="Texture2D" uid="uid://b1ojyokj7sltn" path="res://Assets/Art/VFX/LevelUpVFX.png" id="1_cm4dy"]
 [ext_resource type="AnimationLibrary" uid="uid://cdrwulw02iw76" path="res://Resources/Animations/priest_vfx_library.res" id="2_i7erj"]
 [ext_resource type="AnimationLibrary" uid="uid://b0dodkfjqnkp3" path="res://Resources/Animations/knight_vfx_library.res" id="2_qkfm2"]
+[ext_resource type="AnimationLibrary" uid="uid://dodlv7wb2x6k3" path="res://Resources/Animations/mage_vfx_library.res" id="3_bad7w"]
 [ext_resource type="AnimationLibrary" uid="uid://dav8vyffex1e0" path="res://Resources/Animations/unit_vfx_library.res" id="4_bad7w"]
 
 [sub_resource type="Animation" id="Animation_jmb44"]
@@ -63,6 +64,7 @@ texture = ExtResource("1_cm4dy")
 libraries = {
 &"": SubResource("AnimationLibrary_i7erj"),
 &"knight_vfx_library": ExtResource("2_qkfm2"),
+&"mage_vfx_library": ExtResource("3_bad7w"),
 &"priest_vfx_library": ExtResource("2_i7erj"),
 &"unit_vfx_library": ExtResource("4_bad7w")
 }

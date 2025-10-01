@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://e6tiplcfumd5"]
+
+[ext_resource type="Script" uid="uid://c2g21s7scw0c3" path="res://Scripts/Autoloads/Managers/input_manager.gd" id="1_v33sd"]
+
+[node name="InputManager" type="Node" node_paths=PackedStringArray("HoldTimer")]
+process_mode = 3
+script = ExtResource("1_v33sd")
+HoldTimer = NodePath("HoldTimer")
+
+[node name="HoldTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="HoldTimer" to="." method="_on_hold_timer_timeout"]

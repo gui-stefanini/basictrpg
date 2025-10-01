@@ -28,16 +28,16 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.MyActionManager.HighlightHealArea(user, user.AttackRange)
 	manager.MyCursor.show()
 
-func _check_target(user: Unit, target = null) -> bool:
+func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
 	if target is not Unit or target.Faction != user.Faction:
 		return false
 	
 	return true
 
-func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	
-	if not _simulation:
+	if simulation == false:
 		await user.PlayActionAnimation("heal", target)
 		
 	target.ReceiveHealing(user.HealPower)

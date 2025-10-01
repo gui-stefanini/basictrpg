@@ -7,10 +7,10 @@
 script = ExtResource("1_3fdc6")
 RecruitedCharacter = ExtResource("1_fg7f7")
 EventDescription = "Axolot Joins the Army!"
-Name = "Axolot Recruitment"
+Name = "Ordered by the Emperor, Sir Axolot starts his journey to defeat the Bandit King."
 Locked = false
 Cleared = false
 Repeatable = false
-UnlockableLocations = Array[String](["Level0"])
+UnlockableLocations = Array[String](["Level0", "Event7"])
 LockableLocations = Array[String]([])
 metadata/_custom_type_script = "uid://m30pwbw1d01m"

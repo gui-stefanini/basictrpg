@@ -12,6 +12,7 @@ extends Node2D
 ######################
 @export var GroundGrid: TileMapLayer
 @export var HighlightLayer: TileMapLayer
+@export var CursorHighlightLayer: TileMapLayer
 @export var LevelHighlightLayer: TileMapLayer
 @export var MyLevelManager: LevelManager
 @export var PlayerSpawns: Array[SpawnInfo]
