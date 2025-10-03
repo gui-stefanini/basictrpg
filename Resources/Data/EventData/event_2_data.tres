@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("2_pqgwu")
 RecruitedCharacter = ExtResource("1_1gvy0")
-EventDescription = "Mantis Joins the Army!"
-Name = "Inspired by Axolot's courage, Priest Mantis decide to join the march and expel the evil that ravages this land."
+EventDescription = "Inspired by Axolot's courage, Priest Mantis decide to join the march and expel the evil that ravages this land."
+Name = "Mantis joins the Army!"
 Locked = true
 Cleared = false
 Repeatable = false

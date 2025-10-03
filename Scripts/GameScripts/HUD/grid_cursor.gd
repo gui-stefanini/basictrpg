@@ -17,6 +17,7 @@ extends Node2D
 ######################
 
 var TilePosition: Vector2i
+var Enabled: bool = true
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -28,6 +29,14 @@ func MoveToTile(new_tile_position: Vector2i, grid: TileMapLayer):
 	var cell_center_local_pos = grid.map_to_local(TilePosition)
 	# We need to convert this local position to a global one
 	global_position = grid.to_global(cell_center_local_pos)
+
+func Disable():
+	Enabled = false
+	hide()
+
+func Enable():
+	Enabled = true
+	show()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

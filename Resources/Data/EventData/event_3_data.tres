@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("2_2dmq6")
 RecruitedCharacter = ExtResource("1_rpkds")
-EventDescription = "Orca Joins the Army!"
-Name = "On a dark alley, a whisper calls for Axolot. \"Assassin's Guild, Killer Whale\". Without any more details, the assassin moves along with the party. It seems like the Emperor decided to send you some help."
+EventDescription = "On a dark alley, a whisper calls for Axolot. \"Assassin's Guild, Killer Whale\". Without any more details, the assassin moves along with the party. It seems like the Emperor decided to send you some help."
+Name = "Orca joins the Army!"
 Locked = true
 Cleared = false
 Repeatable = false

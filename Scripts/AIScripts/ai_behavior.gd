@@ -38,15 +38,15 @@ func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
 				await GeneralFunctions.Wait(0.3)
 				await action._execute(owner, manager, target)
 				await GeneralFunctions.Wait(0.4)
-				break
+				return
 
 func DefendCommand(owner: Unit, manager: GameManager):
 	print(owner.Data.Name + " is low on health and chooses to defend!")
 	for action in owner.Data.Actions:
-		if action is DefendAction:
+		if action.Name == "Defend":
 			await action._execute(owner, manager)
 			await GeneralFunctions.Wait(0.3)
-			break
+			return
 
 func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 	for action in owner.Data.Actions:
@@ -54,7 +54,7 @@ func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 			print(owner.Data.Name + " heals " + target.Data.Name)
 			await action._execute(owner, manager, target)
 			await GeneralFunctions.Wait(0.3)
-			break
+			return
 
 
 ##############################################################

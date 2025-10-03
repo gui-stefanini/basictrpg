@@ -1,4 +1,4 @@
-class_name DefendAction
+class_name BuffAction
 extends Action
 ##############################################################
 #                      0.0 Signals                           #
@@ -14,6 +14,11 @@ extends Action
 #     SCRIPT-WIDE    #
 ######################
 
+@export var AnimationName : String
+@export var Status: Unit.Status
+@export var Duration: int
+@export var Value: int
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -27,11 +32,11 @@ func _on_select(user: Unit, manager: GameManager):
 
 func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	print(user.Data.Name + " is defending!")
-	await user.PlayActionAnimation("defend", user)
+	print(user.Data.Name + " is using a buff!")
+	await user.PlayActionAnimation(AnimationName, user)
 	
-	user.AddStatus(Unit.Status.DEFENDING, 1)
-	StatusLogic.ApplyStatusLogic(user, Unit.Status.DEFENDING)
+	user.AddStatus(Status, Duration, Value)
+	StatusLogic.ApplyStatusLogic(user, Status)
 	
 	if user in manager.PlayerUnits:
 		manager.EndPlayerTurn()

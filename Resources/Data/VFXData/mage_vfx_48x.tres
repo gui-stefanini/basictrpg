@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="VFXData" load_steps=4 format=3 uid="uid://dypek46ptrcsc"]
+
+[ext_resource type="Texture2D" uid="uid://casnbwsv148yo" path="res://Assets/Art/Sprites/Mage/MageVFX48x.png" id="1_80wr0"]
+[ext_resource type="AnimationLibrary" uid="uid://dodlv7wb2x6k3" path="res://Resources/Animations/mage_vfx_library.res" id="1_kv3ku"]
+[ext_resource type="Script" uid="uid://bkm2mobbxwa1y" path="res://Scripts/Effects/vfx_data.gd" id="1_nqjfb"]
+
+[resource]
+script = ExtResource("1_nqjfb")
+MyTexture = ExtResource("1_80wr0")
+Library = ExtResource("1_kv3ku")
+HFrames = 4
+VFrames = 1
+metadata/_custom_type_script = "uid://bkm2mobbxwa1y"

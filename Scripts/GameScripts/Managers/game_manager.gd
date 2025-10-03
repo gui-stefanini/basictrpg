@@ -137,6 +137,8 @@ func DisplaySelectedUnitInfo():
 		SelectedUnitInfoPanel.UpdatePanel(unit_on_tile)
 
 func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
+	if MyCursor.Enabled == false:
+		return
 	if DialogueBox.visible == true:
 		return
 	
@@ -372,6 +374,28 @@ func _on_confirm_pressed():
 				# OnPlayerActionFinished() is called by a tween in MoveAction's _execute
 				return
 			
+			#Check for AOE action
+			if MyActionManager.HighlightedAOETiles.has(selected_tile):
+				target = selected_tile
+				MyActionManager.ClearHighlights()
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					CurrentSubState = SubState.PROCESSING_PHASE
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+					UpdateCursor()
+					EndPlayerTurn()
+				return
+			
+			#Check for cursor-disabling action (actions that use a fixed area)
+			if MyCursor.Enabled == false:
+				MyActionManager.ClearHighlights()
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					CurrentSubState = SubState.PROCESSING_PHASE
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+					MyCursor.Enable()
+					UpdateCursor()
+					EndPlayerTurn()
+				return
+			
 			# Check for Attack/Heal action
 			var unit_on_tile = GetUnitAtTile(selected_tile)
 			if unit_on_tile:
@@ -383,17 +407,6 @@ func _on_confirm_pressed():
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
 					await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
 					CurrentSubState = SubState.ACTION_CONFIRMATION_PHASE
-		
-			#Check for AOE action
-			if MyActionManager.HighlightedAOETiles.has(selected_tile):
-				target = selected_tile
-				MyActionManager.ClearHighlights()
-				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
-					CurrentSubState = SubState.PROCESSING_PHASE
-					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
-					UpdateCursor()
-					EndPlayerTurn()
-				return
 		
 		SubState.ACTION_CONFIRMATION_PHASE:
 			ActionForecast.hide()
@@ -426,6 +439,7 @@ func _on_cancel_pressed():
 			CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		
 		SubState.TARGETING_PHASE:
+			MyCursor.Enable()
 			HideUI()
 			MyActionManager.ClearHighlights()
 			CurrentAction = null

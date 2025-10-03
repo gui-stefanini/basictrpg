@@ -1,10 +1,14 @@
-[gd_resource type="Resource" script_class="FireballAction" load_steps=2 format=3 uid="uid://dsvavdiunl2mq"]
+[gd_resource type="Resource" script_class="AOEAction" load_steps=2 format=3 uid="uid://bc5tv0ii24b8g"]
 
-[ext_resource type="Script" uid="uid://coetxmf8m4pxt" path="res://Scripts/UnitScripts/ActionScripts/fireball_action.gd" id="1_fgwjb"]
+[ext_resource type="Script" uid="uid://62rggg61lxse" path="res://Scripts/UnitScripts/ActionScripts/aoe_attack_action.gd" id="1_fgwjb"]
 
 [resource]
 script = ExtResource("1_fgwjb")
+AnimationName = "fireball"
+DamageModifier = 0
+RangeModifier = 1
+AOERange = 1
 Type = 2
 Name = "Fireball"
 Description = "Damages all units in the target area."
-metadata/_custom_type_script = "uid://coetxmf8m4pxt"
+metadata/_custom_type_script = "uid://62rggg61lxse"

@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("1_3fdc6")
 RecruitedCharacter = ExtResource("1_fg7f7")
-EventDescription = "Axolot Joins the Army!"
-Name = "Ordered by the Emperor, Sir Axolot starts his journey to defeat the Bandit King."
+EventDescription = "Ordered by the Emperor, Sir Axolot starts his journey to defeat the Bandit King."
+Name = "Axolot joins the Army!"
 Locked = false
 Cleared = false
 Repeatable = false

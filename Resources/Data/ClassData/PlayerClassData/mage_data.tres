@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ClassData" load_steps=11 format=3 uid="uid://c0pyaan0kyxo3"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=12 format=3 uid="uid://c0pyaan0kyxo3"]
 
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_rfc4l"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_5ub8t"]
@@ -6,8 +6,9 @@
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="3_oj1da"]
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="4_4r48u"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_e7hss"]
-[ext_resource type="Resource" uid="uid://dsvavdiunl2mq" path="res://Resources/Data/ActionData/SpecialActionData/fireball_action.tres" id="5_e7hss"]
+[ext_resource type="Resource" uid="uid://bc5tv0ii24b8g" path="res://Resources/Data/ActionData/SpecialActionData/fireball_action.tres" id="5_e7hss"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="5_j1b4k"]
+[ext_resource type="Resource" uid="uid://3o7igq5b5nnj" path="res://Resources/Data/ActionData/SpecialActionData/thunder_action.tres" id="7_d1lbh"]
 [ext_resource type="Texture2D" uid="uid://kj2ixtoba5vc" path="res://Assets/Art/Sprites/Mage/MageSpriteSheet_1.png" id="7_j1b4k"]
 [ext_resource type="AnimationLibrary" uid="uid://d3rbgaaj0jjk" path="res://Resources/Animations/mage_library.res" id="8_b4ch5"]
 
@@ -25,7 +26,7 @@ ClassAttackRange = 2
 ClassAggro = 0
 ClassSupportAggro = 0
 ClassAbilities = Array[ExtResource("1_rfc4l")]([])
-ClassActions = Array[ExtResource("2_5ub8t")]([ExtResource("3_oj1da"), ExtResource("4_4r48u"), ExtResource("4_e7hss"), ExtResource("5_e7hss")])
+ClassActions = Array[ExtResource("2_5ub8t")]([ExtResource("3_oj1da"), ExtResource("4_4r48u"), ExtResource("4_e7hss"), ExtResource("5_e7hss"), ExtResource("7_d1lbh")])
 ClassMovementType = ExtResource("5_j1b4k")
 ClassSpriteSheet = ExtResource("7_j1b4k")
 Hframes = 4

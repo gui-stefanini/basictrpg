@@ -17,7 +17,7 @@ extends LocationData
 #     SCRIPT-WIDE    #
 ######################
 
-@export var EventDescription : String
+@export_multiline var EventDescription : String
 
 ##############################################################
 #                      2.0 Functions                         #
