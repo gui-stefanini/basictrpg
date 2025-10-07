@@ -46,15 +46,14 @@ func _check_target(_user: Unit, manager: GameManager = null, target = null) -> b
 		return false
 	return true
 
-func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " casts AOE spell!")
 	
 	var damage = user.AttackPower + DamageModifier
 	
-	if simulation == false:
-		var target_global_pos = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(target))
-		await user.PlayActionAnimation(AnimationName, target_global_pos)
+	var target_global_pos = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(target))
+	await user.PlayActionAnimation(AnimationName, target_global_pos)
 	
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
 	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)

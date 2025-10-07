@@ -4,7 +4,10 @@
 
 [resource]
 script = ExtResource("1_wpqko")
+DamageModifier = 0
+RangeModifier = 0
 Type = 1
 Name = "Attack"
+Simulatable = true
 Description = ""
 metadata/_custom_type_script = "uid://bifdi6n1778t0"

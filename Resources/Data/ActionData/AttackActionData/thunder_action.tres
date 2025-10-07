@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="RandomAttackAction" load_steps=2 format=3 uid="uid://3o7igq5b5nnj"]
 
-[ext_resource type="Script" uid="uid://downh4a1a0gss" path="res://Scripts/UnitScripts/ActionScripts/random_attack_action.gd" id="1_2x7k7"]
+[ext_resource type="Script" uid="uid://downh4a1a0gss" path="res://Scripts/UnitScripts/ActionScripts/random_attack_action.gd" id="1_msiul"]
 
 [resource]
-script = ExtResource("1_2x7k7")
+script = ExtResource("1_msiul")
 AnimationName = "thunder"
 DamageModifier = 1
 RangeModifier = 0
-Type = 2
+Type = 1
 Name = "Thunder"
+Simulatable = false
 Description = "Deals damage to a random enemy in range"
 metadata/_custom_type_script = "uid://downh4a1a0gss"

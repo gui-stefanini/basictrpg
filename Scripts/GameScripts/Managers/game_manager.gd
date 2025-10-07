@@ -304,6 +304,7 @@ func EndPlayerTurn():
 		await StartEnemyTurn()
 	else:
 		CurrentSubState = SubState.UNIT_SELECTION_PHASE
+		UpdateCursor()
 
 func StartEnemyTurn():
 	print("--- Enemy Turn Begins ---")
@@ -367,44 +368,53 @@ func _on_confirm_pressed():
 			# Check for Move action
 			if MyActionManager.HighlightedMoveTiles.has(selected_tile):
 				target = selected_tile
-				MyActionManager.ClearHighlights()
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					HideUI()
+					MyActionManager.ClearHighlights()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
-				# OnPlayerActionFinished() is called by a tween in MoveAction's _execute
 				return
 			
 			#Check for AOE action
 			if MyActionManager.HighlightedAOETiles.has(selected_tile):
 				target = selected_tile
-				MyActionManager.ClearHighlights()
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					HideUI()
+					MyActionManager.ClearHighlights()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
-					UpdateCursor()
 					EndPlayerTurn()
 				return
 			
 			#Check for cursor-disabling action (actions that use a fixed area)
 			if MyCursor.Enabled == false:
-				MyActionManager.ClearHighlights()
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					HideUI()
+					MyActionManager.ClearHighlights()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
 					MyCursor.Enable()
-					UpdateCursor()
 					EndPlayerTurn()
 				return
 			
-			# Check for Attack/Heal action
+			# Check for Attack/Heal/Status action
 			var unit_on_tile = GetUnitAtTile(selected_tile)
 			if unit_on_tile:
 				if MyActionManager.HighlightedAttackTiles.has(selected_tile) or MyActionManager.HighlightedHealTiles.has(selected_tile):
 					target = unit_on_tile
 			
+			if CurrentAction.Simulatable == false:
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+					HideUI()
+					MyActionManager.ClearHighlights()
+					CurrentSubState = SubState.PROCESSING_PHASE
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+					EndPlayerTurn()
+				return
+			
 			if target is Unit:
 				TargetedUnit = target
-				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, TargetedUnit) == true:
 					await MyActionManager.PreviewAction(CurrentAction, ActiveUnit, TargetedUnit, true)
 					CurrentSubState = SubState.ACTION_CONFIRMATION_PHASE
 		
@@ -415,9 +425,9 @@ func _on_confirm_pressed():
 			
 			if selected_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, TargetedUnit) == true:
+					HideUI()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
-					UpdateCursor()
 					EndPlayerTurn()
 
 func _on_cancel_pressed():

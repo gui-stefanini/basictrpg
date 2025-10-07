@@ -16,6 +16,7 @@ extends Resource
 enum ActionTypes {MOVE, ATTACK, SPECIAL, WAIT}
 @export var Type : ActionTypes
 @export var Name: String = "Action"
+@export var Simulatable: bool = false
 @export_multiline var Description: String = ""
 
 ##############################################################

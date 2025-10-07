@@ -32,7 +32,7 @@ signal unit_died(unit: Unit)
 enum Factions {PLAYER, ENEMY}
 @export var Faction: Factions
 
-enum Status {PASS, DEFENDING, POISONED, HASTED}
+enum Status {PASS, DEFENDING, REGENERATING, POISONED}
 enum StatusInfo {DURATION, VALUE}
 var HasMoved: bool = false
 var HasActed: bool = false
@@ -91,15 +91,22 @@ var SupportAggro: int:
 func UpdateHealth():
 	HealthBar.update_health(CurrentHP, MaxHP)
 
-func TakeDamage(damage_amount: int):
+func TakeDamage(damage_amount: int, percentage: bool = false, 
+				true_damage: bool = false, lethal: bool = true):
+	if percentage == true:
+		damage_amount = roundi(MaxHP * damage_amount/100.0)
+	
 	var damage_data = {"damage": damage_amount}
 	
-	damage_taken.emit(self, damage_data)
+	if true_damage == false:
+		damage_taken.emit(self, damage_data)
 	
 	var final_damage = roundi(damage_data["damage"])
 	CurrentHP -= final_damage
-	CurrentHP = max(0, CurrentHP)
-	
+	if lethal == true:
+		CurrentHP = max(0, CurrentHP)
+	else:
+		CurrentHP = max(1, CurrentHP)
 	
 	print(Data.Name + " takes " + str(final_damage) + " damage! " + str(CurrentHP) + " HP remaining.")
 	UpdateHealth()
@@ -108,7 +115,9 @@ func TakeDamage(damage_amount: int):
 		IsDead = true
 		unit_died.emit(self)
 
-func ReceiveHealing(heal_amount: int):
+func ReceiveHealing(heal_amount: int, percentage: bool = false):
+	if percentage == true:
+		heal_amount = roundi(MaxHP * heal_amount/100.0)
 	CurrentHP += heal_amount
 	CurrentHP = min(CurrentHP, MaxHP)
 	
@@ -120,13 +129,22 @@ func ReceiveHealing(heal_amount: int):
 #                      2.2 STATUS INTERACTION                #
 ##############################################################
 
-func AddStatus(status: Status, duration: int, value: int = 0):
+func AddStatus(status: Status, duration: int = -1, value: int = -1, 
+			   stack_duration: bool = false, stack_value: bool = false):
+	
 	if ActiveStatuses.has(status):
 		var status_data = ActiveStatuses[status]
-		if status_data[StatusInfo.DURATION] < duration:
-			ActiveStatuses[status][StatusInfo.DURATION] = duration
-		if status_data[StatusInfo.VALUE] < value:
-			ActiveStatuses[status][StatusInfo.VALUE] = value
+		
+		if stack_duration == false:
+			ActiveStatuses[status][StatusInfo.DURATION] = max(status_data[StatusInfo.DURATION], duration)
+		else:
+			ActiveStatuses[status][StatusInfo.DURATION] += duration
+		
+		if stack_value == false:
+			ActiveStatuses[status][StatusInfo.VALUE] = max(status_data[StatusInfo.VALUE], value)
+		else:
+			ActiveStatuses[status][StatusInfo.VALUE] += value
+	
 	else:
 		var new_status = {StatusInfo.DURATION: duration, StatusInfo.VALUE: value}
 		ActiveStatuses[status] = new_status
@@ -134,7 +152,6 @@ func AddStatus(status: Status, duration: int, value: int = 0):
 		print("%s gained status: %s for %d turns" % [Data.Name, Status.find_key(status), duration])
 
 func StackStatus(status: Status, information: StatusInfo, amount: int):
-	
 	if ActiveStatuses.has(status):
 		ActiveStatuses[status][information] += amount
 	else:

@@ -57,7 +57,7 @@ func _check_target(user: Unit, manager: GameManager = null, target = null) -> bo
 		return false
 	return true
 
-func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
+func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " casts Random Attack spell!")
 	
@@ -66,10 +66,10 @@ func _execute(user: Unit, manager: GameManager, target = null, simulation : bool
 	var targets = GetTargets(user, manager)
 	target = targets.pick_random()
 	
-	if simulation == false:
-		await user.PlayActionAnimation(AnimationName, target)
+	await user.PlayActionAnimation(AnimationName, target)
 	
 	target.TakeDamage(damage)
+	
 	user.HasActed = true
 	return null
 

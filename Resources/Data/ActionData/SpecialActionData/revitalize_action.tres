@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusAction" load_steps=2 format=3 uid="uid://c6jscoi5s5um"]
+
+[ext_resource type="Script" uid="uid://2hq2x3jwhrla" path="res://Scripts/UnitScripts/ActionScripts/status_action.gd" id="1_le6l6"]
+
+[resource]
+script = ExtResource("1_le6l6")
+AnimationName = "revitalize"
+SelfTarget = false
+Debuff = false
+RangeModifier = 0
+Status = 2
+StackDuration = false
+Duration = 2
+StackValue = true
+Value = 25
+Type = 2
+Name = "Revitalize"
+Simulatable = false
+Description = "Grants HP regeneration to target. Can Stack."
+metadata/_custom_type_script = "uid://2hq2x3jwhrla"

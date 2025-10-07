@@ -29,6 +29,17 @@ func RemoveStatusLogic(unit: Unit, status: Unit.Status):
 	call("Apply%sLogic" % [status_name], unit, true)
 
 ######################
+#     TURN STARTED   #
+######################
+func ConnectToTurnStarted(unit: Unit, logic: Callable):
+	if not unit.turn_started.is_connected(logic):
+		unit.turn_started.connect(logic)
+
+func DisconnectFromTurnStarted(unit: Unit, logic: Callable):
+	if unit.turn_started.is_connected(logic):
+		unit.turn_started.disconnect(logic)
+
+######################
 #     DMG TAKEN      #
 ######################
 func ConnectToDamageTaken(unit: Unit, logic: Callable):
@@ -42,6 +53,12 @@ func DisconnectFromDamageTaken(unit: Unit, logic: Callable):
 ##############################################################
 #                      2.2  STATUS LOGIC                     #
 ##############################################################
+
+######################
+#        PASS        #
+######################
+func ApplyPASSLogic(_unit: Unit, _remove: bool = false):
+	pass
 
 ######################
 #     DEFENDING      #
@@ -58,10 +75,34 @@ func _defend_dmgtaken(unit: Unit, damage_data: Dictionary):
 		damage_data["damage"] = damage_data["damage"] / 2.0
 
 ######################
-#        PASS        #
+#     REGENERATING   #
 ######################
-func ApplyPASSLogic(_unit: Unit, _remove: bool = false):
-	pass
+func ApplyREGENERATINGLogic(unit: Unit, remove: bool = false):
+	if remove == true:
+		DisconnectFromTurnStarted(unit, Callable(self, "_regen_turn_started"))
+		return
+	ConnectToTurnStarted(unit, Callable(self, "_regen_turn_started"))
+
+func _regen_turn_started(unit: Unit):
+	if unit.ActiveStatuses.has(Unit.Status.REGENERATING):
+		var value: int = unit.ActiveStatuses[Unit.Status.REGENERATING][Unit.StatusInfo.VALUE]
+		print("Regen! HP Recovered.")
+		unit.ReceiveHealing(value, true)
+
+######################
+#      POISONED      #
+######################
+func ApplyPOISONEDLogic(unit: Unit, remove: bool = false):
+	if remove == true:
+		DisconnectFromTurnStarted(unit, Callable(self, "_poison_turn_started"))
+		return
+	ConnectToTurnStarted(unit, Callable(self, "_poison_turn_started"))
+
+func _poison_turn_started(unit: Unit):
+	if unit.ActiveStatuses.has(Unit.Status.POISONED):
+		var value: int = unit.ActiveStatuses[Unit.Status.POISONED][Unit.StatusInfo.VALUE]
+		print("Poison! Damage taken.")
+		unit.TakeDamage(value, true, true, false)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

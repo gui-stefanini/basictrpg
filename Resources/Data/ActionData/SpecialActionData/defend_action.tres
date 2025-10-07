@@ -1,12 +1,17 @@
-[gd_resource type="Resource" script_class="BuffAction" load_steps=2 format=3 uid="uid://dkndb5y0dlu1m"]
+[gd_resource type="Resource" script_class="StatusAction" load_steps=2 format=3 uid="uid://dkndb5y0dlu1m"]
 
-[ext_resource type="Script" uid="uid://2hq2x3jwhrla" path="res://Scripts/UnitScripts/ActionScripts/buff_action.gd" id="1_pj3im"]
+[ext_resource type="Script" uid="uid://2hq2x3jwhrla" path="res://Scripts/UnitScripts/ActionScripts/status_action.gd" id="1_pj3im"]
 
 [resource]
 script = ExtResource("1_pj3im")
 AnimationName = "defend"
+SelfTarget = true
+Debuff = false
+RangeModifier = 0
 Status = 1
+StackDuration = false
 Duration = 1
+StackValue = false
 Value = 0
 Type = 2
 Name = "Defend"

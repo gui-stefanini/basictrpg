@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusAction" load_steps=2 format=3 uid="uid://beutdrh88vf7w"]
+
+[ext_resource type="Script" uid="uid://2hq2x3jwhrla" path="res://Scripts/UnitScripts/ActionScripts/status_action.gd" id="1_uexic"]
+
+[resource]
+script = ExtResource("1_uexic")
+AnimationName = "sicken"
+SelfTarget = false
+Debuff = true
+RangeModifier = 0
+Status = 3
+StackDuration = false
+Duration = 2
+StackValue = true
+Value = 25
+Type = 2
+Name = "Sicken"
+Simulatable = false
+Description = "Poison the target. Can Stack."
+metadata/_custom_type_script = "uid://2hq2x3jwhrla"

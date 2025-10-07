@@ -147,14 +147,17 @@ func UpdateUnitPanel():
 	for status in CurrentUnit.ActiveStatuses:
 		var status_data = CurrentUnit.ActiveStatuses[status]
 		var duration = status_data[Unit.StatusInfo.DURATION]
+		var value = status_data[Unit.StatusInfo.VALUE]
 		if duration == -1: continue # Skip permanent statuses for now
 		
 		var status_name = Unit.Status.find_key(status)
 		var new_label = Label.new()
-		if duration == -1:
+		if duration == -1 and value == -1:
 			new_label.text = "- %s" % [status_name]
-		else:
+		elif value == -1:
 			new_label.text = "- %s (%d turns)" % [status_name, duration]
+		else:
+			new_label.text = "- %s (%d) (%d turns)" % [status_name, value, duration]
 		new_label.label_settings = NameLabel.label_settings # Reuse existing settings, any label would work
 		StatusContainer.add_child(new_label)
 

@@ -2,14 +2,14 @@
 
 [ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="1_itr7g"]
 [ext_resource type="Script" uid="uid://by68of2l1ep8n" path="res://Scripts/MapScripts/class_event_data.gd" id="1_jk0jw"]
-[ext_resource type="Resource" uid="uid://c0pyaan0kyxo3" path="res://Resources/Data/ClassData/PlayerClassData/mage_data.tres" id="2_itr7g"]
+[ext_resource type="Resource" uid="uid://cp3bk7fcqwa51" path="res://Resources/Data/ClassData/PlayerClassData/shaman_data.tres" id="2_itr7g"]
 
 [resource]
 script = ExtResource("1_jk0jw")
 Character = ExtResource("1_itr7g")
 ClassResource = ExtResource("2_itr7g")
-EventDescription = "Test - Axolot becomes mage"
-Name = "Axolot - Mage Class"
+EventDescription = "Test - Axolot becomes shaman"
+Name = "Axolot - Shaman Class"
 Locked = true
 Cleared = false
 Repeatable = true
