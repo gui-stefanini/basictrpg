@@ -4,9 +4,8 @@
 
 [resource]
 script = ExtResource("1_3m2ea")
-HealModifier = 0
-RangeModifier = 0
 Type = 2
+SelfTarget = 2
 Name = "Heal"
 Simulatable = true
 Description = "Heal 2 HP"

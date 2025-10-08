@@ -31,7 +31,14 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.MyCursor.show()
 
 func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
-	if target is not Unit or target.Faction == user.Faction:
+	if target is not Unit:
+		return false
+	
+	var user_friendly: bool = user.Faction in [Unit.Factions.PLAYER, Unit.Factions.ALLY]
+	var target_friendly: bool = target.Faction in [Unit.Factions.PLAYER, Unit.Factions.ALLY]
+	var opponents: bool = user_friendly != target_friendly
+	
+	if opponents == false:
 		return false
 	
 	return true

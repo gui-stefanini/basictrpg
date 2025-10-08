@@ -78,7 +78,7 @@ func GetValidTargets(ai_owner : Unit, manager : GameManager, targets: Array[Unit
 	
 	return valid_targets
 
-func GetTargetsInRange(ai_owner: Unit, manager: GameManager, targets: Array[Unit]):
+func GetTargetsInRange(ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array[Unit]:
 	var unit_tile = manager.GroundGrid.local_to_map(ai_owner.global_position)
 	var possible_targets : Array[Unit] = []
 	for target in targets:

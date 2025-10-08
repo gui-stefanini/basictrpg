@@ -87,6 +87,8 @@ func _on_unit_removed(unit: Unit):
 		if unit in SecondEnemyGroup:
 			SecondEnemyGroup.erase(unit)
 		EnemyUnits.erase(unit)
+	elif unit in AllyUnits:
+		AllyUnits.erase(unit)
 
 ##############################################################
 #                      4.0 Godot Functions                   #

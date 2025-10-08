@@ -10,6 +10,7 @@ extends AStar2D
 ######################
 #     REFERENCES     #
 ######################
+
 var GroundGrid: TileMapLayer
 var MovementType: MovementData
 

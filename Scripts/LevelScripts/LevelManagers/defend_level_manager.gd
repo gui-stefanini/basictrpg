@@ -52,6 +52,8 @@ func _on_unit_spawned(unit: Unit):
 	elif unit.Faction == Unit.Factions.ENEMY:
 		EnemyUnits.append(unit)
 		unit.MyAI.TargetTiles = DefendTiles
+	elif unit.Faction == Unit.Factions.ALLY:
+		AllyUnits.append(unit)
 
 func _on_unit_died(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)

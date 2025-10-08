@@ -15,6 +15,10 @@ extends Resource
 ######################
 enum ActionTypes {MOVE, ATTACK, SPECIAL, WAIT}
 @export var Type : ActionTypes
+
+enum SelfTargetRule {ONLY, INCLUDE, EXCLUDE}
+@export var SelfTarget: SelfTargetRule
+
 @export var Name: String = "Action"
 @export var Simulatable: bool = false
 @export_multiline var Description: String = ""

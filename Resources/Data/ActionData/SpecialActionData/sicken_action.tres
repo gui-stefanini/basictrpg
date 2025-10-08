@@ -5,16 +5,13 @@
 [resource]
 script = ExtResource("1_uexic")
 AnimationName = "sicken"
-SelfTarget = false
 Debuff = true
-RangeModifier = 0
 Status = 3
-StackDuration = false
 Duration = 2
 StackValue = true
-Value = 25
+Value = 1
 Type = 2
+SelfTarget = 2
 Name = "Sicken"
-Simulatable = false
 Description = "Poison the target. Can Stack."
 metadata/_custom_type_script = "uid://2hq2x3jwhrla"

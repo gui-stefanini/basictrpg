@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bqflg1i41xnh2"]
 
-[ext_resource type="Texture2D" uid="uid://djtkjvgw44rht" path="res://Assets/Art/Sprites/Shaman/ShamanVFX.png" id="1_ivn56"]
+[ext_resource type="Texture2D" uid="uid://c60vbsdi432v4" path="res://Assets/Art/Sprites/Mage/MageVFX.png" id="1_ivn56"]
 [ext_resource type="AnimationLibrary" uid="uid://cdrwulw02iw76" path="res://Resources/Animations/priest_vfx_library.res" id="2_i7erj"]
 [ext_resource type="AnimationLibrary" uid="uid://b0dodkfjqnkp3" path="res://Resources/Animations/knight_vfx_library.res" id="2_qkfm2"]
 [ext_resource type="AnimationLibrary" uid="uid://dodlv7wb2x6k3" path="res://Resources/Animations/mage_vfx_library.res" id="3_bad7w"]
@@ -60,8 +60,8 @@ z_index = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="RotationTracker/MoveTracker"]
 texture = ExtResource("1_ivn56")
-hframes = 3
-vframes = 2
+hframes = 4
+vframes = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

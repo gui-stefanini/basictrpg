@@ -62,7 +62,12 @@ func HealCommand(owner: Unit, manager: GameManager, target: Unit):
 ##############################################################
 
 func AttackTargeting(owner: Unit, manager: GameManager):
-	var possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.PlayerUnits)
+	var possible_targets : Array[Unit] = []
+	match owner.Faction:
+		Unit.Factions.ENEMY:
+			possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.FriendlyUnits)
+		Unit.Factions.ALLY:
+			possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.EnemyUnits)
 	
 	if possible_targets.is_empty():
 		print("No target in attack range")
@@ -73,14 +78,18 @@ func AttackTargeting(owner: Unit, manager: GameManager):
 		return target
 
 func HealTargeting(owner: Unit, manager: GameManager):
-	var possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.EnemyUnits)
+	var possible_targets : Array[Unit] = []
+	match owner.Faction:
+		Unit.Factions.ENEMY:
+			possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.EnemyUnits)
+		Unit.Factions.ALLY:
+			possible_targets = AILogic.GetTargetsInRange(owner, manager, manager.FriendlyUnits)
 	
 	if possible_targets.is_empty():
 		print("No target in heal range")
 		return null
 	else:
 		var target = AILogic.TargetByStat(possible_targets, func(u : Unit): return u.HPPercent)
-		#var target = TargetByStat(possible_targets, "HPPercent")
 		return target
 
 ##############################################################
@@ -168,41 +177,54 @@ func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 	}
 
 func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
-	var player_units : Array[Unit] = manager.PlayerUnits
-	var reachable_player_units = AILogic.GetReachableTargets(owner, manager, player_units)
-	if reachable_player_units.is_empty():
+	var targets_array : Array[Unit] = []
+	match owner.Faction:
+		Unit.Factions.ENEMY:
+			targets_array = manager.FriendlyUnits
+		Unit.Factions.ALLY:
+			targets_array = manager.EnemyUnits
+	
+	var reachable_targets_data = AILogic.GetReachableTargets(owner, manager, targets_array)
+	if reachable_targets_data.is_empty():
 		print("%s cannot reach any target to attack this turn" % owner.Data.Name)
 		return {}
 	
-	var target_units: Array[Unit] = []
-	for target_data in reachable_player_units:
-		target_units.append(target_data["target"])
-	var high_aggro_targets = AILogic.FilterTargetsByStat(target_units, func(u: Unit): return u.Aggro, true)
+	var reachable_targets: Array[Unit] = []
+	for target_data in reachable_targets_data:
+		reachable_targets.append(target_data["target"])
+	var high_aggro_targets = AILogic.FilterTargetsByStat(reachable_targets, func(u: Unit): return u.Aggro, true)
 	var final_target = AILogic.TargetByStat(high_aggro_targets, func(u: Unit): return u.CurrentHP)
 	
-	return FindBestDestination(final_target, reachable_player_units)
+	return FindBestDestination(final_target, reachable_targets_data)
 
 func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
-	var damaged_allies: Array[Unit] = []
-	for ally in manager.EnemyUnits:
-		if ally != owner and ally.CurrentHP < ally.MaxHP:
-			damaged_allies.append(ally)
-	if damaged_allies.is_empty():
+	var targets_array: Array[Unit] = []
+	match owner.Faction:
+		Unit.Factions.ENEMY:
+			targets_array = manager.EnemyUnits
+		Unit.Factions.ALLY:
+			targets_array = manager.FriendlyUnits
+	
+	var damaged_targets: Array[Unit] = []
+	
+	for target in targets_array:
+		if target != owner and target.CurrentHP < target.MaxHP:
+			damaged_targets.append(target)
+	if damaged_targets.is_empty():
 		return {}
 	
-	var reachable_damaged_allies = AILogic.GetReachableTargets(owner, manager, damaged_allies)
-	if reachable_damaged_allies.is_empty():
+	var reachable_damaged_targets_data = AILogic.GetReachableTargets(owner, manager, damaged_targets)
+	if reachable_damaged_targets_data.is_empty():
 		print("%s cannot reach any target to heal this turn" % owner.Data.Name)
 		return {}
 	
-	var target_allies: Array[Unit] = []
-	for target_data in reachable_damaged_allies:
-		target_allies.append(target_data["target"])
-	var high_aggro_targets = AILogic.FilterTargetsByStat(target_allies, func(u: Unit): return u.SupportAggro, true)
+	var reachable_damaged_targets: Array[Unit] = []
+	for target_data in reachable_damaged_targets_data:
+		reachable_damaged_targets.append(target_data["target"])
+	var high_aggro_targets = AILogic.FilterTargetsByStat(reachable_damaged_targets, func(u: Unit): return u.SupportAggro, true)
 	var final_target = AILogic.TargetByStat(high_aggro_targets, func(u: Unit): return u.HPPercent)
 	
-	return FindBestDestination(final_target, reachable_damaged_allies)
-
+	return FindBestDestination(final_target, reachable_damaged_targets_data)
 
 ######################
 #    ROUTINE LOGIC   #
@@ -226,7 +248,14 @@ func ExecuteMoveOffensiveRoutine(owner: Unit, manager: GameManager):
 	if owner.HasActed == true:
 		return
 	
-	await ActionMovementRoutine(owner, manager, manager.PlayerUnits)
+	var targets_array : Array[Unit] = []
+	match owner.Faction:
+		Unit.Factions.ENEMY:
+			targets_array = manager.FriendlyUnits
+		Unit.Factions.ALLY:
+			targets_array = manager.EnemyUnits
+	
+	await ActionMovementRoutine(owner, manager, targets_array)
 
 func ExecuteHealingRoutine(owner: Unit, manager: GameManager):
 	var heal_opportunity = FindHealOpportunity(owner, manager)
@@ -246,17 +275,25 @@ func ExecuteMoveHealingRoutine(owner: Unit, manager: GameManager):
 	if owner.HasActed == true:
 		return
 	
-	var allies = AILogic.GetValidTargets(owner, manager, manager.EnemyUnits)
-	if not allies.is_empty():
-		var damaged_allies = []
+	var targets_array : Array[Unit] = []
+	match owner.Faction:
+		Unit.Factions.ENEMY:
+			targets_array = manager.EnemyUnits
+		Unit.Factions.ALLY:
+			targets_array = manager.FriendlyUnits
+	
+	var valid_targets_data = AILogic.GetValidTargets(owner, manager, targets_array)
+	if not valid_targets_data.is_empty():
+		var damaged_targets = []
 		
-		for ally in allies:
-			var unit = ally["target"]
-			if unit != owner and unit.CurrentHP < unit.MaxHP:
-				damaged_allies.append(ally)
+		for target_data in valid_targets_data:
+			var target = target_data["target"]
+			if target != owner and target.CurrentHP < target.MaxHP:
+				damaged_targets.append(target)
+				break
 		
-		if not damaged_allies.is_empty():
-			await ActionMovementRoutine(owner, manager, manager.EnemyUnits)
+		if not damaged_targets.is_empty():
+			await ActionMovementRoutine(owner, manager, targets_array)
 			return
 
 ######################
@@ -319,8 +356,8 @@ func ExecuteSupportLogic(owner: Unit, manager: GameManager, ai: AI):
 ######################
 #    AI TURN LOGIC   #
 ######################
+
 func execute_turn(_owner: Unit, _manager: GameManager):
-	# Await is needed for the function to be async.
 	await GeneralFunctions.Wait(0.01)
 	pass
 

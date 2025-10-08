@@ -22,8 +22,6 @@ RangeLabel = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginCon
 StatusContainer = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/StatusContainer")
 AbilityContainer = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/AbilityContainer")
 ActionContainer = NodePath("TabContainer/Units/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/RightColumn/VBoxContainer/ActionContainer")
-PlayerUnitColor = Color(0.1518, 0.192893, 0.46, 1)
-EnemyUnitColor = Color(0.59, 0.1593, 0.1593, 1)
 ObjectiveLabel = NodePath("TabContainer/Level/ObjectiveLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -195,28 +193,28 @@ size_flags_vertical = 4
 [node name="WorldMapButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
-theme_override_styles/hover = ExtResource("6_b2nnt")
-theme_override_styles/pressed = ExtResource("6_b2nnt")
 theme_override_styles/normal = ExtResource("7_pdy4g")
+theme_override_styles/pressed = ExtResource("6_b2nnt")
+theme_override_styles/hover = ExtResource("6_b2nnt")
+theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
 text = " Return to Map "
 
 [node name="MenuButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
-theme_override_styles/hover = ExtResource("6_b2nnt")
-theme_override_styles/pressed = ExtResource("6_b2nnt")
 theme_override_styles/normal = ExtResource("7_pdy4g")
+theme_override_styles/pressed = ExtResource("6_b2nnt")
+theme_override_styles/hover = ExtResource("6_b2nnt")
+theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
 text = " Main Menu "
 
 [node name="QuitButton" type="Button" parent="TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 0
-theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
-theme_override_styles/hover = ExtResource("6_b2nnt")
-theme_override_styles/pressed = ExtResource("6_b2nnt")
 theme_override_styles/normal = ExtResource("7_pdy4g")
+theme_override_styles/pressed = ExtResource("6_b2nnt")
+theme_override_styles/hover = ExtResource("6_b2nnt")
+theme_override_styles/hover_pressed = ExtResource("6_b2nnt")
 text = " Quit "
 
 [connection signal="pressed" from="TabContainer/Menu/VBoxContainer/WorldMapButton" to="." method="_on_world_map_button_pressed"]

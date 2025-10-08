@@ -1,5 +1,5 @@
-class_name SpawnInfo
-extends Resource
+class_name SummonAction
+extends Action
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
@@ -10,12 +10,9 @@ extends Resource
 ######################
 #     REFERENCES     #
 ######################
-@export var Character: CharacterData
-@export var CharacterLevel: int = 1
-@export var Faction: Unit.Factions
-@export var Position: Vector2i
-@export var Behavior: AIBehavior
-var Summoner: Unit
+
+@export var AnimationName: String
+@export var SummonList: Array[SpawnInfo]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -28,6 +25,35 @@ var Summoner: Unit
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
+
+func _on_select(user: Unit, manager: GameManager):
+	manager.MyActionManager.ExecuteAction(self, user)
+
+func _check_target(_user: Unit, _manager: GameManager = null, _target = null) -> bool:
+	return true
+
+func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
+	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
+	print(user.Data.Name + " summons!")
+	
+	for summon in SummonList:
+		summon.Summoner = user
+		
+		match user.Faction:
+			Unit.Factions.PLAYER, Unit.Factions.ALLY:
+				summon.Faction = Unit.Factions.ALLY
+			Unit.Factions.ENEMY:
+				summon.Faction = Unit.Factions.ENEMY
+		
+		summon.Position =  manager.GroundGrid.local_to_map(user.global_position)
+	
+	await user.PlayActionAnimation(AnimationName, user)
+	user.summoned_units.emit()
+	manager.SpawnUnitGroup(SummonList)
+	
+	user.HasActed = true
+	manager.EndPlayerTurn()
+	return null
 
 ##############################################################
 #                      4.0 Godot Functions                   #

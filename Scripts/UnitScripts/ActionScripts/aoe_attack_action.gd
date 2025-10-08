@@ -31,7 +31,7 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightAOEArea(user, action_range)
+	manager.MyActionManager.HighlightAOEArea(user, action_range, true)
 	manager.MyActionManager.AOERange = AOERange
 	manager.MyCursor.show()
 

@@ -22,9 +22,6 @@ extends CanvasLayer
 @export var StatusContainer: VBoxContainer
 @export var AbilityContainer: VBoxContainer
 @export var ActionContainer: VBoxContainer
-# Faction Colors
-@export var PlayerUnitColor: Color
-@export var EnemyUnitColor: Color
 #LevelTab
 @export var ObjectiveLabel: Label
 
@@ -33,8 +30,11 @@ var MyGameManager: GameManager
 #     SCRIPT-WIDE    #
 ######################
 var PlayerUnits: Array[Unit] = []
+var AllyUnits: Array[Unit] = []
 var EnemyUnits: Array[Unit] = []
+
 var AllUnits: Array[Unit] = []
+
 var CurrentUnit: Unit
 var CurrentUnitIndex: int = 0
 
@@ -46,8 +46,9 @@ func Initialize(game_manager: GameManager):
 	#AllUnits = game_manager.AllUnits.duplicate()
 	
 	PlayerUnits = game_manager.PlayerUnits.duplicate()
+	AllyUnits = game_manager.AllyUnits.duplicate()
 	EnemyUnits = game_manager.EnemyUnits.duplicate()
-	AllUnits = game_manager.PlayerUnits.duplicate() + game_manager.EnemyUnits.duplicate()
+	AllUnits = game_manager.AllUnits.duplicate()
 	
 	game_manager.unit_spawned.connect(_on_unit_spawned)
 	game_manager.unit_removed.connect(_on_unit_removed)
@@ -109,10 +110,13 @@ func PopulateUnitList():
 		var unit_index = UnitList.get_item_count() - 1
 		UnitList.set_item_metadata(unit_index, unit)
 		
-		if unit.Faction == Unit.Factions.PLAYER:
-			UnitList.set_item_custom_fg_color(i, PlayerUnitColor)
-		else:
-			UnitList.set_item_custom_fg_color(i, EnemyUnitColor)
+		match unit.Faction:
+			Unit.Factions.PLAYER:
+				UnitList.set_item_custom_fg_color(i, ColorList.PlayerFactionColor)
+			Unit.Factions.ENEMY:
+				UnitList.set_item_custom_fg_color(i, ColorList.EnemyFactionColor)
+			Unit.Factions.ALLY:
+				UnitList.set_item_custom_fg_color(i, ColorList.AllyFactionColor)
 
 func ClearContainer(container: VBoxContainer):
 	for child in container.get_children():
@@ -125,12 +129,14 @@ func UpdateUnitPanel():
 	UnitSprite.vframes = CurrentUnit.Data.Vframes
 	UnitSprite.frame = 0
 	UnitSprite.material = CurrentUnit.Sprite.material.duplicate()
-	var unit_faction = CurrentUnit.Faction
-	match unit_faction:
+	
+	match CurrentUnit.Faction:
 		Unit.Factions.PLAYER:
 			UnitSprite.material.set_shader_parameter("new_color", ColorList.PlayerFactionColor)
 		Unit.Factions.ENEMY:
 			UnitSprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
+		Unit.Factions.ALLY:
+			UnitSprite.material.set_shader_parameter("new_color", ColorList.AllyFactionColor)
 	
 	NameLabel.text = CurrentUnit.Data.Name
 	HPLabel.text = "HP: %d/%d" % [CurrentUnit.CurrentHP, CurrentUnit.MaxHP]
@@ -225,14 +231,18 @@ func _on_unit_spawned(unit: Unit):
 		PlayerUnits.append(unit)
 	elif unit.Faction == Unit.Factions.ENEMY:
 		EnemyUnits.append(unit)
-	AllUnits = PlayerUnits + EnemyUnits
+	elif unit.Faction == Unit.Factions.ALLY:
+		AllyUnits.append(unit)
+	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 
 func _on_unit_removed(unit: Unit):
 	if unit in PlayerUnits:
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
-	AllUnits = PlayerUnits + EnemyUnits
+	elif unit in AllyUnits:
+		AllyUnits.erase(unit)
+	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 
 func _on_world_map_button_pressed() -> void:
 	hide()

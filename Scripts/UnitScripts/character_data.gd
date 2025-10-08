@@ -15,6 +15,8 @@ extends Resource
 @export var Class: ClassData
 @export var Generic: bool = false
 @export var Boss: bool = false
+@export var Summon: bool = false
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -63,7 +65,7 @@ var BaseSupportAggro: int
 @export var MyAnimationLibrary: AnimationLibrary
 
 #Save
-@export var InfoToSave: Array[String] = ["CharacterLevel"]
+var InfoToSave: Array[String] = ["CharacterLevel"]
 
 ##############################################################
 #                      2.0 Functions                         #

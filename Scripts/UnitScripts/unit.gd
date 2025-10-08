@@ -12,6 +12,8 @@ signal animation_hit
 signal damage_taken(unit: Unit, damage_data: Dictionary)
 signal unit_died(unit: Unit)
 
+signal summoned_units
+
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
@@ -29,7 +31,7 @@ signal unit_died(unit: Unit)
 #     SCRIPT-WIDE    #
 ######################
 
-enum Factions {PLAYER, ENEMY}
+enum Factions {PLAYER, ENEMY, ALLY}
 @export var Faction: Factions
 
 enum Status {PASS, DEFENDING, REGENERATING, POISONED}
@@ -112,8 +114,7 @@ func TakeDamage(damage_amount: int, percentage: bool = false,
 	UpdateHealth()
 	
 	if CurrentHP <= 0:
-		IsDead = true
-		unit_died.emit(self)
+		Despawn()
 
 func ReceiveHealing(heal_amount: int, percentage: bool = false):
 	if percentage == true:
@@ -124,6 +125,10 @@ func ReceiveHealing(heal_amount: int, percentage: bool = false):
 	print(Data.Name + " is healed for " + str(heal_amount) + " HP! Now at " + str(CurrentHP) + " HP.")
 	
 	UpdateHealth()
+
+func Despawn():
+	IsDead = true
+	unit_died.emit(self)
 
 ##############################################################
 #                      2.2 STATUS INTERACTION                #
@@ -144,24 +149,28 @@ func AddStatus(status: Status, duration: int = -1, value: int = -1,
 			ActiveStatuses[status][StatusInfo.VALUE] = max(status_data[StatusInfo.VALUE], value)
 		else:
 			ActiveStatuses[status][StatusInfo.VALUE] += value
+		
+		StatusLogic.SetStatusLimit(self, status)
 	
 	else:
-		var new_status = {StatusInfo.DURATION: duration, StatusInfo.VALUE: value}
-		ActiveStatuses[status] = new_status
+		
+		var new_status_info = {StatusInfo.DURATION: duration, StatusInfo.VALUE: value}
+		ActiveStatuses[status] = new_status_info
+		StatusLogic.SetStatusLimit(self, status)
 		StatusLogic.ApplyStatusLogic(self, status)
 		print("%s gained status: %s for %d turns" % [Data.Name, Status.find_key(status), duration])
 
-func StackStatus(status: Status, information: StatusInfo, amount: int):
-	if ActiveStatuses.has(status):
-		ActiveStatuses[status][information] += amount
-	else:
-		var new_status = {
-			StatusInfo.DURATION: -1,
-			StatusInfo.VALUE: -1
-		}
-		new_status[information] = amount
-		ActiveStatuses[status] = new_status
-		StatusLogic.ApplyStatusLogic(self, status)
+#func StackStatus(status: Status, information: StatusInfo, amount: int):
+	#if ActiveStatuses.has(status):
+		#ActiveStatuses[status][information] += amount
+	#else:
+		#var new_status = {
+			#StatusInfo.DURATION: -1,
+			#StatusInfo.VALUE: -1
+		#}
+		#new_status[information] = amount
+		#ActiveStatuses[status] = new_status
+		#StatusLogic.ApplyStatusLogic(self, status)
 
 ##############################################################
 #                      2.3 SET STATE                         #
@@ -191,6 +200,8 @@ func SetSprite():
 				Sprite.material.set_shader_parameter("new_color", ColorList.BossColor)
 			else:
 				Sprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
+		Factions.ALLY:
+			Sprite.material.set_shader_parameter("new_color", ColorList.AllyFactionColor)
 
 func SetSkills():
 	for ability in Data.Abilities:
@@ -200,11 +211,16 @@ func SetSkills():
 	for action in Data.Actions:
 		action.connect_listeners(self)
 
-func SetData(spawn_level: int = -1):
+func SetData(spawn_level: int = -1, summoner: Unit = null):
 	#When no Generic, it IS supposed to be able to edit the character data itself
-	if Data.Generic == true:
+	if Data.Generic == true or Data.Summon == true:
 		Data = Data.duplicate()
 		Data.CharacterLevel = spawn_level
+	
+	if Data.Summon == true:
+		summoner.summoned_units.connect(Despawn)
+		summoner.unit_died.connect(Despawn)
+	
 	Data.ClassOverride()
 	
 	SetSkills()

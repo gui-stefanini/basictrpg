@@ -44,14 +44,18 @@ var CursorHighlightLayer : TileMapLayer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum GameState {NULL, PLAYER_TURN, ENEMY_TURN, END}
+enum GameState {NULL, PLAYER_TURN, ALLY_TURN, ENEMY_TURN, END}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 var CurrentGameState : GameState = GameState.NULL
 var CurrentSubState : SubState = SubState.NULL
 
 var PlayerUnits: Array[Unit] = []
+var AllyUnits: Array[Unit] = []
 var EnemyUnits: Array[Unit] = []
+
+var FriendlyUnits: Array[Unit] = []
 var AllUnits: Array[Unit] = []
+
 var UnitsWhoHaveActed: Array[Unit] = []
 
 var TurnNumber: int = 0
@@ -166,12 +170,41 @@ func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
 #                      2.3 SPAWNING                          #
 ##############################################################
 
-func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i], unit_data: CharacterData) -> Vector2i:
-	var move_data_name = unit_data.MovementType.Name
+func GetInvalidSpawns(unit_data: CharacterData) -> Array[Vector2i]:
+	var move_data_name: String 
 	
-	if not MyMoveManager.AStarInstances.has(move_data_name):
-		push_error("No AStar grid found for movement type: " + move_data_name)
-		return start_tile
+	if unit_data.MovementType != null:
+		move_data_name = unit_data.MovementType.Name
+	elif unit_data.CharacterMovementType != null:
+		move_data_name = unit_data.CharacterMovementType.Name
+	else:
+		move_data_name = unit_data.Class.ClassMovementType.Name
+	
+	var astar : MovementAStar = MyMoveManager.AStarInstances[move_data_name]
+	var all_ids = Array(astar.get_point_ids())
+	var all_tiles: Array[Vector2i] = []
+	for id in all_ids:
+		all_tiles.append(Vector2i(astar.get_point_position(id)))
+	
+	var occupied_tiles : Array[Vector2i] = MyMoveManager.GetOccupiedTiles()
+	var invalid_tiles: Array[Vector2i] = []
+	
+	for tile in all_tiles:
+		var point_id = MyMoveManager.vector_to_id(tile)
+		if astar.is_point_disabled(point_id) or occupied_tiles.has(tile):
+			invalid_tiles.append(tile)
+	
+	return invalid_tiles
+
+func FindClosestValidSpawn(start_tile: Vector2i, invalid_tiles: Array[Vector2i], unit_data: CharacterData) -> Vector2i:
+	var move_data_name: String 
+	
+	if unit_data.MovementType != null:
+		move_data_name = unit_data.MovementType.Name
+	elif unit_data.CharacterMovementType != null:
+		move_data_name = unit_data.CharacterMovementType.Name
+	else:
+		move_data_name = unit_data.Class.ClassMovementType.Name
 	
 	var astar = MyMoveManager.AStarInstances[move_data_name]
 	
@@ -182,10 +215,11 @@ func FindClosestValidSpawn(start_tile: Vector2i, occupied_tiles: Array[Vector2i]
 		var current_tile = check_queue.pop_front()
 		
 		var point_id = MyMoveManager.vector_to_id(current_tile)
-		if astar.has_point(point_id) and not astar.is_point_disabled(point_id) and not occupied_tiles.has(current_tile):
+		if astar.has_point(point_id) and not astar.is_point_disabled(point_id) and not invalid_tiles.has(current_tile):
 			return current_tile
 		
 		var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		directions.shuffle()
 		for direction in directions:
 			var neighbor = current_tile + direction
 			if not queued.has(neighbor):
@@ -206,7 +240,11 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	if spawn_info.Faction != Unit.Factions.PLAYER:
 		new_unit.MyAI.SetBehavior(spawn_info.Behavior)
 	
-	new_unit.SetData(spawn_info.CharacterLevel)
+	if new_unit.Data.Summon == true:
+		new_unit.SetData(spawn_info.CharacterLevel, spawn_info.Summoner)
+	else:
+		new_unit.SetData(spawn_info.CharacterLevel)
+	
 	new_unit.name = "%s %s %d" % [Unit.Factions.find_key(spawn_info.Faction)[0], unit_data.Name, NumberOfUnits]
 	NumberOfUnits += 1
 	add_child(new_unit)
@@ -216,11 +254,14 @@ func SpawnUnit(spawn_info : SpawnInfo):
 			PlayerUnits.append(new_unit)
 		Unit.Factions.ENEMY:
 			EnemyUnits.append(new_unit)
-	AllUnits = PlayerUnits + EnemyUnits
+		Unit.Factions.ALLY:
+			AllyUnits.append(new_unit)
+	FriendlyUnits = PlayerUnits + AllyUnits
+	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 	
-	var occupied_tiles = MyMoveManager.GetOccupiedTiles()
-	if occupied_tiles.has(spawn_pos):
-		spawn_pos = FindClosestValidSpawn(spawn_pos, occupied_tiles, unit_data)
+	var invalid_tiles = GetInvalidSpawns(unit_data)
+	if invalid_tiles.has(spawn_pos):
+		spawn_pos = FindClosestValidSpawn(spawn_pos, invalid_tiles, unit_data)
 	var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
 	var tile_global_position = GroundGrid.to_global(tile_grid_position)
 	new_unit.global_position = tile_global_position
@@ -289,6 +330,7 @@ func EndPlayerTurn():
 	
 	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
 	unit_turn_ended.emit(ActiveUnit, ActiveUnit.CurrentTile)
+	
 	if CurrentGameState == GameState.END:
 		return
 	
@@ -301,24 +343,50 @@ func EndPlayerTurn():
 		for unit in PlayerUnits:
 			unit.SetActive()
 		await GeneralFunctions.Wait(0.5)
-		await StartEnemyTurn()
+		StartAllyTurn()
 	else:
 		CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		UpdateCursor()
+
+func StartAllyTurn():
+	print("--- Ally Turn Begins ---")
+	CurrentGameState = GameState.ALLY_TURN
+	CurrentSubState = SubState.MOVEMENT_PHASE
+	
+	for unit in AllyUnits:
+		unit.StartTurn()
+	
+	for unit in AllyUnits:
+		await GeneralFunctions.Wait(0.2)
+		print(unit.Data.Name + " is taking its turn.")
+		await unit.MyAI.Behavior.execute_turn(unit, self)
+		var unit_tile = GroundGrid.local_to_map(unit.global_position)
+		unit_turn_ended.emit(unit, unit_tile)
+	
+	EndAllyTurn()
+
+func EndAllyTurn():
+	print("--- Ally Turn Ends ---")
+	StartEnemyTurn()
 
 func StartEnemyTurn():
 	print("--- Enemy Turn Begins ---")
 	CurrentGameState = GameState.ENEMY_TURN
 	CurrentSubState = SubState.MOVEMENT_PHASE
 	
-	for enemy in EnemyUnits:
-		await GeneralFunctions.Wait(0.2)
-		enemy.StartTurn()
-		print(enemy.Data.Name + " is taking its turn.")
-		await enemy.MyAI.Behavior.execute_turn(enemy, self)
-		var enemy_tile = GroundGrid.local_to_map(enemy.global_position) 
-		unit_turn_ended.emit(enemy, enemy_tile)
+	for unit in EnemyUnits:
+		unit.StartTurn()
 	
+	for unit in EnemyUnits:
+		await GeneralFunctions.Wait(0.2)
+		print(unit.Data.Name + " is taking its turn.")
+		await unit.MyAI.Behavior.execute_turn(unit, self)
+		var unit_tile = GroundGrid.local_to_map(unit.global_position) 
+		unit_turn_ended.emit(unit, unit_tile)
+	
+	EndEnemyTurn()
+
+func EndEnemyTurn():
 	print("--- Enemy Turn Ends ---")
 	turn_ended.emit(TurnNumber)
 	StartPlayerTurn()
@@ -526,7 +594,10 @@ func _on_unit_died(unit: Unit):
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
-	AllUnits = PlayerUnits + EnemyUnits
+	elif unit in AllyUnits:
+		AllyUnits.erase(unit)
+	FriendlyUnits = PlayerUnits + AllyUnits
+	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 	
 	unit_removed.emit(unit)
 	unit_died.emit(unit)

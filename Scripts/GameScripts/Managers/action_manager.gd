@@ -107,16 +107,16 @@ func HighlightAttackArea(unit: Unit, action_range: int):
 	HighlightedAttackTiles = GetTilesInRange(unit_tile, action_range)
 	DrawHighlights(HighlightedAttackTiles, 1, Vector2i(1,0))
 
-func HighlightAOEArea(unit: Unit, action_range: int):
+func HighlightAOEArea(unit: Unit, action_range: int, include_self: bool = false):
 	ClearHighlights()
 	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedAOETiles = GetTilesInRange(unit_tile, action_range)
+	HighlightedAOETiles = GetTilesInRange(unit_tile, action_range, include_self)
 	DrawHighlights(HighlightedAOETiles, 1, Vector2i(1,0))
 
-func HighlightHealArea(unit: Unit, action_range: int):
+func HighlightHealArea(unit: Unit, action_range: int, include_self: bool = false):
 	ClearHighlights()
 	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedHealTiles = GetTilesInRange(unit_tile, action_range)
+	HighlightedHealTiles = GetTilesInRange(unit_tile, action_range, include_self)
 	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
 
 func UpdateAOE(cursor_tile : Vector2i):

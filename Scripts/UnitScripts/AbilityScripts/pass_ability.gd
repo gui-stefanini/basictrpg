@@ -20,7 +20,7 @@ extends Ability
 ##############################################################
 
 func apply_ability(owner: Unit):
-	owner.AddStatus(Unit.Status.PASS, -1)
+	owner.AddStatus(Unit.Status.PASS)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

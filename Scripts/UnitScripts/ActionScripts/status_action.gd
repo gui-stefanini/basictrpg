@@ -16,7 +16,6 @@ extends Action
 
 @export var AnimationName : String
 
-@export var SelfTarget: bool
 @export var Debuff: bool
 @export var RangeModifier: int
 
@@ -36,27 +35,37 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	if SelfTarget == true:
+	if SelfTarget == SelfTargetRule.ONLY:
 		_execute(user, manager, user)
+		return
 	
+	manager.CurrentAction = self
+	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
+	var action_range = user.AttackRange + RangeModifier
+	
+	if Debuff == true:
+		manager.MyActionManager.HighlightAttackArea(user, action_range)
 	else:
-		manager.CurrentAction = self
-		manager.CurrentSubState = manager.SubState.TARGETING_PHASE
-		var action_range = user.AttackRange + RangeModifier
-		if Debuff == true:
-			manager.MyActionManager.HighlightAttackArea(user, action_range)
-		else:
-			manager.MyActionManager.HighlightHealArea(user, action_range)
-		manager.MyCursor.show()
+		var include_self : bool = false
+		if SelfTarget == SelfTargetRule.INCLUDE:
+			include_self = true
+		manager.MyActionManager.HighlightHealArea(user, action_range, include_self)
+	
+	manager.MyCursor.show()
 
 func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
 	if target is not Unit:
 		return false
+	
+	var user_friendly: bool = user.Faction in [Unit.Factions.PLAYER, Unit.Factions.ALLY]
+	var target_friendly: bool = target.Faction in [Unit.Factions.PLAYER, Unit.Factions.ALLY]
+	var opponents: bool = user_friendly != target_friendly
+	
 	if Debuff == true:
-		if target.Faction == user.Faction:
+		if opponents == false:
 			return false
 	else:
-		if target.Faction != user.Faction:
+		if opponents == true:
 			return false
 	
 	return true
@@ -64,7 +73,7 @@ func _check_target(user: Unit, _manager: GameManager = null, target = null) -> b
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " is using a status action!")
-	if SelfTarget == true:
+	if SelfTarget == SelfTargetRule.ONLY:
 		target = user
 	
 	await user.PlayActionAnimation(AnimationName, target)

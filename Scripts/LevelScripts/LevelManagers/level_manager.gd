@@ -30,6 +30,7 @@ signal request_dialogue(text: String)
 ######################
 var PlayerUnits: Array[Unit]
 var EnemyUnits: Array[Unit]
+var AllyUnits: Array[Unit]
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -73,6 +74,8 @@ func _on_unit_spawned(unit: Unit):
 		PlayerUnits.append(unit)
 	elif unit.Faction == Unit.Factions.ENEMY:
 		EnemyUnits.append(unit)
+	elif unit.Faction == Unit.Factions.ALLY:
+		AllyUnits.append(unit)
 
 func _on_unit_died(_unit: Unit):
 	pass
@@ -82,6 +85,8 @@ func _on_unit_removed(unit: Unit):
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
+	elif unit in AllyUnits:
+		AllyUnits.erase(unit)
 
 ##############################################################
 #                      4.0 Godot Functions                   #

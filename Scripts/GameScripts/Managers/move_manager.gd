@@ -20,6 +20,10 @@ var GroundGrid: TileMapLayer
 
 var PlayerUnits: Array[Unit]
 var EnemyUnits: Array[Unit]
+var AllyUnits: Array[Unit]
+
+var FriendlyUnits: Array[Unit]
+var AllUnits: Array[Unit]
 
 var AStarInstances: Dictionary = {}
 
@@ -45,19 +49,17 @@ func SetUnitObstacles(active_unit: Unit, astar : AStar2D) -> Array[Vector2i]:
 	
 	var modified_tiles: Array[Vector2i] = []
 	
-	for unit in PlayerUnits:
-		if unit != active_unit:
-			var unit_tile = GroundGrid.local_to_map(unit.global_position)
-			if active_unit.Faction != unit.Faction:
+	match active_unit.Faction:
+		Unit.Factions.PLAYER, Unit.Factions.ALLY:
+			for unit in EnemyUnits:
+				var unit_tile = GroundGrid.local_to_map(unit.global_position)
 				astar.set_point_disabled(vector_to_id(unit_tile), true)
 				modified_tiles.append(unit_tile)
-			
-	for enemy in EnemyUnits:
-		if enemy != active_unit:
-			var enemy_tile = GroundGrid.local_to_map(enemy.global_position)
-			if active_unit.Faction != enemy.Faction:
-				astar.set_point_disabled(vector_to_id(enemy_tile), true)
-				modified_tiles.append(enemy_tile)
+		Unit.Factions.ENEMY:
+			for unit in FriendlyUnits:
+				var unit_tile = GroundGrid.local_to_map(unit.global_position)
+				astar.set_point_disabled(vector_to_id(unit_tile), true)
+				modified_tiles.append(unit_tile)
 	
 	return modified_tiles
 
@@ -68,17 +70,15 @@ func ClearUnitObstacles(tiles_to_clear: Array[Vector2i], astar : AStar2D):
 func GetOccupiedTiles(exception: Unit = null) -> Array[Vector2i]:
 	var occupied_tiles: Array[Vector2i] = []
 	
-	for unit in PlayerUnits:
+	for unit in AllUnits:
 		occupied_tiles.append(GroundGrid.local_to_map(unit.global_position))
-	for enemy in EnemyUnits:
-		occupied_tiles.append(GroundGrid.local_to_map(enemy.global_position))
-	
 	if exception != null:
 		occupied_tiles.erase(GroundGrid.local_to_map(exception.global_position))
+	
 	return occupied_tiles
 
 ##############################################################
-#                      2.1 ASTAR PATHING                     #
+#                      2.2 ASTAR PATHING                     #
 ##############################################################
 
 func vector_to_id(vector: Vector2i) -> int:
@@ -155,7 +155,7 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 	return {"path" : path, "cost" : path_cost}
 
 ##############################################################
-#                      2.1 MOVEMENT LOGIC                    #
+#                      2.3 MOVEMENT LOGIC                    #
 ##############################################################
 
 func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
@@ -216,12 +216,20 @@ func _on_unit_spawned(unit: Unit):
 		PlayerUnits.append(unit)
 	elif unit.Faction == Unit.Factions.ENEMY:
 		EnemyUnits.append(unit)
+	elif unit.Faction == Unit.Factions.ALLY:
+		AllyUnits.append(unit)
+	FriendlyUnits = PlayerUnits + AllyUnits
+	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 
 func _on_unit_removed(unit: Unit):
 	if unit in PlayerUnits:
 		PlayerUnits.erase(unit)
 	elif unit in EnemyUnits:
 		EnemyUnits.erase(unit)
+	elif unit in AllyUnits:
+		AllyUnits.erase(unit)
+	FriendlyUnits = PlayerUnits + AllyUnits
+	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 
 ##############################################################
 #                      4.0 Godot Functions                   #

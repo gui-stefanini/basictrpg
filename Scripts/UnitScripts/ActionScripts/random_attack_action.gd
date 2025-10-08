@@ -28,10 +28,11 @@ func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(user_tile, action_range)
 	var targets_array : Array[Unit]
 	
-	if user.Faction == Unit.Factions.PLAYER:
-		targets_array = manager.EnemyUnits
-	elif user.Faction == Unit.Factions.ENEMY:
-		targets_array = manager.PlayerUnits
+	match user.Faction:
+		Unit.Factions.PLAYER, Unit.Factions.ALLY:
+			targets_array = manager.EnemyUnits
+		Unit.Factions.ENEMY:
+			targets_array = manager.FriendlyUnits
 	
 	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, targets_array)
 	return targets

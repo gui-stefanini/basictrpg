@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SummonAction" load_steps=6 format=3 uid="uid://bcyrdqnfhq3oi"]
+
+[ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="1_p5y43"]
+[ext_resource type="Script" uid="uid://dxdeqcck4cdgh" path="res://Scripts/UnitScripts/ActionScripts/summon_action.gd" id="2_jouq8"]
+[ext_resource type="Resource" uid="uid://dhluwymglp7yn" path="res://Resources/Data/AIData/bandit_ai.tres" id="2_llsib"]
+[ext_resource type="Resource" uid="uid://rygd0bcm41nw" path="res://Resources/Data/CharacterData/SummonCharacters/summon_zombie.tres" id="3_d1sr6"]
+
+[sub_resource type="Resource" id="Resource_p5y43"]
+script = ExtResource("1_p5y43")
+Character = ExtResource("3_d1sr6")
+Behavior = ExtResource("2_llsib")
+metadata/_custom_type_script = "uid://ji7crggxdou"
+
+[resource]
+script = ExtResource("2_jouq8")
+AnimationName = "summon"
+SummonList = Array[ExtResource("1_p5y43")]([SubResource("Resource_p5y43")])
+Type = 2
+Name = "Summon Zombie"
+Description = "Summon a Zombie."
+metadata/_custom_type_script = "uid://dxdeqcck4cdgh"

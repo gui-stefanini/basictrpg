@@ -94,21 +94,22 @@ func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_
 	animation_hit.connect(Defender._on_animation_being_hit)
 	
 	# --- Position and Configure Units for Combat ---
-	if Attacker.Faction == Unit.Factions.PLAYER:
-		Attacker.global_position = PlayerPosition.global_position
+	match Attacker.Faction:
+		Unit.Factions.PLAYER, Unit.Factions.ALLY:
+			Attacker.global_position = PlayerPosition.global_position
+			
+			Defender.global_position = EnemyPosition.global_position
+			Defender.RotationTracker.scale.x = -1
+			
+			SetBackground(attacker_tile, defender_tile)
 		
-		Defender.global_position = EnemyPosition.global_position
-		Defender.RotationTracker.scale.x = -1
-		
-		SetBackground(attacker_tile, defender_tile)
-	
-	else:
-		Attacker.global_position = EnemyPosition.global_position
-		Attacker.RotationTracker.scale.x = -1
-		
-		Defender.global_position = PlayerPosition.global_position
-		
-		SetBackground(attacker_tile, defender_tile, true)
+		Unit.Factions.ENEMY:
+			Attacker.global_position = EnemyPosition.global_position
+			Attacker.RotationTracker.scale.x = -1
+			
+			Defender.global_position = PlayerPosition.global_position
+			
+			SetBackground(attacker_tile, defender_tile, true)
 
 	# --- Play Animation ---
 	Attacker.MyAnimationPlayer.play("character_library/attack")

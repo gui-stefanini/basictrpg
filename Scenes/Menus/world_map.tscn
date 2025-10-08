@@ -231,10 +231,10 @@ autowrap_mode = 3
 [node name="UnlockButton" type="Button" parent="."]
 offset_right = 32.0
 offset_bottom = 8.0
-theme_override_styles/hover_pressed = ExtResource("21_0o0p7")
-theme_override_styles/hover = ExtResource("21_0o0p7")
-theme_override_styles/pressed = ExtResource("21_0o0p7")
 theme_override_styles/normal = ExtResource("22_ej0cr")
+theme_override_styles/pressed = ExtResource("21_0o0p7")
+theme_override_styles/hover = ExtResource("21_0o0p7")
+theme_override_styles/hover_pressed = ExtResource("21_0o0p7")
 text = " Unlock All "
 
 [connection signal="pressed" from="UnlockButton" to="." method="_on_unlock_button_pressed"]

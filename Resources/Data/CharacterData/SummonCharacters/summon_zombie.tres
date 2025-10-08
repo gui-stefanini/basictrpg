@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://rygd0bcm41nw"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_7a5m4"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_li8k1"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_ag6j7"]
+[ext_resource type="Resource" uid="uid://pbvgyu1ehtsg" path="res://Resources/Data/ClassData/SummonClassData/zombie_data.tres" id="3_li8k1"]
+
+[resource]
+script = ExtResource("3_ag6j7")
+Class = ExtResource("3_li8k1")
+Generic = true
+Summon = true
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

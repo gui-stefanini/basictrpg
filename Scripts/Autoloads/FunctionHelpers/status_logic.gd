@@ -28,6 +28,22 @@ func RemoveStatusLogic(unit: Unit, status: Unit.Status):
 	var status_name = Unit.Status.find_key(status)
 	call("Apply%sLogic" % [status_name], unit, true)
 
+func SetStatusLimit(unit: Unit, status: Unit.Status):
+	if unit.ActiveStatuses.has(status):
+		var status_data = unit.ActiveStatuses[status]
+		var status_name = Unit.Status.find_key(status)
+		
+		var status_info : Dictionary = call("Get%sLimit" % [status_name])
+		var duration = status_info["duration"]
+		var value = status_info["value"]
+		
+		status_data[Unit.StatusInfo.DURATION] = min(status_data[Unit.StatusInfo.DURATION], duration)
+		status_data[Unit.StatusInfo.VALUE] = min(status_data[Unit.StatusInfo.VALUE], value)
+
+##############################################################
+#                 2.2  SIGNAL CONECTIONS                     #
+##############################################################
+
 ######################
 #     TURN STARTED   #
 ######################
@@ -51,7 +67,7 @@ func DisconnectFromDamageTaken(unit: Unit, logic: Callable):
 		unit.damage_taken.disconnect(logic)
 
 ##############################################################
-#                      2.2  STATUS LOGIC                     #
+#                     2.3  STATUS-SPECIFIC                   #
 ##############################################################
 
 ######################
@@ -59,6 +75,10 @@ func DisconnectFromDamageTaken(unit: Unit, logic: Callable):
 ######################
 func ApplyPASSLogic(_unit: Unit, _remove: bool = false):
 	pass
+
+func GetPASSLimit():
+	var status_info: Dictionary = {"duration": -1, "value": -1}
+	return status_info
 
 ######################
 #     DEFENDING      #
@@ -74,6 +94,11 @@ func _defend_dmgtaken(unit: Unit, damage_data: Dictionary):
 		print("Defense applied! Damage halved.")
 		damage_data["damage"] = damage_data["damage"] / 2.0
 
+func GetDEFENDINGLimit() -> Dictionary:
+	var status_info: Dictionary = {"duration": 1, "value": -1}
+	return status_info
+
+
 ######################
 #     REGENERATING   #
 ######################
@@ -85,9 +110,13 @@ func ApplyREGENERATINGLogic(unit: Unit, remove: bool = false):
 
 func _regen_turn_started(unit: Unit):
 	if unit.ActiveStatuses.has(Unit.Status.REGENERATING):
-		var value: int = unit.ActiveStatuses[Unit.Status.REGENERATING][Unit.StatusInfo.VALUE]
+		var value: int = unit.ActiveStatuses[Unit.Status.REGENERATING][Unit.StatusInfo.VALUE] * 25
 		print("Regen! HP Recovered.")
 		unit.ReceiveHealing(value, true)
+
+func GetREGENERATINGLimit() -> Dictionary:
+	var status_info: Dictionary = {"duration": 2, "value": 4}
+	return status_info
 
 ######################
 #      POISONED      #
@@ -100,9 +129,13 @@ func ApplyPOISONEDLogic(unit: Unit, remove: bool = false):
 
 func _poison_turn_started(unit: Unit):
 	if unit.ActiveStatuses.has(Unit.Status.POISONED):
-		var value: int = unit.ActiveStatuses[Unit.Status.POISONED][Unit.StatusInfo.VALUE]
+		var value: int = unit.ActiveStatuses[Unit.Status.POISONED][Unit.StatusInfo.VALUE] * 25
 		print("Poison! Damage taken.")
 		unit.TakeDamage(value, true, true, false)
+
+func GetPOISONEDLimit() -> Dictionary:
+	var status_info: Dictionary = {"duration": 2, "value": 4}
+	return status_info
 
 ##############################################################
 #                      3.0 Signal Functions                  #
