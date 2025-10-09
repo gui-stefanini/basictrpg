@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bll35q0808ens"]
+
+[ext_resource type="TileSet" uid="uid://b7a3peffahbp4" path="res://Resources/Grids/ground_grid.tres" id="1_wmxob"]
+
+[node name="EffectLayer" type="TileMapLayer"]
+z_index = 1
+tile_set = ExtResource("1_wmxob")

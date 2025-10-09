@@ -3,5 +3,5 @@
 [ext_resource type="TileSet" uid="uid://bhi2cnpll41ke" path="res://Resources/Grids/numbers_grid.tres" id="1_2fbkx"]
 
 [node name="CoordinatesLayer" type="TileMapLayer"]
-z_index = 3
+z_index = 5
 tile_set = ExtResource("1_2fbkx")

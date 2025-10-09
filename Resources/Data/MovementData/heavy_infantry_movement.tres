@@ -6,6 +6,7 @@
 script = ExtResource("1_vtmgj")
 Name = "HeavyInfantry"
 TerrainCosts = {
+"Fire": 2,
 "Grass": 1,
 "Obstacle": -1,
 "Water": 3

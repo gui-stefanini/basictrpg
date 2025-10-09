@@ -6,6 +6,7 @@
 script = ExtResource("1_xhbsj")
 Name = "Base"
 TerrainCosts = {
+"Fire": 0,
 "Grass": 0,
 "Obstacle": 0,
 "Water": 0

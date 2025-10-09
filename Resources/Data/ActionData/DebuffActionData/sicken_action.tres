@@ -1,16 +1,16 @@
 [gd_resource type="Resource" script_class="StatusAction" load_steps=2 format=3 uid="uid://beutdrh88vf7w"]
 
-[ext_resource type="Script" uid="uid://2hq2x3jwhrla" path="res://Scripts/UnitScripts/ActionScripts/status_action.gd" id="1_uexic"]
+[ext_resource type="Script" uid="uid://2hq2x3jwhrla" path="res://Scripts/UnitScripts/ActionScripts/status_action.gd" id="1_g8hqj"]
 
 [resource]
-script = ExtResource("1_uexic")
+script = ExtResource("1_g8hqj")
 AnimationName = "sicken"
 Debuff = true
 Status = 3
 Duration = 2
 StackValue = true
 Value = 1
-Type = 2
+Type = 3
 SelfTarget = 2
 Name = "Sicken"
 Description = "Poison the target. Can Stack."

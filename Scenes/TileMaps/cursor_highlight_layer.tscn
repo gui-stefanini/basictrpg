@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf4stuuygfryp"]
+
+[ext_resource type="TileSet" uid="uid://b7a3peffahbp4" path="res://Resources/Grids/ground_grid.tres" id="1_qm7vs"]
+
+[node name="CursorHighlightLayer" type="TileMapLayer"]
+z_index = 4
+tile_set = ExtResource("1_qm7vs")

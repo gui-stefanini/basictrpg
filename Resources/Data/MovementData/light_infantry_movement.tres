@@ -6,6 +6,7 @@
 script = ExtResource("1_7fumu")
 Name = "LightInfantry"
 TerrainCosts = {
+"Fire": 2,
 "Grass": 1,
 "Obstacle": -1,
 "Water": 2

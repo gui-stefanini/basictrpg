@@ -19,7 +19,7 @@ signal request_dialogue(text: String)
 #     REFERENCES     #
 ######################
 @export var LevelObjective: String
-@export var LevelDialogue: String
+@export_multiline var LevelDialogue: String
 @export var LevelBGM: AudioStream
 @export var LevelHighlightLayer: TileMapLayer
 @export var PlayerReinforcements: Array[SpawnInfo]

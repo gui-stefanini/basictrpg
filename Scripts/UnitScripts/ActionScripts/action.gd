@@ -13,7 +13,7 @@ extends Resource
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum ActionTypes {MOVE, ATTACK, SPECIAL, WAIT}
+enum ActionTypes {MOVE, ATTACK, SUPPORT, DEBUFF, SPECIAL, WAIT}
 @export var Type : ActionTypes
 
 enum SelfTargetRule {ONLY, INCLUDE, EXCLUDE}

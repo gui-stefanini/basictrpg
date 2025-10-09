@@ -254,9 +254,9 @@ func DefinePlayerUnits():
 	#Temporary while can't choose characters
 	GameData.PlayerSquad = GameData.PlayerArmy
 	
-	var smaller_array : int = min(GameData.PlayerSquad.size(), CurrentLevel.PlayerSpawns.size())
+	var smaller_array_size : int = min(GameData.PlayerSquad.size(), CurrentLevel.PlayerSpawns.size())
 	
-	for i in range(smaller_array):
+	for i in range(smaller_array_size):
 		CurrentLevel.PlayerSpawns[i].Character = GameData.PlayerSquad[i]
 
 func SpawnStartingUnits():
@@ -310,7 +310,6 @@ func StartPlayerTurn():
 	for unit in PlayerUnits:
 		unit.StartTurn()
 	UpdateCursor()
-
 
 func OnPlayerActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
