@@ -1,4 +1,4 @@
-class_name AOEAttackAction
+class_name TerrainAction
 extends Action
 ##############################################################
 #                      0.0 Signals                           #
@@ -10,18 +10,27 @@ extends Action
 ######################
 #     REFERENCES     #
 ######################
+
+@export var ValidTerrainData: MovementData
+@export var IgnoreUnits: bool
+@export var AnimationName: String
+@export var AtlasCoordinates: Vector2i
+@export var ActionRange: int
+@export var AOERange: int
+@export var Duration: int
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
 
-@export var AnimationName : String
-@export var DamageModifier: int
-@export var RangeModifier: int
-@export var AOERange: int
-
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func ModifyTerrain(tiles_to_modify: Array[Vector2i], manager : GameManager):
+	for tile in tiles_to_modify:
+		manager.EffectLayer.set_cell(tile, 2, AtlasCoordinates)
+		manager.ChangedTiles[tile] = Duration
 
 ##############################################################
 #                      3.0 Signal Functions                  #
@@ -30,8 +39,7 @@ extends Action
 func _on_select(user: Unit, manager: GameManager):
 	manager.CurrentAction = self
 	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
-	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightAOEArea(user, action_range, true)
+	manager.MyActionManager.HighlightAOEArea(user, ActionRange, true)
 	manager.MyActionManager.AOERange = AOERange
 	manager.MyCursor.show()
 
@@ -40,25 +48,31 @@ func _check_target(_user: Unit, manager: GameManager = null, target = null) -> b
 		return false
 	
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)
+	var invalid_tiles: Array[Vector2i] = manager.MyMoveManager.GetInvalidTiles(null, ValidTerrainData, IgnoreUnits)
 	
-	if targets.is_empty():
+	for tile in area:
+		if invalid_tiles.has(tile):
+			area.erase(tile)
+	
+	if area.is_empty():
 		return false
+	
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	print(user.Data.Name + " casts AOE spell!")
+	print(user.Data.Name + " affects terrain!")
 	
-	var damage = user.AttackPower + DamageModifier
 	var target_global_pos = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(target))
 	await user.PlayActionAnimation(AnimationName, target_global_pos)
 	
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)
+	var invalid_tiles: Array[Vector2i] = manager.MyMoveManager.GetInvalidTiles(null, ValidTerrainData, IgnoreUnits)
+	for tile in area:
+		if invalid_tiles.has(tile):
+			area.erase(tile)
 	
-	for unit in targets:
-		unit.TakeDamage(damage)
+	ModifyTerrain(area, manager)
 	
 	user.HasActed = true
 	return null

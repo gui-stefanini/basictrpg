@@ -250,7 +250,7 @@ func StartTurn():
 	HasActed = false
 	SetActive()
 	
-	var statuses_to_remove = []
+	var statuses_to_remove : Array[Status] = []
 	for status in ActiveStatuses:
 		var duration = ActiveStatuses[status][StatusInfo.DURATION]
 		if duration > 0:

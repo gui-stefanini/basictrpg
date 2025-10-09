@@ -10,8 +10,11 @@ extends Node
 ######################
 #     REFERENCES     #
 ######################
+
 var MyGameManager : GameManager
 var GroundGrid: TileMapLayer
+var EffectLayer: TileMapLayer
+@export var BaseMovementData: MovementData
 @export var AllMovementData: Array[MovementData]
 
 ######################
@@ -35,14 +38,16 @@ func Initialize(game_manager: GameManager):
 	MyGameManager = game_manager
 	
 	GroundGrid = MyGameManager.GroundGrid
+	EffectLayer = MyGameManager.EffectLayer
 	SetAStarGrids()
 	
 	MyGameManager.unit_spawned.connect(_on_unit_spawned)
 	MyGameManager.unit_removed.connect(_on_unit_removed)
 
 ##############################################################
-#                      2.1 OBSTACLE LOGIC                    #
+#                   2.1 VALID/INVALID LOGIC                  #
 ##############################################################
+
 func SetUnitObstacles(active_unit: Unit, astar : AStar2D) -> Array[Vector2i]:
 	if active_unit.ActiveStatuses.has(Unit.Status.PASS):
 		return []
@@ -77,6 +82,35 @@ func GetOccupiedTiles(exception: Unit = null) -> Array[Vector2i]:
 	
 	return occupied_tiles
 
+func GetInvalidTiles(unit_data: CharacterData = null, move_data: MovementData = null, 
+					 exclude_occupied: bool = false) -> Array[Vector2i]:
+	if move_data == null:
+		if unit_data.MovementType != null:
+			move_data = unit_data.MovementType
+		elif unit_data.CharacterMovementType != null:
+			move_data = unit_data.CharacterMovementType
+		else:
+			move_data = unit_data.Class.ClassMovementType
+	
+	var astar : MovementAStar = AStarInstances[move_data.Name]
+	var all_tiles: Array[Vector2i] = GroundGrid.get_used_cells()
+	
+	var occupied_tiles : Array[Vector2i] = []
+	if exclude_occupied == false:
+		occupied_tiles = GetOccupiedTiles()
+	var invalid_tiles: Array[Vector2i] = []
+	
+	for tile in all_tiles:
+		var point_id = vector_to_id(tile)
+		if astar.is_point_disabled(point_id) or occupied_tiles.has(tile):
+			invalid_tiles.append(tile)
+	
+	return invalid_tiles
+
+func CheckGridBounds(tile: Vector2i) -> bool:
+	var grid_rect = GroundGrid.get_used_rect()
+	return grid_rect.has_point(tile)
+
 ##############################################################
 #                      2.2 ASTAR PATHING                     #
 ##############################################################
@@ -91,6 +125,7 @@ func SetAStarGrids():
 	for move_data in AllMovementData:
 		var new_astar = MovementAStar.new()
 		new_astar.GroundGrid = GroundGrid
+		new_astar.EffectLayer = EffectLayer
 		new_astar.MovementType = move_data
 		var all_cells = GroundGrid.get_used_cells()
 		
@@ -140,15 +175,23 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 	
 	if path.is_empty():
 		ClearUnitObstacles(modified_tiles, astar)
-		return {"path": [], "cost": INF} # Return an infinite cost to signify failure.
+		return {"path": [], "cost": INF}
 	
 	var path_cost = 0
 	for i in range(1, path.size()):
 		var tile_coord = path[i]
 		var tile_data = GroundGrid.get_cell_tile_data(tile_coord)
-		if tile_data:
-			var terrain_type: String = tile_data.get_custom_data("terrain_type")
-			path_cost += unit.Data.MovementType.TerrainCosts.get(terrain_type, 1)
+		var effect_tile_data = EffectLayer.get_cell_tile_data(tile_coord)
+		var terrain_type: String
+		if not tile_data:
+			push_error("No tile data")
+			return {}
+		
+		if effect_tile_data:
+			terrain_type = effect_tile_data.get_custom_data("terrain_type")
+		else:
+			terrain_type = tile_data.get_custom_data("terrain_type")
+		path_cost += unit.Data.MovementType.TerrainCosts.get(terrain_type, 1)
 		
 	ClearUnitObstacles(modified_tiles, astar)
 	
@@ -180,10 +223,16 @@ func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = fa
 				continue
 			
 			var tile_data = GroundGrid.get_cell_tile_data(adjacent_tile)
+			var effect_tile_data = EffectLayer.get_cell_tile_data(adjacent_tile)
+			
 			if not tile_data:
 				continue
 			
-			var terrain_type: String = tile_data.get_custom_data("terrain_type")
+			var terrain_type: String 
+			if effect_tile_data:
+				terrain_type = effect_tile_data.get_custom_data("terrain_type")
+			else:
+				terrain_type = tile_data.get_custom_data("terrain_type")
 			var terrain_cost = unit.Data.MovementType.TerrainCosts.get(terrain_type, -1)
 			if terrain_cost == -1:
 				continue
@@ -211,6 +260,7 @@ func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = fa
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
+
 func _on_unit_spawned(unit: Unit):
 	if unit.Faction == Unit.Factions.PLAYER:
 		PlayerUnits.append(unit)

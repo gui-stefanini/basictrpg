@@ -38,6 +38,7 @@ signal unit_removed(unit: Unit)
 var CurrentLevel : Level
 var CurrentLevelManager: LevelManager
 var GroundGrid : TileMapLayer
+var EffectLayer: TileMapLayer
 var HighlightLayer : TileMapLayer
 var CursorHighlightLayer : TileMapLayer
 
@@ -65,6 +66,8 @@ var ActiveUnit: Unit = null
 var TargetedUnit: Unit = null
 var CurrentAction : Action = null
 var OriginalUnitTile: Vector2i
+
+var ChangedTiles: Dictionary = {}
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -97,6 +100,7 @@ func SetLevel():
 	add_child(CurrentLevel)
 	CurrentLevelManager = CurrentLevel.MyLevelManager
 	GroundGrid = CurrentLevel.GroundGrid
+	EffectLayer = CurrentLevel.EffectLayer
 	HighlightLayer = CurrentLevel.HighlightLayer
 	CursorHighlightLayer = CurrentLevel.CursorHighlightLayer
 
@@ -147,7 +151,7 @@ func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
 		return
 	
 	if new_tile_position != Vector2i(-1,-1):
-		if CheckGridBounds(new_tile_position):
+		if MyMoveManager.CheckGridBounds(new_tile_position):
 			MyCursor.MoveToTile(new_tile_position, GroundGrid)
 	
 	if not MyActionManager.HighlightedAOETiles.is_empty():
@@ -155,10 +159,6 @@ func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
 	
 	DisplaySelectedUnitInfo()
 	MyCursor.show()
-
-func CheckGridBounds(tile: Vector2i) -> bool:
-	var grid_rect = GroundGrid.get_used_rect()
-	return grid_rect.has_point(tile)
 
 func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
 	for unit in AllUnits:
@@ -169,32 +169,6 @@ func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
 ##############################################################
 #                      2.3 SPAWNING                          #
 ##############################################################
-
-func GetInvalidSpawns(unit_data: CharacterData) -> Array[Vector2i]:
-	var move_data_name: String 
-	
-	if unit_data.MovementType != null:
-		move_data_name = unit_data.MovementType.Name
-	elif unit_data.CharacterMovementType != null:
-		move_data_name = unit_data.CharacterMovementType.Name
-	else:
-		move_data_name = unit_data.Class.ClassMovementType.Name
-	
-	var astar : MovementAStar = MyMoveManager.AStarInstances[move_data_name]
-	var all_ids = Array(astar.get_point_ids())
-	var all_tiles: Array[Vector2i] = []
-	for id in all_ids:
-		all_tiles.append(Vector2i(astar.get_point_position(id)))
-	
-	var occupied_tiles : Array[Vector2i] = MyMoveManager.GetOccupiedTiles()
-	var invalid_tiles: Array[Vector2i] = []
-	
-	for tile in all_tiles:
-		var point_id = MyMoveManager.vector_to_id(tile)
-		if astar.is_point_disabled(point_id) or occupied_tiles.has(tile):
-			invalid_tiles.append(tile)
-	
-	return invalid_tiles
 
 func FindClosestValidSpawn(start_tile: Vector2i, invalid_tiles: Array[Vector2i], unit_data: CharacterData) -> Vector2i:
 	var move_data_name: String 
@@ -259,7 +233,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	FriendlyUnits = PlayerUnits + AllyUnits
 	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 	
-	var invalid_tiles = GetInvalidSpawns(unit_data)
+	var invalid_tiles = MyMoveManager.GetInvalidTiles(unit_data)
 	if invalid_tiles.has(spawn_pos):
 		spawn_pos = FindClosestValidSpawn(spawn_pos, invalid_tiles, unit_data)
 	var tile_grid_position = GroundGrid.map_to_local(spawn_pos)
@@ -298,6 +272,7 @@ func SpawnStartingUnits():
 ##############################################################
 #                      2.4 GAME FLOW                         #
 ##############################################################
+
 func SetActiveUnit(unit: Unit):
 	ActiveUnit = unit
 	OriginalUnitTile = GroundGrid.local_to_map(unit.global_position)
@@ -307,16 +282,35 @@ func ClearActiveUnit():
 	ActiveUnit = null
 	OriginalUnitTile = Vector2i (-1,-1)
 
-func StartPlayerTurn():
+func StartNewTurn():
 	CurrentGameState = GameState.PLAYER_TURN
+	CurrentSubState = SubState.PROCESSING_PHASE
+	print("New turn begins.")
+	TurnNumber += 1
+	turn_started.emit(TurnNumber)
+	
+	if not ChangedTiles.is_empty():
+		var tiles_to_remove: Array[Vector2i] = []
+		for tile in ChangedTiles:
+			if ChangedTiles[tile] > 0:
+				ChangedTiles[tile] -= 1
+			if ChangedTiles[tile] == 0:
+				tiles_to_remove.append(tile)
+		
+		for tile in tiles_to_remove:
+			EffectLayer.erase_cell(tile)
+			ChangedTiles.erase(tile)
+	
+	StartPlayerTurn()
+
+func StartPlayerTurn():
 	CurrentSubState = SubState.UNIT_SELECTION_PHASE
 	print("Player turn begins.")
 	UnitsWhoHaveActed.clear()
 	for unit in PlayerUnits:
 		unit.StartTurn()
-	TurnNumber += 1
 	UpdateCursor()
-	turn_started.emit(TurnNumber)
+
 
 func OnPlayerActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
@@ -389,7 +383,7 @@ func StartEnemyTurn():
 func EndEnemyTurn():
 	print("--- Enemy Turn Ends ---")
 	turn_ended.emit(TurnNumber)
-	StartPlayerTurn()
+	StartNewTurn()
 
 func EndGame(player_won: bool):
 	HideUI()
@@ -641,4 +635,4 @@ func _ready() -> void:
 	ConnectInputSignals()
 	
 	level_set.emit()
-	StartPlayerTurn()
+	StartNewTurn()

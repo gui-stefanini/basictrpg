@@ -11,6 +11,7 @@ extends Node2D
 #     REFERENCES     #
 ######################
 @export var GroundGrid: TileMapLayer
+@export var EffectLayer: TileMapLayer
 @export var HighlightLayer: TileMapLayer
 @export var CursorHighlightLayer: TileMapLayer
 @export var LevelHighlightLayer: TileMapLayer

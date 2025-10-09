@@ -11,15 +11,17 @@ extends Node
 #     REFERENCES     #
 ######################
 var MyGameManager: GameManager
+var MyMoveManager: MoveManager
 var GroundGrid: TileMapLayer
+var EffectLayer: TileMapLayer
 var HighlightLayer: TileMapLayer
 var CursorHighlightLayer : TileMapLayer
-var MyMoveManager: MoveManager
 var ActionForecast: PanelContainer
 
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 var HighlightedMoveTiles: Array[Vector2i] = []
 var HighlightedAttackTiles: Array[Vector2i] = []
 var HighlightedHealTiles: Array[Vector2i] = []
@@ -35,6 +37,7 @@ var HighlightedCursorTiles: Array[Vector2i] = []
 func Initialize(game_manager: GameManager):
 	MyGameManager = game_manager
 	GroundGrid = MyGameManager.GroundGrid
+	EffectLayer = MyGameManager.EffectLayer
 	HighlightLayer = MyGameManager.HighlightLayer
 	CursorHighlightLayer = MyGameManager.CursorHighlightLayer
 	MyMoveManager = MyGameManager.MyMoveManager
@@ -60,6 +63,10 @@ func GetTilesInRange(start_tile: Vector2i, action_range: int, include_start: boo
 	if include_start == false:
 		tiles_in_range.erase(start_tile)
 	
+	for tile in tiles_in_range:
+		if MyMoveManager.CheckGridBounds(tile) == false:
+			tiles_in_range.erase(tile)
+	
 	return tiles_in_range
 
 func GetTargetsInArea(area: Array[Vector2i], valid_targets: Array[Unit]) -> Array[Unit]:
@@ -74,6 +81,7 @@ func GetTargetsInArea(area: Array[Vector2i], valid_targets: Array[Unit]) -> Arra
 ##############################################################
 #                      2.2 HIGHLIGHTING                      #
 ##############################################################
+
 func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int, highlight_atlas_coord:Vector2i, 
 	 layer : TileMapLayer = HighlightLayer):
 	for tile in tiles_to_highlight:
@@ -131,12 +139,18 @@ func UpdateAOE(cursor_tile : Vector2i):
 func GetUnitTileType(unit: Unit) -> String:
 	var tile: Vector2i = GroundGrid.local_to_map(unit.global_position)
 	var tile_data = GroundGrid.get_cell_tile_data(tile)
-	var terrain_type: String = tile_data.get_custom_data("terrain_type")
+	var effect_tile_data = EffectLayer.get_cell_tile_data(tile)
+	var terrain_type: String
+	if effect_tile_data:
+		terrain_type = effect_tile_data.get_custom_data("terrain_type")
+	else:
+		terrain_type = tile_data.get_custom_data("terrain_type")
 	return terrain_type
 
 ##############################################################
 #                      2.4 EXECUTION                         #
 ##############################################################
+
 func CheckValidTarget(action: Action, unit: Unit, target = null) -> bool:
 	return action._check_target(unit, MyGameManager, target)
 

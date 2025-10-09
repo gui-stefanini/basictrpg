@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TerrainAction" load_steps=3 format=3 uid="uid://btk371s87awh"]
+
+[ext_resource type="Script" uid="uid://r7r07lpj2yub" path="res://Scripts/UnitScripts/ActionScripts/terrain_action.gd" id="1_c2t3v"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="1_grwbq"]
+
+[resource]
+script = ExtResource("1_c2t3v")
+ValidTerrainData = ExtResource("1_grwbq")
+IgnoreUnits = true
+AnimationName = "create_water"
+ActionRange = 3
+AOERange = 1
+Duration = 2
+Type = 2
+Name = "Create Water"
+Description = "Creates water in an area"
+metadata/_custom_type_script = "uid://r7r07lpj2yub"

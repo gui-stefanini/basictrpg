@@ -1,9 +1,11 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://b7a3peffahbp4"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://b7a3peffahbp4"]
 
 [ext_resource type="Texture2D" uid="uid://clcs7njyb7rxl" path="res://Assets/Art/Tiles/TileTexture_1.png" id="1_rl3v6"]
 [ext_resource type="Texture2D" uid="uid://d1q2j01waauyx" path="res://Assets/Art/Tiles/HighlightTexture.png" id="2_e2yfp"]
+[ext_resource type="Texture2D" uid="uid://b6nehn00mo802" path="res://Assets/Art/Tiles/EffectTexture_1.png" id="3_e2yfp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vdl3g"]
+resource_name = "Ground"
 texture = ExtResource("1_rl3v6")
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -27,11 +29,22 @@ texture = ExtResource("1_rl3v6")
 2:1/0/custom_data_0 = "Obstacle"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xs1ac"]
+resource_name = "Highlight"
 texture = ExtResource("2_e2yfp")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
 3:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6nvdd"]
+resource_name = "Effect"
+texture = ExtResource("3_e2yfp")
+0:0/0 = 0
+0:0/0/custom_data_0 = "Water"
+0:1/0 = 0
+0:1/0/custom_data_0 = "Fire"
+0:2/0 = 0
+0:2/0/custom_data_0 = "Obstacle"
 
 [resource]
 terrain_set_0/mode = 0
@@ -39,4 +52,5 @@ custom_data_layer_0/name = "terrain_type"
 custom_data_layer_0/type = 4
 sources/0 = SubResource("TileSetAtlasSource_vdl3g")
 sources/1 = SubResource("TileSetAtlasSource_xs1ac")
+sources/2 = SubResource("TileSetAtlasSource_6nvdd")
 tile_proxies/coords_level = [[1, Vector2i(0, 0)], [3, Vector2i(0, 0)], [1, Vector2i(1, 0)], [3, Vector2i(1, 0)], [1, Vector2i(2, 0)], [3, Vector2i(2, 0)], [2, Vector2i(0, 0)], [3, Vector2i(3, 0)]]

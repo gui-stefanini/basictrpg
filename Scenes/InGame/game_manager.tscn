@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=22 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/Managers/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="2_wg6t1"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cnkdwa0ws23hk" path="res://Scenes/InGame/HUD/grid_cursor.tscn" id="5_hghx2"]
 [ext_resource type="Script" uid="uid://cguqbducphruj" path="res://Scripts/UnitScripts/movement_data.gd" id="6_ehr7b"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="7_hghx2"]
+[ext_resource type="Resource" uid="uid://dpo83a1lske4x" path="res://Resources/Data/MovementData/base_movement.tres" id="8_cbjs6"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="8_gunjt"]
 [ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/InGame/HUD/action_menu.tscn" id="9_iav25"]
 [ext_resource type="Resource" uid="uid://djj0huxmw2fd4" path="res://Resources/Data/MovementData/water_infantry_movement.tres" id="9_njqqu"]
@@ -42,7 +43,7 @@ visible = false
 
 [node name="MoveManager" type="Node" parent="."]
 script = ExtResource("4_wg6t1")
-AllMovementData = Array[ExtResource("6_ehr7b")]([ExtResource("7_hghx2"), ExtResource("8_gunjt"), ExtResource("9_njqqu")])
+AllMovementData = Array[ExtResource("6_ehr7b")]([ExtResource("8_cbjs6"), ExtResource("7_hghx2"), ExtResource("8_gunjt"), ExtResource("9_njqqu")])
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("5_frkii")
