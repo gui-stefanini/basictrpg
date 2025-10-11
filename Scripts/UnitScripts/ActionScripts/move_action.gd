@@ -23,7 +23,7 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.MyActionManager.HighlightMoveArea(user)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.MOVE, -1)
 	manager.MyCursor.show()
 
 func _check_target(_user: Unit, _manager: GameManager = null, target = null) -> bool:

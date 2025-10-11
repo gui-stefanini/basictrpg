@@ -29,7 +29,7 @@ extends Action
 
 func _on_select(user: Unit, manager: GameManager):
 	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightAOEArea(user, action_range, true)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.AOE, action_range, true)
 	manager.MyActionManager.AOERange = AOERange
 	manager.MyCursor.show()
 

@@ -41,6 +41,9 @@ extends Resource
 @export var Vframes: int = 1
 @export var MyAnimationLibrary: AnimationLibrary
 
+#AI Helper
+@export var ClassAIActions: Dictionary
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################

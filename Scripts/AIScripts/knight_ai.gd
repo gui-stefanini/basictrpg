@@ -19,15 +19,18 @@ extends AIBehavior
 
 func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.Data.Name + " is thinking like a Knight...")
+	var ai = owner.MyAI
+	var move_action : Action = owner.Data.AIActions["Move"]
+	var attack_action : Action = owner.Data.AIActions["Attack"]
+	var defend_action : Action = owner.Data.AIActions["Defend"]
 	
 	if owner.HPPercent <= 0.4:
 		var rand = GeneralFunctions.RandomizeInt(1, 100)
 		if rand <= 66:
-			await DefendCommand(owner, manager)
+			await ActionCommand(defend_action, owner, manager)
 			return
 	
-	var ai = owner.MyAI
-	await ExecuteOffensiveLogic(owner, manager, ai)
+	await ExecuteOffensiveLogic(move_action, attack_action, owner, manager, ai)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

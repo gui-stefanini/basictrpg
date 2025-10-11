@@ -13,6 +13,7 @@ extends Resource
 ######################
 
 @export var Class: ClassData
+
 @export var Generic: bool = false
 @export var Boss: bool = false
 @export var Summon: bool = false
@@ -49,9 +50,9 @@ var BaseSupportAggro: int
 @export var CharacterActions: Array[Action]
 @export var CharacterMovementType: MovementData
 
-@export var Abilities: Array[Ability]
-@export var Actions: Array[Action]
-@export var MovementType: MovementData
+var Abilities: Array[Ability]
+var Actions: Array[Action]
+var MovementType: MovementData
 
 #Animation
 @export var CharacterSpriteSheet: Texture2D
@@ -59,10 +60,14 @@ var BaseSupportAggro: int
 @export var CharacterVframes: int = 0
 @export var CharacterAnimationLibrary: AnimationLibrary
 
-@export var SpriteSheet: Texture2D
-@export var Hframes: int = 0
-@export var Vframes: int = 0
-@export var MyAnimationLibrary: AnimationLibrary
+var SpriteSheet: Texture2D
+var Hframes: int = 0
+var Vframes: int = 0
+var MyAnimationLibrary: AnimationLibrary
+
+#AI Helper
+@export var CharacterAIActions: Dictionary
+var AIActions: Dictionary
 
 #Save
 var InfoToSave: Array[String] = ["CharacterLevel"]
@@ -110,6 +115,12 @@ func SpriteOverride():
 	else:
 		MyAnimationLibrary = CharacterAnimationLibrary
 
+func AIOverride():
+	AIActions = Class.ClassAIActions.duplicate()
+	
+	for action in CharacterAIActions:
+		AIActions[action] = CharacterAIActions[action]
+
 func SetStats():
 	#int() correctly ignores decimals
 	BaseMaxHP = CharacterMaxHP + Class.ClassMaxHP + int(Class.ClassGrowthMaxHP * (CharacterLevel-1))
@@ -127,6 +138,7 @@ func ClassOverride():
 	ActionsOverride()
 	MovementOverride()
 	SpriteOverride()
+	AIOverride()
 	SetStats()
 
 func LevelUp():

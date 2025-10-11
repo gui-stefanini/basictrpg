@@ -27,7 +27,7 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.MyActionManager.HighlightHealArea(user, 0, true)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.SUPPORT, 0, true)
 	manager.MyCursor.Disable()
 	#manager.MyActionManager.ExecuteAction(self, user)
 

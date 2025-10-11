@@ -24,38 +24,92 @@ extends Resource
 #                      2.1  COMMANDS                         #
 ##############################################################
 
-func MoveCommand(owner: Unit, manager: GameManager, destination: Vector2i):
-	for action in owner.Data.Actions:
-		if action is MoveAction:
-			var move_tween = action._execute(owner, manager, destination)
-			if move_tween is Tween:
-				await move_tween.finished
-			break
-
-func AttackCommand(owner: Unit, manager: GameManager, target: Unit):
-		for action in owner.Data.Actions:
-			if action is AttackAction:
-				await GeneralFunctions.Wait(0.3)
-				await action._execute(owner, manager, target)
-				await GeneralFunctions.Wait(0.4)
+func ActionCommand(action: Action, owner: Unit, manager: GameManager, target = null):
+	print("trying to act")
+	print(action.Name)
+	match action.Type:
+		Action.ActionTypes.MOVE:
+			if target is not Vector2i:
+				push_error("MoveAction wrong target type")
 				return
+			await MoveCommand(action, owner, manager, target)
+		Action.ActionTypes.ATTACK:
+			if target is not Unit:
+				push_error("AttackAction wrong target type")
+				return
+			await AttackCommand(action, owner, manager, target)
+		Action.ActionTypes.RANDOMATTACK:
+			if target != null:
+				push_error("RanAttackAction wrong target type")
+				return
+			await RandomAttackCommand(action, owner, manager, target)
+		Action.ActionTypes.AOEATTACK:
+			if target is not Vector2i:
+				push_error("AOEAttackAction wrong target type")
+				return
+			await AOEAttackCommand(action, owner, manager, target)
+		Action.ActionTypes.HEAL:
+			if target is not Unit:
+				push_error("HealAction wrong target type")
+				return
+			await HealCommand(action, owner, manager, target)
+		Action.ActionTypes.STATUS:
+			if target is not Unit and target != null:
+				push_error("StatusAction wrong target type")
+				return
+			await StatusCommand(action, owner, manager, target)
+		Action.ActionTypes.SUMMON:
+			if target != null:
+				push_error("SummonAction wrong target type")
+				return
+			await SummonCommand(action, owner, manager, target)
+		Action.ActionTypes.TERRAIN:
+			if target is not Vector2i:
+				push_error("TerrainAction wrong target type")
+				return
+			await TerrainCommand(action, owner, manager, target)
 
-func DefendCommand(owner: Unit, manager: GameManager):
-	print(owner.Data.Name + " is low on health and chooses to defend!")
-	for action in owner.Data.Actions:
-		if action.Name == "Defend":
-			await action._execute(owner, manager)
-			await GeneralFunctions.Wait(0.3)
-			return
+#Leaving as separate functions for now even if they are mostly the same,
+#to see if its necessary to make changes later on
+func MoveCommand(action: Action, owner: Unit, manager: GameManager, target: Vector2i):
+	var move_tween = await action._execute(owner, manager, target)
+	if move_tween is Tween:
+		await move_tween.finished
 
-func HealCommand(owner: Unit, manager: GameManager, target: Unit):
-	for action in owner.Data.Actions:
-		if action is HealAction:
-			print(owner.Data.Name + " heals " + target.Data.Name)
-			await action._execute(owner, manager, target)
-			await GeneralFunctions.Wait(0.3)
-			return
+func AttackCommand(action: Action, owner: Unit, manager: GameManager, target: Unit):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
 
+func RandomAttackCommand(action: Action, owner: Unit, manager: GameManager, target = null):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
+
+func AOEAttackCommand(action: Action, owner: Unit, manager: GameManager, target: Vector2i):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
+
+func HealCommand(action: Action, owner: Unit, manager: GameManager, target: Unit):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
+
+func StatusCommand(action: Action, owner: Unit, manager: GameManager, target: Unit):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
+
+func SummonCommand(action: Action, owner: Unit, manager: GameManager, target = null):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
+
+func TerrainCommand(action: Action, owner: Unit, manager: GameManager, target: Vector2i):
+	await GeneralFunctions.Wait(0.3)
+	await action._execute(owner, manager, target)
+	await GeneralFunctions.Wait(0.4)
 
 ##############################################################
 #                        2.2 TARGETTING                      #
@@ -95,19 +149,19 @@ func HealTargeting(owner: Unit, manager: GameManager):
 #   ROUTINE BLOCKS   #
 ######################
 
-func AttackRoutine(owner: Unit, manager: GameManager):
+func AttackRoutine(action: Action, owner: Unit, manager: GameManager):
 	var target = AttackTargeting(owner, manager)
 	if target is Unit:
 		print("%s chooses to attack %s" % [owner.Data.Name, target.Data.Name])
-		await AttackCommand(owner, manager, target)
+		await ActionCommand(action, owner, manager, target)
 
-func HealRoutine(owner: Unit, manager: GameManager):
+func HealRoutine(action: Action, owner: Unit, manager: GameManager):
 	var target = HealTargeting(owner, manager)
 	if target is Unit:
 		print("%s chooses to heal %s" % [owner.Data.Name, target.Data.Name])
-		await HealCommand(owner, manager, target)
+		await ActionCommand(action, owner, manager, target)
 
-func MovementRoutine(owner: Unit, manager: GameManager, path: Array[Vector2i]):
+func MovementRoutine(action: Action, owner: Unit, manager: GameManager, path: Array[Vector2i]):
 	var path_within_move_range: Array[Vector2i] = []
 	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
 	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
@@ -124,9 +178,9 @@ func MovementRoutine(owner: Unit, manager: GameManager, path: Array[Vector2i]):
 	if not path_within_move_range.is_empty():
 		final_destination = path_within_move_range.back()
 		if final_destination != enemy_tile:
-			await MoveCommand(owner, manager, final_destination)
+			await ActionCommand(action, owner, manager, final_destination)
 
-func TileMovementRoutine(owner: Unit, manager: GameManager, target_tiles: Array[Vector2i]):
+func TileMovementRoutine(action: Action, owner: Unit, manager: GameManager, target_tiles: Array[Vector2i]):
 	var valid_tiles = AILogic.GetValidTiles(owner, manager, target_tiles)
 	if valid_tiles.is_empty():
 		print("%s has no valid path to any target tile." % owner.Data.Name)
@@ -138,9 +192,9 @@ func TileMovementRoutine(owner: Unit, manager: GameManager, target_tiles: Array[
 	
 	var best_tile = valid_tiles[0]
 	var path_to_destination = best_tile["path"]
-	await MovementRoutine(owner, manager, path_to_destination)
+	await MovementRoutine(action, owner, manager, path_to_destination)
 
-func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Unit]):
+func ActionMovementRoutine(action: Action, owner: Unit, manager: GameManager, targets: Array[Unit]):
 	var valid_targets = AILogic.GetValidTargets(owner, manager, targets)
 	if valid_targets.is_empty():
 		print("%s has no valid path to any target." % owner.Data.Name)
@@ -154,7 +208,7 @@ func ActionMovementRoutine(owner: Unit, manager: GameManager, targets: Array[Uni
 	var target_player = best_target["target"]
 	var path_to_destination = best_target["path"]
 	print(target_player)
-	await MovementRoutine(owner, manager, path_to_destination)
+	await MovementRoutine(action, owner, manager, path_to_destination)
 
 func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 	var final_target_data = null
@@ -216,7 +270,7 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 #    ROUTINE LOGIC   #
 ######################
 
-func ExecuteOffensiveRoutine(owner: Unit, manager: GameManager):
+func ExecuteOffensiveRoutine(move_action: Action, attack_action: Action, owner: Unit, manager: GameManager):
 	var attack_opportunity = FindAttackOpportunity(owner, manager)
 	if not attack_opportunity.is_empty():
 		var destination = attack_opportunity["destination"]
@@ -226,19 +280,19 @@ func ExecuteOffensiveRoutine(owner: Unit, manager: GameManager):
 		if destination != current_tile:
 			if owner.HasMoved == true:
 				return
-			await MoveCommand(owner, manager, destination)
-		await AttackCommand(owner, manager, target)
+			await ActionCommand(move_action, owner, manager, destination)
+		await ActionCommand(attack_action, owner, manager, target)
 
-func ExecuteMoveOffensiveRoutine(owner: Unit, manager: GameManager):
-	await ExecuteOffensiveRoutine(owner, manager)
+func ExecuteMoveOffensiveRoutine(move_action: Action, attack_action: Action, owner: Unit, manager: GameManager):
+	await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 	if owner.HasActed == true:
 		return
 	
 	var targets_array : Array[Unit] = UnitManager.GetHostileArray(owner)
 	
-	await ActionMovementRoutine(owner, manager, targets_array)
+	await ActionMovementRoutine(move_action, owner, manager, targets_array)
 
-func ExecuteHealingRoutine(owner: Unit, manager: GameManager):
+func ExecuteHealingRoutine(move_action: Action, heal_action: Action, owner: Unit, manager: GameManager):
 	var heal_opportunity = FindHealOpportunity(owner, manager)
 	if not heal_opportunity.is_empty():
 		var destination = heal_opportunity["destination"]
@@ -248,11 +302,11 @@ func ExecuteHealingRoutine(owner: Unit, manager: GameManager):
 		if destination != current_tile:
 			if owner.HasMoved == true:
 				return
-			await MoveCommand(owner, manager, destination)
-		await HealCommand(owner, manager, target)
+			await ActionCommand(move_action, owner, manager, destination)
+		await ActionCommand(heal_action, owner, manager, target)
 
-func ExecuteMoveHealingRoutine(owner: Unit, manager: GameManager):
-	await ExecuteHealingRoutine(owner, manager)
+func ExecuteMoveHealingRoutine(move_action: Action, heal_action: Action, owner: Unit, manager: GameManager):
+	await ExecuteHealingRoutine(move_action, heal_action, owner, manager)
 	if owner.HasActed == true:
 		return
 	
@@ -269,65 +323,65 @@ func ExecuteMoveHealingRoutine(owner: Unit, manager: GameManager):
 				break
 		
 		if not damaged_targets.is_empty():
-			await ActionMovementRoutine(owner, manager, targets_array)
+			await ActionMovementRoutine(move_action, owner, manager, targets_array)
 			return
 
 ######################
 #  ADV ROUTINE LOGIC #
 ######################
 
-func ExecuteOffensiveLogic(owner: Unit, manager: GameManager, ai: AI):
+func ExecuteOffensiveLogic(move_action: Action, attack_action: Action, owner: Unit, manager: GameManager, ai: AI):
 	if ai.IsMobile == false:
-		await ExecuteOffensiveRoutine(owner, manager)
+		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
 		return
 	
 	if not ai.TargetTiles.is_empty():
 		if not ai.IgnorePlayers:
-			await ExecuteOffensiveRoutine(owner, manager)
+			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 			if owner.HasActed == true:
 				return
 		
-		await TileMovementRoutine(owner, manager, ai.TargetTiles)
+		await TileMovementRoutine(move_action, owner, manager, ai.TargetTiles)
 		return
 
-	await ExecuteMoveOffensiveRoutine(owner, manager)
+	await ExecuteMoveOffensiveRoutine(move_action, attack_action, owner, manager)
 
-func ExecuteSupportLogic(owner: Unit, manager: GameManager, ai: AI):
+func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action: Action, owner: Unit, manager: GameManager, ai: AI):
 	if ai.IsMobile == false:
-		await ExecuteHealingRoutine(owner, manager)
+		await ExecuteHealingRoutine(move_action, heal_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
 			return
 		print(owner.Data.Name + " found no one to heal, and will attack instead.")
-		await ExecuteOffensiveRoutine(owner, manager)
+		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
 		return
 	
 	if not ai.TargetTiles.is_empty():
 		if not ai.IgnorePlayers:
-			await ExecuteHealingRoutine(owner, manager)
+			await ExecuteHealingRoutine(move_action, heal_action, owner, manager)
 			if owner.HasActed == true:
 				return
 			print(owner.Data.Name + " found no one to heal, and will attack instead.")
-			await ExecuteOffensiveRoutine(owner, manager)
+			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 			if owner.HasActed == true:
 				return
 		
-		await TileMovementRoutine(owner, manager, ai.TargetTiles)
+		await TileMovementRoutine(move_action, owner, manager, ai.TargetTiles)
 		return
 	
-	await ExecuteMoveHealingRoutine(owner, manager)
+	await ExecuteMoveHealingRoutine(move_action, heal_action, owner, manager)
 	if owner.HasActed == true:
 		return
 	print(owner.Data.Name + " found no one to heal, and will attack instead.")
 	
 	if owner.HasMoved == true:
-		await ExecuteOffensiveRoutine(owner, manager)
+		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 		return
-	await ExecuteMoveOffensiveRoutine(owner, manager)
+	await ExecuteMoveOffensiveRoutine(move_action, attack_action, owner, manager)
 
 ######################
 #    AI TURN LOGIC   #

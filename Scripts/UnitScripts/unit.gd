@@ -207,7 +207,6 @@ func SetSprite():
 		Factions.WILD:
 			Sprite.material.set_shader_parameter("new_color", ColorList.WildFactionColor)
 
-
 func SetSkills():
 	for ability in Data.Abilities:
 		ability.connect_listeners(self)

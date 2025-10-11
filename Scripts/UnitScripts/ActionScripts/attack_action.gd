@@ -27,18 +27,15 @@ extends Action
 
 func _on_select(user: Unit, manager: GameManager):
 	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightAttackArea(user, action_range)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.ATTACK, action_range)
 	manager.MyCursor.show()
 
 func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
 	if target is not Unit:
 		return false
 	
-	var user_friendly: bool = user.Faction in [Unit.Factions.PLAYER, Unit.Factions.ALLY]
-	var target_friendly: bool = target.Faction in [Unit.Factions.PLAYER, Unit.Factions.ALLY]
-	var opponents: bool = user_friendly != target_friendly
-	
-	if opponents == false:
+	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(user)
+	if not hostile_array.has(target):
 		return false
 	
 	return true

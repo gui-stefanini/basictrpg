@@ -13,7 +13,7 @@ extends Resource
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum ActionTypes {MOVE, ATTACK, SUPPORT, DEBUFF, SPECIAL, WAIT}
+enum ActionTypes {MOVE, ATTACK, RANDOMATTACK, AOEATTACK, HEAL, STATUS, SUMMON, TERRAIN, WAIT}
 @export var Type : ActionTypes
 
 @export var EndTurn : bool = true

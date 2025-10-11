@@ -19,9 +19,11 @@ extends AIBehavior
 
 func execute_turn(owner: Unit, manager: GameManager):
 	print(owner.Data.Name + " is thinking like a Bandit...")
-	
 	var ai = owner.MyAI
-	await ExecuteOffensiveLogic(owner, manager, ai)
+	var move_action : Action = owner.Data.AIActions["Move"]
+	var attack_action : Action = owner.Data.AIActions["Attack"]
+	
+	await ExecuteOffensiveLogic(move_action, attack_action, owner, manager, ai)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

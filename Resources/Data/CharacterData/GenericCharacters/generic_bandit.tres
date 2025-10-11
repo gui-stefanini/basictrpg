@@ -9,17 +9,4 @@
 script = ExtResource("3_dad8v")
 Class = ExtResource("3_spmt0")
 Generic = true
-Boss = false
-Name = ""
-CharacterMaxHP = 0
-CharacterAttackPower = 0
-CharacterHealPower = 0
-CharacterMoveRange = 0
-CharacterAttackRange = 0
-CharacterAggro = 0
-CharacterSupportAggro = 0
-Abilities = Array[ExtResource("1_5klx5")]([])
-Actions = Array[ExtResource("2_spmt0")]([])
-Hframes = 0
-Vframes = 0
 metadata/_custom_type_script = "uid://fhqj6evu0bn8"

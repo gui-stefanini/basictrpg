@@ -17,17 +17,16 @@ ClassMaxHP = 3
 ClassGrowthMaxHP = 1.0
 ClassAttackPower = 2
 ClassGrowthAttackPower = 0.5
-ClassHealPower = 0
-ClassGrowthHealPower = 0.0
 ClassMoveRange = 3
 ClassAttackRange = 1
-ClassAggro = 0
-ClassSupportAggro = 0
-ClassAbilities = Array[ExtResource("1_dy7cn")]([])
 ClassActions = Array[ExtResource("2_xaxvd")]([ExtResource("3_427ot"), ExtResource("4_kijw1"), ExtResource("5_wycsm")])
 ClassMovementType = ExtResource("6_w16s1")
 ClassSpriteSheet = ExtResource("7_u6yvj")
 Hframes = 4
 Vframes = 2
 MyAnimationLibrary = ExtResource("8_bxm6v")
+ClassAIActions = {
+"Attack": ExtResource("4_kijw1"),
+"Move": ExtResource("3_427ot")
+}
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

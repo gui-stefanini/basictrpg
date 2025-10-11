@@ -21,11 +21,11 @@ var ActionForecast: PanelContainer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-
+enum HighlightTypes {MOVE, ATTACK, AOE,  SUPPORT}
 var HighlightedMoveTiles: Array[Vector2i] = []
 var HighlightedAttackTiles: Array[Vector2i] = []
-var HighlightedHealTiles: Array[Vector2i] = []
 var HighlightedAOETiles: Array[Vector2i] = []
+var HighlightedHealTiles: Array[Vector2i] = []
 
 var AOERange: int = -1 #For now, only works with diamond shape
 var HighlightedCursorTiles: Array[Vector2i] = []
@@ -81,12 +81,6 @@ func GetTargetsInArea(area: Array[Vector2i], valid_targets: Array[Unit]) -> Arra
 ##############################################################
 #                      2.2 HIGHLIGHTING                      #
 ##############################################################
-
-func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int, highlight_atlas_coord:Vector2i, 
-	 layer : TileMapLayer = HighlightLayer):
-	for tile in tiles_to_highlight:
-		layer.set_cell(tile, highlight_source_id, highlight_atlas_coord)
-
 func ClearHighlights():
 	HighlightLayer.clear()
 	HighlightedMoveTiles.clear()
@@ -101,31 +95,35 @@ func ClearCursorHighlights():
 	CursorHighlightLayer.clear()
 	HighlightedCursorTiles.clear()
 
-func HighlightMoveArea(unit: Unit):
+func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int, highlight_atlas_coord:Vector2i, 
+	 layer : TileMapLayer = HighlightLayer):
+	for tile in tiles_to_highlight:
+		layer.set_cell(tile, highlight_source_id, highlight_atlas_coord)
+
+func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_start: bool = false):
 	ClearHighlights()
-	var unit_grid_position = GroundGrid.local_to_map(unit.global_position)
+	var unit_tile = GroundGrid.local_to_map(unit.global_position)
+	var highlight_array: Array[Vector2i]
+	var atlas_coordinates: Vector2i
 	
-	HighlightedMoveTiles = MyMoveManager.GetReachableTiles(unit, unit_grid_position)
+	match type:
+		HighlightTypes.MOVE:
+			HighlightedMoveTiles = MyMoveManager.GetReachableTiles(unit, unit_tile, include_start)
+			DrawHighlights(HighlightedMoveTiles, 1, Vector2i(0,0))
+			return
+			
+		HighlightTypes.ATTACK:
+			highlight_array = HighlightedAttackTiles
+			atlas_coordinates = Vector2i(1,0)
+		HighlightTypes.AOE:
+			highlight_array = HighlightedAOETiles
+			atlas_coordinates = Vector2i(1,0)
+		HighlightTypes.SUPPORT:
+			highlight_array = HighlightedHealTiles
+			atlas_coordinates = Vector2i(2,0)
 	
-	DrawHighlights(HighlightedMoveTiles, 1, Vector2i(0,0))
-
-func HighlightAttackArea(unit: Unit, action_range: int):
-	ClearHighlights()
-	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedAttackTiles = GetTilesInRange(unit_tile, action_range)
-	DrawHighlights(HighlightedAttackTiles, 1, Vector2i(1,0))
-
-func HighlightAOEArea(unit: Unit, action_range: int, include_self: bool = false):
-	ClearHighlights()
-	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedAOETiles = GetTilesInRange(unit_tile, action_range, include_self)
-	DrawHighlights(HighlightedAOETiles, 1, Vector2i(1,0))
-
-func HighlightHealArea(unit: Unit, action_range: int, include_self: bool = false):
-	ClearHighlights()
-	var unit_tile = GroundGrid.local_to_map(unit.global_position)
-	HighlightedHealTiles = GetTilesInRange(unit_tile, action_range, include_self)
-	DrawHighlights(HighlightedHealTiles, 1, Vector2i(2,0))
+	highlight_array = GetTilesInRange(unit_tile, action_range, include_start)
+	DrawHighlights(highlight_array, 1, atlas_coordinates)
 
 func UpdateAOE(cursor_tile : Vector2i):
 	ClearCursorHighlights()

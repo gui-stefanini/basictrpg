@@ -38,7 +38,7 @@ func ModifyTerrain(tiles_to_modify: Array[Vector2i], manager : GameManager):
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.MyActionManager.HighlightAOEArea(user, ActionRange, true)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.AOE, ActionRange, true)
 	manager.MyActionManager.AOERange = AOERange
 	manager.MyCursor.show()
 

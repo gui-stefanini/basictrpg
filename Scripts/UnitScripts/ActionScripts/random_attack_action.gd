@@ -26,15 +26,10 @@ func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
 	var user_tile = manager.GroundGrid.local_to_map(user.global_position)
 	var action_range = user.AttackRange + RangeModifier
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(user_tile, action_range)
-	var targets_array : Array[Unit]
 	
-	match user.Faction:
-		Unit.Factions.PLAYER, Unit.Factions.ALLY:
-			targets_array = UnitManager.EnemyUnits
-		Unit.Factions.ENEMY:
-			targets_array = UnitManager.FriendlyUnits
+	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(user)
 	
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, targets_array)
+	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, hostile_array)
 	return targets
 
 ##############################################################
@@ -43,7 +38,7 @@ func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
 
 func _on_select(user: Unit, manager: GameManager):
 	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightAttackArea(user, action_range)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.ATTACK, action_range)
 	manager.MyCursor.Disable()
 
 func _check_target(user: Unit, manager: GameManager = null, target = null) -> bool:

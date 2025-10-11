@@ -17,18 +17,19 @@ Name = "Priest"
 ClassMaxHP = 3
 ClassGrowthMaxHP = 0.5
 ClassAttackPower = 1
-ClassGrowthAttackPower = 0.0
 ClassHealPower = 2
 ClassGrowthHealPower = 0.5
 ClassMoveRange = 3
 ClassAttackRange = 2
-ClassAggro = 0
-ClassSupportAggro = 0
-ClassAbilities = Array[ExtResource("1_n0n4p")]([])
 ClassActions = Array[ExtResource("2_0ahhs")]([ExtResource("3_0gwrq"), ExtResource("4_wnsn8"), ExtResource("5_afixl"), ExtResource("6_tpiwf")])
 ClassMovementType = ExtResource("7_5a3b2")
 ClassSpriteSheet = ExtResource("8_uoijm")
 Hframes = 4
 Vframes = 2
 MyAnimationLibrary = ExtResource("9_1sw7n")
+ClassAIActions = {
+"Attack": ExtResource("4_wnsn8"),
+"Heal": ExtResource("6_tpiwf"),
+"Move": ExtResource("3_0gwrq")
+}
 metadata/_custom_type_script = "uid://dajw61vh5kchp"
