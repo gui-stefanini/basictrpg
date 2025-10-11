@@ -28,9 +28,6 @@ signal request_dialogue(text: String)
 ######################
 #     SCRIPT-WIDE    #
 ######################
-var PlayerUnits: Array[Unit]
-var EnemyUnits: Array[Unit]
-var AllyUnits: Array[Unit]
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -69,24 +66,14 @@ func _on_turn_ended(_turn_number: int):
 func _on_unit_turn_ended(_unit: Unit, _unit_tile: Vector2i):
 	pass
 
-func _on_unit_spawned(unit: Unit):
-	if unit.Faction == Unit.Factions.PLAYER:
-		PlayerUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ENEMY:
-		EnemyUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ALLY:
-		AllyUnits.append(unit)
+func _on_unit_spawned(_unit: Unit):
+	pass
 
 func _on_unit_died(_unit: Unit):
 	pass
 
-func _on_unit_removed(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
-		EnemyUnits.erase(unit)
-	elif unit in AllyUnits:
-		AllyUnits.erase(unit)
+func _on_unit_removed(_unit: Unit):
+	pass
 
 ##############################################################
 #                      4.0 Godot Functions                   #

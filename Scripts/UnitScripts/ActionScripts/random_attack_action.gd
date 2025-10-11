@@ -30,9 +30,9 @@ func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
 	
 	match user.Faction:
 		Unit.Factions.PLAYER, Unit.Factions.ALLY:
-			targets_array = manager.EnemyUnits
+			targets_array = UnitManager.EnemyUnits
 		Unit.Factions.ENEMY:
-			targets_array = manager.FriendlyUnits
+			targets_array = UnitManager.FriendlyUnits
 	
 	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, targets_array)
 	return targets

@@ -25,11 +25,11 @@ extends LevelManager
 func _on_unit_died(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
-	if PlayerUnits.is_empty():
+	if UnitManager.PlayerUnits.is_empty():
 		print("All player units defeated!")
 		defeat.emit()
 	
-	elif EnemyUnits.is_empty():
+	elif UnitManager.EnemyUnits.is_empty():
 		print("All enemies defeated!")
 		victory.emit()
 

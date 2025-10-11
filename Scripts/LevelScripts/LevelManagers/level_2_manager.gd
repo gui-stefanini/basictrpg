@@ -38,10 +38,10 @@ func _on_level_set():
 		# Draws the yellow highlight tile (Source ID 1, Atlas Coords 3,0)
 		LevelHighlightLayer.set_cell(tile, 1, Vector2i(3, 0))
 	
-	FirstEnemyGroup.append(EnemyUnits[0])
+	FirstEnemyGroup.append(UnitManager.EnemyUnits[0])
 	
-	SecondEnemyGroup.append(EnemyUnits[1])
-	SecondEnemyGroup.append(EnemyUnits[2])
+	SecondEnemyGroup.append(UnitManager.EnemyUnits[1])
+	SecondEnemyGroup.append(UnitManager.EnemyUnits[2])
 	
 	request_dialogue.emit(LevelDialogue)
 
@@ -79,16 +79,11 @@ func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
 			victory.emit()
 
 func _on_unit_removed(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
+	if unit in UnitManager.EnemyUnits:
 		if unit in FirstEnemyGroup:
 			FirstEnemyGroup.erase(unit)
 		if unit in SecondEnemyGroup:
 			SecondEnemyGroup.erase(unit)
-		EnemyUnits.erase(unit)
-	elif unit in AllyUnits:
-		AllyUnits.erase(unit)
 
 ##############################################################
 #                      4.0 Godot Functions                   #

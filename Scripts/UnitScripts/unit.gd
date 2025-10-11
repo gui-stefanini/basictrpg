@@ -31,7 +31,7 @@ signal summoned_units
 #     SCRIPT-WIDE    #
 ######################
 
-enum Affiliations {FRIENDLY, OPPOSING, WILD}
+enum Affiliations {FRIENDLY, OPPOSING, NEUTRAL}
 var Affiliation : Affiliations
 enum Factions {PLAYER, PLAYER_SUMMON, ALLY, ALLY_SUMMON, ENEMY, ENEMY_SUMMON, WILD}
 @export var Faction: Factions
@@ -195,15 +195,18 @@ func SetSprite():
 		MyAnimationPlayer.add_animation_library("character_library", Data.MyAnimationLibrary)
 	
 	match Faction:
-		Factions.PLAYER:
+		Factions.PLAYER, Factions.PLAYER_SUMMON:
 			Sprite.material.set_shader_parameter("new_color", ColorList.PlayerFactionColor)
-		Factions.ENEMY:
+		Factions.ALLY, Factions.ALLY_SUMMON:
+			Sprite.material.set_shader_parameter("new_color", ColorList.AllyFactionColor)
+		Factions.ENEMY, Factions.ENEMY_SUMMON:
 			if Data.Boss == true:
 				Sprite.material.set_shader_parameter("new_color", ColorList.BossColor)
 			else:
 				Sprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
-		Factions.ALLY:
-			Sprite.material.set_shader_parameter("new_color", ColorList.AllyFactionColor)
+		Factions.WILD:
+			Sprite.material.set_shader_parameter("new_color", ColorList.WildFactionColor)
+
 
 func SetSkills():
 	for ability in Data.Abilities:

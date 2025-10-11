@@ -94,8 +94,8 @@ func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_
 	animation_hit.connect(Defender._on_animation_being_hit)
 	
 	# --- Position and Configure Units for Combat ---
-	match Attacker.Faction:
-		Unit.Factions.PLAYER, Unit.Factions.ALLY:
+	match Attacker.Affiliation:
+		Unit.Affiliations.FRIENDLY:
 			Attacker.global_position = PlayerPosition.global_position
 			
 			Defender.global_position = EnemyPosition.global_position
@@ -103,7 +103,7 @@ func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_
 			
 			SetBackground(attacker_tile, defender_tile)
 		
-		Unit.Factions.ENEMY:
+		Unit.Affiliations.OPPOSING, Unit.Affiliations.NEUTRAL:
 			Attacker.global_position = EnemyPosition.global_position
 			Attacker.RotationTracker.scale.x = -1
 			
@@ -172,7 +172,7 @@ func _on_vfx_requested(vfxdata: VFXData, animation_name: String, _vfx_position: 
 	vfx.SetData(vfxdata)
 	vfx.global_position = Attacker.global_position
 	
-	if Attacker.Faction == Unit.Factions.ENEMY:
+	if Attacker.Affiliation != Unit.Affiliations.FRIENDLY:
 		vfx.MyRotationTracker.scale.x = -1
 	
 	vfx.MyAnimationPlayer.play("vfx/" + animation_name)

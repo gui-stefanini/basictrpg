@@ -50,15 +50,7 @@ enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHA
 var CurrentGameState : GameState = GameState.NULL
 var CurrentSubState : SubState = SubState.NULL
 
-var PlayerUnits: Array[Unit] = []
-var AllyUnits: Array[Unit] = []
-var EnemyUnits: Array[Unit] = []
-
-var FriendlyUnits: Array[Unit] = []
-var OpposingUnits: Array[Unit] = []
-var AllUnits: Array[Unit] = []
-
-var UnitsWhoHaveActed: Array[Unit] = []
+var InactiveUnits: Array[Unit] = []
 
 var TurnNumber: int = 0
 var NumberOfUnits : int = 0 #For unit naming
@@ -117,7 +109,7 @@ func SetHUD():
 
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
-	initial_position = GroundGrid.local_to_map(PlayerUnits[0].global_position)
+	initial_position = GroundGrid.local_to_map(UnitManager.PlayerUnits[0].global_position)
 	MyCursor.MoveToTile(initial_position, GroundGrid)
 
 func SetAudio():
@@ -162,7 +154,7 @@ func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
 	MyCursor.show()
 
 func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
-	for unit in AllUnits:
+	for unit in UnitManager.AllUnits:
 		if GroundGrid.local_to_map(unit.global_position) == tile_pos:
 			return unit
 	return null
@@ -212,11 +204,14 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	new_unit.Data = unit_data
 	new_unit.Faction = spawn_info.Faction
 	
-	if spawn_info.Faction != Unit.Factions.PLAYER:
+	if spawn_info.Faction != Unit.Factions.PLAYER and spawn_info.Faction != Unit.Factions.PLAYER_SUMMON:
 		new_unit.MyAI.SetBehavior(spawn_info.Behavior)
 	
 	if new_unit.Data.Summon == true:
 		new_unit.SetData(spawn_info.CharacterLevel, spawn_info.Summoner)
+		new_unit.SetInactive()
+		if new_unit.Faction == Unit.Factions.PLAYER_SUMMON:
+			InactiveUnits.append(new_unit)
 	else:
 		new_unit.SetData(spawn_info.CharacterLevel)
 	
@@ -224,15 +219,7 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	NumberOfUnits += 1
 	add_child(new_unit)
 	
-	match spawn_info.Faction:
-		Unit.Factions.PLAYER:
-			PlayerUnits.append(new_unit)
-		Unit.Factions.ENEMY:
-			EnemyUnits.append(new_unit)
-		Unit.Factions.ALLY:
-			AllyUnits.append(new_unit)
-	FriendlyUnits = PlayerUnits + AllyUnits
-	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
+	UnitManager.AddUnit(new_unit)
 	
 	var invalid_tiles = MyMoveManager.GetInvalidTiles(unit_data)
 	if invalid_tiles.has(spawn_pos):
@@ -308,8 +295,8 @@ func StartNewTurn():
 func StartPlayerTurn():
 	CurrentSubState = SubState.UNIT_SELECTION_PHASE
 	print("Player turn begins.")
-	UnitsWhoHaveActed.clear()
-	for unit in PlayerUnits:
+	InactiveUnits.clear()
+	for unit in UnitManager.CompletePlayerUnits:
 		unit.StartTurn()
 	UpdateCursor()
 
@@ -329,11 +316,11 @@ func OnPlayerUnitTurnFinished():
 	if CurrentGameState == GameState.END:
 		return
 	
-	UnitsWhoHaveActed.append(ActiveUnit)
+	InactiveUnits.append(ActiveUnit)
 	ActiveUnit.SetInactive()
 	ClearActiveUnit()
 	
-	if UnitsWhoHaveActed.size() == PlayerUnits.size():
+	if InactiveUnits.size() == UnitManager.CompletePlayerUnits.size():
 		EndPlayerTurn()
 	
 	else:
@@ -342,7 +329,7 @@ func OnPlayerUnitTurnFinished():
 
 func EndPlayerTurn():
 	HideUI()
-	for unit in PlayerUnits:
+	for unit in UnitManager.CompletePlayerUnits:
 		unit.SetActive()
 	await GeneralFunctions.Wait(0.5)
 	StartAllyTurn()
@@ -350,43 +337,55 @@ func EndPlayerTurn():
 func StartAllyTurn():
 	print("--- Ally Turn Begins ---")
 	CurrentGameState = GameState.ALLY_TURN
-	CurrentSubState = SubState.MOVEMENT_PHASE
+	CurrentSubState = SubState.PROCESSING_PHASE
 	
-	for unit in AllyUnits:
+	var ally_units : Array[Unit] = UnitManager.CompleteAllyUnits.duplicate()
+	
+	for unit in ally_units:
 		unit.StartTurn()
 	
-	for unit in AllyUnits:
+	for unit in ally_units:
 		await GeneralFunctions.Wait(0.2)
 		print(unit.Data.Name + " is taking its turn.")
 		await unit.MyAI.Behavior.execute_turn(unit, self)
 		var unit_tile = GroundGrid.local_to_map(unit.global_position)
 		unit_turn_ended.emit(unit, unit_tile)
+		unit.SetInactive() 
 	
 	EndAllyTurn()
 
 func EndAllyTurn():
 	print("--- Ally Turn Ends ---")
+	for unit in UnitManager.CompleteAllyUnits:
+		unit.SetActive()
+	await GeneralFunctions.Wait(0.3)
 	StartEnemyTurn()
 
 func StartEnemyTurn():
 	print("--- Enemy Turn Begins ---")
 	CurrentGameState = GameState.ENEMY_TURN
-	CurrentSubState = SubState.MOVEMENT_PHASE
+	CurrentSubState = SubState.PROCESSING_PHASE
 	
-	for unit in EnemyUnits:
+	var enemy_units : Array[Unit] = UnitManager.CompleteEnemyUnits.duplicate()
+	
+	for unit in enemy_units:
 		unit.StartTurn()
 	
-	for unit in EnemyUnits:
+	for unit in enemy_units:
 		await GeneralFunctions.Wait(0.2)
 		print(unit.Data.Name + " is taking its turn.")
 		await unit.MyAI.Behavior.execute_turn(unit, self)
-		var unit_tile = GroundGrid.local_to_map(unit.global_position) 
+		var unit_tile = GroundGrid.local_to_map(unit.global_position)
 		unit_turn_ended.emit(unit, unit_tile)
+		unit.SetInactive() 
 	
 	EndEnemyTurn()
 
 func EndEnemyTurn():
 	print("--- Enemy Turn Ends ---")
+	for unit in UnitManager.CompleteEnemyUnits:
+		unit.SetActive()
+	await GeneralFunctions.Wait(0.3)
 	turn_ended.emit(TurnNumber)
 	StartNewTurn()
 
@@ -395,7 +394,7 @@ func EndGame(player_won: bool):
 	CurrentGameState = GameState.END
 	
 	if player_won == true:
-		for unit in PlayerUnits:
+		for unit in UnitManager.PlayerUnits:
 			unit.RequestVFX(VfxList.UnitVFX, "levelup")
 			unit.Data.LevelUp()
 		GameData.ClearLevel()
@@ -418,7 +417,7 @@ func _on_confirm_pressed():
 	match CurrentSubState:
 		SubState.UNIT_SELECTION_PHASE:
 			var unit_on_tile = GetUnitAtTile(selected_tile)
-			if unit_on_tile in PlayerUnits and not unit_on_tile in UnitsWhoHaveActed:
+			if unit_on_tile in UnitManager.CompletePlayerUnits and not unit_on_tile in InactiveUnits:
 				HideUI()
 				SetActiveUnit(unit_on_tile)
 				ActiveUnit.PlayIdleAnimation()
@@ -549,13 +548,13 @@ func on_trigger_pressed(direction : int):
 	var next_unit: Unit = null
 	
 	if unit_on_tile == null:
-		next_unit = AllUnits[0]
+		next_unit = UnitManager.AllUnits[0]
 		UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
 		return
 	
-	var current_index = AllUnits.find(unit_on_tile)
-	var next_index = GeneralFunctions.ClampIndexInArray(current_index, direction, AllUnits)
-	next_unit = AllUnits[next_index]
+	var current_index = UnitManager.AllUnits.find(unit_on_tile)
+	var next_index = GeneralFunctions.ClampIndexInArray(current_index, direction, UnitManager.AllUnits)
+	next_unit = UnitManager.AllUnits[next_index]
 	
 	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
 
@@ -585,14 +584,7 @@ func _on_dialogue_requested(text: String):
 	DialogueBox.DisplayText(text)
 
 func _on_unit_died(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
-		EnemyUnits.erase(unit)
-	elif unit in AllyUnits:
-		AllyUnits.erase(unit)
-	FriendlyUnits = PlayerUnits + AllyUnits
-	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
+	UnitManager.RemoveUnit(unit)
 	
 	unit_removed.emit(unit)
 	unit_died.emit(unit)

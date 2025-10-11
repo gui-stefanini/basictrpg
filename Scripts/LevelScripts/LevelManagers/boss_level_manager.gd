@@ -25,7 +25,7 @@ var BossUnits: Array[Unit]
 ##############################################################
 
 func _on_level_set():
-	for unit in EnemyUnits:
+	for unit in UnitManager.EnemyUnits:
 		if unit.Data.Boss == true:
 			BossUnits.append(unit)
 	
@@ -34,7 +34,7 @@ func _on_level_set():
 func _on_unit_died(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
-	if PlayerUnits.is_empty():
+	if UnitManager.PlayerUnits.is_empty():
 		print("All player units defeated!")
 		defeat.emit()
 		return

@@ -47,18 +47,13 @@ func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
 			defeat.emit()
 
 func _on_unit_spawned(unit: Unit):
-	if unit.Faction == Unit.Factions.PLAYER:
-		PlayerUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ENEMY:
-		EnemyUnits.append(unit)
+	if unit.Faction == Unit.Factions.ENEMY:
 		unit.MyAI.TargetTiles = DefendTiles
-	elif unit.Faction == Unit.Factions.ALLY:
-		AllyUnits.append(unit)
 
 func _on_unit_died(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
-	if PlayerUnits.is_empty():
+	if UnitManager.PlayerUnits.is_empty():
 		print("All player units defeated!")
 		defeat.emit()
 		return

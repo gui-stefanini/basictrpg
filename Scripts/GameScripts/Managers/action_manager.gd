@@ -161,7 +161,11 @@ func CheckValidTarget(action: Action, unit: Unit, target = null) -> bool:
 
 func ExecuteAction(action: Action, unit: Unit, target = null):
 	MyGameManager.CurrentSubState = GameManager.SubState.PROCESSING_PHASE
-	await action._execute(unit, MyGameManager, target)
+	
+	var action_return = await action._execute(unit, MyGameManager, target)
+	if action_return is Tween:
+		await action_return.finished
+		
 	MyGameManager.CurrentAction = null
 	MyGameManager.TargetedUnit = null
 	if action.EndTurn == true:

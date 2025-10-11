@@ -15,7 +15,7 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 [sub_resource type="Resource" id="Resource_6kmi7"]
 script = ExtResource("2_447f6")
 Character = ExtResource("8_fqxiv")
-Faction = 1
+Faction = 4
 Position = Vector2i(13, 5)
 Behavior = ExtResource("3_456kb")
 metadata/_custom_type_script = "uid://ji7crggxdou"

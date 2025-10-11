@@ -41,10 +41,12 @@ func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bo
 		summon.Summoner = user
 		
 		match user.Faction:
-			Unit.Factions.PLAYER, Unit.Factions.ALLY:
-				summon.Faction = Unit.Factions.ALLY
+			Unit.Factions.PLAYER:
+				summon.Faction = Unit.Factions.PLAYER_SUMMON
+			Unit.Factions.ALLY:
+				summon.Faction = Unit.Factions.ALLY_SUMMON
 			Unit.Factions.ENEMY:
-				summon.Faction = Unit.Factions.ENEMY
+				summon.Faction = Unit.Factions.ENEMY_SUMMON
 		
 		summon.Position =  manager.GroundGrid.local_to_map(user.global_position)
 	

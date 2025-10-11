@@ -21,13 +21,6 @@ var EffectLayer: TileMapLayer
 #     SCRIPT-WIDE    #
 ######################
 
-var PlayerUnits: Array[Unit]
-var EnemyUnits: Array[Unit]
-var AllyUnits: Array[Unit]
-
-var FriendlyUnits: Array[Unit]
-var AllUnits: Array[Unit]
-
 var AStarInstances: Dictionary = {}
 
 ##############################################################
@@ -40,9 +33,6 @@ func Initialize(game_manager: GameManager):
 	GroundGrid = MyGameManager.GroundGrid
 	EffectLayer = MyGameManager.EffectLayer
 	SetAStarGrids()
-	
-	MyGameManager.unit_spawned.connect(_on_unit_spawned)
-	MyGameManager.unit_removed.connect(_on_unit_removed)
 
 ##############################################################
 #                   2.1 VALID/INVALID LOGIC                  #
@@ -54,17 +44,11 @@ func SetUnitObstacles(active_unit: Unit, astar : AStar2D) -> Array[Vector2i]:
 	
 	var modified_tiles: Array[Vector2i] = []
 	
-	match active_unit.Faction:
-		Unit.Factions.PLAYER, Unit.Factions.ALLY:
-			for unit in EnemyUnits:
-				var unit_tile = GroundGrid.local_to_map(unit.global_position)
-				astar.set_point_disabled(vector_to_id(unit_tile), true)
-				modified_tiles.append(unit_tile)
-		Unit.Factions.ENEMY:
-			for unit in FriendlyUnits:
-				var unit_tile = GroundGrid.local_to_map(unit.global_position)
-				astar.set_point_disabled(vector_to_id(unit_tile), true)
-				modified_tiles.append(unit_tile)
+	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(active_unit)
+	for unit in hostile_array:
+		var unit_tile = GroundGrid.local_to_map(unit.global_position)
+		astar.set_point_disabled(vector_to_id(unit_tile), true)
+		modified_tiles.append(unit_tile)
 	
 	return modified_tiles
 
@@ -75,7 +59,7 @@ func ClearUnitObstacles(tiles_to_clear: Array[Vector2i], astar : AStar2D):
 func GetOccupiedTiles(exception: Unit = null) -> Array[Vector2i]:
 	var occupied_tiles: Array[Vector2i] = []
 	
-	for unit in AllUnits:
+	for unit in UnitManager.AllUnits:
 		occupied_tiles.append(GroundGrid.local_to_map(unit.global_position))
 	if exception != null:
 		occupied_tiles.erase(GroundGrid.local_to_map(exception.global_position))
@@ -260,26 +244,6 @@ func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = fa
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
-
-func _on_unit_spawned(unit: Unit):
-	if unit.Faction == Unit.Factions.PLAYER:
-		PlayerUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ENEMY:
-		EnemyUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ALLY:
-		AllyUnits.append(unit)
-	FriendlyUnits = PlayerUnits + AllyUnits
-	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
-
-func _on_unit_removed(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
-		EnemyUnits.erase(unit)
-	elif unit in AllyUnits:
-		AllyUnits.erase(unit)
-	FriendlyUnits = PlayerUnits + AllyUnits
-	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 
 ##############################################################
 #                      4.0 Godot Functions                   #

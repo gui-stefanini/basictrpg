@@ -40,7 +40,7 @@ func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
 func _on_unit_died(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
-	if PlayerUnits.is_empty():
+	if UnitManager.PlayerUnits.is_empty():
 		print("All player units defeated!")
 		defeat.emit()
 

@@ -38,7 +38,7 @@ func _check_target(_user: Unit, manager: GameManager = null, target = null) -> b
 		return false
 	
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)
+	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, UnitManager.AllUnits)
 	
 	if targets.is_empty():
 		return false
@@ -52,7 +52,7 @@ func _execute(user: Unit, manager: GameManager, target = null, _simulation : boo
 	await user.PlayActionAnimation(AnimationName, target_global_pos)
 	
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, manager.AllUnits)
+	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, UnitManager.AllUnits)
 	
 	for unit in targets:
 		unit.TakeDamage(damage)

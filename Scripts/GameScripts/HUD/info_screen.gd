@@ -29,11 +29,6 @@ var MyGameManager: GameManager
 ######################
 #     SCRIPT-WIDE    #
 ######################
-var PlayerUnits: Array[Unit] = []
-var AllyUnits: Array[Unit] = []
-var EnemyUnits: Array[Unit] = []
-
-var AllUnits: Array[Unit] = []
 
 var CurrentUnit: Unit
 var CurrentUnitIndex: int = 0
@@ -43,15 +38,6 @@ var CurrentUnitIndex: int = 0
 ##############################################################
 func Initialize(game_manager: GameManager):
 	MyGameManager = game_manager
-	#AllUnits = game_manager.AllUnits.duplicate()
-	
-	PlayerUnits = game_manager.PlayerUnits.duplicate()
-	AllyUnits = game_manager.AllyUnits.duplicate()
-	EnemyUnits = game_manager.EnemyUnits.duplicate()
-	AllUnits = game_manager.AllUnits.duplicate()
-	
-	game_manager.unit_spawned.connect(_on_unit_spawned)
-	game_manager.unit_removed.connect(_on_unit_removed)
 
 func ConnectInputSignals():
 	InputManager.cancel_pressed.connect(HideScreen)
@@ -82,13 +68,13 @@ func ShowScreen(unit_to_show: Unit, start_tab: int):
 	ObjectiveLabel.text = "Objective: %s" % MyGameManager.CurrentLevelManager.LevelObjective
 	
 	if unit_to_show == null:
-		CurrentUnit = AllUnits[0]
+		CurrentUnit = UnitManager.AllUnits[0]
 		CurrentUnitIndex = 0
 		UnitList.select(0)
 	
 	else:
 		CurrentUnit = unit_to_show
-		CurrentUnitIndex = AllUnits.find(CurrentUnit)
+		CurrentUnitIndex = UnitManager.AllUnits.find(CurrentUnit)
 		UnitList.select(CurrentUnitIndex)
 	
 	UpdateUnitPanel()
@@ -103,8 +89,8 @@ func HideScreen():
 
 func PopulateUnitList():
 	UnitList.clear()
-	for i in range(AllUnits.size()):
-		var unit = AllUnits[i]
+	for i in range(UnitManager.NonSummonedUnits.size()):
+		var unit = UnitManager.NonSummonedUnits[i]
 		UnitList.add_item(unit.Data.Name)
 		# We store the actual unit node in the item's metadata
 		var unit_index = UnitList.get_item_count() - 1
@@ -113,10 +99,12 @@ func PopulateUnitList():
 		match unit.Faction:
 			Unit.Factions.PLAYER:
 				UnitList.set_item_custom_fg_color(i, ColorList.PlayerFactionColor)
-			Unit.Factions.ENEMY:
-				UnitList.set_item_custom_fg_color(i, ColorList.EnemyFactionColor)
 			Unit.Factions.ALLY:
 				UnitList.set_item_custom_fg_color(i, ColorList.AllyFactionColor)
+			Unit.Factions.ENEMY:
+				UnitList.set_item_custom_fg_color(i, ColorList.EnemyFactionColor)
+			Unit.Factions.WILD:
+				UnitList.set_item_custom_fg_color(i, ColorList.WildFactionColor)
 
 func ClearContainer(container: VBoxContainer):
 	for child in container.get_children():
@@ -133,10 +121,12 @@ func UpdateUnitPanel():
 	match CurrentUnit.Faction:
 		Unit.Factions.PLAYER:
 			UnitSprite.material.set_shader_parameter("new_color", ColorList.PlayerFactionColor)
-		Unit.Factions.ENEMY:
-			UnitSprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
 		Unit.Factions.ALLY:
 			UnitSprite.material.set_shader_parameter("new_color", ColorList.AllyFactionColor)
+		Unit.Factions.ENEMY:
+			UnitSprite.material.set_shader_parameter("new_color", ColorList.EnemyFactionColor)
+		Unit.Factions.WILD:
+			UnitSprite.material.set_shader_parameter("new_color", ColorList.WildFactionColor)
 	
 	NameLabel.text = CurrentUnit.Data.Name
 	HPLabel.text = "HP: %d/%d" % [CurrentUnit.CurrentHP, CurrentUnit.MaxHP]
@@ -225,24 +215,6 @@ func _on_trigger_pressed(direction: int):
 	var next_tab = GeneralFunctions.ClampIndex(current_tab, direction, tab_count)
 	
 	MyTabContainer.current_tab = next_tab
-
-func _on_unit_spawned(unit: Unit):
-	if unit.Faction == Unit.Factions.PLAYER:
-		PlayerUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ENEMY:
-		EnemyUnits.append(unit)
-	elif unit.Faction == Unit.Factions.ALLY:
-		AllyUnits.append(unit)
-	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
-
-func _on_unit_removed(unit: Unit):
-	if unit in PlayerUnits:
-		PlayerUnits.erase(unit)
-	elif unit in EnemyUnits:
-		EnemyUnits.erase(unit)
-	elif unit in AllyUnits:
-		AllyUnits.erase(unit)
-	AllUnits = PlayerUnits + EnemyUnits + AllyUnits
 
 func _on_world_map_button_pressed() -> void:
 	hide()

@@ -16,9 +16,14 @@ extends Node
 ######################
 
 @export var PlayerFactionColor: Color = Color("4169E1")
+
+@export var AllyFactionColor: Color = Color("41e064ff")
+
 @export var EnemyFactionColor: Color = Color("DC143C")
 @export var BossColor: Color = Color("DC143C")
-@export var AllyFactionColor: Color = Color("41e064ff")
+
+@export var WildFactionColor: Color = Color("db7814ff")
+
 
 ##############################################################
 #                      2.0 Functions                         #
