@@ -55,6 +55,7 @@ var AllyUnits: Array[Unit] = []
 var EnemyUnits: Array[Unit] = []
 
 var FriendlyUnits: Array[Unit] = []
+var OpposingUnits: Array[Unit] = []
 var AllUnits: Array[Unit] = []
 
 var UnitsWhoHaveActed: Array[Unit] = []
@@ -291,6 +292,7 @@ func StartNewTurn():
 	
 	if not ChangedTiles.is_empty():
 		var tiles_to_remove: Array[Vector2i] = []
+		
 		for tile in ChangedTiles:
 			if ChangedTiles[tile] > 0:
 				ChangedTiles[tile] -= 1
@@ -311,13 +313,13 @@ func StartPlayerTurn():
 		unit.StartTurn()
 	UpdateCursor()
 
-func OnPlayerActionFinished():
+func OnPlayerUnitActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
 	MyActionMenu.ShowMenu(ActiveUnit)
 	ActiveUnit.PlayIdleAnimation()
 	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
 
-func EndPlayerTurn():
+func OnPlayerUnitTurnFinished():
 	if not ActiveUnit: return
 	ActiveUnit.StopAnimation()
 	
@@ -332,14 +334,18 @@ func EndPlayerTurn():
 	ClearActiveUnit()
 	
 	if UnitsWhoHaveActed.size() == PlayerUnits.size():
-		HideUI()
-		for unit in PlayerUnits:
-			unit.SetActive()
-		await GeneralFunctions.Wait(0.5)
-		StartAllyTurn()
+		EndPlayerTurn()
+	
 	else:
 		CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		UpdateCursor()
+
+func EndPlayerTurn():
+	HideUI()
+	for unit in PlayerUnits:
+		unit.SetActive()
+	await GeneralFunctions.Wait(0.5)
+	StartAllyTurn()
 
 func StartAllyTurn():
 	print("--- Ally Turn Begins ---")
@@ -444,18 +450,16 @@ func _on_confirm_pressed():
 					MyActionManager.ClearHighlights()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
-					EndPlayerTurn()
 				return
 			
 			#Check for cursor-disabling action (actions that use a fixed area)
 			if MyCursor.Enabled == false:
-				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, target) == true:
+				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit) == true:
 					HideUI()
 					MyActionManager.ClearHighlights()
 					CurrentSubState = SubState.PROCESSING_PHASE
-					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
+					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit)
 					MyCursor.Enable()
-					EndPlayerTurn()
 				return
 			
 			# Check for Attack/Heal/Status action
@@ -470,7 +474,6 @@ func _on_confirm_pressed():
 					MyActionManager.ClearHighlights()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, target)
-					EndPlayerTurn()
 				return
 			
 			if target is Unit:
@@ -489,7 +492,6 @@ func _on_confirm_pressed():
 					HideUI()
 					CurrentSubState = SubState.PROCESSING_PHASE
 					await MyActionManager.ExecuteAction(CurrentAction, ActiveUnit, TargetedUnit)
-					EndPlayerTurn()
 
 func _on_cancel_pressed():
 	if not CurrentGameState == GameState.PLAYER_TURN:
@@ -573,7 +575,7 @@ func _on_direction_pressed(direction: Vector2i):
 
 func _on_action_menu_action_selected(action: Action) -> void:
 	HideUI()
-	action._on_select(ActiveUnit, self)
+	MyActionManager.SelectAction(action, ActiveUnit)
 
 func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
 	SpawnUnitGroup(spawn_array)

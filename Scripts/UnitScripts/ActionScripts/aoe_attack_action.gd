@@ -28,8 +28,6 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	var action_range = user.AttackRange + RangeModifier
 	manager.MyActionManager.HighlightAOEArea(user, action_range, true)
 	manager.MyActionManager.AOERange = AOERange
@@ -47,7 +45,6 @@ func _check_target(_user: Unit, manager: GameManager = null, target = null) -> b
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " casts AOE spell!")
 	
 	var damage = user.AttackPower + DamageModifier

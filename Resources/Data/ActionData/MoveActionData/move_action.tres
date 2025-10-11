@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_fl4r6")
-Type = 0
+EndTurn = false
 Name = "Move"
-Description = ""
 metadata/_custom_type_script = "uid://c0qpkpr0icgwa"

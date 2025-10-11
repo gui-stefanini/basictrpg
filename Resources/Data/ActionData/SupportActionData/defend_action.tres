@@ -5,14 +5,8 @@
 [resource]
 script = ExtResource("1_pj3im")
 AnimationName = "defend"
-SelfTarget = true
-Debuff = false
-RangeModifier = 0
 Status = 1
-StackDuration = false
 Duration = 1
-StackValue = false
-Value = 0
 Type = 2
 Name = "Defend"
 Description = "- 50% Damage / 1 Turn"

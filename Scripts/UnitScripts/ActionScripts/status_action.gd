@@ -36,11 +36,11 @@ extends Action
 
 func _on_select(user: Unit, manager: GameManager):
 	if SelfTarget == SelfTargetRule.ONLY:
-		_execute(user, manager, user)
+		manager.MyActionManager.HighlightHealArea(user, 0, true)
+		manager.MyCursor.Disable()
+		#manager.MyActionManager.ExecuteAction(self, user)
 		return
 	
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	var action_range = user.AttackRange + RangeModifier
 	
 	if Debuff == true:
@@ -54,6 +54,9 @@ func _on_select(user: Unit, manager: GameManager):
 	manager.MyCursor.show()
 
 func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
+	if SelfTarget == SelfTargetRule.ONLY:
+		return true
+	
 	if target is not Unit:
 		return false
 	
@@ -70,8 +73,7 @@ func _check_target(user: Unit, _manager: GameManager = null, target = null) -> b
 	
 	return true
 
-func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
+func _execute(user: Unit, _manager: GameManager, target = null, _simulation : bool = false) -> Variant:
 	print(user.Data.Name + " is using a status action!")
 	if SelfTarget == SelfTargetRule.ONLY:
 		target = user

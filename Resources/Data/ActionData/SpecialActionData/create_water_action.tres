@@ -7,7 +7,8 @@
 script = ExtResource("1_c2t3v")
 ValidTerrainData = ExtResource("1_grwbq")
 IgnoreUnits = true
-AnimationName = "create_water"
+AnimationName = "create_terrain"
+TileType = 1
 ActionRange = 3
 AOERange = 1
 Duration = 2

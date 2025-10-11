@@ -27,13 +27,14 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.MyActionManager.ExecuteAction(self, user)
+	manager.MyActionManager.HighlightHealArea(user, 0, true)
+	manager.MyCursor.Disable()
+	#manager.MyActionManager.ExecuteAction(self, user)
 
 func _check_target(_user: Unit, _manager: GameManager = null, _target = null) -> bool:
 	return true
 
 func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " summons!")
 	
 	for summon in SummonList:
@@ -52,7 +53,6 @@ func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bo
 	manager.SpawnUnitGroup(SummonList)
 	
 	user.HasActed = true
-	manager.EndPlayerTurn()
 	return null
 
 ##############################################################

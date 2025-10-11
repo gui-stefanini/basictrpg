@@ -23,8 +23,6 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	manager.MyActionManager.HighlightMoveArea(user)
 	manager.MyCursor.show()
 
@@ -35,8 +33,6 @@ func _check_target(_user: Unit, _manager: GameManager = null, target = null) -> 
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	
 	var start_tile = manager.GroundGrid.local_to_map(user.global_position)
 	var path = manager.MyMoveManager.FindPath(user, start_tile, target)
 	
@@ -49,14 +45,6 @@ func _execute(user: Unit, manager: GameManager, target = null, _simulation : boo
 	for step in path.path:
 		var step_global_position = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(step))
 		tween.tween_property(user, "global_position", step_global_position, 0.2)
-	
-	match manager.CurrentGameState:
-		manager.GameState.PLAYER_TURN:
-			manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-			tween.tween_callback(manager.OnPlayerActionFinished)
-		
-		manager.GameState.ENEMY_TURN:
-			manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	
 	user.HasMoved = true
 	return tween

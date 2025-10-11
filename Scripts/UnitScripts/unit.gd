@@ -31,7 +31,9 @@ signal summoned_units
 #     SCRIPT-WIDE    #
 ######################
 
-enum Factions {PLAYER, ENEMY, ALLY}
+enum Affiliations {FRIENDLY, OPPOSING, WILD}
+var Affiliation : Affiliations
+enum Factions {PLAYER, PLAYER_SUMMON, ALLY, ALLY_SUMMON, ENEMY, ENEMY_SUMMON, WILD}
 @export var Faction: Factions
 
 enum Status {PASS, DEFENDING, REGENERATING, POISONED}

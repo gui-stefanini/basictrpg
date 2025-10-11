@@ -27,12 +27,10 @@ extends Action
 
 func _on_select(user: Unit, manager: GameManager):
 	if SelfTarget == SelfTargetRule.ONLY:
-		_execute(user, manager, user)
+		manager.MyActionManager.HighlightHealArea(user, 0, true)
+		manager.MyCursor.Disable()
+		#manager.MyActionManager.ExecuteAction(self, user)
 		return
-	
-	
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	
 	var action_range = user.AttackRange + RangeModifier
 	var include_self : bool = false
@@ -55,9 +53,7 @@ func _check_target(user: Unit, _manager: GameManager = null, target = null) -> b
 	
 	return true
 
-func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	
+func _execute(user: Unit, _manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	if simulation == false:
 		await user.PlayActionAnimation("heal", target)
 	

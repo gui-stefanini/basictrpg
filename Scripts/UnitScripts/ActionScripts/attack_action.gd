@@ -13,8 +13,10 @@ extends Action
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 @export var DamageModifier: int
 @export var RangeModifier: int
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -24,8 +26,6 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	var action_range = user.AttackRange + RangeModifier
 	manager.MyActionManager.HighlightAttackArea(user, action_range)
 	manager.MyCursor.show()
@@ -44,8 +44,6 @@ func _check_target(user: Unit, _manager: GameManager = null, target = null) -> b
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	
 	print(user.Data.Name + " attacks " + target.Data.Name + "!")
 	
 	var damage = user.AttackPower + DamageModifier

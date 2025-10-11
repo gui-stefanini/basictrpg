@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ClassData" load_steps=13 format=3 uid="uid://c0pyaan0kyxo3"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=14 format=3 uid="uid://c0pyaan0kyxo3"]
 
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_rfc4l"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_5ub8t"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://bcyrdqnfhq3oi" path="res://Resources/Data/ActionData/SpecialActionData/summon_zombie_action.tres" id="7_qh00t"]
 [ext_resource type="AnimationLibrary" uid="uid://d3rbgaaj0jjk" path="res://Resources/Animations/mage_library.res" id="8_b4ch5"]
 [ext_resource type="Resource" uid="uid://btk371s87awh" path="res://Resources/Data/ActionData/SpecialActionData/create_water_action.tres" id="8_qh00t"]
+[ext_resource type="Resource" uid="uid://ccquwmuaxl1o4" path="res://Resources/Data/ActionData/SpecialActionData/create_fire_action.tres" id="9_m4rfj"]
 
 [resource]
 script = ExtResource("3_f8qq1")
@@ -22,7 +23,7 @@ ClassAttackPower = 2
 ClassGrowthAttackPower = 0.5
 ClassMoveRange = 3
 ClassAttackRange = 2
-ClassActions = Array[ExtResource("2_5ub8t")]([ExtResource("3_oj1da"), ExtResource("4_e7hss"), ExtResource("7_d1lbh"), ExtResource("5_e7hss"), ExtResource("7_qh00t"), ExtResource("8_qh00t")])
+ClassActions = Array[ExtResource("2_5ub8t")]([ExtResource("3_oj1da"), ExtResource("4_e7hss"), ExtResource("7_d1lbh"), ExtResource("5_e7hss"), ExtResource("7_qh00t"), ExtResource("8_qh00t"), ExtResource("9_m4rfj")])
 ClassMovementType = ExtResource("5_j1b4k")
 ClassSpriteSheet = ExtResource("7_j1b4k")
 Hframes = 4

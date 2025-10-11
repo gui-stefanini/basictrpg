@@ -42,8 +42,6 @@ func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	var action_range = user.AttackRange + RangeModifier
 	manager.MyActionManager.HighlightAttackArea(user, action_range)
 	manager.MyCursor.Disable()
@@ -59,7 +57,6 @@ func _check_target(user: Unit, manager: GameManager = null, target = null) -> bo
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " casts Random Attack spell!")
 	
 	var damage = user.AttackPower + DamageModifier

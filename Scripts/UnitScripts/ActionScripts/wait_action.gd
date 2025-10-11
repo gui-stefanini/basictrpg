@@ -23,11 +23,9 @@ extends Action
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	_execute(user, manager)
+	manager.MyActionManager.ExecuteAction(self, user)
 
-func _execute(_user: Unit, manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
-	manager.EndPlayerTurn()
+func _execute(_user: Unit, _manager: GameManager, _target = null, _simulation : bool = false) -> Variant:
 	return null
 
 ##############################################################

@@ -14,7 +14,7 @@ extends Action
 @export var ValidTerrainData: MovementData
 @export var IgnoreUnits: bool
 @export var AnimationName: String
-@export var AtlasCoordinates: Vector2i
+@export var TileType: TileManager.TileTypes
 @export var ActionRange: int
 @export var AOERange: int
 @export var Duration: int
@@ -29,7 +29,8 @@ extends Action
 
 func ModifyTerrain(tiles_to_modify: Array[Vector2i], manager : GameManager):
 	for tile in tiles_to_modify:
-		manager.EffectLayer.set_cell(tile, 2, AtlasCoordinates)
+		var tile_info : Dictionary = TileManager.GetTileData(TileType)
+		manager.EffectLayer.set_cell(tile, tile_info["id"], tile_info["coordinates"])
 		manager.ChangedTiles[tile] = Duration
 
 ##############################################################
@@ -37,8 +38,6 @@ func ModifyTerrain(tiles_to_modify: Array[Vector2i], manager : GameManager):
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.CurrentAction = self
-	manager.CurrentSubState = manager.SubState.TARGETING_PHASE
 	manager.MyActionManager.HighlightAOEArea(user, ActionRange, true)
 	manager.MyActionManager.AOERange = AOERange
 	manager.MyCursor.show()
@@ -60,7 +59,6 @@ func _check_target(_user: Unit, manager: GameManager = null, target = null) -> b
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	manager.CurrentSubState = manager.SubState.PROCESSING_PHASE
 	print(user.Data.Name + " affects terrain!")
 	
 	var target_global_pos = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(target))

@@ -151,13 +151,23 @@ func GetUnitTileType(unit: Unit) -> String:
 #                      2.4 EXECUTION                         #
 ##############################################################
 
+func SelectAction(action: Action, user: Unit):
+	MyGameManager.CurrentAction = action
+	MyGameManager.CurrentSubState = GameManager.SubState.TARGETING_PHASE
+	action._on_select(user, MyGameManager)
+
 func CheckValidTarget(action: Action, unit: Unit, target = null) -> bool:
 	return action._check_target(unit, MyGameManager, target)
 
 func ExecuteAction(action: Action, unit: Unit, target = null):
+	MyGameManager.CurrentSubState = GameManager.SubState.PROCESSING_PHASE
 	await action._execute(unit, MyGameManager, target)
 	MyGameManager.CurrentAction = null
 	MyGameManager.TargetedUnit = null
+	if action.EndTurn == true:
+		MyGameManager.OnPlayerUnitTurnFinished()
+	else:
+		MyGameManager.OnPlayerUnitActionFinished()
 
 func SimulateAction(action: Action, unit: Unit, target = null):
 	await action._execute(unit, MyGameManager, target, true)
