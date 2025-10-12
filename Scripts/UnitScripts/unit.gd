@@ -9,6 +9,7 @@ signal turn_started(unit: Unit)
 signal vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat : bool)
 signal animation_hit
 
+signal tile_damage_taken(tile_type: TileManager.TileTypes, damage_data: Dictionary)
 signal damage_taken(unit: Unit, damage_data: Dictionary)
 signal unit_died(unit: Unit)
 
@@ -20,6 +21,7 @@ signal summoned_units
 ######################
 #     REFERENCES     #
 ######################
+
 @export var Data: CharacterData
 @export var MyAI: AI
 @export var RotationTracker: Node2D
@@ -97,6 +99,10 @@ func UpdateHealth():
 
 func TakeDamage(damage_amount: int, percentage: bool = false, 
 				true_damage: bool = false, lethal: bool = true):
+	
+	if damage_amount == 0:
+		return
+	
 	if percentage == true:
 		damage_amount = roundi(MaxHP * damage_amount/100.0)
 	
@@ -117,6 +123,13 @@ func TakeDamage(damage_amount: int, percentage: bool = false,
 	
 	if CurrentHP <= 0:
 		Despawn()
+
+func TakeTileDamage(tile_type : TileManager.TileTypes, damage_amount: int, percentage: bool = false):
+	var damage_data = {"damage": damage_amount}
+	tile_damage_taken.emit(tile_type, damage_data)
+	
+	var final_damage = roundi(damage_data["damage"])
+	TakeDamage(final_damage, percentage, true, false)
 
 func ReceiveHealing(heal_amount: int, percentage: bool = false):
 	if percentage == true:
@@ -249,10 +262,11 @@ func CopyState(target : Unit):
 	AbilityStates = target.AbilityStates.duplicate(true)
 
 func StartTurn():
-	turn_started.emit(self)
 	HasMoved = false
 	HasActed = false
 	SetActive()
+	
+	turn_started.emit(self)
 	
 	var statuses_to_remove : Array[Status] = []
 	for status in ActiveStatuses:
@@ -302,6 +316,7 @@ func _on_animation_hit():
 
 func _on_animation_being_hit():
 	MyAnimationPlayer.play("character_library/hit")
+
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################

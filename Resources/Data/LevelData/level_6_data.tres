@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://dygohbtbwbrv8"]
+
+[ext_resource type="PackedScene" uid="uid://yatjoaiudxg4" path="res://Scenes/Levels/level_6.tscn" id="1_6ewst"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="1_mmyrc"]
+
+[resource]
+script = ExtResource("1_mmyrc")
+LevelScene = ExtResource("1_6ewst")
+LevelObjective = "Defeat Boss"
+PlayerCount = 3
+metadata/_custom_type_script = "uid://web3er5e1sbv"

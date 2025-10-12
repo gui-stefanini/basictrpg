@@ -21,7 +21,6 @@ extends Node
 @export var PlayerSquad: Array[CharacterData]
 
 @export var CurrentLevel: LevelData
-#@export var ClearedLevels: Array[LevelData]
 var SelectedLevelScene: PackedScene
 
 ##############################################################
@@ -30,11 +29,11 @@ var SelectedLevelScene: PackedScene
 
 func ClearLevel():
 	CurrentLevel.ClearLocationData()
-	#ClearedLevels.append(CurrentLevel)
 
 func ResetLevelData():
 	CurrentLevel = null
 	SelectedLevelScene = null
+	UnitManager.ClearArrays()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

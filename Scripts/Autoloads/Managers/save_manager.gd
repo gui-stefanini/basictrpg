@@ -26,6 +26,9 @@ var Data : Dictionary
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+func GetArrays():
+	PlayerCharacters.assign(CharacterList.AllCharacters) 
+	Locations = LocationList.AllLevels + LocationList.AllEvents
 
 func SaveData():
 	var temp_data : Dictionary

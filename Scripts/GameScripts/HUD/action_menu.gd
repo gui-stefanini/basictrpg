@@ -54,9 +54,8 @@ func NavigateDown():
 
 func HideMenu():
 	MyItemList.clear()
-	UiFunctions.ResetUI(self)
 	UiFunctions.ResetUI(MyItemList)
-	
+	UiFunctions.ResetUI(self)
 	ActiveUnit = null
 	hide()
 
@@ -84,7 +83,6 @@ func ShowMenu(unit: Unit):
 	
 	global_position = unit.global_position + Vector2(-8, -20)
 	
-	UiFunctions.call_deferred("ClampUI", self)
 	show()
 
 ##############################################################
@@ -114,3 +112,6 @@ func SelectAction():
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+
+func _ready() -> void:
+	item_rect_changed.connect(UiFunctions.ClampUI.bind(self))

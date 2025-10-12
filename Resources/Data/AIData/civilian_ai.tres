@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CivilianAI" load_steps=2 format=3 uid="uid://2viusqqkcgw3"]
+
+[ext_resource type="Script" uid="uid://dvom8juv5sj64" path="res://Scripts/AIScripts/civilian_ai.gd" id="1_y4vv7"]
+
+[resource]
+script = ExtResource("1_y4vv7")
+metadata/_custom_type_script = "uid://dvom8juv5sj64"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MovementData" load_steps=2 format=3 uid="uid://c2et1eq7co3yl"]
+
+[ext_resource type="Script" uid="uid://cguqbducphruj" path="res://Scripts/UnitScripts/movement_data.gd" id="1_h772f"]
+
+[resource]
+script = ExtResource("1_h772f")
+Name = "NoFire"
+TerrainCosts = {
+"Fire": -1,
+"Grass": 0,
+"Obstacle": -1,
+"Water": 0
+}
+metadata/_custom_type_script = "uid://cguqbducphruj"

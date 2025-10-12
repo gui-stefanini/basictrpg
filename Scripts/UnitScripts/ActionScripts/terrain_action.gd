@@ -49,11 +49,12 @@ func _check_target(_user: Unit, manager: GameManager = null, target = null) -> b
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
 	var invalid_tiles: Array[Vector2i] = manager.MyMoveManager.GetInvalidTiles(null, ValidTerrainData, IgnoreUnits)
 	
+	var final_area: Array[Vector2i]
 	for tile in area:
-		if invalid_tiles.has(tile):
-			area.erase(tile)
+		if not invalid_tiles.has(tile):
+			final_area.append(tile)
 	
-	if area.is_empty():
+	if final_area.is_empty():
 		return false
 	
 	return true
@@ -66,11 +67,13 @@ func _execute(user: Unit, manager: GameManager, target = null, _simulation : boo
 	
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
 	var invalid_tiles: Array[Vector2i] = manager.MyMoveManager.GetInvalidTiles(null, ValidTerrainData, IgnoreUnits)
-	for tile in area:
-		if invalid_tiles.has(tile):
-			area.erase(tile)
 	
-	ModifyTerrain(area, manager)
+	var final_area: Array[Vector2i]
+	for tile in area:
+		if not invalid_tiles.has(tile):
+			final_area.append(tile)
+	
+	ModifyTerrain(final_area, manager)
 	
 	user.HasActed = true
 	return null

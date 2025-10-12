@@ -23,7 +23,10 @@ signal request_dialogue(text: String)
 @export var LevelBGM: AudioStream
 @export var LevelHighlightLayer: TileMapLayer
 @export var PlayerReinforcements: Array[SpawnInfo]
+@export var AllyReinforcements: Array[SpawnInfo]
 @export var EnemyReinforcements: Array[SpawnInfo]
+@export var WildReinforcements: Array[SpawnInfo]
+
 
 ######################
 #     SCRIPT-WIDE    #

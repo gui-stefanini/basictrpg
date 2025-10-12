@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://thqqxfle8vpn"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_16dca"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_4yxe8"]
+[ext_resource type="Resource" uid="uid://dku7xi3xshcx3" path="res://Resources/Data/ClassData/AllyClassData/ally_civilian_data.tres" id="3_4yxe8"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_r55ja"]
+
+[resource]
+script = ExtResource("3_r55ja")
+Class = ExtResource("3_4yxe8")
+Generic = true
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

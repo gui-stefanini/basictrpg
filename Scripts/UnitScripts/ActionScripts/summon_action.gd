@@ -48,7 +48,7 @@ func _execute(user: Unit, manager: GameManager, _target = null, _simulation : bo
 			Unit.Factions.ENEMY:
 				summon.Faction = Unit.Factions.ENEMY_SUMMON
 		
-		summon.Position =  manager.GroundGrid.local_to_map(user.global_position)
+		summon.Position =  user.CurrentTile
 	
 	await user.PlayActionAnimation(AnimationName, user)
 	user.summoned_units.emit()

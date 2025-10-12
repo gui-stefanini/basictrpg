@@ -10,12 +10,16 @@ extends Node
 ######################
 #     REFERENCES     #
 ######################
+@export var AllLevels: Array[LocationData]
+@export var AllEvents: Array[LocationData]
 
 @export var Level0 : LocationData
 @export var Level1 : LocationData
 @export var Level2 : LocationData
 @export var Level3 : LocationData
 @export var Level4 : LocationData
+@export var Level5 : LocationData
+@export var Level6 : LocationData
 
 @export var Event1: LocationData
 @export var Event2: LocationData

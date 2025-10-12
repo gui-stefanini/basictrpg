@@ -43,6 +43,11 @@ func GetTileData(tile_type : TileTypes) -> Dictionary:
 	
 	return tile_info
 
+func TurnStartEffect(unit: Unit, terrain_type: String):
+	match terrain_type:
+		"Fire":
+			unit.TakeTileDamage(TileTypes.FIRE, 20, true)
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

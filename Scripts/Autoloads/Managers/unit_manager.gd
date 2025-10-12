@@ -21,8 +21,7 @@ var EnemyUnits: Array[Unit] = []
 var EnemySummonUnits: Array[Unit] = []
 var CompleteEnemyUnits: Array[Unit] = []
 var WildUnits: Array[Unit] = []
-
-
+var CompleteWildUnits: Array[Unit] = []
 
 var FriendlyUnits: Array[Unit] = []
 var OpposingUnits: Array[Unit] = []
@@ -47,10 +46,11 @@ func UpdateArrays():
 	CompletePlayerUnits = PlayerUnits + PlayerSummonUnits
 	CompleteAllyUnits = AllyUnits + AllySummonUnits
 	CompleteEnemyUnits = EnemyUnits + EnemySummonUnits
+	CompleteWildUnits = WildUnits
 	
 	FriendlyUnits = CompletePlayerUnits + CompleteAllyUnits
 	OpposingUnits = CompleteEnemyUnits
-	NeutralUnits = WildUnits
+	NeutralUnits = CompleteWildUnits
 	
 	NonSummonedUnits = PlayerUnits + AllyUnits + EnemyUnits + WildUnits
 	
@@ -115,6 +115,17 @@ func RemoveUnit(unit: Unit):
 	else:
 		push_error("unit not found by UnitManager")
 
+func ClearArrays():
+	PlayerUnits.clear()
+	PlayerSummonUnits.clear()
+	AllyUnits.clear()
+	AllySummonUnits.clear()
+	EnemyUnits.clear()
+	EnemySummonUnits.clear()
+	WildUnits.clear()
+	
+	UpdateArrays()
+
 ##############################################################
 #                  2.2 AFFILIATION CHECK                     #
 ##############################################################
@@ -142,7 +153,6 @@ func GetAffiliationArray(unit: Unit)-> Array[Unit]:
 			return NeutralUnits
 	
 	return []
-
 
 ##############################################################
 #                      3.0 Signal Functions                  #

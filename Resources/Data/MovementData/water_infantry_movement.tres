@@ -6,7 +6,7 @@
 script = ExtResource("1_kxw66")
 Name = "WaterInfantry"
 TerrainCosts = {
-"Fire": 1,
+"Fire": 2,
 "Grass": 1,
 "Obstacle": -1,
 "Water": 1

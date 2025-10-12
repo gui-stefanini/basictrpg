@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://ccgi54h8e1sbi"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_r2v5b"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_b5g13"]
+[ext_resource type="Resource" uid="uid://ptrtxnqk3tbt" path="res://Resources/Data/ClassData/WildClassData/fire_snake_data.tres" id="3_b5g13"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_qad8q"]
+
+[resource]
+script = ExtResource("3_qad8q")
+Class = ExtResource("3_b5g13")
+Generic = true
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

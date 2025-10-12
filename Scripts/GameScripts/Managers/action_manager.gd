@@ -72,8 +72,7 @@ func GetTilesInRange(start_tile: Vector2i, action_range: int, include_start: boo
 func GetTargetsInArea(area: Array[Vector2i], valid_targets: Array[Unit]) -> Array[Unit]:
 	var final_targets: Array[Unit]
 	for target in valid_targets:
-		var tile: Vector2i = GroundGrid.local_to_map(target.global_position)
-		if tile in area:
+		if target.CurrentTile in area:
 			final_targets.append(target)
 	
 	return final_targets
@@ -102,7 +101,7 @@ func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int,
 
 func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_start: bool = false):
 	ClearHighlights()
-	var unit_tile = GroundGrid.local_to_map(unit.global_position)
+	var unit_tile = unit.CurrentTile
 	var highlight_array: Array[Vector2i]
 	var atlas_coordinates: Vector2i
 	
@@ -122,7 +121,8 @@ func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_
 			highlight_array = HighlightedHealTiles
 			atlas_coordinates = Vector2i(2,0)
 	
-	highlight_array = GetTilesInRange(unit_tile, action_range, include_start)
+	var new_array_value = GetTilesInRange(unit_tile, action_range, include_start)
+	highlight_array.assign(new_array_value)
 	DrawHighlights(highlight_array, 1, atlas_coordinates)
 
 func UpdateAOE(cursor_tile : Vector2i):
@@ -135,7 +135,7 @@ func UpdateAOE(cursor_tile : Vector2i):
 ##############################################################
 
 func GetUnitTileType(unit: Unit) -> String:
-	var tile: Vector2i = GroundGrid.local_to_map(unit.global_position)
+	var tile: Vector2i = unit.CurrentTile
 	var tile_data = GroundGrid.get_cell_tile_data(tile)
 	var effect_tile_data = EffectLayer.get_cell_tile_data(tile)
 	var terrain_type: String
@@ -163,7 +163,7 @@ func ExecuteAction(action: Action, unit: Unit, target = null):
 	var action_return = await action._execute(unit, MyGameManager, target)
 	if action_return is Tween:
 		await action_return.finished
-		
+	
 	MyGameManager.CurrentAction = null
 	MyGameManager.TargetedUnit = null
 	if action.EndTurn == true:

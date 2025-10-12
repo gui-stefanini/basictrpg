@@ -25,8 +25,6 @@ extends Resource
 ##############################################################
 
 func ActionCommand(action: Action, owner: Unit, manager: GameManager, target = null):
-	print("trying to act")
-	print(action.Name)
 	match action.Type:
 		Action.ActionTypes.MOVE:
 			if target is not Vector2i:
@@ -163,21 +161,23 @@ func HealRoutine(action: Action, owner: Unit, manager: GameManager):
 
 func MovementRoutine(action: Action, owner: Unit, manager: GameManager, path: Array[Vector2i]):
 	var path_within_move_range: Array[Vector2i] = []
-	var enemy_tile = manager.GroundGrid.local_to_map(owner.global_position)
-	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, enemy_tile)
+	var owner_tile = owner.CurrentTile
+	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(owner, owner_tile)
 	
 	for tile in path:
-		if tile == enemy_tile:
+		if tile == owner_tile:
 			continue
 		if tile in reachable_tiles:
 			path_within_move_range.append(tile)
+			print(path_within_move_range)
 		else:
-			break
+			continue
 	
-	var final_destination = enemy_tile
+	var final_destination = owner_tile
+	print(path_within_move_range.is_empty())
 	if not path_within_move_range.is_empty():
 		final_destination = path_within_move_range.back()
-		if final_destination != enemy_tile:
+		if final_destination != owner_tile:
 			await ActionCommand(action, owner, manager, final_destination)
 
 func TileMovementRoutine(action: Action, owner: Unit, manager: GameManager, target_tiles: Array[Vector2i]):
@@ -207,7 +207,7 @@ func ActionMovementRoutine(action: Action, owner: Unit, manager: GameManager, ta
 	var best_target = valid_targets[0]
 	var target_player = best_target["target"]
 	var path_to_destination = best_target["path"]
-	print(target_player)
+	print("%s %s" % [target_player.name, target_player.Data.Name])
 	await MovementRoutine(action, owner, manager, path_to_destination)
 
 func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
@@ -275,7 +275,7 @@ func ExecuteOffensiveRoutine(move_action: Action, attack_action: Action, owner: 
 	if not attack_opportunity.is_empty():
 		var destination = attack_opportunity["destination"]
 		var target = attack_opportunity["target"]
-		var current_tile = manager.GroundGrid.local_to_map(owner.global_position)
+		var current_tile = owner.CurrentTile
 		
 		if destination != current_tile:
 			if owner.HasMoved == true:
@@ -297,7 +297,7 @@ func ExecuteHealingRoutine(move_action: Action, heal_action: Action, owner: Unit
 	if not heal_opportunity.is_empty():
 		var destination = heal_opportunity["destination"]
 		var target = heal_opportunity["target"]
-		var current_tile = manager.GroundGrid.local_to_map(owner.global_position)
+		var current_tile = owner.CurrentTile
 		
 		if destination != current_tile:
 			if owner.HasMoved == true:
@@ -337,6 +337,19 @@ func ExecuteOffensiveLogic(move_action: Action, attack_action: Action, owner: Un
 			ai.IsMobile = true
 		return
 	
+	if not ai.TargetUnits.is_empty():
+		if not ai.IgnorePlayers:
+			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+			if owner.HasActed == true:
+				return
+		
+		var target_tiles: Array[Vector2i] = []
+		for unit in ai.TargetUnits:
+			var unit_tile : Vector2i = unit.CurrentTile
+			target_tiles.append(unit_tile)
+		await TileMovementRoutine(move_action, owner, manager, target_tiles)
+		return
+	
 	if not ai.TargetTiles.is_empty():
 		if not ai.IgnorePlayers:
 			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
@@ -345,7 +358,7 @@ func ExecuteOffensiveLogic(move_action: Action, attack_action: Action, owner: Un
 		
 		await TileMovementRoutine(move_action, owner, manager, ai.TargetTiles)
 		return
-
+	
 	await ExecuteMoveOffensiveRoutine(move_action, attack_action, owner, manager)
 
 func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action: Action, owner: Unit, manager: GameManager, ai: AI):
@@ -358,6 +371,23 @@ func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action
 		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
+		return
+	
+	if not ai.TargetUnits.is_empty():
+		if not ai.IgnorePlayers:
+			await ExecuteHealingRoutine(move_action, heal_action, owner, manager)
+			if owner.HasActed == true:
+				return
+			print(owner.Data.Name + " found no one to heal, and will attack instead.")
+			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+			if owner.HasActed == true:
+				return
+		
+		var target_tiles: Array[Vector2i] = []
+		for unit in ai.TargetUnits:
+			var unit_tile : Vector2i = unit.CurrentTile
+			target_tiles.append(unit_tile)
+		await TileMovementRoutine(move_action, owner, manager, target_tiles)
 		return
 	
 	if not ai.TargetTiles.is_empty():

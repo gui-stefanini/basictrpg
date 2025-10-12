@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FireImmunityAbility" load_steps=2 format=3 uid="uid://d3fhq4dvwcq31"]
+
+[ext_resource type="Script" uid="uid://cqx12s2nqkfaa" path="res://Scripts/UnitScripts/AbilityScripts/fire_immunity_ability.gd" id="1_wc2ra"]
+
+[resource]
+script = ExtResource("1_wc2ra")
+Name = "Fire Immunity"
+Description = "The unit is immune to damage from Fire tiles."
+metadata/_custom_type_script = "uid://cqx12s2nqkfaa"

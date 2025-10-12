@@ -34,7 +34,6 @@ func UpdatePanel(unit: Unit):
 	AttackLabel.text = "ATK: " + str(unit.AttackPower)
 	MoveLabel.text = "MOV: " + str(unit.MoveRange)
 	AttackRangeLabel.text = "RNG: " + str(unit.AttackRange)
-	UiFunctions.call_deferred("ClampUI", self)
 	show()
 
 ##############################################################
@@ -44,3 +43,6 @@ func UpdatePanel(unit: Unit):
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+
+func _ready() -> void:
+	item_rect_changed.connect(UiFunctions.ClampUI.bind(self))

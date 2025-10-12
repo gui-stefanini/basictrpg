@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TerrainAction" load_steps=3 format=3 uid="uid://ccquwmuaxl1o4"]
 
-[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="1_1muuw"]
+[ext_resource type="Resource" uid="uid://cufq41gtlll1h" path="res://Resources/Data/MovementData/ActionOnly/no_water_movement.tres" id="1_1muuw"]
 [ext_resource type="Script" uid="uid://r7r07lpj2yub" path="res://Scripts/UnitScripts/ActionScripts/terrain_action.gd" id="2_cwkca"]
 
 [resource]
@@ -12,7 +12,7 @@ TileType = 3
 ActionRange = 3
 AOERange = 1
 Duration = 2
-Type = 4
+Type = 7
 Name = "Create Fire"
 Description = "Creates water in an area"
 metadata/_custom_type_script = "uid://r7r07lpj2yub"

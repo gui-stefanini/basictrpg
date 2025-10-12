@@ -67,7 +67,6 @@ func SelectLevel():
 		LevelObjectiveLabel.text = " %s " % [level_data.LevelObjective]
 		PlayerCountLabel.text = " Player Units: %d " % [level_data.PlayerCount]
 		
-		UiFunctions.call_deferred("ClampUI", LevelInfoPanel)
 		LevelInfoPanel.show()
 	
 	elif CurrentLocation.MyLocationData is EventData:
@@ -153,6 +152,8 @@ func _ready() -> void:
 	CurrentLocation = Locations[0]
 	Player.global_position = Locations[0].global_position
 	SetAudio()
+	
+	LevelInfoPanel.item_rect_changed.connect(UiFunctions.ClampUI.bind(LevelInfoPanel))
 
 func _exit_tree() -> void:
 	ClearInputSignals()

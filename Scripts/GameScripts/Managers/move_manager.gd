@@ -14,8 +14,6 @@ extends Node
 var MyGameManager : GameManager
 var GroundGrid: TileMapLayer
 var EffectLayer: TileMapLayer
-@export var BaseMovementData: MovementData
-@export var AllMovementData: Array[MovementData]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -46,23 +44,23 @@ func SetUnitObstacles(active_unit: Unit, astar : AStar2D) -> Array[Vector2i]:
 	
 	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(active_unit)
 	for unit in hostile_array:
-		var unit_tile = GroundGrid.local_to_map(unit.global_position)
-		astar.set_point_disabled(vector_to_id(unit_tile), true)
+		var unit_tile = unit.CurrentTile
+		astar.set_point_disabled(VectorToId(unit_tile), true)
 		modified_tiles.append(unit_tile)
 	
 	return modified_tiles
 
 func ClearUnitObstacles(tiles_to_clear: Array[Vector2i], astar : AStar2D):
 	for tile in tiles_to_clear:
-		astar.set_point_disabled(vector_to_id(tile), false)
+		astar.set_point_disabled(VectorToId(tile), false)
 
 func GetOccupiedTiles(exception: Unit = null) -> Array[Vector2i]:
 	var occupied_tiles: Array[Vector2i] = []
 	
 	for unit in UnitManager.AllUnits:
-		occupied_tiles.append(GroundGrid.local_to_map(unit.global_position))
+		occupied_tiles.append(unit.CurrentTile)
 	if exception != null:
-		occupied_tiles.erase(GroundGrid.local_to_map(exception.global_position))
+		occupied_tiles.erase(exception.CurrentTile)
 	
 	return occupied_tiles
 
@@ -85,7 +83,7 @@ func GetInvalidTiles(unit_data: CharacterData = null, move_data: MovementData = 
 	var invalid_tiles: Array[Vector2i] = []
 	
 	for tile in all_tiles:
-		var point_id = vector_to_id(tile)
+		var point_id = VectorToId(tile)
 		if astar.is_point_disabled(point_id) or occupied_tiles.has(tile):
 			invalid_tiles.append(tile)
 	
@@ -99,14 +97,14 @@ func CheckGridBounds(tile: Vector2i) -> bool:
 #                      2.2 ASTAR PATHING                     #
 ##############################################################
 
-func vector_to_id(vector: Vector2i) -> int:
+func VectorToId(vector: Vector2i) -> int:
 	# Converts a Vector2i coordinate to a unique integer ID.
 	# This is necessary because AStar2D identifies points with integer IDs, not vectors.
 	# We use a large number to ensure the y-coordinate doesn't overlap with the x-coordinate.
 	return vector.x * 1000 + vector.y
 
 func SetAStarGrids():
-	for move_data in AllMovementData:
+	for move_data in MovementList.AllMovementData:
 		var new_astar = MovementAStar.new()
 		new_astar.GroundGrid = GroundGrid
 		new_astar.EffectLayer = EffectLayer
@@ -119,21 +117,21 @@ func SetAStarGrids():
 				var terrain_type: String = tile_data.get_custom_data("terrain_type")
 				var move_cost = move_data.TerrainCosts.get(terrain_type, -1) # Default to -1 if type not found
 				
-				var point_id = vector_to_id(cell)
+				var point_id = VectorToId(cell)
 				new_astar.add_point(point_id, cell)
 				
 				if move_cost == -1:
 					new_astar.set_point_disabled(point_id, true)
 		
 		for cell in all_cells:
-			var current_point_id = vector_to_id(cell)
+			var current_point_id = VectorToId(cell)
 			if not new_astar.has_point(current_point_id) or new_astar.is_point_disabled(current_point_id):
 				continue
 			
 			var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 			for direction in directions:
 				var neighbor_cell = cell + direction
-				var neighbor_point_id = vector_to_id(neighbor_cell)
+				var neighbor_point_id = VectorToId(neighbor_cell)
 				
 				if new_astar.has_point(neighbor_point_id) and not new_astar.is_point_disabled(neighbor_point_id):
 					new_astar.connect_points(current_point_id, neighbor_point_id)
@@ -148,8 +146,8 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 	var astar : AStar2D = AStarInstances[move_data_name]
 	
 	var modified_tiles = SetUnitObstacles(unit, astar)
-	var start_id = vector_to_id(start_tile)
-	var end_id = vector_to_id(end_tile)
+	var start_id = VectorToId(start_tile)
+	var end_id = VectorToId(end_tile)
 	
 	var astar_path_vectors = astar.get_point_path(start_id, end_id)
 	
@@ -203,7 +201,7 @@ func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = fa
 		for direction in directions:
 			var adjacent_tile = current_tile + direction
 			
-			if not astar.has_point(vector_to_id(adjacent_tile)) or astar.is_point_disabled(vector_to_id(adjacent_tile)):
+			if not astar.has_point(VectorToId(adjacent_tile)) or astar.is_point_disabled(VectorToId(adjacent_tile)):
 				continue
 			
 			var tile_data = GroundGrid.get_cell_tile_data(adjacent_tile)

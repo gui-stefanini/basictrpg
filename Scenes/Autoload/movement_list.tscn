@@ -1,0 +1,15 @@
+[gd_scene load_steps=10 format=3 uid="uid://kp86d626bvxy"]
+
+[ext_resource type="Script" uid="uid://c55gjwunadnga" path="res://Scripts/Autoloads/DataHolders/movement_list.gd" id="1_8d0bl"]
+[ext_resource type="Script" uid="uid://cguqbducphruj" path="res://Scripts/UnitScripts/movement_data.gd" id="2_jac5a"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="3_qk1m0"]
+[ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="4_ad71f"]
+[ext_resource type="Resource" uid="uid://djj0huxmw2fd4" path="res://Resources/Data/MovementData/water_infantry_movement.tres" id="5_3my2l"]
+[ext_resource type="Resource" uid="uid://dvjds4indix56" path="res://Resources/Data/MovementData/fire_infantry_movement.tres" id="6_bgntj"]
+[ext_resource type="Resource" uid="uid://dpo83a1lske4x" path="res://Resources/Data/MovementData/ActionOnly/base_movement.tres" id="7_sshqi"]
+[ext_resource type="Resource" uid="uid://c2et1eq7co3yl" path="res://Resources/Data/MovementData/ActionOnly/no_fire_movement.tres" id="8_nb81g"]
+[ext_resource type="Resource" uid="uid://cufq41gtlll1h" path="res://Resources/Data/MovementData/ActionOnly/no_water_movement.tres" id="9_t6fh1"]
+
+[node name="MovementList" type="Node"]
+script = ExtResource("1_8d0bl")
+AllMovementData = Array[ExtResource("2_jac5a")]([ExtResource("3_qk1m0"), ExtResource("4_ad71f"), ExtResource("5_3my2l"), ExtResource("6_bgntj"), ExtResource("7_sshqi"), ExtResource("8_nb81g"), ExtResource("9_t6fh1")])

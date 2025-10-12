@@ -33,8 +33,7 @@ func _check_target(_user: Unit, _manager: GameManager = null, target = null) -> 
 	return true
 
 func _execute(user: Unit, manager: GameManager, target = null, _simulation : bool = false) -> Variant:
-	var start_tile = manager.GroundGrid.local_to_map(user.global_position)
-	var path = manager.MyMoveManager.FindPath(user, start_tile, target)
+	var path = manager.MyMoveManager.FindPath(user, user.CurrentTile, target)
 	
 	if path.path.is_empty():
 		return null
@@ -46,6 +45,7 @@ func _execute(user: Unit, manager: GameManager, target = null, _simulation : boo
 		var step_global_position = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(step))
 		tween.tween_property(user, "global_position", step_global_position, 0.2)
 	
+	user.CurrentTile = target
 	user.HasMoved = true
 	return tween
 

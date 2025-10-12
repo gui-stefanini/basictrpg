@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dagoxwn4eplbq"]
+[gd_scene load_steps=28 format=3 uid="uid://dagoxwn4eplbq"]
 
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
 [ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MapScripts/world_map.gd" id="1_immrm"]
@@ -25,11 +25,13 @@
 [ext_resource type="Resource" uid="uid://cx2i5pymfuy6r" path="res://Resources/Data/EventData/event_8_data.tres" id="21_n026q"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="22_ej0cr"]
 [ext_resource type="Resource" uid="uid://dn3akb43iebxw" path="res://Resources/Data/LevelData/level_4_data.tres" id="22_n026q"]
+[ext_resource type="Resource" uid="uid://cxwbow1cdcjvo" path="res://Resources/Data/LevelData/level_5_data.tres" id="23_rviyi"]
+[ext_resource type="Resource" uid="uid://dygohbtbwbrv8" path="res://Resources/Data/LevelData/level_6_data.tres" id="24_y1feg"]
 
 [node name="WorldMap" type="Node2D" node_paths=PackedStringArray("Player", "Locations", "LevelInfoPanel", "LevelNameLabel", "LevelObjectiveLabel", "PlayerCountLabel", "EventPanel", "EventNameLabel", "EventTextLabel")]
 script = ExtResource("1_immrm")
 Player = NodePath("Player")
-Locations = [NodePath("Event1"), NodePath("Level0"), NodePath("Event2"), NodePath("Level1"), NodePath("Event3"), NodePath("Level2"), NodePath("Event4"), NodePath("Event5"), NodePath("Event6"), NodePath("Level3"), NodePath("Event7"), NodePath("Event8"), NodePath("Level4")]
+Locations = [NodePath("Event1"), NodePath("Level0"), NodePath("Event2"), NodePath("Level1"), NodePath("Event3"), NodePath("Level2"), NodePath("Event4"), NodePath("Event5"), NodePath("Event6"), NodePath("Level3"), NodePath("Event7"), NodePath("Event8"), NodePath("Level4"), NodePath("Level5"), NodePath("Level6")]
 LevelInfoPanel = NodePath("LevelInfoPanel")
 LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
 LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
@@ -157,11 +159,13 @@ MyLocationData = ExtResource("18_0o0p7")
 LeftLocation = NodePath("../Level2")
 RightLocation = NodePath("../Level3")
 
-[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(256, 96)
 MyLocationData = ExtResource("12_h1xgf")
 LeftLocation = NodePath("../Level2")
 RightLocation = NodePath("../Level4")
+UpLocation = NodePath("../Level5")
+DownLocation = NodePath("../Level6")
 
 [node name="Event7" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(16, 48)
@@ -174,9 +178,20 @@ MyLocationData = ExtResource("21_n026q")
 UpLocation = NodePath("../Event1")
 
 [node name="Level4" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(288, 96)
+position = Vector2(304, 96)
 MyLocationData = ExtResource("22_n026q")
 LeftLocation = NodePath("../Level3")
+
+[node name="Level5" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(256, 48)
+MyLocationData = ExtResource("23_rviyi")
+DownLocation = NodePath("../Level3")
+
+[node name="Level6" parent="." node_paths=PackedStringArray("LeftLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(256, 144)
+MyLocationData = ExtResource("24_y1feg")
+LeftLocation = NodePath("../Level3")
+UpLocation = NodePath("../Level3")
 
 [node name="EventLayer" type="CanvasLayer" parent="."]
 

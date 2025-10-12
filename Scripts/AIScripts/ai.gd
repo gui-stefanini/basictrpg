@@ -22,6 +22,7 @@ var IsMobile: bool = true
 var IgnorePlayers: bool = false
 
 var TargetTiles: Array[Vector2i]
+var TargetUnits: Array[Unit]
 
 ##############################################################
 #                      2.0 Functions                         #

@@ -6,9 +6,7 @@
 script = ExtResource("1_msiul")
 AnimationName = "thunder"
 DamageModifier = 1
-RangeModifier = 0
-Type = 1
+Type = 2
 Name = "Thunder"
-Simulatable = false
 Description = "Deals damage to a random enemy in range"
 metadata/_custom_type_script = "uid://downh4a1a0gss"

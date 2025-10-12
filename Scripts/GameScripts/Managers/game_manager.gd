@@ -45,7 +45,7 @@ var CursorHighlightLayer : TileMapLayer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum GameState {NULL, PLAYER_TURN, ALLY_TURN, ENEMY_TURN, END}
+enum GameState {NULL, PLAYER_TURN, ALLY_TURN, ENEMY_TURN, WILD_TURN, END}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 var CurrentGameState : GameState = GameState.NULL
 var CurrentSubState : SubState = SubState.NULL
@@ -109,7 +109,7 @@ func SetHUD():
 
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
-	initial_position = GroundGrid.local_to_map(UnitManager.PlayerUnits[0].global_position)
+	initial_position = UnitManager.PlayerUnits[0].CurrentTile
 	MyCursor.MoveToTile(initial_position, GroundGrid)
 
 func SetAudio():
@@ -153,9 +153,9 @@ func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
 	DisplaySelectedUnitInfo()
 	MyCursor.show()
 
-func GetUnitAtTile(tile_pos: Vector2i) -> Unit:
+func GetUnitAtTile(tile: Vector2i) -> Unit:
 	for unit in UnitManager.AllUnits:
-		if GroundGrid.local_to_map(unit.global_position) == tile_pos:
+		if unit.CurrentTile == tile:
 			return unit
 	return null
 
@@ -181,7 +181,7 @@ func FindClosestValidSpawn(start_tile: Vector2i, invalid_tiles: Array[Vector2i],
 	while not check_queue.is_empty():
 		var current_tile = check_queue.pop_front()
 		
-		var point_id = MyMoveManager.vector_to_id(current_tile)
+		var point_id = MyMoveManager.VectorToId(current_tile)
 		if astar.has_point(point_id) and not astar.is_point_disabled(point_id) and not invalid_tiles.has(current_tile):
 			return current_tile
 		
@@ -228,8 +228,10 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	var tile_global_position = GroundGrid.to_global(tile_grid_position)
 	new_unit.global_position = tile_global_position
 	
-	new_unit.CurrentTile = tile_grid_position
+	new_unit.CurrentTile = spawn_pos
+	print(new_unit.CurrentTile)
 	
+	new_unit.turn_started.connect(_on_unit_turn_started)
 	new_unit.unit_died.connect(_on_unit_died)
 	new_unit.vfx_requested.connect(_on_vfx_requested)
 	unit_spawned.emit(new_unit)
@@ -255,7 +257,9 @@ func SpawnStartingUnits():
 			player_spawns.append(player_spawn)
 	
 	SpawnUnitGroup(player_spawns)
+	SpawnUnitGroup(CurrentLevel.AllySpawns)
 	SpawnUnitGroup(CurrentLevel.EnemySpawns)
+	SpawnUnitGroup(CurrentLevel.WildSpawns)
 
 ##############################################################
 #                      2.4 GAME FLOW                         #
@@ -263,7 +267,7 @@ func SpawnStartingUnits():
 
 func SetActiveUnit(unit: Unit):
 	ActiveUnit = unit
-	OriginalUnitTile = GroundGrid.local_to_map(unit.global_position)
+	OriginalUnitTile = unit.CurrentTile
 	ActiveUnit.PlayIdleAnimation()
 
 func ClearActiveUnit():
@@ -304,13 +308,13 @@ func OnPlayerUnitActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
 	MyActionMenu.ShowMenu(ActiveUnit)
 	ActiveUnit.PlayIdleAnimation()
-	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
+	ActiveUnit.CurrentTile = GetUnitTile(ActiveUnit)
 
 func OnPlayerUnitTurnFinished():
 	if not ActiveUnit: return
 	ActiveUnit.StopAnimation()
 	
-	ActiveUnit.CurrentTile = GroundGrid.local_to_map(ActiveUnit.global_position)
+	ActiveUnit.CurrentTile = GetUnitTile(ActiveUnit)
 	unit_turn_ended.emit(ActiveUnit, ActiveUnit.CurrentTile)
 	
 	if CurrentGameState == GameState.END:
@@ -348,8 +352,7 @@ func StartAllyTurn():
 		await GeneralFunctions.Wait(0.2)
 		print(unit.Data.Name + " is taking its turn.")
 		await unit.MyAI.Behavior.execute_turn(unit, self)
-		var unit_tile = GroundGrid.local_to_map(unit.global_position)
-		unit_turn_ended.emit(unit, unit_tile)
+		unit_turn_ended.emit(unit, unit.CurrentTile)
 		unit.SetInactive() 
 	
 	EndAllyTurn()
@@ -359,6 +362,7 @@ func EndAllyTurn():
 	for unit in UnitManager.CompleteAllyUnits:
 		unit.SetActive()
 	await GeneralFunctions.Wait(0.3)
+	
 	StartEnemyTurn()
 
 func StartEnemyTurn():
@@ -375,8 +379,7 @@ func StartEnemyTurn():
 		await GeneralFunctions.Wait(0.2)
 		print(unit.Data.Name + " is taking its turn.")
 		await unit.MyAI.Behavior.execute_turn(unit, self)
-		var unit_tile = GroundGrid.local_to_map(unit.global_position)
-		unit_turn_ended.emit(unit, unit_tile)
+		unit_turn_ended.emit(unit, unit.CurrentTile)
 		unit.SetInactive() 
 	
 	EndEnemyTurn()
@@ -387,6 +390,34 @@ func EndEnemyTurn():
 		unit.SetActive()
 	await GeneralFunctions.Wait(0.3)
 	turn_ended.emit(TurnNumber)
+	
+	StartWildTurn()
+
+func StartWildTurn():
+	print("--- Wild Turn Begins ---")
+	CurrentGameState = GameState.WILD_TURN
+	CurrentSubState = SubState.PROCESSING_PHASE
+	
+	var wild_units : Array[Unit] = UnitManager.CompleteWildUnits.duplicate()
+	
+	for unit in wild_units:
+		unit.StartTurn()
+	
+	for unit in wild_units:
+		await GeneralFunctions.Wait(0.2)
+		print(unit.Data.Name + " is taking its turn.")
+		await unit.MyAI.Behavior.execute_turn(unit, self)
+		unit_turn_ended.emit(unit, unit.CurrentTile)
+		unit.SetInactive() 
+	
+	EndWildTurn()
+
+func EndWildTurn():
+	print("--- Wild Turn Ends ---")
+	for unit in UnitManager.CompleteWildUnits:
+		unit.SetActive()
+	await GeneralFunctions.Wait(0.3)
+	
 	StartNewTurn()
 
 func EndGame(player_won: bool):
@@ -403,6 +434,13 @@ func EndGame(player_won: bool):
 	
 	get_tree().paused = true
 	EndScreen.ShowEndScreen(player_won)
+
+##############################################################
+#                   2.4 DATA GATHERING                       #
+##############################################################
+
+func GetUnitTile(unit: Unit) -> Vector2i:
+	return GroundGrid.local_to_map(unit.global_position)
 
 ##############################################################
 #                      3.0 Signal Functions                  #
@@ -486,7 +524,7 @@ func _on_confirm_pressed():
 			HideUI()
 			MyActionManager.ClearHighlights()
 			
-			if selected_tile == GroundGrid.local_to_map(TargetedUnit.global_position):
+			if selected_tile == TargetedUnit.CurrentTile:
 				if MyActionManager.CheckValidTarget(CurrentAction, ActiveUnit, TargetedUnit) == true:
 					HideUI()
 					CurrentSubState = SubState.PROCESSING_PHASE
@@ -502,6 +540,7 @@ func _on_cancel_pressed():
 			if ActiveUnit.HasMoved and not ActiveUnit.HasActed:
 				var original_global_pos = GroundGrid.to_global(GroundGrid.map_to_local(OriginalUnitTile))
 				ActiveUnit.global_position = original_global_pos
+				ActiveUnit.CurrentTile = OriginalUnitTile
 				ActiveUnit.HasMoved = false
 				UpdateCursor(OriginalUnitTile)
 				
@@ -549,14 +588,14 @@ func on_trigger_pressed(direction : int):
 	
 	if unit_on_tile == null:
 		next_unit = UnitManager.AllUnits[0]
-		UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
+		UpdateCursor(next_unit.CurrentTile)
 		return
 	
 	var current_index = UnitManager.AllUnits.find(unit_on_tile)
 	var next_index = GeneralFunctions.ClampIndexInArray(current_index, direction, UnitManager.AllUnits)
 	next_unit = UnitManager.AllUnits[next_index]
 	
-	UpdateCursor(GroundGrid.local_to_map(next_unit.global_position))
+	UpdateCursor(next_unit.CurrentTile)
 
 func _on_direction_pressed(direction: Vector2i):
 	match CurrentSubState:
@@ -582,6 +621,19 @@ func _on_spawn_requested(spawn_array: Array[SpawnInfo]):
 func _on_dialogue_requested(text: String):
 	HideUI()
 	DialogueBox.DisplayText(text)
+
+func _on_unit_turn_started(unit: Unit):
+	var unit_tile : Vector2i = unit.CurrentTile
+	var tile_data = GroundGrid.get_cell_tile_data(unit_tile)
+	var effect_tile_data = EffectLayer.get_cell_tile_data(unit_tile)
+	
+	var terrain_type: String
+	if effect_tile_data != null:
+		terrain_type = effect_tile_data.get_custom_data("terrain_type")
+	else:
+		terrain_type = tile_data.get_custom_data("terrain_type")
+	
+	TileManager.TurnStartEffect(unit, terrain_type)
 
 func _on_unit_died(unit: Unit):
 	UnitManager.RemoveUnit(unit)

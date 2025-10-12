@@ -176,7 +176,7 @@ func UpdateUnitPanel():
 			ActionContainer.add_child(new_label)
 
 func UpdateCursor():
-	var unit_tile: Vector2i = MyGameManager.GroundGrid.local_to_map(CurrentUnit.global_position)
+	var unit_tile: Vector2i = CurrentUnit.CurrentTile
 	MyGameManager.UpdateCursor(unit_tile)
 
 func UpdateUnitSelection(index: int):
@@ -217,7 +217,7 @@ func _on_trigger_pressed(direction: int):
 	MyTabContainer.current_tab = next_tab
 
 func _on_world_map_button_pressed() -> void:
-	hide()
+	GameData.ResetLevelData()
 	SceneManager.ChangeSceneWorldMap()
 
 func _on_menu_button_pressed() -> void:

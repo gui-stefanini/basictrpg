@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://c42aqhpkjkdq1"]
+[gd_scene load_steps=6 format=3 uid="uid://c42aqhpkjkdq1"]
 
 [ext_resource type="Script" uid="uid://bgqcc37qjdfaq" path="res://Scripts/Autoloads/DataHolders/character_list.gd" id="1_2ushe"]
 [ext_resource type="Resource" uid="uid://cme5d8les1cu0" path="res://Resources/Data/CharacterData/PlayerCharacters/axolot.tres" id="2_8kooe"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="2_ugaxk"]
 [ext_resource type="Resource" uid="uid://djr48l6vj0dpb" path="res://Resources/Data/CharacterData/PlayerCharacters/mantis.tres" id="3_ugaxk"]
 [ext_resource type="Resource" uid="uid://c0t0h32gaojul" path="res://Resources/Data/CharacterData/PlayerCharacters/orca.tres" id="4_m7bxt"]
 
 [node name="CharacterList" type="Node"]
 script = ExtResource("1_2ushe")
+AllCharacters = Array[ExtResource("2_ugaxk")]([ExtResource("2_8kooe"), ExtResource("3_ugaxk"), ExtResource("4_m7bxt")])
 Axolot = ExtResource("2_8kooe")
 Mantis = ExtResource("3_ugaxk")
 Orca = ExtResource("4_m7bxt")

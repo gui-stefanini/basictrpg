@@ -18,7 +18,9 @@ extends Node2D
 @export var CursorHighlightLayer: TileMapLayer
 @export var MyLevelManager: LevelManager
 @export var PlayerSpawns: Array[SpawnInfo]
+@export var AllySpawns: Array[SpawnInfo]
 @export var EnemySpawns: Array[SpawnInfo]
+@export var WildSpawns: Array[SpawnInfo]
 
 ######################
 #     SCRIPT-WIDE    #

@@ -10,6 +10,7 @@ extends Node
 ######################
 #     REFERENCES     #
 ######################
+@export var AllCharacters: Array[CharacterData]
 
 @export var Axolot : CharacterData
 @export var Mantis : CharacterData

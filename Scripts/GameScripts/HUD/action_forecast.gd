@@ -30,7 +30,6 @@ func UpdateForecast(attacker: Unit, defender: Unit, damage: int):
 	TargetHPLabel.text = "HP: " + str(defender.CurrentHP) + " -> " + str(final_hp)
 	
 	global_position = attacker.global_position + Vector2(10, -10)
-	UiFunctions.call_deferred("ClampUI", self)
 	show()
 
 ##############################################################
@@ -40,3 +39,6 @@ func UpdateForecast(attacker: Unit, defender: Unit, damage: int):
 ##############################################################
 #                      4.0 Godot Functions                   #
 ##############################################################
+
+func _ready() -> void:
+	item_rect_changed.connect(UiFunctions.ClampUI.bind(self))

@@ -27,7 +27,7 @@ func GetValidTiles(ai_owner: Unit, manager: GameManager, tiles: Array[Vector2i])
 	var valid_tiles = []
 	
 	for tile in tiles:
-		var path = manager.MyMoveManager.FindPath(ai_owner, manager.GroundGrid.local_to_map(ai_owner.global_position), tile)
+		var path = manager.MyMoveManager.FindPath(ai_owner, ai_owner.CurrentTile, tile)
 		if not path.is_empty():
 			var tile_info = {
 				"destination": tile,
@@ -45,12 +45,12 @@ func GetValidActionTiles(ai_owner: Unit, manager: GameManager, target: Unit) -> 
 	var move_data_name = ai_owner.Data.MovementType.Name
 	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
-	var target_tile = manager.GroundGrid.local_to_map(target.global_position)
+	var target_tile = target.CurrentTile
 	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, ai_owner.AttackRange)
 	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(ai_owner)
 
 	for tile in tiles_in_range:
-		if astar.has_point(manager.MyMoveManager.vector_to_id(tile)) and not occupied_tiles.has(tile):
+		if astar.has_point(manager.MyMoveManager.VectorToId(tile)) and not occupied_tiles.has(tile):
 			valid_tiles.append(tile)
 	
 	return valid_tiles
@@ -63,7 +63,7 @@ func GetValidTargets(ai_owner : Unit, manager : GameManager, targets: Array[Unit
 		
 		var action_tiles = GetValidActionTiles(ai_owner, manager, unit)
 		for tile in action_tiles:
-			var path = manager.MyMoveManager.FindPath(ai_owner, manager.GroundGrid.local_to_map(ai_owner.global_position), tile)
+			var path = manager.MyMoveManager.FindPath(ai_owner, ai_owner.CurrentTile, tile)
 			if not path.is_empty():
 				var target = {
 					"target": unit,
@@ -79,17 +79,17 @@ func GetValidTargets(ai_owner : Unit, manager : GameManager, targets: Array[Unit
 	return valid_targets
 
 func GetTargetsInRange(ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array[Unit]:
-	var unit_tile = manager.GroundGrid.local_to_map(ai_owner.global_position)
+	var unit_tile = ai_owner.CurrentTile
 	var possible_targets : Array[Unit] = []
 	for target in targets:
-		var target_tile = manager.GroundGrid.local_to_map(target.global_position)
+		var target_tile = target.CurrentTile
 		if manager.MyActionManager.AreTilesInRange(ai_owner.AttackRange, unit_tile, target_tile):
 			possible_targets.append(target)
 	return possible_targets
 
 func GetReachableTargets(ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array:
 	var reachable_targets = []
-	var ai_owner_tile = manager.GroundGrid.local_to_map(ai_owner.global_position)
+	var ai_owner_tile = ai_owner.CurrentTile
 	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(ai_owner, ai_owner_tile, true)
 	
 	for target_unit in targets:

@@ -23,9 +23,8 @@ extends Action
 ##############################################################
 
 func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
-	var user_tile = manager.GroundGrid.local_to_map(user.global_position)
 	var action_range = user.AttackRange + RangeModifier
-	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(user_tile, action_range)
+	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(user.CurrentTile, action_range)
 	
 	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(user)
 	
