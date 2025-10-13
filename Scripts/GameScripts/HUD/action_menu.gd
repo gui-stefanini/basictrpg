@@ -12,12 +12,13 @@ signal action_selected(action: Action)
 ######################
 #     REFERENCES     #
 ######################
-@export var ActionButtonScene: PackedScene
+
 @export var MyItemList: ItemList
 
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 @export var ValidSelectionColor: Color
 @export var InvalidSelectionColor: Color
 var ActiveUnit : Unit = null

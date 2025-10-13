@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=19 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/Managers/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="2_wg6t1"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://dh3seoviprk6r" path="res://Scripts/GameScripts/Managers/move_manager.gd" id="4_wg6t1"]
 [ext_resource type="Script" uid="uid://c4bgwv0xvr6cl" path="res://Scripts/GameScripts/Managers/action_manager.gd" id="5_frkii"]
 [ext_resource type="PackedScene" uid="uid://cnkdwa0ws23hk" path="res://Scenes/InGame/HUD/grid_cursor.tscn" id="5_hghx2"]
+[ext_resource type="Script" uid="uid://756qwyxju7uo" path="res://Scripts/GameScripts/game_camera.gd" id="5_njqqu"]
 [ext_resource type="PackedScene" uid="uid://yvil7ohb0qf4" path="res://Scenes/InGame/HUD/action_menu.tscn" id="9_iav25"]
+[ext_resource type="PackedScene" uid="uid://b63pu8pi6sbwh" path="res://Scenes/InGame/Preparation/preparation_menu.tscn" id="9_jgh1u"]
 [ext_resource type="PackedScene" uid="uid://dg028svcnu8gy" path="res://Scenes/InGame/HUD/end_screen.tscn" id="10_fuy7q"]
 [ext_resource type="PackedScene" uid="uid://crxd46k35kbox" path="res://Scenes/InGame/HUD/unit_info_panel.tscn" id="11_uj5f7"]
 [ext_resource type="PackedScene" uid="uid://rrtklejik3lk" path="res://Scenes/InGame/HUD/action_forecast.tscn" id="12_v2ahw"]
@@ -17,21 +19,27 @@
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="18_qeoma"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="19_omwm2"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyActionMenu", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyCursor", "DialogueBox", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyGameCamera", "MyActionMenu", "MyCursor", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyPreparationMenu", "DialogueBox", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
 VfxScene = ExtResource("4_2yddo")
+MyGameCamera = NodePath("GameCamera")
 MyActionMenu = NodePath("ActionMenu")
+MyCursor = NodePath("GridCursor")
 ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 SelectedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
-MyCursor = NodePath("GridCursor")
+MyPreparationMenu = NodePath("PreparationMenu")
 DialogueBox = NodePath("DialogueBox")
 InfoScreen = NodePath("InfoScreen")
 EndScreen = NodePath("EndScreen")
 MyMoveManager = NodePath("MoveManager")
 MyActionManager = NodePath("ActionManager")
+
+[node name="GameCamera" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("5_njqqu")
 
 [node name="GridCursor" parent="." instance=ExtResource("5_hghx2")]
 visible = false
@@ -41,6 +49,9 @@ script = ExtResource("4_wg6t1")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("5_frkii")
+
+[node name="PreparationMenu" parent="." instance=ExtResource("9_jgh1u")]
+visible = false
 
 [node name="ActionMenu" parent="." instance=ExtResource("9_iav25")]
 visible = false

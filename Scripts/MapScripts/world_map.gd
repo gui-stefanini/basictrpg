@@ -119,10 +119,13 @@ func _on_cancel_pressed():
 		SelectedLocation = null
 
 func _on_start_pressed():
+	if LevelInfoPanel.is_visible_in_tree() or EventPanel.is_visible_in_tree():
+		return
+	
 	SceneManager.ChangeSceneMainMenu()
 
 func _on_direction_pressed(direction: Vector2i):
-	if LevelInfoPanel.is_visible_in_tree():
+	if LevelInfoPanel.is_visible_in_tree() or EventPanel.is_visible_in_tree():
 		return
 	
 	if direction.x == -1:
@@ -157,7 +160,6 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	ClearInputSignals()
-
 
 func _on_unlock_button_pressed() -> void:
 	for location in Locations:

@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgtqffblbyhyp"]
+
+[ext_resource type="Script" uid="uid://cp3ryi21faxxh" path="res://Scripts/GameScripts/Preparation/unit_button.gd" id="1_8uigr"]
+[ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="1_37r3p"]
+[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/Test/DefaultSprite.png" id="2_cv2as"]
+
+[node name="UnitButton" type="PanelContainer" node_paths=PackedStringArray("MyButton", "Portrait", "HoverColor")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -8.0
+offset_right = 19.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("1_37r3p")
+script = ExtResource("1_8uigr")
+MyButton = NodePath("HBoxContainer/CheckButton")
+Portrait = NodePath("HBoxContainer/Sprite2D")
+HoverColor = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+color = Color(0.15, 0.15, 0.15, 0.6784314)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="CheckButton" type="CheckButton" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 10
+theme_override_font_sizes/font_size = 6
+
+[node name="Sprite2D" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_cv2as")
+stretch_mode = 3

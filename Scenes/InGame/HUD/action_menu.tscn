@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://yvil7ohb0qf4"]
+[gd_scene load_steps=3 format=3 uid="uid://yvil7ohb0qf4"]
 
 [ext_resource type="Script" uid="uid://6w54amcicdur" path="res://Scripts/GameScripts/HUD/action_menu.gd" id="1_p3omo"]
-[ext_resource type="PackedScene" uid="uid://cqs2k0e5j88v8" path="res://Scenes/InGame/HUD/action_button.tscn" id="2_p3omo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p3omo"]
 content_margin_left = 0.0
@@ -17,7 +16,6 @@ offset_bottom = 11.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_p3omo")
 script = ExtResource("1_p3omo")
-ActionButtonScene = ExtResource("2_p3omo")
 MyItemList = NodePath("ItemList")
 ValidSelectionColor = Color(0.955963, 0.955963, 0.955963, 1)
 InvalidSelectionColor = Color(0.29219, 0.29219, 0.29219, 1)

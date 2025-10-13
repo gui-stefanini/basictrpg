@@ -21,12 +21,16 @@ signal unit_removed(unit: Unit)
 @export var CombatScreenScene: PackedScene
 @export var VfxScene: PackedScene
 
+@export var MyGameCamera: GameCamera
+
 @export var MyActionMenu: ActionMenu
+
+@export var MyCursor: GridCursor
 
 @export var ActiveUnitInfoPanel: PanelContainer
 @export var SelectedUnitInfoPanel: PanelContainer
 @export var ActionForecast: PanelContainer
-@export var MyCursor: GridCursor
+@export var MyPreparationMenu: PreparationMenu
 
 @export var DialogueBox: CanvasLayer
 @export var InfoScreen: CanvasLayer
@@ -45,7 +49,8 @@ var CursorHighlightLayer : TileMapLayer
 ######################
 #     SCRIPT-WIDE    #
 ######################
-enum GameState {NULL, PLAYER_TURN, ALLY_TURN, ENEMY_TURN, WILD_TURN, END}
+
+enum GameState {NULL, PREPARATION, PLAYER_TURN, ALLY_TURN, ENEMY_TURN, WILD_TURN, END}
 enum SubState {NULL, UNIT_SELECTION_PHASE, ACTION_SELECTION_PHASE, TARGETING_PHASE, MOVEMENT_PHASE, ACTION_CONFIRMATION_PHASE, PROCESSING_PHASE}
 var CurrentGameState : GameState = GameState.NULL
 var CurrentSubState : SubState = SubState.NULL
@@ -101,11 +106,14 @@ func SetAuxiliaryManagers():
 	CurrentLevelManager.Initialize(self)
 	MyMoveManager.Initialize(self)
 	MyActionManager.Initialize(self)
+	MyPreparationMenu.Initialize(self)
+
+func SetCamera():
+	MyGameCamera.Initialize(GroundGrid)
 
 func SetHUD():
 	InfoScreen.Initialize(self)
 	DialogueBox.Initialize(self)
-	SetCursor()
 
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
@@ -146,6 +154,7 @@ func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
 	if new_tile_position != Vector2i(-1,-1):
 		if MyMoveManager.CheckGridBounds(new_tile_position):
 			MyCursor.MoveToTile(new_tile_position, GroundGrid)
+			MyGameCamera.CheckCameraEdge(new_tile_position)
 	
 	if not MyActionManager.HighlightedAOETiles.is_empty():
 		MyActionManager.UpdateAOE(new_tile_position)
@@ -229,7 +238,6 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	new_unit.global_position = tile_global_position
 	
 	new_unit.CurrentTile = spawn_pos
-	print(new_unit.CurrentTile)
 	
 	new_unit.turn_started.connect(_on_unit_turn_started)
 	new_unit.unit_died.connect(_on_unit_died)
@@ -241,22 +249,21 @@ func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 		SpawnUnit(spawn_info)
 
 func DefinePlayerUnits():
-	#Temporary while can't choose characters
-	GameData.PlayerSquad = GameData.PlayerArmy
+	GameData.PlayerSquad = MyPreparationMenu.SelectedUnits
 	
 	var smaller_array_size : int = min(GameData.PlayerSquad.size(), CurrentLevel.PlayerSpawns.size())
 	
 	for i in range(smaller_array_size):
 		CurrentLevel.PlayerSpawns[i].Character = GameData.PlayerSquad[i]
-
-func SpawnStartingUnits():
-	#Temporary while can't choose characters
+	
 	var player_spawns: Array[SpawnInfo]
 	for player_spawn in CurrentLevel.PlayerSpawns:
 		if player_spawn.Character != null:
 			player_spawns.append(player_spawn)
 	
 	SpawnUnitGroup(player_spawns)
+
+func SpawnStartingUnits():
 	SpawnUnitGroup(CurrentLevel.AllySpawns)
 	SpawnUnitGroup(CurrentLevel.EnemySpawns)
 	SpawnUnitGroup(CurrentLevel.WildSpawns)
@@ -273,6 +280,16 @@ func SetActiveUnit(unit: Unit):
 func ClearActiveUnit():
 	ActiveUnit = null
 	OriginalUnitTile = Vector2i (-1,-1)
+
+func StartPreparation():
+	CurrentGameState = GameState.PREPARATION
+	MyPreparationMenu.ShowScreen()
+
+func StartGame():
+	DefinePlayerUnits()
+	SetCursor()
+	level_set.emit()
+	StartNewTurn()
 
 func StartNewTurn():
 	CurrentGameState = GameState.PLAYER_TURN
@@ -655,6 +672,7 @@ func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: 
 	vfx.SetData(vfx_data)
 	vfx.global_position = vfx_position
 	vfx.MyAnimationPlayer.play("vfx/" + animation_name)
+	
 
 ##############################################################
 #                      4.0 Godot Functions                   #
@@ -671,13 +689,12 @@ func _ready() -> void:
 	SetLevel()
 	SetAuxiliaryManagers()
 	
-	DefinePlayerUnits()
 	SpawnStartingUnits()
 	
 	SetAudio()
 	SetHUD()
+	SetCamera()
 	
 	ConnectInputSignals()
 	
-	level_set.emit()
-	StartNewTurn()
+	StartPreparation()

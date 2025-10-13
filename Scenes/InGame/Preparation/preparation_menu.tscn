@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://b63pu8pi6sbwh"]
+
+[ext_resource type="Script" uid="uid://d2y1iogt0jqjp" path="res://Scripts/GameScripts/Preparation/preparation_menu.gd" id="1_wxv2a"]
+[ext_resource type="PackedScene" uid="uid://cgtqffblbyhyp" path="res://Scenes/InGame/Preparation/unit_button.tscn" id="2_2y0rv"]
+[ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="3_jtyf1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtyf1"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.12239999, 0.16552001, 0.24, 0.13725491)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jtyf1"]
+line_spacing = 0.0
+font_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rau24"]
+content_margin_left = 5.0
+content_margin_top = 0.0
+content_margin_right = 5.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0.3137255)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4hpv"]
+content_margin_left = 5.0
+content_margin_top = 0.0
+content_margin_right = 5.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0.5882353)
+shadow_color = Color(0, 0, 0, 0.0392157)
+
+[node name="PreparationMenu" type="PanelContainer" node_paths=PackedStringArray("UnitBoxContainer", "UnitCountLabel")]
+z_index = 25
+offset_right = 72.0
+offset_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_jtyf1")
+script = ExtResource("1_wxv2a")
+UnitButtonScene = ExtResource("2_2y0rv")
+UnitBoxContainer = NodePath("VBoxContainer/UnitBoxContainer")
+UnitCountLabel = NodePath("VBoxContainer/UnitCountLabel")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.18542999, 0.1827, 0.21, 0.13725491)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Choose your units:"
+label_settings = ExtResource("3_jtyf1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnitBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="UnitCountLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Units Selected: 0/0"
+label_settings = SubResource("LabelSettings_jtyf1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_rau24")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m4hpv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m4hpv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_m4hpv")
+theme_override_styles/focus = SubResource("StyleBoxFlat_m4hpv")
+text = "Start"
+
+[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

@@ -1,4 +1,5 @@
-extends Node
+class_name UnitButton
+extends Control
 
 ##############################################################
 #                      0.0 Signals                           #
@@ -11,31 +12,30 @@ extends Node
 #     REFERENCES     #
 ######################
 
-@export var MainMenuScene: PackedScene
-@export var TestLevel: PackedScene
-@export var TestCharacter: CharacterData
+@export var MyButton : CheckButton
+@export var Portrait : TextureRect
+@export var HoverColor : ColorRect
+var Character : CharacterData
 
 ######################
 #     SCRIPT-WIDE    #
 ######################
 
-@export var PlayerArmy: Array[CharacterData]
-@export var PlayerSquad: Array[CharacterData]
-
-@export var CurrentLevel: LevelData
-var SelectedLevelScene: PackedScene
-
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
 
-func ClearLevel():
-	CurrentLevel.ClearLocationData()
+func SetInfo():
+	MyButton.text = Character.Name
+	Portrait.texture = Character.Portrait
 
-func ResetLevelData():
-	CurrentLevel = null
-	SelectedLevelScene = null
-	UnitManager.ClearArrays()
+func UpdateSelection(array_position: int, select : bool = true):
+	if select == true:
+		MyButton.text = "%s %d" % [Character.Name, array_position]
+	else:
+		MyButton.text = Character.Name
+	
+	MyButton.button_pressed = select
 
 ##############################################################
 #                      3.0 Signal Functions                  #
