@@ -12,6 +12,7 @@ extends Resource
 #     REFERENCES     #
 ######################
 
+@export var Portrait: Texture2D
 @export var Class: ClassData
 
 @export var Generic: bool = false
@@ -54,9 +55,7 @@ var Abilities: Array[Ability]
 var Actions: Array[Action]
 var MovementType: MovementData
 
-#Art
-@export var Portrait : Texture2D
-
+#Animation
 @export var CharacterSpriteSheet: Texture2D
 @export var CharacterHframes: int = 0
 @export var CharacterVframes: int = 0

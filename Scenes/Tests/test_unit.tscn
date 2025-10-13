@@ -1,16 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://cawauhuijdnej"]
+[gd_scene load_steps=16 format=3 uid="uid://cawauhuijdnej"]
 
 [ext_resource type="Script" uid="uid://dv8uxfbfptcap" path="res://Scripts/UnitScripts/unit.gd" id="1_4tnkl"]
 [ext_resource type="Material" uid="uid://7w1v3fveurkr" path="res://Resources/Shaders/unit_shader_material.tres" id="2_0tfuv"]
 [ext_resource type="Script" uid="uid://dgh38djkkkdmo" path="res://Scripts/AIScripts/ai.gd" id="2_kd14x"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="3_5cpx2"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="4_5yiaf"]
-[ext_resource type="Texture2D" uid="uid://kj2ixtoba5vc" path="res://Assets/Art/Sprites/Mage/MageSpriteSheet_1.png" id="4_tncer"]
+[ext_resource type="Texture2D" uid="uid://kj2ixtoba5vc" path="res://Assets/Art/Classes/Mage/MageSpriteSheet_1.png" id="4_tncer"]
 [ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="5_5cpx2"]
 [ext_resource type="AnimationLibrary" uid="uid://b36ng25oq3jhi" path="res://Resources/Animations/assassin_library.res" id="5_6pcgi"]
 [ext_resource type="AnimationLibrary" uid="uid://b0lr554ijj65h" path="res://Resources/Animations/priest_library.res" id="8_0331v"]
+[ext_resource type="AnimationLibrary" uid="uid://bwbkav78pd4ab" path="res://Resources/Animations/fire_snake_library.res" id="8_blila"]
 [ext_resource type="AnimationLibrary" uid="uid://d3rbgaaj0jjk" path="res://Resources/Animations/mage_library.res" id="9_ivqkp"]
 [ext_resource type="AnimationLibrary" uid="uid://ice4o75b3p44" path="res://Resources/Animations/shaman_library.res" id="11_tncer"]
+[ext_resource type="AnimationLibrary" uid="uid://b2cu0b67j1kvk" path="res://Resources/Animations/zombie_library.res" id="12_xhwe5"]
 
 [sub_resource type="Animation" id="Animation_4tnkl"]
 length = 0.001
@@ -117,10 +119,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_0tfuv"),
 &"assassin_library": ExtResource("5_6pcgi"),
 &"bandit_library": ExtResource("5_5cpx2"),
+&"fire_snake_library": ExtResource("8_blila"),
 &"knight_library": ExtResource("4_5yiaf"),
 &"mage_library": ExtResource("9_ivqkp"),
 &"priest_library": ExtResource("8_0331v"),
-&"shaman_library": ExtResource("11_tncer")
+&"shaman_library": ExtResource("11_tncer"),
+&"zombie_library": ExtResource("12_xhwe5")
 }
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]

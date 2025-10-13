@@ -11,12 +11,13 @@ extends Node
 #     REFERENCES     #
 ######################
 
-enum TileTypes {GRASS, WATER, OBSTACLE, FIRE}
+enum TileTypes {GRASS, FLOOR, WATER, FIRE, WALL}
 
 @export var GrassTiles : Array[GroundTileData]
+@export var FloorTiles : Array[GroundTileData]
 @export var WaterTiles : Array[GroundTileData]
-@export var ObstacleTiles : Array[GroundTileData]
 @export var FireTiles : Array[GroundTileData]
+@export var WallTiles : Array[GroundTileData]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -33,8 +34,8 @@ func GetTileData(tile_type : TileTypes) -> Dictionary:
 			tile_data_array = GrassTiles
 		TileTypes.WATER:
 			tile_data_array = WaterTiles
-		TileTypes.OBSTACLE:
-			tile_data_array = ObstacleTiles
+		TileTypes.WALL:
+			tile_data_array = WallTiles
 		TileTypes.FIRE:
 			tile_data_array = FireTiles
 	

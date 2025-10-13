@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GroundTileData" load_steps=2 format=3 uid="uid://glslgtb0q4fq"]
+
+[ext_resource type="Script" uid="uid://dpgg7spn7j8il" path="res://Scripts/MiscResources/ground_tile_data.gd" id="1_gay8a"]
+
+[resource]
+script = ExtResource("1_gay8a")
+ID = 2
+metadata/_custom_type_script = "uid://dpgg7spn7j8il"

@@ -1,24 +1,14 @@
-[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://djr48l6vj0dpb"]
+[gd_resource type="Resource" script_class="CharacterData" load_steps=6 format=3 uid="uid://djr48l6vj0dpb"]
 
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_3arpe"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_7y3rj"]
 [ext_resource type="Resource" uid="uid://balnk0visepyp" path="res://Resources/Data/ClassData/PlayerClassData/priest_data.tres" id="3_eugxh"]
+[ext_resource type="Texture2D" uid="uid://di7whll8lqmm5" path="res://Assets/Art/Characters/Mantis/Mantis_Portrait_1.png" id="4_7y3rj"]
 [ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="4_63uud"]
 
 [resource]
 script = ExtResource("4_63uud")
+Portrait = ExtResource("4_7y3rj")
 Class = ExtResource("3_eugxh")
-Boss = false
 Name = "Pr Mantis"
-CharacterMaxHP = 0
-CharacterAttackPower = 0
-CharacterHealPower = 0
-CharacterMoveRange = 0
-CharacterAttackRange = 0
-CharacterAggro = 0
-CharacterSupportAggro = 0
-Abilities = Array[ExtResource("1_3arpe")]([])
-Actions = Array[ExtResource("2_7y3rj")]([])
-Hframes = 0
-Vframes = 0
 metadata/_custom_type_script = "uid://fhqj6evu0bn8"

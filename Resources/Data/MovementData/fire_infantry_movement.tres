@@ -7,8 +7,9 @@ script = ExtResource("1_0mhai")
 Name = "FireInfantry"
 TerrainCosts = {
 "Fire": 1,
+"Floor": 1,
 "Grass": 1,
-"Obstacle": -1,
+"Wall": -1,
 "Water": 2
 }
 metadata/_custom_type_script = "uid://cguqbducphruj"

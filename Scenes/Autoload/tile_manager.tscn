@@ -1,17 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvpa0vytegdo4"]
+[gd_scene load_steps=12 format=3 uid="uid://cvpa0vytegdo4"]
 
 [ext_resource type="Script" uid="uid://e0c5d1jgtxsg" path="res://Scripts/Autoloads/Managers/tile_manager.gd" id="1_xwjq4"]
 [ext_resource type="Script" uid="uid://dpgg7spn7j8il" path="res://Scripts/MiscResources/ground_tile_data.gd" id="2_mwj3q"]
 [ext_resource type="Resource" uid="uid://h3hbxtqdt4oh" path="res://Resources/Data/TileData/grass_1_data.tres" id="3_dgkfe"]
 [ext_resource type="Resource" uid="uid://wp4dgiop8vj3" path="res://Resources/Data/TileData/grass_2_data.tres" id="4_hkiq8"]
+[ext_resource type="Resource" uid="uid://ul6ra56g6om0" path="res://Resources/Data/TileData/floor_1_data.tres" id="5_57i3y"]
 [ext_resource type="Resource" uid="uid://mtwfeux2jh3n" path="res://Resources/Data/TileData/water_1_data.tres" id="5_j6lll"]
 [ext_resource type="Resource" uid="uid://clfnvu0btxif3" path="res://Resources/Data/TileData/water_2_data.tres" id="6_57i3y"]
-[ext_resource type="Resource" uid="uid://glslgtb0q4fq" path="res://Resources/Data/TileData/obstacle_1_data.tres" id="7_g5ip8"]
+[ext_resource type="Resource" uid="uid://ckfxgme5g0rqp" path="res://Resources/Data/TileData/floor_2_data.tres" id="6_g5ip8"]
+[ext_resource type="Resource" uid="uid://glslgtb0q4fq" path="res://Resources/Data/TileData/wall_1_data.tres" id="7_g5ip8"]
 [ext_resource type="Resource" uid="uid://crskpn7au0ujb" path="res://Resources/Data/TileData/fire_1_data.tres" id="8_4l0sy"]
+[ext_resource type="Resource" uid="uid://c7t1vlcxr7npi" path="res://Resources/Data/TileData/fire_2_data.tres" id="10_4l0sy"]
 
 [node name="TileManager" type="Node"]
 script = ExtResource("1_xwjq4")
 GrassTiles = Array[ExtResource("2_mwj3q")]([ExtResource("3_dgkfe"), ExtResource("4_hkiq8")])
+FloorTiles = Array[ExtResource("2_mwj3q")]([ExtResource("5_57i3y"), ExtResource("6_g5ip8")])
 WaterTiles = Array[ExtResource("2_mwj3q")]([ExtResource("5_j6lll"), ExtResource("6_57i3y")])
-ObstacleTiles = Array[ExtResource("2_mwj3q")]([ExtResource("7_g5ip8")])
-FireTiles = Array[ExtResource("2_mwj3q")]([ExtResource("8_4l0sy")])
+FireTiles = Array[ExtResource("2_mwj3q")]([ExtResource("8_4l0sy"), ExtResource("10_4l0sy")])
+WallTiles = Array[ExtResource("2_mwj3q")]([ExtResource("7_g5ip8")])

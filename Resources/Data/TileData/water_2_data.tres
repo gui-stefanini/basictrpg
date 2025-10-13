@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_eknc1")
-Coordinates = Vector2i(1, 1)
+Coordinates = Vector2i(1, 2)
 metadata/_custom_type_script = "uid://dpgg7spn7j8il"

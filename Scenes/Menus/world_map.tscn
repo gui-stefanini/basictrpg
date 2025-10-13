@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
 [ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MapScripts/world_map.gd" id="1_immrm"]
 [ext_resource type="PackedScene" uid="uid://cf4j0nfjaajbe" path="res://Scenes/InGame/game_manager.tscn" id="2_jgv10"]
-[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="3_650wr"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Classes/Knight/KnightSpriteSheet_1.png" id="3_650wr"]
 [ext_resource type="AudioStream" uid="uid://dp1ibgkpe3xum" path="res://Assets/Music/BGM/Map1.ogg" id="3_sbqsc"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="9_pnvcu"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="10_d6b3t"]

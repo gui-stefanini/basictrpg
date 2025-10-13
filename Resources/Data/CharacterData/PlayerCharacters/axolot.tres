@@ -1,27 +1,14 @@
-[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://cme5d8les1cu0"]
+[gd_resource type="Resource" script_class="CharacterData" load_steps=6 format=3 uid="uid://cme5d8les1cu0"]
 
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_bsbi5"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_vwj26"]
 [ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_lsf2m"]
 [ext_resource type="Resource" uid="uid://b3n71tqx5rrv7" path="res://Resources/Data/ClassData/PlayerClassData/knight_data.tres" id="3_vwj26"]
+[ext_resource type="Texture2D" uid="uid://bwcte0hp7pyms" path="res://Assets/Art/Characters/Axolot/Axolot_Portrait_1.png" id="4_xhr20"]
 
 [resource]
 script = ExtResource("3_lsf2m")
+Portrait = ExtResource("4_xhr20")
 Class = ExtResource("3_vwj26")
-Generic = false
-Boss = false
 Name = "Sir Axolot"
-CharacterLevel = 1
-CharacterMaxHP = 0
-CharacterAttackPower = 0
-CharacterHealPower = 0
-CharacterMoveRange = 0
-CharacterAttackRange = 0
-CharacterAggro = 0
-CharacterSupportAggro = 0
-Abilities = Array[ExtResource("1_bsbi5")]([])
-Actions = Array[ExtResource("2_vwj26")]([])
-Hframes = 0
-Vframes = 0
-InfoToSave = Array[String](["CharacterLevel"])
 metadata/_custom_type_script = "uid://fhqj6evu0bn8"

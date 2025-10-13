@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://nwkdroajwddl" path="res://Resources/Data/ActionData/AttackActionData/fireball_action.tres" id="5_e7hss"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="5_j1b4k"]
 [ext_resource type="Resource" uid="uid://3o7igq5b5nnj" path="res://Resources/Data/ActionData/AttackActionData/thunder_action.tres" id="7_d1lbh"]
-[ext_resource type="Texture2D" uid="uid://kj2ixtoba5vc" path="res://Assets/Art/Sprites/Mage/MageSpriteSheet_1.png" id="7_j1b4k"]
+[ext_resource type="Texture2D" uid="uid://kj2ixtoba5vc" path="res://Assets/Art/Classes/Mage/MageSpriteSheet_1.png" id="7_j1b4k"]
 [ext_resource type="Resource" uid="uid://bcyrdqnfhq3oi" path="res://Resources/Data/ActionData/SpecialActionData/summon_zombie_action.tres" id="7_qh00t"]
 [ext_resource type="AnimationLibrary" uid="uid://d3rbgaaj0jjk" path="res://Resources/Animations/mage_library.res" id="8_b4ch5"]
 [ext_resource type="Resource" uid="uid://btk371s87awh" path="res://Resources/Data/ActionData/SpecialActionData/create_water_action.tres" id="8_qh00t"]

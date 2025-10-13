@@ -5,11 +5,11 @@
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="3_6q3fa"]
 [ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="3_ur71c"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="3_x674s"]
-[ext_resource type="Texture2D" uid="uid://fg7i3puhmn6o" path="res://Assets/Art/Sprites/Shaman/ShamanSprite_1.png" id="4_1lvgk"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_ucbs8"]
 [ext_resource type="Resource" uid="uid://c6jscoi5s5um" path="res://Resources/Data/ActionData/SupportActionData/revitalize_action.tres" id="5_bley4"]
 [ext_resource type="Resource" uid="uid://beutdrh88vf7w" path="res://Resources/Data/ActionData/DebuffActionData/sicken_action.tres" id="6_r4phj"]
 [ext_resource type="AnimationLibrary" uid="uid://ice4o75b3p44" path="res://Resources/Animations/shaman_library.res" id="7_bley4"]
+[ext_resource type="Texture2D" uid="uid://5bnkedqwsslx" path="res://Assets/Art/Classes/Shaman/ShamanSpriteSheet_1.png" id="8_bley4"]
 
 [resource]
 script = ExtResource("3_6q3fa")
@@ -20,7 +20,7 @@ ClassMoveRange = 4
 ClassAttackRange = 2
 ClassActions = Array[ExtResource("2_qnh2l")]([ExtResource("3_ur71c"), ExtResource("4_ucbs8"), ExtResource("5_bley4"), ExtResource("6_r4phj")])
 ClassMovementType = ExtResource("3_x674s")
-ClassSpriteSheet = ExtResource("4_1lvgk")
+ClassSpriteSheet = ExtResource("8_bley4")
 Hframes = 4
 Vframes = 2
 MyAnimationLibrary = ExtResource("7_bley4")

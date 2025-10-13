@@ -11,10 +11,17 @@ extends Node
 #     REFERENCES     #
 ######################
 
+@export var SkyBackground: Texture2D
+@export var CaveBackground: Texture2D
+
 @export var GrassL: Texture2D
 @export var GrassR: Texture2D
+@export var FloorL: Texture2D
+@export var FloorR: Texture2D
 @export var WaterL: Texture2D
 @export var WaterR: Texture2D
+@export var FireL: Texture2D
+@export var FireR: Texture2D
 
 ######################
 #     SCRIPT-WIDE    #

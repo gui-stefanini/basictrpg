@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_fedni"]
 [ext_resource type="Resource" uid="uid://dkndb5y0dlu1m" path="res://Resources/Data/ActionData/SupportActionData/defend_action.tres" id="6_u7i4t"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="7_ihsvm"]
-[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="8_umj6g"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Classes/Knight/KnightSpriteSheet_1.png" id="8_umj6g"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="9_1yvq6"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="10_n7fnc"]
 

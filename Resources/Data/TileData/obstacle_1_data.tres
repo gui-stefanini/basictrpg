@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="GroundTileData" load_steps=2 format=3 uid="uid://glslgtb0q4fq"]
-
-[ext_resource type="Script" uid="uid://dpgg7spn7j8il" path="res://Scripts/MiscResources/ground_tile_data.gd" id="1_qtdhx"]
-
-[resource]
-script = ExtResource("1_qtdhx")
-ID = 2
-Coordinates = Vector2i(0, 2)
-metadata/_custom_type_script = "uid://dpgg7spn7j8il"

@@ -1,14 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://rujfew8o3s1f"]
+[gd_scene load_steps=12 format=3 uid="uid://rujfew8o3s1f"]
 
 [ext_resource type="Script" uid="uid://dd0xgyxe6blkx" path="res://Scripts/Autoloads/AssetHolders/combat_background.gd" id="1_7xknx"]
+[ext_resource type="Texture2D" uid="uid://50xla8va4516" path="res://Assets/Art/Backgrounds/SkyBackground.png" id="2_nk6ji"]
 [ext_resource type="Texture2D" uid="uid://b10hojgyboxa1" path="res://Assets/Art/Backgrounds/GrassTileBackgroundL.png" id="2_qft61"]
+[ext_resource type="Texture2D" uid="uid://ch6btg41wvydo" path="res://Assets/Art/Backgrounds/CaveBackground.png" id="3_uee2q"]
 [ext_resource type="Texture2D" uid="uid://bhtipo5ibggd8" path="res://Assets/Art/Backgrounds/GrassTileBackgroundR.png" id="3_wmc6h"]
+[ext_resource type="Texture2D" uid="uid://cba8b1uf21naw" path="res://Assets/Art/Backgrounds/FloorTileBackgroundL.png" id="4_eii6s"]
 [ext_resource type="Texture2D" uid="uid://b2fhifeu7q1q5" path="res://Assets/Art/Backgrounds/WaterTileBackgroundL.png" id="4_tt6eb"]
 [ext_resource type="Texture2D" uid="uid://ck3t8r5gafkku" path="res://Assets/Art/Backgrounds/WaterTileBackgroundR.png" id="5_eii6s"]
+[ext_resource type="Texture2D" uid="uid://bd36p1w4fco2l" path="res://Assets/Art/Backgrounds/FloorTileBackgroundR.png" id="5_tp1o7"]
+[ext_resource type="Texture2D" uid="uid://dqmjx21d12cq3" path="res://Assets/Art/Backgrounds/FireTileBackgroundL.png" id="8_nk6ji"]
+[ext_resource type="Texture2D" uid="uid://cwfx3gc3r0g3v" path="res://Assets/Art/Backgrounds/FireTileBackgroundR.png" id="9_uee2q"]
 
 [node name="CombatBackground" type="Node"]
 script = ExtResource("1_7xknx")
+SkyBackground = ExtResource("2_nk6ji")
+CaveBackground = ExtResource("3_uee2q")
 GrassL = ExtResource("2_qft61")
 GrassR = ExtResource("3_wmc6h")
+FloorL = ExtResource("4_eii6s")
+FloorR = ExtResource("5_tp1o7")
 WaterL = ExtResource("4_tt6eb")
 WaterR = ExtResource("5_eii6s")
+FireL = ExtResource("8_nk6ji")
+FireR = ExtResource("9_uee2q")

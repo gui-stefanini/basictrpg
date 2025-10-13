@@ -2,7 +2,7 @@
 
 [ext_resource type="AnimationLibrary" uid="uid://bi71hk43tvc1y" path="res://Resources/Animations/shaman_vfx_library.res" id="1_5qi38"]
 [ext_resource type="Script" uid="uid://bkm2mobbxwa1y" path="res://Scripts/Effects/vfx_data.gd" id="1_ipwrl"]
-[ext_resource type="Texture2D" uid="uid://djtkjvgw44rht" path="res://Assets/Art/Sprites/Shaman/ShamanVFX.png" id="2_lfevr"]
+[ext_resource type="Texture2D" uid="uid://djtkjvgw44rht" path="res://Assets/Art/Classes/Shaman/ShamanVFX.png" id="2_lfevr"]
 
 [resource]
 script = ExtResource("1_ipwrl")

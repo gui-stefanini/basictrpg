@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_2h4p8"]
 [ext_resource type="Resource" uid="uid://dkndb5y0dlu1m" path="res://Resources/Data/ActionData/SupportActionData/defend_action.tres" id="6_cv0gg"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="7_accej"]
-[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Sprites/Knight/KnightSpriteSheet_1.png" id="8_81aj0"]
+[ext_resource type="Texture2D" uid="uid://ewnlmgr7pyet" path="res://Assets/Art/Classes/Knight/KnightSpriteSheet_1.png" id="8_81aj0"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="9_q8kej"]
 
 [resource]

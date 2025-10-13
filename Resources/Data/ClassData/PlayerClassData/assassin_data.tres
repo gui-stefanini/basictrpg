@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="6_1m21n"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="7_jfjm6"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="8_dylnn"]
-[ext_resource type="Texture2D" uid="uid://dx1h4jqtbuu74" path="res://Assets/Art/Sprites/Assassin/AssassinSpriteSheet_1.png" id="9_8imxf"]
+[ext_resource type="Texture2D" uid="uid://dx1h4jqtbuu74" path="res://Assets/Art/Classes/Assassin/AssassinSpriteSheet_1.png" id="9_8imxf"]
 [ext_resource type="AnimationLibrary" uid="uid://b36ng25oq3jhi" path="res://Resources/Animations/assassin_library.res" id="10_1lryt"]
 
 [resource]

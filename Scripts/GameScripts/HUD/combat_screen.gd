@@ -4,15 +4,18 @@ extends CanvasLayer
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
+
 signal combat_finished
 @warning_ignore("unused_signal")
 signal animation_hit
+
 ##############################################################
 #                      1.0 Variables                         #
 ##############################################################
 ######################
 #     REFERENCES     #
 ######################
+
 @export var VfxScene: PackedScene
 
 @export var PlayerPosition: Marker2D
@@ -25,6 +28,7 @@ signal animation_hit
 ######################
 #     SCRIPT-WIDE    #
 ######################
+
 var Attacker: Unit
 var Defender: Unit
 var Damage: int
@@ -41,33 +45,59 @@ var DefenderOriginalFrame: int
 #                      2.0 Functions                         #
 ##############################################################
 
-func SetBackground(attacker_tile: String, defender_tile: String, swap: bool = false):
-	if attacker_tile == "Grass":
-		if swap == false:
-			AttackerBackground.texture = CombatBackground.GrassL
-		else:
-			AttackerBackground.texture = CombatBackground.GrassR
+func SetBackground(background_type: Level.BackgroundTypes, attacker_tile: String, defender_tile: String, swap: bool = false):
+	match background_type:
+		Level.BackgroundTypes.SKY:
+			Background.texture = CombatBackground.SkyBackground
+		Level.BackgroundTypes.CAVE:
+			Background.texture = CombatBackground.CaveBackground
 	
-	elif attacker_tile == "Water":
-		if swap == false:
-			AttackerBackground.texture = CombatBackground.WaterL
-		else:
-			AttackerBackground.texture = CombatBackground.WaterR
+	match attacker_tile:
+		"Grass":
+			if swap == false:
+				AttackerBackground.texture = CombatBackground.GrassL
+			else:
+				AttackerBackground.texture = CombatBackground.GrassR
+		"Floor":
+			if swap == false:
+				AttackerBackground.texture = CombatBackground.FloorL
+			else:
+				AttackerBackground.texture = CombatBackground.FloorR
+		"Water":
+			if swap == false:
+				AttackerBackground.texture = CombatBackground.WaterL
+			else:
+				AttackerBackground.texture = CombatBackground.WaterR
+		"Fire":
+			if swap == false:
+				AttackerBackground.texture = CombatBackground.FireL
+			else:
+				AttackerBackground.texture = CombatBackground.FireR
 	
 	#Inverst swap logic for defender
-	if defender_tile == "Grass":
-		if swap == true:
-			DefenderBackground.texture = CombatBackground.GrassL
-		else:
-			DefenderBackground.texture = CombatBackground.GrassR
-	
-	elif defender_tile == "Water":
-		if swap == true:
-			DefenderBackground.texture = CombatBackground.WaterL
-		else:
-			DefenderBackground.texture = CombatBackground.WaterR
+	match defender_tile:
+		"Grass":
+			if swap == true:
+				DefenderBackground.texture = CombatBackground.GrassL
+			else:
+				DefenderBackground.texture = CombatBackground.GrassR
+		"Floor":
+			if swap == true:
+				DefenderBackground.texture = CombatBackground.FloorL
+			else:
+				DefenderBackground.texture = CombatBackground.FloorR
+		"Water":
+			if swap == true:
+				DefenderBackground.texture = CombatBackground.WaterL
+			else:
+				DefenderBackground.texture = CombatBackground.WaterR
+		"Fire":
+			if swap == true:
+				DefenderBackground.texture = CombatBackground.FireL
+			else:
+				DefenderBackground.texture = CombatBackground.FireR
 
-func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_tile: String, damage: int):
+func ShowCombat(background_type: Level.BackgroundTypes, attacker: Unit, attacker_tile: String, defender: Unit, defender_tile: String, damage: int):
 	Attacker = attacker
 	Defender = defender
 	Damage = damage
@@ -101,7 +131,7 @@ func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_
 			Defender.global_position = EnemyPosition.global_position
 			Defender.RotationTracker.scale.x = -1
 			
-			SetBackground(attacker_tile, defender_tile)
+			SetBackground(background_type, attacker_tile, defender_tile)
 		
 		Unit.Affiliations.OPPOSING, Unit.Affiliations.NEUTRAL:
 			Attacker.global_position = EnemyPosition.global_position
@@ -109,7 +139,7 @@ func ShowCombat(attacker: Unit, attacker_tile: String, defender: Unit, defender_
 			
 			Defender.global_position = PlayerPosition.global_position
 			
-			SetBackground(attacker_tile, defender_tile, true)
+			SetBackground(background_type, attacker_tile, defender_tile, true)
 
 	# --- Play Animation ---
 	Attacker.MyAnimationPlayer.play("character_library/attack")

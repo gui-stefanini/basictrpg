@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0nbaemccq50h" path="res://Scripts/GameScripts/HUD/info_screen.gd" id="1_3pumf"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="1_i3wly"]
-[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Sprites/Test/DefaultSprite.png" id="2_3pumf"]
+[ext_resource type="Texture2D" uid="uid://ina1d4vnwq2i" path="res://Assets/Art/Classes/Test/DefaultSprite.png" id="2_3pumf"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="3_80q7e"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="4_b2nnt"]
 [ext_resource type="StyleBox" uid="uid://b8qvd8f80v885" path="res://Resources/Overrides/Styles/hover_button_style.tres" id="6_b2nnt"]

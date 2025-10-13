@@ -198,10 +198,12 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	var attacker_tile: String = GetUnitTileType(attacker)
 	var defender_tile: String = GetUnitTileType(defender)
 	
-	var combat_scene = MyGameManager.CombatScreenScene.instantiate()
+	var combat_scene : CombatScreen = MyGameManager.CombatScreenScene.instantiate()
 	MyGameManager.add_child(combat_scene)
 	
-	combat_scene.ShowCombat(attacker, attacker_tile, defender, defender_tile, damage)
+	var background_type: Level.BackgroundTypes = MyGameManager.CurrentLevel.BackgroundType
+	
+	combat_scene.ShowCombat(background_type, attacker, attacker_tile, defender, defender_tile, damage)
 	await combat_scene.combat_finished
 
 ##############################################################

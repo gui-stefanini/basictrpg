@@ -16,7 +16,12 @@ extends Node2D
 @export var HighlightLayer: TileMapLayer
 @export var LevelHighlightLayer: TileMapLayer
 @export var CursorHighlightLayer: TileMapLayer
+
 @export var MyLevelManager: LevelManager
+
+enum BackgroundTypes {SKY, CAVE}
+@export var BackgroundType: BackgroundTypes
+
 @export var PlayerSpawns: Array[SpawnInfo]
 @export var AllySpawns: Array[SpawnInfo]
 @export var EnemySpawns: Array[SpawnInfo]
