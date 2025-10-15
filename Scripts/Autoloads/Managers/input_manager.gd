@@ -24,8 +24,8 @@ signal direction_pressed(direction: Vector2i)
 #     SCRIPT-WIDE    #
 ######################
 
-@export var FirstHoldTime: float = 0.5
-@export var HoldTime: float = 0.1
+@export var FirstHoldTime: float = 0.6
+@export var HoldTime: float = 0.15
 var FirstHold: bool = true
 
 enum Keys {NULL, CONFIRM, CANCEL, INFO, START, LEFT_TRIGGER, RIGHT_TRIGGER, UP, DOWN, LEFT, RIGHT}

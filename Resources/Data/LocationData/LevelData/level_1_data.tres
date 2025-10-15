@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://beysm0dkull1i"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://biqhtpcdw1fck"]
 
-[ext_resource type="PackedScene" uid="uid://b8a878l5dq8tc" path="res://Scenes/Levels/level_1.tscn" id="1_enj0w"]
-[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_odet7"]
+[ext_resource type="PackedScene" uid="uid://b8a878l5dq8tc" path="res://Scenes/Levels/level_1.tscn" id="1_b7ivq"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_dbrsb"]
 
 [resource]
-script = ExtResource("2_odet7")
-LevelScene = ExtResource("1_enj0w")
+script = ExtResource("2_dbrsb")
+LevelScene = ExtResource("1_b7ivq")
 LevelObjective = "Defeat All Enemies"
 PlayerCount = 1
 Name = "Level 1"

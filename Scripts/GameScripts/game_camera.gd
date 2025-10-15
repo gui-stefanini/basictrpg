@@ -82,10 +82,10 @@ func UpdateCameraEdges():
 	#which would be the next bottom-right tile
 	var bottom_right_tile: Vector2i = GroundGrid.local_to_map(bottom_right_global_position) - Vector2i(1,1)
 	
-	TopEdge = top_left_tile.y
-	LeftEdge = top_left_tile.x
-	BottomEdge = bottom_right_tile.y
-	RightEdge = bottom_right_tile.x
+	TopEdge = top_left_tile.y +2
+	LeftEdge = top_left_tile.x +2
+	BottomEdge = bottom_right_tile.y -2
+	RightEdge = bottom_right_tile.x -2
 
 func CheckCameraEdge(tile : Vector2i):
 	var move_camera : bool = false

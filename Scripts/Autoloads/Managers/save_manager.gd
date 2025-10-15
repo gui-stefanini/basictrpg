@@ -13,9 +13,9 @@ extends Node
 
 const SAVE_PATH = "user://SaveFile.json"
 
-@export var PlayerCharacters : Array[CharacterData]
+var PlayerCharacters : Array[CharacterData]
 
-@export var Locations: Array[LocationData]
+var Locations: Array[LocationData]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -38,6 +38,8 @@ func SaveData():
 	
 	temp_data["PlayerArmy"] = player_army
 	
+	GetArrays()
+	
 	for character in PlayerCharacters:
 		temp_data[character.Name] = character.InfoToSave
 		
@@ -55,6 +57,8 @@ func LoadData():
 	
 	for character_path in player_army:
 		GameData.PlayerArmy.append(load(character_path))
+	
+	GetArrays()
 	
 	for character in PlayerCharacters:
 		if Data.has(character.Name):

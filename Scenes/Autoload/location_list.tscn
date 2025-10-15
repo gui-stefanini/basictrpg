@@ -1,8 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dv3gsi7p1j248"]
+[gd_scene load_steps=19 format=3 uid="uid://dv3gsi7p1j248"]
 
 [ext_resource type="Script" uid="uid://j5ltnkbxw3sf" path="res://Scripts/Autoloads/DataHolders/location_list.gd" id="1_0e8bv"]
 [ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="2_pallr"]
-[ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LocationData/LevelData/level_2_data.tres" id="4_els23"]
+[ext_resource type="Resource" uid="uid://biqhtpcdw1fck" path="res://Resources/Data/LocationData/LevelData/level_1_data.tres" id="3_tka4f"]
+[ext_resource type="Resource" uid="uid://733cgpax4f42" path="res://Resources/Data/LocationData/LevelData/level_2_data.tres" id="4_els23"]
+[ext_resource type="Resource" uid="uid://dsd0suotbjn2r" path="res://Resources/Data/LocationData/LevelData/level_3_data.tres" id="5_bap35"]
 [ext_resource type="Resource" uid="uid://dn3akb43iebxw" path="res://Resources/Data/LocationData/LevelData/level_5a_data.tres" id="6_els23"]
 [ext_resource type="Resource" uid="uid://cm83wt6c4kuuw" path="res://Resources/Data/LocationData/EventData/event_1_data.tres" id="6_nqgx7"]
 [ext_resource type="Resource" uid="uid://cxwbow1cdcjvo" path="res://Resources/Data/LocationData/LevelData/level_5b_data.tres" id="7_nqgx7"]
@@ -15,16 +17,16 @@
 [ext_resource type="Resource" uid="uid://wkyajw61eymg" path="res://Resources/Data/LocationData/CrossroadData/crossroad_2_data.tres" id="12_nqgx7"]
 [ext_resource type="Resource" uid="uid://dsct11f3mcjng" path="res://Resources/Data/LocationData/CrossroadData/crossroad_3_data.tres" id="13_pallr"]
 [ext_resource type="Resource" uid="uid://ddk2kyiwp5why" path="res://Resources/Data/LocationData/CrossroadData/crossroad_4_data.tres" id="16_nqgx7"]
-[ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LocationData/LevelData/level_4_data.tres" id="17_pallr"]
+[ext_resource type="Resource" uid="uid://bbtonpkugxc1f" path="res://Resources/Data/LocationData/LevelData/level_4_data.tres" id="17_pallr"]
 
 [node name="LocationList" type="Node"]
 script = ExtResource("1_0e8bv")
-AllLevels = Array[ExtResource("2_pallr")]([ExtResource("4_els23"), ExtResource("4_els23"), ExtResource("17_pallr"), ExtResource("17_pallr"), ExtResource("6_els23"), ExtResource("7_nqgx7"), ExtResource("8_pallr")])
+AllLevels = Array[ExtResource("2_pallr")]([ExtResource("3_tka4f"), ExtResource("4_els23"), ExtResource("5_bap35"), ExtResource("17_pallr"), ExtResource("6_els23"), ExtResource("7_nqgx7"), ExtResource("8_pallr")])
 AllEvents = Array[ExtResource("2_pallr")]([ExtResource("6_nqgx7"), ExtResource("7_pallr"), ExtResource("8_tka4f")])
 AllCrossroads = Array[ExtResource("2_pallr")]([ExtResource("11_usrr1"), ExtResource("12_nqgx7"), ExtResource("13_pallr"), ExtResource("16_nqgx7")])
-Level1 = ExtResource("4_els23")
+Level1 = ExtResource("3_tka4f")
 Level2 = ExtResource("4_els23")
-Level3 = ExtResource("17_pallr")
+Level3 = ExtResource("5_bap35")
 Level4 = ExtResource("17_pallr")
 Level5a = ExtResource("6_els23")
 Level5b = ExtResource("7_nqgx7")

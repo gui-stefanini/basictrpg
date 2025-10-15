@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://c1flibeduhi60"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://bbtonpkugxc1f"]
 
-[ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_4.tscn" id="1_41gud"]
-[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_lot3d"]
+[ext_resource type="PackedScene" uid="uid://dm7ea6u2f6hfn" path="res://Scenes/Levels/level_4.tscn" id="1_rsk1o"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_pam3o"]
 
 [resource]
-script = ExtResource("2_lot3d")
-LevelScene = ExtResource("1_41gud")
+script = ExtResource("2_pam3o")
+LevelScene = ExtResource("1_rsk1o")
 LevelObjective = "Defeat Boss"
 PlayerCount = 3
 Name = "Level 4"

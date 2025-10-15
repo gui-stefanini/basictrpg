@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_peksm"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_jb7fl"]
 [ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="3_mqb2l"]
-[ext_resource type="Texture2D" uid="uid://c2wi61baigfw4" path="res://Assets/Art/Classes/Bandit/BanditSpriteSheet_1.png" id="4_6f4uc"]
-[ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="5_hhms8"]
+[ext_resource type="Texture2D" uid="uid://ye6ioy3r800s" path="res://Assets/Art/Classes/Civilian/CivilianSpriteSheet_1.png" id="4_yfkw2"]
+[ext_resource type="AnimationLibrary" uid="uid://ca0qyn0befqa0" path="res://Resources/Animations/civilian_library.res" id="5_peksm"]
 [ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="6_4umuc"]
 
 [resource]
@@ -15,8 +15,6 @@ ClassGrowthMaxHP = 1.0
 ClassMoveRange = 3
 ClassAggro = 1
 ClassMovementType = ExtResource("3_mqb2l")
-ClassSpriteSheet = ExtResource("4_6f4uc")
-Hframes = 4
-Vframes = 2
-MyAnimationLibrary = ExtResource("5_hhms8")
+ClassSpriteSheet = ExtResource("4_yfkw2")
+MyAnimationLibrary = ExtResource("5_peksm")
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

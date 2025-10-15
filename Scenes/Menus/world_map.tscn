@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dagoxwn4eplbq"]
+[gd_scene load_steps=29 format=3 uid="uid://dagoxwn4eplbq"]
 
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
 [ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MapScripts/world_map.gd" id="1_immrm"]
@@ -7,18 +7,20 @@
 [ext_resource type="AudioStream" uid="uid://dp1ibgkpe3xum" path="res://Assets/Music/BGM/Map1.ogg" id="3_sbqsc"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="9_pnvcu"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="10_d6b3t"]
-[ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LocationData/LevelData/level_2_data.tres" id="11_5rm1i"]
+[ext_resource type="Resource" uid="uid://733cgpax4f42" path="res://Resources/Data/LocationData/LevelData/level_2_data.tres" id="11_5rm1i"]
 [ext_resource type="Resource" uid="uid://cm83wt6c4kuuw" path="res://Resources/Data/LocationData/EventData/event_1_data.tres" id="11_h1xgf"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="11_jgv10"]
+[ext_resource type="Resource" uid="uid://biqhtpcdw1fck" path="res://Resources/Data/LocationData/LevelData/level_1_data.tres" id="11_y1feg"]
 [ext_resource type="Resource" uid="uid://c36xyohjgen5q" path="res://Resources/Data/LocationData/EventData/event_2_data.tres" id="12_giifa"]
 [ext_resource type="Resource" uid="uid://cjnnhhuu7ao7q" path="res://Resources/Data/LocationData/CrossroadData/crossroad_1_data.tres" id="12_n026q"]
 [ext_resource type="Texture2D" uid="uid://cy2mpfkgxrhw0" path="res://Assets/Art/HUD/DialogueBox.png" id="13_sbqsc"]
 [ext_resource type="Resource" uid="uid://q1rbjmpddthc" path="res://Resources/Data/LocationData/EventData/event_3_data.tres" id="14_8jyld"]
 [ext_resource type="PackedScene" uid="uid://hcy5g1kv4p1g" path="res://Scenes/Menus/map_location.tscn" id="14_h1xgf"]
-[ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LocationData/LevelData/level_4_data.tres" id="15_yv82m"]
+[ext_resource type="Resource" uid="uid://bbtonpkugxc1f" path="res://Resources/Data/LocationData/LevelData/level_4_data.tres" id="15_yv82m"]
 [ext_resource type="Resource" uid="uid://wkyajw61eymg" path="res://Resources/Data/LocationData/CrossroadData/crossroad_2_data.tres" id="16_pqdap"]
 [ext_resource type="Resource" uid="uid://dfywi0tt68nnf" path="res://Resources/Data/LocationData/EventData/event_4_data.tres" id="17_n026q"]
 [ext_resource type="Resource" uid="uid://dsct11f3mcjng" path="res://Resources/Data/LocationData/CrossroadData/crossroad_3_data.tres" id="17_rviyi"]
+[ext_resource type="Resource" uid="uid://dsd0suotbjn2r" path="res://Resources/Data/LocationData/LevelData/level_3_data.tres" id="17_t5k0j"]
 [ext_resource type="Resource" uid="uid://ddk2kyiwp5why" path="res://Resources/Data/LocationData/CrossroadData/crossroad_4_data.tres" id="18_pqdap"]
 [ext_resource type="Resource" uid="uid://bwvycxa4ucdhh" path="res://Resources/Data/LocationData/EventData/event_5_data.tres" id="20_pqdap"]
 [ext_resource type="StyleBox" uid="uid://b8qvd8f80v885" path="res://Resources/Overrides/Styles/hover_button_style.tres" id="21_0o0p7"]
@@ -109,7 +111,7 @@ DownLocation = NodePath("../Level1")
 
 [node name="Level1" parent="." node_paths=PackedStringArray("RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(72, 322)
-MyLocationData = ExtResource("11_5rm1i")
+MyLocationData = ExtResource("11_y1feg")
 RightLocation = NodePath("../Crossroad1")
 UpLocation = NodePath("../Event1")
 DownLocation = NodePath("../Crossroad1")
@@ -148,7 +150,7 @@ DownLocation = NodePath("../Level2")
 
 [node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(203, 180)
-MyLocationData = ExtResource("15_yv82m")
+MyLocationData = ExtResource("17_t5k0j")
 LeftLocation = NodePath("../Event3")
 RightLocation = NodePath("../Crossroad3")
 
