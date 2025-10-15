@@ -21,11 +21,7 @@ extends LevelManager
 #                      2.0 Functions                         #
 ##############################################################
 
-##############################################################
-#                      3.0 Signal Functions                  #
-##############################################################
-
-func _on_level_set():
+func LevelSet():
 	if not LevelHighlightLayer: return
 	
 	for tile in DefendTiles:
@@ -34,29 +30,33 @@ func _on_level_set():
 	
 	request_dialogue.emit(LevelDialogue)
 
-func _on_turn_ended(turn_number: int):
+func TurnEnded(turn_number: int):
 	match turn_number:
 		TurnLimit:
 			print("defense successful")
 			victory.emit()
 
-func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
+func UnitTurnEnded(unit: Unit, unit_tile: Vector2i):
 	if unit.Faction == Unit.Factions.ENEMY:
 		if unit_tile in DefendTiles:
 			print("%s has breached the defenses!" % unit.Data.Name)
 			defeat.emit()
 
-func _on_unit_spawned(unit: Unit):
+func UnitSpawned(unit: Unit):
 	if unit.Faction == Unit.Factions.ENEMY:
 		unit.MyAI.TargetTiles = DefendTiles
 
-func _on_unit_died(unit: Unit):
+func UnitDied(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
 	if UnitManager.PlayerUnits.is_empty():
 		print("All player units defeated!")
 		defeat.emit()
 		return
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 
 ##############################################################
 #                      4.0 Godot Functions                   #

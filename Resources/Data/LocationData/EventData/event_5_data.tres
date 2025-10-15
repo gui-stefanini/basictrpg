@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="RecruitEventData" load_steps=3 format=3 uid="uid://bwvycxa4ucdhh"]
+
+[ext_resource type="Resource" uid="uid://cbhbogsvucfcg" path="res://Resources/Data/CharacterData/PlayerCharacters/octopus.tres" id="1_itjqg"]
+[ext_resource type="Script" uid="uid://m30pwbw1d01m" path="res://Scripts/MapScripts/recruit_event_data.gd" id="2_p33rl"]
+
+[resource]
+script = ExtResource("2_p33rl")
+RecruitedCharacter = ExtResource("1_itjqg")
+EventDescription = "While escorting the rescued man to his village in the forest, the party was met with a horrible sight. Corpses walking with eyes devoid of life, \"a cultist must have attacked the village!\"... or maybe not. Amidst the zombies were children playing, adults working and elderly talking.
+The owner of those monstrosities soon came to welcome his brother, and thanked the heroes for hours.
+\"That's it! I must pay this debt by helping you on your mission\"
+With a forced smile, Sir Axolot welcomes the new recruit to the band."
+Name = "Octopus joins the Army."
+metadata/_custom_type_script = "uid://m30pwbw1d01m"

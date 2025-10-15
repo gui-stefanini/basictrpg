@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ShamanAI" load_steps=2 format=3 uid="uid://mcxc5766dr2e"]
+
+[ext_resource type="Script" uid="uid://cdg0ia4hu8o8g" path="res://Scripts/AIScripts/shaman_ai.gd" id="1_btt08"]
+
+[resource]
+script = ExtResource("1_btt08")
+IsMobile = false
+StayImmobile = true
+metadata/_custom_type_script = "uid://cdg0ia4hu8o8g"

@@ -22,8 +22,11 @@ extends Action
 #                      2.0 Functions                         #
 ##############################################################
 
+func GetActionRange(user: Unit) -> int:
+	return user.AttackRange + RangeModifier
+
 func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
-	var action_range = user.AttackRange + RangeModifier
+	var action_range = GetActionRange(user)
 	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(user.CurrentTile, action_range)
 	
 	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(user)

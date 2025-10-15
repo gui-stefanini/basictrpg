@@ -71,16 +71,16 @@ func MoveCamera(tile: Vector2i):
 
 func UpdateCameraEdges():
 	#var viewport_rect: Rect2 = get_viewport_rect()
-	var top_left_world_position: Vector2 = self.global_position
-	var bottom_right_world_position: Vector2 = self.global_position + CameraSize
+	var top_left_global_position: Vector2 = self.global_position
+	var bottom_right_global_position: Vector2 = self.global_position + CameraSize
 	
 	#var top_left_local_position: Vector2 = viewport_rect.position
 	#var bottom_right_local_position: Vector2 = viewport_rect.end
 	
-	var top_left_tile: Vector2i  = GroundGrid.local_to_map(top_left_world_position)
+	var top_left_tile: Vector2i  = GroundGrid.local_to_map(top_left_global_position)
 	#Without - Vector2i(1,1), it would get the tile that starts at the end of the screen, 
 	#which would be the next bottom-right tile
-	var bottom_right_tile: Vector2i = GroundGrid.local_to_map(bottom_right_world_position) - Vector2i(1,1)
+	var bottom_right_tile: Vector2i = GroundGrid.local_to_map(bottom_right_global_position) - Vector2i(1,1)
 	
 	TopEdge = top_left_tile.y
 	LeftEdge = top_left_tile.x

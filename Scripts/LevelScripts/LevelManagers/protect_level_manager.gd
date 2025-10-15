@@ -22,21 +22,17 @@ extends LevelManager
 #                      2.0 Functions                         #
 ##############################################################
 
-##############################################################
-#                      3.0 Signal Functions                  #
-##############################################################
-
-func _on_level_set():
+func LevelSet():
 	for unit in UnitManager.OpposingUnits:
 		unit.MyAI.TargetUnits = ProtectedUnits
 	
 	request_dialogue.emit(LevelDialogue)
 
-func _on_unit_spawned(unit: Unit):
+func UnitSpawned(unit: Unit):
 	if unit.Affiliation == Unit.Affiliations.OPPOSING:
 		unit.MyAI.TargetUnits = ProtectedUnits
 
-func _on_unit_died(unit: Unit):
+func UnitDied(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
 	if ProtectedUnits.has(unit):
@@ -60,6 +56,10 @@ func _on_unit_died(unit: Unit):
 	elif UnitManager.EnemyUnits.is_empty():
 		print("All enemies defeated!")
 		victory.emit()
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 
 ##############################################################
 #                      4.0 Godot Functions                   #

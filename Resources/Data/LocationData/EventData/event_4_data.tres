@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RecruitEventData" load_steps=3 format=3 uid="uid://dfywi0tt68nnf"]
+
+[ext_resource type="Resource" uid="uid://b2m40s0g1p6av" path="res://Resources/Data/CharacterData/PlayerCharacters/salamander.tres" id="1_pl2df"]
+[ext_resource type="Script" uid="uid://m30pwbw1d01m" path="res://Scripts/MapScripts/recruit_event_data.gd" id="2_p3su8"]
+
+[resource]
+script = ExtResource("2_p3su8")
+RecruitedCharacter = ExtResource("1_pl2df")
+EventDescription = "Having their well deserved rest at the inn, the party is approached by a young girl wearing familiar vests.
+\"Hey mister knight, are you busy right now?\"
+A student from the Magic Tower, it seems, asking for help getting some monster scales from the cave nearby. Building bonds with a mage is more than worth a little detour.
+"
+Name = "Salamander Joins the Army!"
+UnlockableLocations = Array[String](["Level5c"])
+metadata/_custom_type_script = "uid://m30pwbw1d01m"

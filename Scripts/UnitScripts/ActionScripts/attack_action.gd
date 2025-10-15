@@ -21,6 +21,9 @@ extends Action
 #                      2.0 Functions                         #
 ##############################################################
 
+func GetActionRange(user: Unit) -> int:
+	return user.AttackRange + RangeModifier
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

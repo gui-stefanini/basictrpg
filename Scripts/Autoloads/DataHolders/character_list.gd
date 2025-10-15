@@ -15,6 +15,8 @@ extends Node
 @export var Axolot : CharacterData
 @export var Mantis : CharacterData
 @export var Orca : CharacterData
+@export var Salamander : CharacterData
+@export var Octopus : CharacterData
 
 ######################
 #     SCRIPT-WIDE    #

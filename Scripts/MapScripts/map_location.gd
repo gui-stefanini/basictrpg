@@ -32,6 +32,9 @@ extends Node2D
 ##############################################################
 
 func UpdateLocation():
+	if MyLocationData == null:
+		push_error("empty location data")
+	
 	Locked = MyLocationData.Locked
 	
 	if MyLocationData is LevelData:
@@ -55,6 +58,15 @@ func UpdateLocation():
 			return
 		
 		Sprite.frame_coords = Vector2i(0,1)
+	
+	else:
+		if MyLocationData.Locked == true:
+			Sprite.frame_coords = Vector2i(2,2)
+			return
+		
+		else:
+			Sprite.frame_coords = Vector2i(1,2)
+			return
 
 ##############################################################
 #                      3.0 Signal Functions                  #

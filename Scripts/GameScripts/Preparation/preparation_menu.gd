@@ -104,10 +104,9 @@ func _on_confirm_pressed():
 		UpdateUnitCountLabel()
 
 func _on_start_pressed():
-	get_tree().paused = false
-	AudioManager.StopAudio()
-	GameData.ResetLevelData()
-	SceneManager.ChangeSceneWorldMap()
+	if SelectedUnits.size() > 0:
+		HideScreen()
+		MyGameManager.StartGame()
 
 func _on_direction_pressed(direction: Vector2i):
 	if direction.y == 0:
@@ -123,11 +122,6 @@ func _on_direction_pressed(direction: Vector2i):
 	CurrentButton.HoverColor.visible = false
 	CurrentButton = AllButtons[new_selection]
 	CurrentButton.HoverColor.visible = true
-
-func _on_start_button_pressed() -> void:
-	if SelectedUnits.size() > 0:
-		HideScreen()
-		MyGameManager.StartGame()
 
 ##############################################################
 #                      4.0 Godot Functions                   #

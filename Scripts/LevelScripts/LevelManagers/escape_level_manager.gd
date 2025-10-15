@@ -19,10 +19,7 @@ extends LevelManager
 #                      2.0 Functions                         #
 ##############################################################
 
-##############################################################
-#                      3.0 Signal Functions                  #
-##############################################################
-func _on_level_set():
+func LevelSet():
 	if not LevelHighlightLayer: return
 	
 	for tile in EscapeTiles:
@@ -31,18 +28,22 @@ func _on_level_set():
 	
 	request_dialogue.emit(LevelDialogue)
 
-func _on_unit_turn_ended(unit: Unit, unit_tile: Vector2i):
+func UnitTurnEnded(unit: Unit, unit_tile: Vector2i):
 	if unit.Faction == Unit.Factions.PLAYER:
 		if unit_tile in EscapeTiles:
 			print("%s has escaped!" % unit.Data.Name)
 			victory.emit()
 
-func _on_unit_died(unit: Unit):
+func UnitDied(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
 	if UnitManager.PlayerUnits.is_empty():
 		print("All player units defeated!")
 		defeat.emit()
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 
 ##############################################################
 #                      4.0 Godot Functions                   #

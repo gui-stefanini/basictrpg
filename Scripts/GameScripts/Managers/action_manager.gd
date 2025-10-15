@@ -127,7 +127,8 @@ func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_
 
 func UpdateAOE(cursor_tile : Vector2i):
 	ClearCursorHighlights()
-	HighlightedCursorTiles = GetTilesInRange(cursor_tile, AOERange, true)
+	#AOERange
+	HighlightedCursorTiles = GetTilesInRange(cursor_tile, true)
 	DrawHighlights(HighlightedCursorTiles, 1, Vector2i(0,0), CursorHighlightLayer)
 
 ##############################################################

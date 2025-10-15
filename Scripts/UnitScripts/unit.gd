@@ -235,7 +235,8 @@ func SetData(spawn_level: int = -1, summoner: Unit = null):
 		Data.CharacterLevel = spawn_level
 	
 	if Data.Summon == true:
-		summoner.summoned_units.connect(Despawn)
+		if summoner.Faction == Unit.Factions.PLAYER:
+			summoner.summoned_units.connect(Despawn)
 		summoner.unit_died.connect(Despawn)
 	
 	Data.ClassOverride()
@@ -310,6 +311,7 @@ func RequestVFX(vfx_data: VFXData, animation_name: String, is_combat: bool = fal
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
+
 #Linked manually on SetAnimations()
 func _on_animation_hit():
 	animation_hit.emit()

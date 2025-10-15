@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LocationData" load_steps=2 format=3 uid="uid://cjnnhhuu7ao7q"]
+
+[ext_resource type="Script" uid="uid://dq71fhxkmqys" path="res://Scripts/MapScripts/location_data.gd" id="1_dlwke"]
+
+[resource]
+script = ExtResource("1_dlwke")
+Name = "Crossroad"
+Cleared = true
+metadata/_custom_type_script = "uid://dq71fhxkmqys"

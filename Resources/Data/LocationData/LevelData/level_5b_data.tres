@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://cxwbow1cdcjvo"]
+
+[ext_resource type="PackedScene" uid="uid://cyjujnaddqalm" path="res://Scenes/Levels/level_5b.tscn" id="1_pjgs8"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_srm35"]
+
+[resource]
+script = ExtResource("2_srm35")
+LevelScene = ExtResource("1_pjgs8")
+LevelObjective = "Protect the Civilian!"
+PlayerCount = 3
+Name = "Level 5b"
+UnlockableLocations = Array[String](["Event5"])
+metadata/_custom_type_script = "uid://web3er5e1sbv"

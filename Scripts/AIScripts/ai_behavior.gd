@@ -14,12 +14,17 @@ extends Resource
 #     SCRIPT-WIDE    #
 ######################
 
-@export var IsMobile : bool = true
+@export var IsMobile: bool = true
+@export var StayImmobile: bool = false
 @export var IgnorePlayers: bool = false
 
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func Initialize(_ai : AI):
+	pass
+
 ##############################################################
 #                      2.1  COMMANDS                         #
 ##############################################################
@@ -113,11 +118,11 @@ func TerrainCommand(action: Action, owner: Unit, manager: GameManager, target: V
 #                        2.2 TARGETTING                      #
 ##############################################################
 
-func AttackTargeting(owner: Unit, manager: GameManager):
+func AttackTargeting(action: Action, owner: Unit, manager: GameManager):
 	var possible_targets : Array[Unit] = []
 	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(owner)
 	
-	possible_targets = AILogic.GetTargetsInRange(owner, manager, hostile_array)
+	possible_targets = AILogic.GetTargetsInRange(action, owner, manager, hostile_array)
 	
 	if possible_targets.is_empty():
 		print("No target in attack range")
@@ -127,11 +132,11 @@ func AttackTargeting(owner: Unit, manager: GameManager):
 		var target = AILogic.TargetByStat(high_aggro_targets, func(u:Unit): return u.CurrentHP)
 		return target
 
-func HealTargeting(owner: Unit, manager: GameManager):
+func HealTargeting(action: Action, owner: Unit, manager: GameManager):
 	var possible_targets : Array[Unit] = []
 	var affiliation_array : Array[Unit] = UnitManager.GetAffiliationArray(owner)
 	
-	possible_targets = AILogic.GetTargetsInRange(owner, manager, affiliation_array)
+	possible_targets = AILogic.GetTargetsInRange(action, owner, manager, affiliation_array)
 	
 	if possible_targets.is_empty():
 		print("No target in heal range")
@@ -148,13 +153,13 @@ func HealTargeting(owner: Unit, manager: GameManager):
 ######################
 
 func AttackRoutine(action: Action, owner: Unit, manager: GameManager):
-	var target = AttackTargeting(owner, manager)
+	var target = AttackTargeting(action, owner, manager)
 	if target is Unit:
 		print("%s chooses to attack %s" % [owner.Data.Name, target.Data.Name])
 		await ActionCommand(action, owner, manager, target)
 
 func HealRoutine(action: Action, owner: Unit, manager: GameManager):
-	var target = HealTargeting(owner, manager)
+	var target = HealTargeting(action, owner, manager)
 	if target is Unit:
 		print("%s chooses to heal %s" % [owner.Data.Name, target.Data.Name])
 		await ActionCommand(action, owner, manager, target)
@@ -194,8 +199,8 @@ func TileMovementRoutine(action: Action, owner: Unit, manager: GameManager, targ
 	var path_to_destination = best_tile["path"]
 	await MovementRoutine(action, owner, manager, path_to_destination)
 
-func ActionMovementRoutine(action: Action, owner: Unit, manager: GameManager, targets: Array[Unit]):
-	var valid_targets = AILogic.GetValidTargets(owner, manager, targets)
+func ActionMovementRoutine(action: Action, move_action: Action, owner: Unit, manager: GameManager, targets: Array[Unit]):
+	var valid_targets = AILogic.GetValidTargets(action, owner, manager, targets)
 	if valid_targets.is_empty():
 		print("%s has no valid path to any target." % owner.Data.Name)
 		return
@@ -208,7 +213,7 @@ func ActionMovementRoutine(action: Action, owner: Unit, manager: GameManager, ta
 	var target_player = best_target["target"]
 	var path_to_destination = best_target["path"]
 	print("%s %s" % [target_player.name, target_player.Data.Name])
-	await MovementRoutine(action, owner, manager, path_to_destination)
+	await MovementRoutine(move_action, owner, manager, path_to_destination)
 
 func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 	var final_target_data = null
@@ -226,10 +231,10 @@ func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 		"destination": destination
 	}
 
-func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
+func FindAttackOpportunity(action: Action, owner: Unit, manager: GameManager) -> Dictionary:
 	var targets_array : Array[Unit] = UnitManager.GetHostileArray(owner)
 	
-	var reachable_targets_data = AILogic.GetReachableTargets(owner, manager, targets_array)
+	var reachable_targets_data = AILogic.GetReachableTargets(action, owner, manager, targets_array)
 	if reachable_targets_data.is_empty():
 		print("%s cannot reach any target to attack this turn" % owner.Data.Name)
 		return {}
@@ -242,7 +247,7 @@ func FindAttackOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	
 	return FindBestDestination(final_target, reachable_targets_data)
 
-func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
+func FindHealOpportunity(action: Action, owner: Unit, manager: GameManager) -> Dictionary:
 	var targets_array: Array[Unit] = UnitManager.GetAffiliationArray(owner)
 	
 	var damaged_targets: Array[Unit] = []
@@ -253,7 +258,7 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 	if damaged_targets.is_empty():
 		return {}
 	
-	var reachable_damaged_targets_data = AILogic.GetReachableTargets(owner, manager, damaged_targets)
+	var reachable_damaged_targets_data = AILogic.GetReachableTargets(action, owner, manager, damaged_targets)
 	if reachable_damaged_targets_data.is_empty():
 		print("%s cannot reach any target to heal this turn" % owner.Data.Name)
 		return {}
@@ -270,8 +275,8 @@ func FindHealOpportunity(owner: Unit, manager: GameManager) -> Dictionary:
 #    ROUTINE LOGIC   #
 ######################
 
-func ExecuteOffensiveRoutine(move_action: Action, attack_action: Action, owner: Unit, manager: GameManager):
-	var attack_opportunity = FindAttackOpportunity(owner, manager)
+func ExecuteOffensiveRoutine(move_action: Action, offensive_action: Action, owner: Unit, manager: GameManager):
+	var attack_opportunity = FindAttackOpportunity(offensive_action, owner, manager)
 	if not attack_opportunity.is_empty():
 		var destination = attack_opportunity["destination"]
 		var target = attack_opportunity["target"]
@@ -281,19 +286,19 @@ func ExecuteOffensiveRoutine(move_action: Action, attack_action: Action, owner: 
 			if owner.HasMoved == true:
 				return
 			await ActionCommand(move_action, owner, manager, destination)
-		await ActionCommand(attack_action, owner, manager, target)
+		await ActionCommand(offensive_action, owner, manager, target)
 
-func ExecuteMoveOffensiveRoutine(move_action: Action, attack_action: Action, owner: Unit, manager: GameManager):
-	await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+func ExecuteMoveOffensiveRoutine(move_action: Action, offensive_action: Action, owner: Unit, manager: GameManager):
+	await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 	if owner.HasActed == true:
 		return
 	
 	var targets_array : Array[Unit] = UnitManager.GetHostileArray(owner)
 	
-	await ActionMovementRoutine(move_action, owner, manager, targets_array)
+	await ActionMovementRoutine(offensive_action, move_action, owner, manager, targets_array)
 
 func ExecuteHealingRoutine(move_action: Action, heal_action: Action, owner: Unit, manager: GameManager):
-	var heal_opportunity = FindHealOpportunity(owner, manager)
+	var heal_opportunity = FindHealOpportunity(heal_action, owner, manager)
 	if not heal_opportunity.is_empty():
 		var destination = heal_opportunity["destination"]
 		var target = heal_opportunity["target"]
@@ -312,7 +317,7 @@ func ExecuteMoveHealingRoutine(move_action: Action, heal_action: Action, owner: 
 	
 	var targets_array : Array[Unit] = UnitManager.GetAffiliationArray(owner)
 	
-	var valid_targets_data = AILogic.GetValidTargets(owner, manager, targets_array)
+	var valid_targets_data = AILogic.GetValidTargets(heal_action, owner, manager, targets_array)
 	if not valid_targets_data.is_empty():
 		var damaged_targets = []
 		
@@ -323,23 +328,27 @@ func ExecuteMoveHealingRoutine(move_action: Action, heal_action: Action, owner: 
 				break
 		
 		if not damaged_targets.is_empty():
-			await ActionMovementRoutine(move_action, owner, manager, targets_array)
+			await ActionMovementRoutine(heal_action, move_action, owner, manager, targets_array)
 			return
 
 ######################
 #  ADV ROUTINE LOGIC #
 ######################
 
-func ExecuteOffensiveLogic(move_action: Action, attack_action: Action, owner: Unit, manager: GameManager, ai: AI):
+func ExecuteOffensiveLogic(move_action: Action, offensive_action: Action, owner: Unit, manager: GameManager, ai: AI):
 	if ai.IsMobile == false:
-		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+		if ai.StayImmobile == true:
+			await AttackRoutine(offensive_action, owner, manager)
+			return
+		
+		await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
 		return
 	
 	if not ai.TargetUnits.is_empty():
 		if not ai.IgnorePlayers:
-			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+			await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 			if owner.HasActed == true:
 				return
 		
@@ -352,23 +361,23 @@ func ExecuteOffensiveLogic(move_action: Action, attack_action: Action, owner: Un
 	
 	if not ai.TargetTiles.is_empty():
 		if not ai.IgnorePlayers:
-			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+			await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 			if owner.HasActed == true:
 				return
 		
 		await TileMovementRoutine(move_action, owner, manager, ai.TargetTiles)
 		return
 	
-	await ExecuteMoveOffensiveRoutine(move_action, attack_action, owner, manager)
+	await ExecuteMoveOffensiveRoutine(move_action, offensive_action, owner, manager)
 
-func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action: Action, owner: Unit, manager: GameManager, ai: AI):
+func ExecuteSupportLogic(move_action: Action, offensive_action: Action, heal_action: Action, owner: Unit, manager: GameManager, ai: AI):
 	if ai.IsMobile == false:
 		await ExecuteHealingRoutine(move_action, heal_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
 			return
 		print(owner.Data.Name + " found no one to heal, and will attack instead.")
-		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+		await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 		if owner.HasActed == true:
 			ai.IsMobile = true
 		return
@@ -379,7 +388,7 @@ func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action
 			if owner.HasActed == true:
 				return
 			print(owner.Data.Name + " found no one to heal, and will attack instead.")
-			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+			await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 			if owner.HasActed == true:
 				return
 		
@@ -396,7 +405,7 @@ func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action
 			if owner.HasActed == true:
 				return
 			print(owner.Data.Name + " found no one to heal, and will attack instead.")
-			await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+			await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 			if owner.HasActed == true:
 				return
 		
@@ -409,9 +418,9 @@ func ExecuteSupportLogic(move_action: Action, attack_action: Action, heal_action
 	print(owner.Data.Name + " found no one to heal, and will attack instead.")
 	
 	if owner.HasMoved == true:
-		await ExecuteOffensiveRoutine(move_action, attack_action, owner, manager)
+		await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 		return
-	await ExecuteMoveOffensiveRoutine(move_action, attack_action, owner, manager)
+	await ExecuteMoveOffensiveRoutine(move_action, offensive_action, owner, manager)
 
 ######################
 #    AI TURN LOGIC   #

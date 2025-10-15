@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://c1flibeduhi60"]
+
+[ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_4.tscn" id="1_41gud"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_lot3d"]
+
+[resource]
+script = ExtResource("2_lot3d")
+LevelScene = ExtResource("1_41gud")
+LevelObjective = "Defeat Boss"
+PlayerCount = 3
+Name = "Level 4"
+UnlockableLocations = Array[String](["Crossroad4", "Event4", "Level5a"])
+metadata/_custom_type_script = "uid://web3er5e1sbv"

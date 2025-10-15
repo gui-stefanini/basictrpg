@@ -20,18 +20,14 @@ var BossUnits: Array[Unit]
 #                      2.0 Functions                         #
 ##############################################################
 
-##############################################################
-#                      3.0 Signal Functions                  #
-##############################################################
-
-func _on_level_set():
+func LevelSet():
 	for unit in UnitManager.EnemyUnits:
 		if unit.Data.Boss == true:
 			BossUnits.append(unit)
 	
 	request_dialogue.emit(LevelDialogue)
 
-func _on_unit_died(unit: Unit):
+func UnitDied(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
 	if UnitManager.PlayerUnits.is_empty():
@@ -45,6 +41,10 @@ func _on_unit_died(unit: Unit):
 		
 		if BossUnits.is_empty():
 			victory.emit()
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 
 ##############################################################
 #                      4.0 Godot Functions                   #

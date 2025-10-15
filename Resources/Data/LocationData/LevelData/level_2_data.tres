@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://beysm0dkull1i"]
+
+[ext_resource type="PackedScene" uid="uid://6mgfl26hy227" path="res://Scenes/Levels/level_2.tscn" id="1_a57go"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="4_ylf37"]
+
+[resource]
+script = ExtResource("4_ylf37")
+LevelScene = ExtResource("1_a57go")
+LevelObjective = "Defeat All Enemies"
+PlayerCount = 2
+Name = "Level 2"
+UnlockableLocations = Array[String](["Event3"])
+metadata/_custom_type_script = "uid://web3er5e1sbv"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=6 format=3 uid="uid://b2m40s0g1p6av"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_15012"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_rasyp"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_01w01"]
+[ext_resource type="Resource" uid="uid://c0pyaan0kyxo3" path="res://Resources/Data/ClassData/PlayerClassData/mage_data.tres" id="3_rasyp"]
+[ext_resource type="Texture2D" uid="uid://bysjyngi14nh" path="res://Assets/Art/Characters/Salamander/Salamander_Portrait_1.png" id="4_01w01"]
+
+[resource]
+script = ExtResource("3_01w01")
+Portrait = ExtResource("4_01w01")
+Class = ExtResource("3_rasyp")
+Name = "Salamander"
+CharacterLevel = 3
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

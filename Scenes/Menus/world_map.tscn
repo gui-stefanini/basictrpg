@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dagoxwn4eplbq"]
+[gd_scene load_steps=27 format=3 uid="uid://dagoxwn4eplbq"]
 
 [ext_resource type="Texture2D" uid="uid://cc8x4087dfl0h" path="res://Assets/Art/Backgrounds/WorldMap.png" id="1_bccv8"]
 [ext_resource type="Script" uid="uid://fsqm0lqh25oj" path="res://Scripts/MapScripts/world_map.gd" id="1_immrm"]
@@ -7,31 +7,30 @@
 [ext_resource type="AudioStream" uid="uid://dp1ibgkpe3xum" path="res://Assets/Music/BGM/Map1.ogg" id="3_sbqsc"]
 [ext_resource type="StyleBox" uid="uid://s3wx16ygm4rc" path="res://Resources/Overrides/Styles/panel_Style.tres" id="9_pnvcu"]
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="10_d6b3t"]
-[ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LevelData/level_1_data.tres" id="10_jgv10"]
-[ext_resource type="Resource" uid="uid://cxfdwyf2n7cqm" path="res://Resources/Data/LevelData/level_0_data.tres" id="11_5rm1i"]
-[ext_resource type="Resource" uid="uid://cm83wt6c4kuuw" path="res://Resources/Data/EventData/event_1_data.tres" id="11_h1xgf"]
+[ext_resource type="Resource" uid="uid://beysm0dkull1i" path="res://Resources/Data/LocationData/LevelData/level_2_data.tres" id="11_5rm1i"]
+[ext_resource type="Resource" uid="uid://cm83wt6c4kuuw" path="res://Resources/Data/LocationData/EventData/event_1_data.tres" id="11_h1xgf"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="11_jgv10"]
-[ext_resource type="Resource" uid="uid://6v5afxrv265e" path="res://Resources/Data/LevelData/level_2_data.tres" id="11_sbqsc"]
-[ext_resource type="Resource" uid="uid://c36xyohjgen5q" path="res://Resources/Data/EventData/event_2_data.tres" id="12_giifa"]
-[ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LevelData/level_3_data.tres" id="12_h1xgf"]
+[ext_resource type="Resource" uid="uid://c36xyohjgen5q" path="res://Resources/Data/LocationData/EventData/event_2_data.tres" id="12_giifa"]
+[ext_resource type="Resource" uid="uid://cjnnhhuu7ao7q" path="res://Resources/Data/LocationData/CrossroadData/crossroad_1_data.tres" id="12_n026q"]
 [ext_resource type="Texture2D" uid="uid://cy2mpfkgxrhw0" path="res://Assets/Art/HUD/DialogueBox.png" id="13_sbqsc"]
-[ext_resource type="Resource" uid="uid://q1rbjmpddthc" path="res://Resources/Data/EventData/event_3_data.tres" id="14_8jyld"]
+[ext_resource type="Resource" uid="uid://q1rbjmpddthc" path="res://Resources/Data/LocationData/EventData/event_3_data.tres" id="14_8jyld"]
 [ext_resource type="PackedScene" uid="uid://hcy5g1kv4p1g" path="res://Scenes/Menus/map_location.tscn" id="14_h1xgf"]
-[ext_resource type="Resource" uid="uid://dwm6qfyag302y" path="res://Resources/Data/EventData/event_4_data.tres" id="16_f0uhf"]
-[ext_resource type="Resource" uid="uid://bfpwldsjm2cxt" path="res://Resources/Data/EventData/event_5_data.tres" id="17_62u4o"]
-[ext_resource type="Resource" uid="uid://dgigid5agiv4b" path="res://Resources/Data/EventData/event_6_data.tres" id="18_0o0p7"]
-[ext_resource type="Resource" uid="uid://cku8kq778w8xn" path="res://Resources/Data/EventData/event_7_data.tres" id="20_yv82m"]
+[ext_resource type="Resource" uid="uid://c1flibeduhi60" path="res://Resources/Data/LocationData/LevelData/level_4_data.tres" id="15_yv82m"]
+[ext_resource type="Resource" uid="uid://wkyajw61eymg" path="res://Resources/Data/LocationData/CrossroadData/crossroad_2_data.tres" id="16_pqdap"]
+[ext_resource type="Resource" uid="uid://dfywi0tt68nnf" path="res://Resources/Data/LocationData/EventData/event_4_data.tres" id="17_n026q"]
+[ext_resource type="Resource" uid="uid://dsct11f3mcjng" path="res://Resources/Data/LocationData/CrossroadData/crossroad_3_data.tres" id="17_rviyi"]
+[ext_resource type="Resource" uid="uid://ddk2kyiwp5why" path="res://Resources/Data/LocationData/CrossroadData/crossroad_4_data.tres" id="18_pqdap"]
+[ext_resource type="Resource" uid="uid://bwvycxa4ucdhh" path="res://Resources/Data/LocationData/EventData/event_5_data.tres" id="20_pqdap"]
 [ext_resource type="StyleBox" uid="uid://b8qvd8f80v885" path="res://Resources/Overrides/Styles/hover_button_style.tres" id="21_0o0p7"]
-[ext_resource type="Resource" uid="uid://cx2i5pymfuy6r" path="res://Resources/Data/EventData/event_8_data.tres" id="21_n026q"]
 [ext_resource type="StyleBox" uid="uid://bhyxgbt3lvtl8" path="res://Resources/Overrides/Styles/button_style.tres" id="22_ej0cr"]
-[ext_resource type="Resource" uid="uid://dn3akb43iebxw" path="res://Resources/Data/LevelData/level_4_data.tres" id="22_n026q"]
-[ext_resource type="Resource" uid="uid://cxwbow1cdcjvo" path="res://Resources/Data/LevelData/level_5_data.tres" id="23_rviyi"]
-[ext_resource type="Resource" uid="uid://dygohbtbwbrv8" path="res://Resources/Data/LevelData/level_6_data.tres" id="24_y1feg"]
+[ext_resource type="Resource" uid="uid://dn3akb43iebxw" path="res://Resources/Data/LocationData/LevelData/level_5a_data.tres" id="22_n026q"]
+[ext_resource type="Resource" uid="uid://cxwbow1cdcjvo" path="res://Resources/Data/LocationData/LevelData/level_5b_data.tres" id="23_rviyi"]
+[ext_resource type="Resource" uid="uid://dygohbtbwbrv8" path="res://Resources/Data/LocationData/LevelData/level_5c_data.tres" id="24_y1feg"]
 
 [node name="WorldMap" type="Node2D" node_paths=PackedStringArray("Player", "Locations", "LevelInfoPanel", "LevelNameLabel", "LevelObjectiveLabel", "PlayerCountLabel", "EventPanel", "EventNameLabel", "EventTextLabel")]
 script = ExtResource("1_immrm")
 Player = NodePath("Player")
-Locations = [NodePath("Event1"), NodePath("Level0"), NodePath("Event2"), NodePath("Level1"), NodePath("Event3"), NodePath("Level2"), NodePath("Event4"), NodePath("Event5"), NodePath("Event6"), NodePath("Level3"), NodePath("Event7"), NodePath("Event8"), NodePath("Level4"), NodePath("Level5"), NodePath("Level6")]
+Locations = [NodePath("Event1"), NodePath("Level1"), NodePath("Crossroad1"), NodePath("Crossroad2"), NodePath("Event2"), NodePath("Level2"), NodePath("Event3"), NodePath("Level3"), NodePath("Crossroad3"), NodePath("Level4"), NodePath("Crossroad4"), NodePath("Event4"), NodePath("Level5a"), NodePath("Level5b"), NodePath("Event5"), NodePath("Level5c")]
 LevelInfoPanel = NodePath("LevelInfoPanel")
 LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
 LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
@@ -42,15 +41,10 @@ EventTextLabel = NodePath("EventLayer/EventPanel/MarginContainer/VBoxContainer/E
 GameScene = ExtResource("2_jgv10")
 MapBGM = ExtResource("3_sbqsc")
 
-[node name="BackgroundLayer" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="Background" type="TextureRect" parent="BackgroundLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Background" type="TextureRect" parent="."]
+z_index = -10
+offset_right = 640.0
+offset_bottom = 384.0
 texture = ExtResource("1_bccv8")
 
 [node name="Player" type="Node2D" parent="."]
@@ -60,6 +54,12 @@ z_index = 5
 texture = ExtResource("3_650wr")
 hframes = 4
 vframes = 2
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = 0
+limit_top = 0
+limit_right = 640
+limit_bottom = 384
 
 [node name="LevelInfoPanel" type="PanelContainer" parent="."]
 visible = false
@@ -102,96 +102,107 @@ text = "Player Units: X"
 label_settings = ExtResource("11_jgv10")
 horizontal_alignment = 1
 
-[node name="Event1" parent="." node_paths=PackedStringArray("RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(16, 96)
+[node name="Event1" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(71, 301)
 MyLocationData = ExtResource("11_h1xgf")
-RightLocation = NodePath("../Level0")
-UpLocation = NodePath("../Event7")
-DownLocation = NodePath("../Event8")
+DownLocation = NodePath("../Level1")
 
-[node name="Level0" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(64, 96)
+[node name="Level1" parent="." node_paths=PackedStringArray("RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(72, 322)
 MyLocationData = ExtResource("11_5rm1i")
-LeftLocation = NodePath("../Event1")
-RightLocation = NodePath("../Level1")
-UpLocation = NodePath("../Event2")
-
-[node name="Event2" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(64, 64)
-MyLocationData = ExtResource("12_giifa")
-DownLocation = NodePath("../Level0")
-
-[node name="Level1" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(112, 96)
-MyLocationData = ExtResource("10_jgv10")
-LeftLocation = NodePath("../Level0")
-RightLocation = NodePath("../Level2")
-DownLocation = NodePath("../Event3")
-
-[node name="Event3" parent="." node_paths=PackedStringArray("UpLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(112, 128)
-MyLocationData = ExtResource("14_8jyld")
-UpLocation = NodePath("../Level1")
-
-[node name="Level2" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(160, 96)
-MyLocationData = ExtResource("11_sbqsc")
-LeftLocation = NodePath("../Level1")
-RightLocation = NodePath("../Event5")
-UpLocation = NodePath("../Event4")
-DownLocation = NodePath("../Event6")
-
-[node name="Event4" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(192, 64)
-MyLocationData = ExtResource("16_f0uhf")
-LeftLocation = NodePath("../Level2")
-RightLocation = NodePath("../Level3")
-
-[node name="Event5" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(208, 96)
-MyLocationData = ExtResource("17_62u4o")
-LeftLocation = NodePath("../Level2")
-RightLocation = NodePath("../Level3")
-
-[node name="Event6" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(192, 128)
-MyLocationData = ExtResource("18_0o0p7")
-LeftLocation = NodePath("../Level2")
-RightLocation = NodePath("../Level3")
-
-[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(256, 96)
-MyLocationData = ExtResource("12_h1xgf")
-LeftLocation = NodePath("../Level2")
-RightLocation = NodePath("../Level4")
-UpLocation = NodePath("../Level5")
-DownLocation = NodePath("../Level6")
-
-[node name="Event7" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(16, 48)
-MyLocationData = ExtResource("20_yv82m")
-DownLocation = NodePath("../Event1")
-
-[node name="Event8" parent="." node_paths=PackedStringArray("UpLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(16, 144)
-MyLocationData = ExtResource("21_n026q")
+RightLocation = NodePath("../Crossroad1")
 UpLocation = NodePath("../Event1")
+DownLocation = NodePath("../Crossroad1")
 
-[node name="Level4" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(304, 96)
+[node name="Crossroad1" parent="." node_paths=PackedStringArray("LeftLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(104, 338)
+MyLocationData = ExtResource("12_n026q")
+LeftLocation = NodePath("../Level1")
+UpLocation = NodePath("../Crossroad2")
+
+[node name="Crossroad2" parent="." node_paths=PackedStringArray("RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(101, 245)
+MyLocationData = ExtResource("16_pqdap")
+RightLocation = NodePath("../Event2")
+UpLocation = NodePath("../Level2")
+DownLocation = NodePath("../Crossroad1")
+
+[node name="Event2" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(156, 264)
+MyLocationData = ExtResource("12_giifa")
+LeftLocation = NodePath("../Crossroad2")
+
+[node name="Level2" parent="." node_paths=PackedStringArray("RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(108, 223)
+MyLocationData = ExtResource("11_5rm1i")
+RightLocation = NodePath("../Event3")
+UpLocation = NodePath("../Event3")
+DownLocation = NodePath("../Crossroad2")
+
+[node name="Event3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(142, 196)
+MyLocationData = ExtResource("14_8jyld")
+LeftLocation = NodePath("../Level2")
+RightLocation = NodePath("../Level3")
+DownLocation = NodePath("../Level2")
+
+[node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(203, 180)
+MyLocationData = ExtResource("15_yv82m")
+LeftLocation = NodePath("../Event3")
+RightLocation = NodePath("../Crossroad3")
+
+[node name="Crossroad3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(258, 173)
+MyLocationData = ExtResource("17_rviyi")
+LeftLocation = NodePath("../Level3")
+RightLocation = NodePath("../Level4")
+UpLocation = NodePath("../Event4")
+DownLocation = NodePath("../Level4")
+
+[node name="Level4" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(300, 193)
+MyLocationData = ExtResource("15_yv82m")
+LeftLocation = NodePath("../Crossroad3")
+RightLocation = NodePath("../Crossroad4")
+UpLocation = NodePath("../Crossroad3")
+DownLocation = NodePath("../Crossroad4")
+
+[node name="Crossroad4" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(318, 224)
+MyLocationData = ExtResource("18_pqdap")
+LeftLocation = NodePath("../Level4")
+RightLocation = NodePath("../Level5b")
+UpLocation = NodePath("../Level4")
+DownLocation = NodePath("../Level5a")
+
+[node name="Event4" parent="." node_paths=PackedStringArray("UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(262, 129)
+MyLocationData = ExtResource("17_n026q")
+UpLocation = NodePath("../Level5c")
+DownLocation = NodePath("../Crossroad3")
+
+[node name="Level5a" parent="." node_paths=PackedStringArray("LeftLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(377, 277)
 MyLocationData = ExtResource("22_n026q")
-LeftLocation = NodePath("../Level3")
+LeftLocation = NodePath("../Crossroad4")
+UpLocation = NodePath("../Crossroad4")
 
-[node name="Level5" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(256, 48)
+[node name="Level5b" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(383, 197)
 MyLocationData = ExtResource("23_rviyi")
-DownLocation = NodePath("../Level3")
+LeftLocation = NodePath("../Crossroad4")
+RightLocation = NodePath("../Event5")
 
-[node name="Level6" parent="." node_paths=PackedStringArray("LeftLocation", "UpLocation") instance=ExtResource("14_h1xgf")]
-position = Vector2(256, 144)
+[node name="Event5" parent="." node_paths=PackedStringArray("LeftLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(470, 171)
+MyLocationData = ExtResource("20_pqdap")
+LeftLocation = NodePath("../Level5b")
+
+[node name="Level5c" parent="." node_paths=PackedStringArray("DownLocation") instance=ExtResource("14_h1xgf")]
+position = Vector2(264, 75)
 MyLocationData = ExtResource("24_y1feg")
-LeftLocation = NodePath("../Level3")
-UpLocation = NodePath("../Level3")
+DownLocation = NodePath("../Event4")
 
 [node name="EventLayer" type="CanvasLayer" parent="."]
 
@@ -203,10 +214,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_sbqsc")
-patch_margin_left = 30
-patch_margin_top = 30
-patch_margin_right = 30
-patch_margin_bottom = 30
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
 
 [node name="MarginContainer" type="MarginContainer" parent="EventLayer/EventPanel"]
 layout_mode = 1
@@ -244,8 +255,10 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="UnlockButton" type="Button" parent="."]
-offset_right = 32.0
-offset_bottom = 8.0
+z_index = 5
+offset_top = 361.0
+offset_right = 86.0
+offset_bottom = 384.0
 theme_override_styles/normal = ExtResource("22_ej0cr")
 theme_override_styles/pressed = ExtResource("21_0o0p7")
 theme_override_styles/hover = ExtResource("21_0o0p7")

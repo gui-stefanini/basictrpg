@@ -32,6 +32,9 @@ enum SelfTargetRule {ONLY, INCLUDE, EXCLUDE}
 func connect_listeners(_owner: Unit):
 	pass
 
+func GetActionRange(_user: Unit) -> int:
+	return -1
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://dn3akb43iebxw"]
+
+[ext_resource type="PackedScene" uid="uid://cvjt3r8ky7da2" path="res://Scenes/Levels/level_5a.tscn" id="1_osx2w"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_lqxya"]
+
+[resource]
+script = ExtResource("2_lqxya")
+LevelScene = ExtResource("1_osx2w")
+LevelObjective = "Defend for 6 turns"
+PlayerCount = 4
+Name = "Level 5a"
+metadata/_custom_type_script = "uid://web3er5e1sbv"

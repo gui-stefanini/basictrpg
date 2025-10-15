@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://4ysjk0ucoc1g"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_qm1c1"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_nuayp"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="3_axg58"]
+[ext_resource type="Resource" uid="uid://cmb7o405jitvy" path="res://Resources/Data/ClassData/PlayerClassData/enemy_shaman_data.tres" id="3_nuayp"]
+
+[resource]
+script = ExtResource("3_axg58")
+Class = ExtResource("3_nuayp")
+Generic = true
+Boss = true
+CharacterMaxHP = 2
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"

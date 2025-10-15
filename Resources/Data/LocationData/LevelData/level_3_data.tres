@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3 uid="uid://c1flibeduhi60"]
+
+[ext_resource type="PackedScene" uid="uid://br2og6b77q65l" path="res://Scenes/Levels/level_3.tscn" id="1_hp00b"]
+[ext_resource type="Script" uid="uid://web3er5e1sbv" path="res://Scripts/MapScripts/level_data.gd" id="2_h464s"]
+
+[resource]
+script = ExtResource("2_h464s")
+LevelScene = ExtResource("1_hp00b")
+LevelObjective = "Escape"
+PlayerCount = 3
+Name = "Level 3"
+UnlockableLocations = Array[String](["Crossroad3", "Level4"])
+metadata/_custom_type_script = "uid://web3er5e1sbv"

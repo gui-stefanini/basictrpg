@@ -19,10 +19,13 @@ var Behavior : AIBehavior
 ######################
 
 var IsMobile: bool = true
+var StayImmobile: bool = false
 var IgnorePlayers: bool = false
 
 var TargetTiles: Array[Vector2i]
 var TargetUnits: Array[Unit]
+
+var BehaviorSpecific: Dictionary = {}
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -31,7 +34,10 @@ var TargetUnits: Array[Unit]
 func SetBehavior(behavior: AIBehavior):
 	Behavior = behavior
 	IsMobile = behavior.IsMobile
+	StayImmobile = behavior.StayImmobile
 	IgnorePlayers = behavior.IgnorePlayers
+	
+	Behavior.Initialize(self)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

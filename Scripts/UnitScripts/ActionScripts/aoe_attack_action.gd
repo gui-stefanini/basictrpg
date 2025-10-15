@@ -23,12 +23,15 @@ extends Action
 #                      2.0 Functions                         #
 ##############################################################
 
+func GetActionRange(user: Unit) -> int:
+	return user.AttackRange + RangeModifier
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	var action_range = user.AttackRange + RangeModifier
+	var action_range = GetActionRange(user)
 	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.AOE, action_range, true)
 	manager.MyActionManager.AOERange = AOERange
 	manager.MyCursor.show()

@@ -19,10 +19,7 @@ extends LevelManager
 #                      2.0 Functions                         #
 ##############################################################
 
-##############################################################
-#                      3.0 Signal Functions                  #
-##############################################################
-func _on_unit_died(unit: Unit):
+func UnitDied(unit: Unit):
 	print("%s has been defeated!" % unit.Data.Name)
 	
 	if UnitManager.PlayerUnits.is_empty():
@@ -32,6 +29,10 @@ func _on_unit_died(unit: Unit):
 	elif UnitManager.EnemyUnits.is_empty():
 		print("All enemies defeated!")
 		victory.emit()
+
+##############################################################
+#                      3.0 Signal Functions                  #
+##############################################################
 
 ##############################################################
 #                      4.0 Godot Functions                   #

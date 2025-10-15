@@ -243,10 +243,13 @@ func SpawnUnit(spawn_info : SpawnInfo):
 	new_unit.unit_died.connect(_on_unit_died)
 	new_unit.vfx_requested.connect(_on_vfx_requested)
 	unit_spawned.emit(new_unit)
+	if CurrentLevelManager != null:
+		if TurnNumber >= 1:
+			await CurrentLevelManager.unit_spawned_completed
 
 func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 	for spawn_info in spawn_list:
-		SpawnUnit(spawn_info)
+		await SpawnUnit(spawn_info)
 
 func DefinePlayerUnits():
 	GameData.PlayerSquad = MyPreparationMenu.SelectedUnits
@@ -286,7 +289,7 @@ func StartPreparation():
 	MyPreparationMenu.ShowScreen()
 
 func StartGame():
-	DefinePlayerUnits()
+	await DefinePlayerUnits()
 	SetCursor()
 	level_set.emit()
 	StartNewTurn()
@@ -297,6 +300,7 @@ func StartNewTurn():
 	print("New turn begins.")
 	TurnNumber += 1
 	turn_started.emit(TurnNumber)
+	await CurrentLevelManager.turn_started_completed
 	
 	if not ChangedTiles.is_empty():
 		var tiles_to_remove: Array[Vector2i] = []
@@ -333,6 +337,7 @@ func OnPlayerUnitTurnFinished():
 	
 	ActiveUnit.CurrentTile = GetUnitTile(ActiveUnit)
 	unit_turn_ended.emit(ActiveUnit, ActiveUnit.CurrentTile)
+	await CurrentLevelManager.unit_turn_ended_completed
 	
 	if CurrentGameState == GameState.END:
 		return
@@ -366,11 +371,13 @@ func StartAllyTurn():
 		unit.StartTurn()
 	
 	for unit in ally_units:
-		await GeneralFunctions.Wait(0.2)
-		print(unit.Data.Name + " is taking its turn.")
-		await unit.MyAI.Behavior.execute_turn(unit, self)
-		unit_turn_ended.emit(unit, unit.CurrentTile)
-		unit.SetInactive() 
+		if is_instance_valid(unit):
+			await GeneralFunctions.Wait(0.2)
+			print(unit.Data.Name + " is taking its turn.")
+			await unit.MyAI.Behavior.execute_turn(unit, self)
+			unit_turn_ended.emit(unit, unit.CurrentTile)
+			await CurrentLevelManager.unit_turn_ended_completed
+			unit.SetInactive() 
 	
 	EndAllyTurn()
 
@@ -393,11 +400,13 @@ func StartEnemyTurn():
 		unit.StartTurn()
 	
 	for unit in enemy_units:
-		await GeneralFunctions.Wait(0.2)
-		print(unit.Data.Name + " is taking its turn.")
-		await unit.MyAI.Behavior.execute_turn(unit, self)
-		unit_turn_ended.emit(unit, unit.CurrentTile)
-		unit.SetInactive() 
+		if is_instance_valid(unit):
+			await GeneralFunctions.Wait(0.2)
+			print(unit.Data.Name + " is taking its turn.")
+			await unit.MyAI.Behavior.execute_turn(unit, self)
+			unit_turn_ended.emit(unit, unit.CurrentTile)
+			await CurrentLevelManager.unit_turn_ended_completed
+			unit.SetInactive() 
 	
 	EndEnemyTurn()
 
@@ -406,7 +415,6 @@ func EndEnemyTurn():
 	for unit in UnitManager.CompleteEnemyUnits:
 		unit.SetActive()
 	await GeneralFunctions.Wait(0.3)
-	turn_ended.emit(TurnNumber)
 	
 	StartWildTurn()
 
@@ -421,11 +429,13 @@ func StartWildTurn():
 		unit.StartTurn()
 	
 	for unit in wild_units:
-		await GeneralFunctions.Wait(0.2)
-		print(unit.Data.Name + " is taking its turn.")
-		await unit.MyAI.Behavior.execute_turn(unit, self)
-		unit_turn_ended.emit(unit, unit.CurrentTile)
-		unit.SetInactive() 
+		if is_instance_valid(unit):
+			await GeneralFunctions.Wait(0.2)
+			print(unit.Data.Name + " is taking its turn.")
+			await unit.MyAI.Behavior.execute_turn(unit, self)
+			unit_turn_ended.emit(unit, unit.CurrentTile)
+			await CurrentLevelManager.unit_turn_ended_completed
+			unit.SetInactive() 
 	
 	EndWildTurn()
 
@@ -434,6 +444,9 @@ func EndWildTurn():
 	for unit in UnitManager.CompleteWildUnits:
 		unit.SetActive()
 	await GeneralFunctions.Wait(0.3)
+	
+	turn_ended.emit(TurnNumber)
+	await CurrentLevelManager.turn_ended_completed
 	
 	StartNewTurn()
 
@@ -656,10 +669,12 @@ func _on_unit_died(unit: Unit):
 	UnitManager.RemoveUnit(unit)
 	
 	unit_removed.emit(unit)
+	await CurrentLevelManager.unit_removed_completed
 	unit_died.emit(unit)
+	await CurrentLevelManager.unit_died_completed
 	unit.queue_free()
 
-func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat: bool):
+func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat: bool = false):
 	if is_combat == true:
 		return
 	if not vfx_data:
@@ -680,11 +695,7 @@ func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: 
 
 func _ready() -> void:
 	if not GameData.SelectedLevelScene:
-		push_warning("GameData is empty. Loading default Level for testing.")
-		GameData.SelectedLevelScene = GameData.TestLevel
-		var character_data = GameData.TestCharacter
-		GameData.PlayerSquad.clear()
-		GameData.PlayerSquad.append(character_data)
+		push_warning("GameData don't have a Selected Level Scene.")
 	
 	SetLevel()
 	SetAuxiliaryManagers()

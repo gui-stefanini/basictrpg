@@ -24,4 +24,8 @@ ClassSpriteSheet = ExtResource("7_uknt8")
 Hframes = 4
 Vframes = 2
 MyAnimationLibrary = ExtResource("8_7q5hq")
+ClassAIActions = {
+"Attack": ExtResource("4_s1uf7"),
+"Move": ExtResource("3_7q5hq")
+}
 metadata/_custom_type_script = "uid://dajw61vh5kchp"

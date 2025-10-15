@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ClassData" load_steps=11 format=3 uid="uid://cp3bk7fcqwa51"]
+[gd_resource type="Resource" script_class="ClassData" load_steps=12 format=3 uid="uid://cp3bk7fcqwa51"]
 
 [ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_0cma5"]
 [ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_qnh2l"]
@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_ucbs8"]
 [ext_resource type="Resource" uid="uid://c6jscoi5s5um" path="res://Resources/Data/ActionData/SupportActionData/revitalize_action.tres" id="5_bley4"]
 [ext_resource type="Resource" uid="uid://beutdrh88vf7w" path="res://Resources/Data/ActionData/DebuffActionData/sicken_action.tres" id="6_r4phj"]
+[ext_resource type="Resource" uid="uid://bcyrdqnfhq3oi" path="res://Resources/Data/ActionData/SpecialActionData/summon_zombie_action.tres" id="7_3cku1"]
 [ext_resource type="AnimationLibrary" uid="uid://ice4o75b3p44" path="res://Resources/Animations/shaman_library.res" id="7_bley4"]
 [ext_resource type="Texture2D" uid="uid://5bnkedqwsslx" path="res://Assets/Art/Classes/Shaman/ShamanSpriteSheet_1.png" id="8_bley4"]
 
@@ -16,9 +17,9 @@ script = ExtResource("3_6q3fa")
 Name = "Shaman"
 ClassMaxHP = 6
 ClassGrowthMaxHP = 1.0
-ClassMoveRange = 4
+ClassMoveRange = 3
 ClassAttackRange = 2
-ClassActions = Array[ExtResource("2_qnh2l")]([ExtResource("3_ur71c"), ExtResource("4_ucbs8"), ExtResource("5_bley4"), ExtResource("6_r4phj")])
+ClassActions = Array[ExtResource("2_qnh2l")]([ExtResource("3_ur71c"), ExtResource("4_ucbs8"), ExtResource("5_bley4"), ExtResource("6_r4phj"), ExtResource("7_3cku1")])
 ClassMovementType = ExtResource("3_x674s")
 ClassSpriteSheet = ExtResource("8_bley4")
 Hframes = 4

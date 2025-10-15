@@ -27,6 +27,9 @@ extends Action
 #                      2.0 Functions                         #
 ##############################################################
 
+func GetActionRange(_user: Unit) -> int:
+	return ActionRange
+
 func ModifyTerrain(tiles_to_modify: Array[Vector2i], manager : GameManager):
 	for tile in tiles_to_modify:
 		var tile_info : Dictionary = TileManager.GetTileData(TileType)

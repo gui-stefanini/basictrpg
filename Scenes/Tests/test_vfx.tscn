@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqflg1i41xnh2"]
+[gd_scene load_steps=10 format=3 uid="uid://bqflg1i41xnh2"]
 
-[ext_resource type="Texture2D" uid="uid://djtkjvgw44rht" path="res://Assets/Art/Classes/Shaman/ShamanVFX.png" id="1_ivn56"]
+[ext_resource type="Texture2D" uid="uid://b1iyobo32djd0" path="res://Assets/Art/VFX/CaveLevelVFX.png" id="1_vpabh"]
+[ext_resource type="AnimationLibrary" uid="uid://6dag0sa01ac4" path="res://Resources/Animations/cave_vfx_library.res" id="2_7m58l"]
 [ext_resource type="AnimationLibrary" uid="uid://cdrwulw02iw76" path="res://Resources/Animations/priest_vfx_library.res" id="2_i7erj"]
 [ext_resource type="AnimationLibrary" uid="uid://b0dodkfjqnkp3" path="res://Resources/Animations/knight_vfx_library.res" id="2_qkfm2"]
 [ext_resource type="AnimationLibrary" uid="uid://dodlv7wb2x6k3" path="res://Resources/Animations/mage_vfx_library.res" id="3_bad7w"]
@@ -45,6 +46,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RotationTracker:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i7erj"]
 _data = {
@@ -59,13 +72,13 @@ z_index = 10
 [node name="MoveTracker" type="Node2D" parent="RotationTracker"]
 
 [node name="Sprite2D" type="Sprite2D" parent="RotationTracker/MoveTracker"]
-texture = ExtResource("1_ivn56")
-hframes = 3
-vframes = 2
+texture = ExtResource("1_vpabh")
+hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_i7erj"),
+&"cave_vfx_library": ExtResource("2_7m58l"),
 &"knight_vfx_library": ExtResource("2_qkfm2"),
 &"mage_vfx_library": ExtResource("3_bad7w"),
 &"priest_vfx_library": ExtResource("2_i7erj"),

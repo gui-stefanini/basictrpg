@@ -10,6 +10,7 @@ extends RoutLevelManager
 ######################
 #     REFERENCES     #
 ######################
+@export var EscapeTiles: Array[Vector2i]
 
 ######################
 #     SCRIPT-WIDE    #
@@ -18,6 +19,12 @@ extends RoutLevelManager
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func UnitTurnEnded(unit: Unit, unit_tile: Vector2i):
+	if unit.Faction == Unit.Factions.PLAYER:
+		if unit_tile in EscapeTiles:
+			print("%s has escaped!" % unit.Data.Name)
+			victory.emit()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

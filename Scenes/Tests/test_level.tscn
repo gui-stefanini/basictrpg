@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://ccdseexackriv"]
+[gd_scene load_steps=9 format=4 uid="uid://ccdseexackriv"]
 
 [ext_resource type="PackedScene" uid="uid://b7ejlu7joywxd" path="res://Scenes/Levels/level.tscn" id="1_y4n16"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_hyk2w"]
+[ext_resource type="Resource" uid="uid://mcxc5766dr2e" path="res://Resources/Data/AIData/static_shaman_ai.tres" id="3_rn53k"]
+[ext_resource type="Resource" uid="uid://4ysjk0ucoc1g" path="res://Resources/Data/CharacterData/GenericCharacters/Bosses/shaman_boss.tres" id="4_1dxb7"]
 [ext_resource type="Script" uid="uid://bdi5ieubgr075" path="res://Scripts/LevelScripts/LevelManagers/rout_level_manager.gd" id="9_ch0ib"]
 [ext_resource type="AudioStream" uid="uid://cwp60xhelb8cb" path="res://Assets/Music/BGM/Battle1.ogg" id="10_whfy8"]
 
@@ -12,8 +14,11 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_1dxb7"]
 script = ExtResource("2_hyk2w")
-Faction = 1
+Character = ExtResource("4_1dxb7")
+CharacterLevel = 3
+Faction = 4
 Position = Vector2i(6, 6)
+Behavior = ExtResource("3_rn53k")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="TestLevel" instance=ExtResource("1_y4n16")]

@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ClassData" load_steps=11 format=3 uid="uid://cmb7o405jitvy"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_iwl3y"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_7bgpj"]
+[ext_resource type="Resource" uid="uid://dsj5hg6ycwpty" path="res://Resources/Data/ActionData/MoveActionData/move_action.tres" id="3_raqwn"]
+[ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="4_8asd1"]
+[ext_resource type="Resource" uid="uid://beutdrh88vf7w" path="res://Resources/Data/ActionData/DebuffActionData/sicken_action.tres" id="6_1n8xt"]
+[ext_resource type="Resource" uid="uid://bcyrdqnfhq3oi" path="res://Resources/Data/ActionData/SpecialActionData/summon_zombie_action.tres" id="7_0cdnv"]
+[ext_resource type="Resource" uid="uid://4xw2oken53wr" path="res://Resources/Data/MovementData/light_infantry_movement.tres" id="8_q4yn1"]
+[ext_resource type="Texture2D" uid="uid://5bnkedqwsslx" path="res://Assets/Art/Classes/Shaman/ShamanSpriteSheet_1.png" id="9_k0isy"]
+[ext_resource type="AnimationLibrary" uid="uid://ice4o75b3p44" path="res://Resources/Animations/shaman_library.res" id="10_8mwbi"]
+[ext_resource type="Script" uid="uid://dajw61vh5kchp" path="res://Scripts/UnitScripts/class_data.gd" id="11_nkco4"]
+
+[resource]
+script = ExtResource("11_nkco4")
+Name = "Shaman"
+ClassMaxHP = 4
+ClassGrowthMaxHP = 1.0
+ClassMoveRange = 3
+ClassAttackRange = 2
+ClassActions = Array[ExtResource("2_7bgpj")]([ExtResource("3_raqwn"), ExtResource("4_8asd1"), ExtResource("6_1n8xt"), ExtResource("7_0cdnv")])
+ClassMovementType = ExtResource("8_q4yn1")
+ClassSpriteSheet = ExtResource("9_k0isy")
+Hframes = 4
+Vframes = 2
+MyAnimationLibrary = ExtResource("10_8mwbi")
+ClassAIActions = {
+"Debuff": ExtResource("6_1n8xt"),
+"Move": ExtResource("3_raqwn"),
+"Summon": ExtResource("7_0cdnv")
+}
+metadata/_custom_type_script = "uid://dajw61vh5kchp"

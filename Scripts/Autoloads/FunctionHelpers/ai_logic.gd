@@ -41,12 +41,11 @@ func GetValidTiles(ai_owner: Unit, manager: GameManager, tiles: Array[Vector2i])
 	
 	return valid_tiles
 
-func GetValidActionTiles(ai_owner: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
+func GetValidActionTiles(action: Action, ai_owner: Unit, manager: GameManager, target: Unit) -> Array[Vector2i]:
 	var move_data_name = ai_owner.Data.MovementType.Name
 	var astar : AStar2D = manager.MyMoveManager.AStarInstances[move_data_name]
 	var valid_tiles: Array[Vector2i] = []
-	var target_tile = target.CurrentTile
-	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target_tile, ai_owner.AttackRange)
+	var tiles_in_range = manager.MyActionManager.GetTilesInRange(target.CurrentTile, action.GetActionRange(ai_owner))
 	var occupied_tiles = manager.MyMoveManager.GetOccupiedTiles(ai_owner)
 
 	for tile in tiles_in_range:
@@ -55,13 +54,13 @@ func GetValidActionTiles(ai_owner: Unit, manager: GameManager, target: Unit) -> 
 	
 	return valid_tiles
 
-func GetValidTargets(ai_owner : Unit, manager : GameManager, targets: Array[Unit]) -> Array:
+func GetValidTargets(action: Action, ai_owner : Unit, manager : GameManager, targets: Array[Unit]) -> Array:
 	var valid_targets = []
 	for unit in targets:
 		if unit == ai_owner:
 			continue
 		
-		var action_tiles = GetValidActionTiles(ai_owner, manager, unit)
+		var action_tiles = GetValidActionTiles(action, ai_owner, manager, unit)
 		for tile in action_tiles:
 			var path = manager.MyMoveManager.FindPath(ai_owner, ai_owner.CurrentTile, tile)
 			if not path.is_empty():
@@ -78,22 +77,22 @@ func GetValidTargets(ai_owner : Unit, manager : GameManager, targets: Array[Unit
 	
 	return valid_targets
 
-func GetTargetsInRange(ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array[Unit]:
+func GetTargetsInRange(action: Action, ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array[Unit]:
 	var unit_tile = ai_owner.CurrentTile
 	var possible_targets : Array[Unit] = []
 	for target in targets:
 		var target_tile = target.CurrentTile
-		if manager.MyActionManager.AreTilesInRange(ai_owner.AttackRange, unit_tile, target_tile):
+		if manager.MyActionManager.AreTilesInRange(action.GetActionRange(ai_owner), unit_tile, target_tile):
 			possible_targets.append(target)
 	return possible_targets
 
-func GetReachableTargets(ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array:
+func GetReachableTargets(action: Action, ai_owner: Unit, manager: GameManager, targets: Array[Unit]) -> Array:
 	var reachable_targets = []
 	var ai_owner_tile = ai_owner.CurrentTile
 	var reachable_tiles = manager.MyMoveManager.GetReachableTiles(ai_owner, ai_owner_tile, true)
 	
 	for target_unit in targets:
-		var tiles_in_attack_range = GetValidActionTiles(ai_owner, manager, target_unit)
+		var tiles_in_attack_range = GetValidActionTiles(action, ai_owner, manager, target_unit)
 		
 		var best_destination = null
 		var lowest_cost = INF

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dwqf71f3ao43y" path="res://Assets/Art/Rest/MapLevel.png" id="2_2aqkq"]
 
 [node name="MapLocation" type="Node2D" node_paths=PackedStringArray("Sprite")]
+modulate = Color(1, 1, 1, 0.78431374)
 script = ExtResource("1_ahmfx")
 Sprite = NodePath("Sprite2D")
 metadata/_custom_type_script = "uid://xevkx7hkbxqy"
@@ -11,4 +12,4 @@ metadata/_custom_type_script = "uid://xevkx7hkbxqy"
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_2aqkq")
 hframes = 3
-vframes = 2
+vframes = 3

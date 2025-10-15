@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=6 format=3 uid="uid://cbhbogsvucfcg"]
+
+[ext_resource type="Script" uid="uid://uybrrkffqfe6" path="res://Scripts/UnitScripts/AbilityScripts/ability.gd" id="1_b3svy"]
+[ext_resource type="Script" uid="uid://bluy1tgeeandp" path="res://Scripts/UnitScripts/ActionScripts/action.gd" id="2_ewg34"]
+[ext_resource type="Resource" uid="uid://cp3bk7fcqwa51" path="res://Resources/Data/ClassData/PlayerClassData/shaman_data.tres" id="3_b3svy"]
+[ext_resource type="Texture2D" uid="uid://byplnahbde5ui" path="res://Assets/Art/Characters/Octopus/Octopus_Portrait_1.png" id="4_ewg34"]
+[ext_resource type="Script" uid="uid://fhqj6evu0bn8" path="res://Scripts/UnitScripts/character_data.gd" id="4_mdrfl"]
+
+[resource]
+script = ExtResource("4_mdrfl")
+Portrait = ExtResource("4_ewg34")
+Class = ExtResource("3_b3svy")
+Name = "Octopus"
+CharacterLevel = 3
+metadata/_custom_type_script = "uid://fhqj6evu0bn8"
