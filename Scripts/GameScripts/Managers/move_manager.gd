@@ -93,6 +93,23 @@ func CheckGridBounds(tile: Vector2i) -> bool:
 	var grid_rect = GroundGrid.get_used_rect()
 	return grid_rect.has_point(tile)
 
+func GetOppositeTile(tile: Vector2i) -> Vector2i:
+	var grid_rect = GroundGrid.get_used_rect()
+	var bottom_right_tile: Vector2i = grid_rect.end - Vector2i(1, 1)
+	var new_tile: Vector2i = tile
+	
+	if tile.x < 0:
+		new_tile.x = bottom_right_tile.x
+	elif tile.x > bottom_right_tile.x:
+		new_tile.x = 0
+	
+	if tile.y < 0:
+		new_tile.y = bottom_right_tile.y
+	elif tile.y > bottom_right_tile.y:
+		new_tile.y = 0
+	
+	return new_tile
+
 ##############################################################
 #                      2.2 ASTAR PATHING                     #
 ##############################################################

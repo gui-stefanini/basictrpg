@@ -12,6 +12,8 @@ extends Node2D
 #     REFERENCES     #
 ######################
 
+@export var MySprite: Sprite2D
+
 ######################
 #     SCRIPT-WIDE    #
 ######################
@@ -23,12 +25,24 @@ var Enabled: bool = true
 #                      2.0 Functions                         #
 ##############################################################
 
-func MoveToTile(new_tile_position: Vector2i, grid: TileMapLayer):
-	TilePosition = new_tile_position
+func MoveToTile(manager: GameManager, new_tile: Vector2i):
+	TilePosition = new_tile
 	# map_to_local gives the center position of the cell
-	var cell_center_local_pos = grid.map_to_local(TilePosition)
+	var cell_center_local_pos = manager.GroundGrid.map_to_local(TilePosition)
 	# We need to convert this local position to a global one
-	global_position = grid.to_global(cell_center_local_pos)
+	global_position = manager.GroundGrid.to_global(cell_center_local_pos)
+	
+	var tile_type: String = manager.GetTileType(new_tile)
+	UpdateSprite(tile_type)
+	
+
+func UpdateSprite(tile_type: String):
+	match tile_type:
+		"Floor", "Wall":
+			MySprite.frame_coords = Vector2i(0,1)
+			return
+	
+	MySprite.frame_coords = Vector2i(0,0)
 
 func Disable():
 	Enabled = false

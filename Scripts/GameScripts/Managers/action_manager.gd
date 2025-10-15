@@ -137,14 +137,7 @@ func UpdateAOE(cursor_tile : Vector2i):
 
 func GetUnitTileType(unit: Unit) -> String:
 	var tile: Vector2i = unit.CurrentTile
-	var tile_data = GroundGrid.get_cell_tile_data(tile)
-	var effect_tile_data = EffectLayer.get_cell_tile_data(tile)
-	var terrain_type: String
-	if effect_tile_data:
-		terrain_type = effect_tile_data.get_custom_data("terrain_type")
-	else:
-		terrain_type = tile_data.get_custom_data("terrain_type")
-	return terrain_type
+	return MyGameManager.GetTileType(tile)
 
 ##############################################################
 #                      2.4 EXECUTION                         #

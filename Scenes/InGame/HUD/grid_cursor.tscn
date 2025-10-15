@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://cco7i5gsdtg2b" path="res://Scripts/GameScripts/HUD/grid_cursor.gd" id="1_cdjco"]
 [ext_resource type="Texture2D" uid="uid://b85ogun6kgcxo" path="res://Assets/Art/HUD/Cursor.png" id="2_v4b43"]
 
-[node name="GridCursor" type="Node2D"]
+[node name="GridCursor" type="Node2D" node_paths=PackedStringArray("MySprite")]
 z_index = 15
 script = ExtResource("1_cdjco")
+MySprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_v4b43")
+vframes = 2

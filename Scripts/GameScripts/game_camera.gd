@@ -45,8 +45,8 @@ func SetLimits():
 	
 	TopLimit = map_rect.position.y * tile_size.y
 	LeftLimit = map_rect.position.x * tile_size.x
-	BottomLimit = (map_rect.end.y * tile_size.y) - CameraSize.y
-	RightLimit = (map_rect.end.x * tile_size.x) - CameraSize.x
+	BottomLimit = max(TopLimit, (map_rect.end.y * tile_size.y) - CameraSize.y)
+	RightLimit = max(LeftLimit, (map_rect.end.x * tile_size.x) - CameraSize.x)
 	UpdateCameraEdges()
 
 func MoveCamera(tile: Vector2i):

@@ -118,7 +118,7 @@ func SetHUD():
 func SetCursor():
 	var initial_position : Vector2i = Vector2i(0, 0)
 	initial_position = UnitManager.PlayerUnits[0].CurrentTile
-	MyCursor.MoveToTile(initial_position, GroundGrid)
+	MyCursor.MoveToTile(self, initial_position)
 
 func SetAudio():
 	AudioManager.PlayBGM(CurrentLevelManager.LevelBGM)
@@ -145,19 +145,23 @@ func DisplaySelectedUnitInfo():
 	else:
 		SelectedUnitInfoPanel.UpdatePanel(unit_on_tile)
 
-func UpdateCursor(new_tile_position: Vector2i = Vector2i (-1,-1)):
+func UpdateCursor(new_tile: Vector2i = Vector2i (-1,-1)):
 	if MyCursor.Enabled == false:
 		return
 	if DialogueBox.visible == true:
 		return
 	
-	if new_tile_position != Vector2i(-1,-1):
-		if MyMoveManager.CheckGridBounds(new_tile_position):
-			MyCursor.MoveToTile(new_tile_position, GroundGrid)
-			MyGameCamera.CheckCameraEdge(new_tile_position)
+	if new_tile != Vector2i(-1,-1):
+		if MyMoveManager.CheckGridBounds(new_tile) == true:
+			MyCursor.MoveToTile(self, new_tile)
+			MyGameCamera.CheckCameraEdge(new_tile)
+		else:
+			var opposite_tile: Vector2i = MyMoveManager.GetOppositeTile(new_tile)
+			MyCursor.MoveToTile(self, opposite_tile)
+			MyGameCamera.CheckCameraEdge(opposite_tile)
 	
 	if not MyActionManager.HighlightedAOETiles.is_empty():
-		MyActionManager.UpdateAOE(new_tile_position)
+		MyActionManager.UpdateAOE(new_tile)
 	
 	DisplaySelectedUnitInfo()
 	MyCursor.show()
@@ -468,6 +472,16 @@ func EndGame(player_won: bool):
 ##############################################################
 #                   2.4 DATA GATHERING                       #
 ##############################################################
+
+func GetTileType(tile: Vector2i) -> String:
+	var tile_data = GroundGrid.get_cell_tile_data(tile)
+	var effect_tile_data = EffectLayer.get_cell_tile_data(tile)
+	var terrain_type: String
+	if effect_tile_data:
+		terrain_type = effect_tile_data.get_custom_data("terrain_type")
+	else:
+		terrain_type = tile_data.get_custom_data("terrain_type")
+	return terrain_type
 
 func GetUnitTile(unit: Unit) -> Vector2i:
 	return GroundGrid.local_to_map(unit.global_position)
