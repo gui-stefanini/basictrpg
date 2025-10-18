@@ -304,9 +304,9 @@ func StartGame():
 	StartNewTurn()
 
 func SetTurnLabel(turn_text : String):
-	await GeneralFunctions.Wait(0.5)
 	TurnLabel.text = "  %s  " % [turn_text]
 	TurnLabel.show()
+	await GeneralFunctions.Wait(0.5)
 
 func ClearTurnLabel():
 	TurnLabel.text = ""
