@@ -11,6 +11,7 @@ signal animation_hit
 
 signal tile_damage_taken(tile_type: TileManager.TileTypes, damage_data: Dictionary)
 signal damage_taken(unit: Unit, damage_data: Dictionary)
+signal unit_dying(unit: Unit)
 signal unit_died(unit: Unit)
 
 signal summoned_units
@@ -86,6 +87,12 @@ var SupportAggroModifier: int = 0
 var SupportAggro: int:
 	get: return Data.BaseSupportAggro + SupportAggroModifier
 
+######################
+#  FUNCTION HELPERS  #
+######################
+var Summoner: Unit
+var DyingConnections: int = 0
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
@@ -143,6 +150,14 @@ func ReceiveHealing(heal_amount: int, percentage: bool = false):
 
 func Despawn():
 	IsDead = true
+	if DyingConnections == 0:
+		Die()
+	else:
+		unit_dying.emit(self)
+
+func Die():
+	if Summoner != null:
+		Summoner.DyingConnections -= 1
 	unit_died.emit(self)
 
 ##############################################################
@@ -174,18 +189,6 @@ func AddStatus(status: Status, duration: int = -1, value: int = -1,
 		StatusLogic.SetStatusLimit(self, status)
 		StatusLogic.ApplyStatusLogic(self, status)
 		print("%s gained status: %s for %d turns" % [Data.Name, Status.find_key(status), duration])
-
-#func StackStatus(status: Status, information: StatusInfo, amount: int):
-	#if ActiveStatuses.has(status):
-		#ActiveStatuses[status][information] += amount
-	#else:
-		#var new_status = {
-			#StatusInfo.DURATION: -1,
-			#StatusInfo.VALUE: -1
-		#}
-		#new_status[information] = amount
-		#ActiveStatuses[status] = new_status
-		#StatusLogic.ApplyStatusLogic(self, status)
 
 ##############################################################
 #                      2.3 SET STATE                         #
@@ -235,9 +238,11 @@ func SetData(spawn_level: int = -1, summoner: Unit = null):
 		Data.CharacterLevel = spawn_level
 	
 	if Data.Summon == true:
+		Summoner = summoner
 		if summoner.Faction == Unit.Factions.PLAYER:
 			summoner.summoned_units.connect(Despawn)
-		summoner.unit_died.connect(Despawn)
+		summoner.unit_dying.connect(_on_summoner_dying)
+		summoner.DyingConnections += 1
 	
 	Data.ClassOverride()
 	
@@ -318,6 +323,13 @@ func _on_animation_hit():
 
 func _on_animation_being_hit():
 	MyAnimationPlayer.play("character_library/hit")
+
+func _on_summoner_dying(_unit : Unit):
+	Summoner.DyingConnections -= 1
+	if Summoner.DyingConnections == 0:
+		Summoner.Die()
+	Summoner = null
+	Despawn()
 
 ##############################################################
 #                      4.0 Godot Functions                   #

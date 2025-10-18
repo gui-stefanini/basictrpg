@@ -373,10 +373,12 @@ func OnPlayerUnitTurnFinished():
 	ActiveUnit.SetInactive()
 	ClearActiveUnit()
 	
-	if InactiveUnits.size() == UnitManager.CompletePlayerUnits.size():
+	if InactiveUnits.size() >= UnitManager.CompletePlayerUnits.size():
 		EndPlayerTurn()
 	
 	else:
+		print(InactiveUnits.size())
+		print(UnitManager.CompletePlayerUnits.size())
 		CurrentSubState = SubState.UNIT_SELECTION_PHASE
 		UpdateCursor()
 

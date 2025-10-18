@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dgh38djkkkdmo" path="res://Scripts/AIScripts/ai.gd" id="2_kd14x"]
 [ext_resource type="PackedScene" uid="uid://diw6qixitepkx" path="res://Scenes/Units/health_bar.tscn" id="3_5cpx2"]
 [ext_resource type="AnimationLibrary" uid="uid://vdnuvac02mjv" path="res://Resources/Animations/knight_library.res" id="4_5yiaf"]
-[ext_resource type="Texture2D" uid="uid://5bnkedqwsslx" path="res://Assets/Art/Classes/Shaman/ShamanSpriteSheet_1.png" id="4_xhwe5"]
+[ext_resource type="Texture2D" uid="uid://c06hu433q14y" path="res://Assets/Art/Classes/FireSnake/FireSnake_SpriteSheet_1.png" id="4_blila"]
 [ext_resource type="AnimationLibrary" uid="uid://cuolyfdgp0rlv" path="res://Resources/Animations/bandit_library.res" id="5_5cpx2"]
 [ext_resource type="AnimationLibrary" uid="uid://b36ng25oq3jhi" path="res://Resources/Animations/assassin_library.res" id="5_6pcgi"]
 [ext_resource type="AnimationLibrary" uid="uid://ca0qyn0befqa0" path="res://Resources/Animations/civilian_library.res" id="8_53hma"]
@@ -108,10 +108,10 @@ script = ExtResource("2_kd14x")
 [node name="Sprite" type="Sprite2D" parent="RotationTracker/MoveTracker"]
 modulate = Color(1, 0.317647, 0.247059, 1)
 material = ExtResource("2_0tfuv")
-texture = ExtResource("4_xhwe5")
-hframes = 4
+texture = ExtResource("4_blila")
+hframes = 5
 vframes = 2
-frame = 5
+frame = 6
 
 [node name="HealthBar" parent="RotationTracker/MoveTracker" instance=ExtResource("3_5cpx2")]
 
