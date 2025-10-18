@@ -33,10 +33,10 @@
 script = ExtResource("1_immrm")
 Player = NodePath("Player")
 Locations = [NodePath("Event1"), NodePath("Level1"), NodePath("Crossroad1"), NodePath("Crossroad2"), NodePath("Event2"), NodePath("Level2"), NodePath("Event3"), NodePath("Level3"), NodePath("Crossroad3"), NodePath("Level4"), NodePath("Crossroad4"), NodePath("Event4"), NodePath("Level5a"), NodePath("Level5b"), NodePath("Event5"), NodePath("Level5c")]
-LevelInfoPanel = NodePath("LevelInfoPanel")
-LevelNameLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelName")
-LevelObjectiveLabel = NodePath("LevelInfoPanel/VBoxContainer/LevelObjective")
-PlayerCountLabel = NodePath("LevelInfoPanel/VBoxContainer/PlayerCount")
+LevelInfoPanel = NodePath("LevelInfoLayer/LevelInfoPanel")
+LevelNameLabel = NodePath("LevelInfoLayer/LevelInfoPanel/VBoxContainer/LevelName")
+LevelObjectiveLabel = NodePath("LevelInfoLayer/LevelInfoPanel/VBoxContainer/LevelObjective")
+PlayerCountLabel = NodePath("LevelInfoLayer/LevelInfoPanel/VBoxContainer/PlayerCount")
 EventPanel = NodePath("EventLayer/EventPanel")
 EventNameLabel = NodePath("EventLayer/EventPanel/MarginContainer/VBoxContainer/EventName")
 EventTextLabel = NodePath("EventLayer/EventPanel/MarginContainer/VBoxContainer/EventText")
@@ -63,41 +63,46 @@ limit_top = 0
 limit_right = 640
 limit_bottom = 384
 
-[node name="LevelInfoPanel" type="PanelContainer" parent="."]
+[node name="LevelInfoLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelInfoPanel" type="PanelContainer" parent="LevelInfoLayer"]
 visible = false
-z_index = 10
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -28.0
+offset_top = -20.0
 offset_right = 28.0
-offset_bottom = 40.0
+offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("9_pnvcu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LevelInfoPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelInfoLayer/LevelInfoPanel"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 2
 
-[node name="LevelName" type="Label" parent="LevelInfoPanel/VBoxContainer"]
+[node name="LevelName" type="Label" parent="LevelInfoLayer/LevelInfoPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("10_d6b3t")
 text = "Level X"
 label_settings = ExtResource("11_jgv10")
 horizontal_alignment = 1
 
-[node name="LevelObjective" type="Label" parent="LevelInfoPanel/VBoxContainer"]
+[node name="LevelObjective" type="Label" parent="LevelInfoLayer/LevelInfoPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("10_d6b3t")
 text = "Defeat"
 label_settings = ExtResource("11_jgv10")
 horizontal_alignment = 1
 
-[node name="PlayerCount" type="Label" parent="LevelInfoPanel/VBoxContainer"]
+[node name="PlayerCount" type="Label" parent="LevelInfoLayer/LevelInfoPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("10_d6b3t")
 text = "Player Units: X"

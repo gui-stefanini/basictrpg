@@ -59,8 +59,6 @@ func SelectLevel():
 	if CurrentLocation.MyLocationData is LevelData:
 		var level_data = CurrentLocation.MyLocationData
 		
-		LevelInfoPanel.global_position = CurrentLocation.global_position + Vector2(0,16)
-		
 		LevelNameLabel.text = " %s " % [level_data.Name]
 		if level_data.Cleared == true:
 			LevelNameLabel.text += "- Cleared "
