@@ -24,16 +24,20 @@ var MarkedTiles: Array[Vector2i]
 
 func CreateEruption():
 	print("creating eruption")
+	LevelHighlightLayer.clear()
 	for tile in MarkedTiles:
 		var tile_grid_position: Vector2 = MyGameManager.GroundGrid.map_to_local(tile)
 		var tile_global_position: Vector2 = MyGameManager.GroundGrid.to_global(tile_grid_position)
 		request_vfx.emit(LevelVFX, "eruption", tile_global_position)
-	await GeneralFunctions.Wait(0.6)
+	
+	await GeneralFunctions.Wait(1.2)
 	
 	for tile in MarkedTiles:
 		var unit = MyGameManager.GetUnitAtTile(tile)
 		if unit != null:
 			unit.TakeTileDamage(TileManager.TileTypes.FIRE, 20, true)
+	
+	MarkedTiles.clear()
 
 func TurnStarted(turn_number: int):
 	if turn_number == 1:
@@ -49,8 +53,6 @@ func TurnStarted(turn_number: int):
 	
 	else:
 		await CreateEruption()
-		MarkedTiles.clear()
-		LevelHighlightLayer.clear()
 
 ##############################################################
 #                      3.0 Signal Functions                  #

@@ -141,11 +141,12 @@ RightLocation = NodePath("../Event3")
 UpLocation = NodePath("../Event3")
 DownLocation = NodePath("../Crossroad2")
 
-[node name="Event3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
+[node name="Event3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation", "UpLocation", "DownLocation") instance=ExtResource("14_h1xgf")]
 position = Vector2(142, 196)
 MyLocationData = ExtResource("14_8jyld")
 LeftLocation = NodePath("../Level2")
 RightLocation = NodePath("../Level3")
+UpLocation = NodePath("../Level3")
 DownLocation = NodePath("../Level2")
 
 [node name="Level3" parent="." node_paths=PackedStringArray("LeftLocation", "RightLocation") instance=ExtResource("14_h1xgf")]

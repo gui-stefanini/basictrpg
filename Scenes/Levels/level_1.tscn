@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b7ejlu7joywxd" path="res://Scenes/Levels/level.tscn" id="1_ic72l"]
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="2_447f6"]
-[ext_resource type="Resource" uid="uid://mcxc5766dr2e" path="res://Resources/Data/AIData/static_shaman_ai.tres" id="3_kj5ij"]
-[ext_resource type="Resource" uid="uid://4ysjk0ucoc1g" path="res://Resources/Data/CharacterData/GenericCharacters/Bosses/shaman_boss.tres" id="4_1ih7c"]
+[ext_resource type="Resource" uid="uid://b4y6w0s7t7xsd" path="res://Resources/Data/AIData/static_bandit_ai.tres" id="3_xgxfi"]
+[ext_resource type="Resource" uid="uid://cjhm75d2iuhl1" path="res://Resources/Data/CharacterData/GenericCharacters/generic_bandit.tres" id="4_5f3p6"]
 [ext_resource type="Script" uid="uid://brf3knq4futnc" path="res://Scripts/LevelScripts/LevelManagers/level_1_manager.gd" id="9_i4wmn"]
 [ext_resource type="AudioStream" uid="uid://cwp60xhelb8cb" path="res://Assets/Music/BGM/Battle1.ogg" id="14_r8mod"]
 
@@ -14,11 +14,10 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_6kmi7"]
 script = ExtResource("2_447f6")
-Character = ExtResource("4_1ih7c")
-CharacterLevel = 3
+Character = ExtResource("4_5f3p6")
 Faction = 4
 Position = Vector2i(10, 4)
-Behavior = ExtResource("3_kj5ij")
+Behavior = ExtResource("3_xgxfi")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level1" instance=ExtResource("1_ic72l")]

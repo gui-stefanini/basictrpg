@@ -28,7 +28,7 @@ var Data : Dictionary
 ##############################################################
 func GetArrays():
 	PlayerCharacters.assign(CharacterList.AllCharacters) 
-	Locations = LocationList.AllLevels + LocationList.AllEvents
+	Locations = LocationList.AllLevels + LocationList.AllEvents + LocationList.AllCrossroads
 
 func SaveData():
 	var temp_data : Dictionary
@@ -54,9 +54,10 @@ func SaveData():
 
 func LoadData():
 	var player_army = Data.get("PlayerArmy")
-	
+	var temporary_array : Array[Unit] = []
 	for character_path in player_army:
-		GameData.PlayerArmy.append(load(character_path))
+		temporary_array.append(load(character_path))
+	GameData.PlayerArmy.assign(temporary_array)
 	
 	GetArrays()
 	

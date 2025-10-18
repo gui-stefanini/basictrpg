@@ -3,6 +3,7 @@ extends Node2D
 ##############################################################
 #                      0.0 Signals                           #
 ##############################################################
+
 signal level_set
 signal turn_started(turn_number: int)
 signal turn_ended(turn_number: int)
@@ -17,6 +18,7 @@ signal unit_removed(unit: Unit)
 ######################
 #     REFERENCES     #
 ######################
+
 @export var UnitScene: PackedScene
 @export var CombatScreenScene: PackedScene
 @export var VfxScene: PackedScene
@@ -32,6 +34,7 @@ signal unit_removed(unit: Unit)
 @export var ActionForecast: PanelContainer
 @export var MyPreparationMenu: PreparationMenu
 
+@export var TurnLabel: Label
 @export var DialogueBox: CanvasLayer
 @export var InfoScreen: CanvasLayer
 @export var EndScreen: CanvasLayer
@@ -256,10 +259,12 @@ func SpawnUnitGroup(spawn_list: Array[SpawnInfo]):
 		await SpawnUnit(spawn_info)
 
 func DefinePlayerUnits():
-	GameData.PlayerSquad = MyPreparationMenu.SelectedUnits
+	for player_spawn in CurrentLevel.PlayerSpawns:
+		player_spawn.Character = null
+	GameData.PlayerSquad.clear()
+	GameData.PlayerSquad.assign(MyPreparationMenu.SelectedUnits)
 	
 	var smaller_array_size : int = min(GameData.PlayerSquad.size(), CurrentLevel.PlayerSpawns.size())
-	
 	for i in range(smaller_array_size):
 		CurrentLevel.PlayerSpawns[i].Character = GameData.PlayerSquad[i]
 	
@@ -298,11 +303,24 @@ func StartGame():
 	level_set.emit()
 	StartNewTurn()
 
+func SetTurnLabel(turn_text : String):
+	await GeneralFunctions.Wait(0.5)
+	TurnLabel.text = "  %s  " % [turn_text]
+	TurnLabel.show()
+
+func ClearTurnLabel():
+	TurnLabel.text = ""
+	TurnLabel.hide()
+	await GeneralFunctions.Wait(0.3)
+
 func StartNewTurn():
 	CurrentGameState = GameState.PLAYER_TURN
 	CurrentSubState = SubState.PROCESSING_PHASE
-	print("New turn begins.")
 	TurnNumber += 1
+	await SetTurnLabel("Turn %d Started!" % [TurnNumber])
+	print("New turn begins.")
+	await ClearTurnLabel()
+	
 	turn_started.emit(TurnNumber)
 	await CurrentLevelManager.turn_started_completed
 	
@@ -319,15 +337,20 @@ func StartNewTurn():
 			EffectLayer.erase_cell(tile)
 			ChangedTiles.erase(tile)
 	
+	
 	StartPlayerTurn()
 
 func StartPlayerTurn():
-	CurrentSubState = SubState.UNIT_SELECTION_PHASE
 	print("Player turn begins.")
+	
+	await SetTurnLabel(("--- Player Turn ---"))
+	await ClearTurnLabel()
+	
 	InactiveUnits.clear()
 	for unit in UnitManager.CompletePlayerUnits:
 		unit.StartTurn()
 	UpdateCursor()
+	CurrentSubState = SubState.UNIT_SELECTION_PHASE
 
 func OnPlayerUnitActionFinished():
 	CurrentSubState = SubState.ACTION_SELECTION_PHASE
@@ -371,6 +394,10 @@ func StartAllyTurn():
 	
 	var ally_units : Array[Unit] = UnitManager.CompleteAllyUnits.duplicate()
 	
+	if not ally_units.is_empty():
+		await SetTurnLabel(("--- Ally Turn ---"))
+		await ClearTurnLabel()
+	
 	for unit in ally_units:
 		unit.StartTurn()
 	
@@ -400,6 +427,10 @@ func StartEnemyTurn():
 	
 	var enemy_units : Array[Unit] = UnitManager.CompleteEnemyUnits.duplicate()
 	
+	if not enemy_units.is_empty():
+		await SetTurnLabel(("--- Enemy Turn ---"))
+		await ClearTurnLabel()
+	
 	for unit in enemy_units:
 		unit.StartTurn()
 	
@@ -428,6 +459,10 @@ func StartWildTurn():
 	CurrentSubState = SubState.PROCESSING_PHASE
 	
 	var wild_units : Array[Unit] = UnitManager.CompleteWildUnits.duplicate()
+	
+	if not wild_units.is_empty():
+		await SetTurnLabel("--- Wild Turn ---")
+		await ClearTurnLabel()
 	
 	for unit in wild_units:
 		unit.StartTurn()
@@ -686,7 +721,7 @@ func _on_unit_died(unit: Unit):
 	await CurrentLevelManager.unit_removed_completed
 	unit_died.emit(unit)
 	await CurrentLevelManager.unit_died_completed
-	unit.queue_free()
+	unit.call_deferred("queue_free")
 
 func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat: bool = false):
 	if is_combat == true:

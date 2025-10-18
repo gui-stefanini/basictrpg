@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cf4j0nfjaajbe"]
+[gd_scene load_steps=20 format=3 uid="uid://cf4j0nfjaajbe"]
 
 [ext_resource type="Script" uid="uid://b7r1ysmcak8vj" path="res://Scripts/GameScripts/Managers/game_manager.gd" id="1_kmrvs"]
 [ext_resource type="PackedScene" uid="uid://dw3oapme00484" path="res://Scenes/Units/unit.tscn" id="2_wg6t1"]
@@ -19,7 +19,14 @@
 [ext_resource type="StyleBox" uid="uid://bc0qkcohnagp" path="res://Resources/Overrides/Styles/label_style.tres" id="18_qeoma"]
 [ext_resource type="LabelSettings" uid="uid://cmeaa4ys48qvb" path="res://Resources/Overrides/Settings/label_settings.tres" id="19_omwm2"]
 
-[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyGameCamera", "MyActionMenu", "MyCursor", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyPreparationMenu", "DialogueBox", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgh1u"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0.02000003, 0.2, 1)
+
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyGameCamera", "MyActionMenu", "MyCursor", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyPreparationMenu", "TurnLabel", "DialogueBox", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")
@@ -31,6 +38,7 @@ ActiveUnitInfoPanel = NodePath("UnitInfoPanel")
 SelectedUnitInfoPanel = NodePath("UnitInfoPanel2")
 ActionForecast = NodePath("ActionForecast")
 MyPreparationMenu = NodePath("PreparationMenu")
+TurnLabel = NodePath("TurnLayer/TurnLabel")
 DialogueBox = NodePath("DialogueBox")
 InfoScreen = NodePath("InfoScreen")
 EndScreen = NodePath("EndScreen")
@@ -125,5 +133,28 @@ visible = false
 [node name="EndScreen" parent="." instance=ExtResource("10_fuy7q")]
 process_mode = 3
 visible = false
+
+[node name="TurnLayer" type="CanvasLayer" parent="."]
+
+[node name="TurnLabel" type="Label" parent="TurnLayer"]
+visible = false
+z_index = 15
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_jgh1u")
+theme_override_styles/focus = SubResource("StyleBoxFlat_jgh1u")
+label_settings = ExtResource("19_omwm2")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="action_selected" from="ActionMenu" to="." method="_on_action_menu_action_selected"]

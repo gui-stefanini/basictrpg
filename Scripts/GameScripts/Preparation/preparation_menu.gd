@@ -34,6 +34,7 @@ var CurrentButton : UnitButton
 ##############################################################
 
 func Initialize(manager: GameManager):
+	SelectedUnits.clear()
 	MyGameManager = manager
 	UnitCount = manager.CurrentLevel.PlayerSpawns.size()
 	SetUnitButtons()
