@@ -314,6 +314,8 @@ func ClearTurnLabel():
 	await GeneralFunctions.Wait(0.3)
 
 func StartNewTurn():
+	if CurrentGameState == GameState.END:
+		return
 	CurrentGameState = GameState.PLAYER_TURN
 	CurrentSubState = SubState.PROCESSING_PHASE
 	TurnNumber += 1
@@ -323,6 +325,8 @@ func StartNewTurn():
 	
 	turn_started.emit(TurnNumber)
 	await CurrentLevelManager.turn_started_completed
+	if CurrentGameState == GameState.END:
+		return
 	
 	if not ChangedTiles.is_empty():
 		var tiles_to_remove: Array[Vector2i] = []
@@ -383,6 +387,8 @@ func OnPlayerUnitTurnFinished():
 		UpdateCursor()
 
 func EndPlayerTurn():
+	if CurrentGameState == GameState.END:
+		return
 	HideUI()
 	for unit in UnitManager.CompletePlayerUnits:
 		unit.SetActive()
@@ -405,6 +411,8 @@ func StartAllyTurn():
 	
 	for unit in ally_units:
 		if is_instance_valid(unit):
+			if CurrentGameState == GameState.END:
+				return
 			await GeneralFunctions.Wait(0.2)
 			print(unit.Data.Name + " is taking its turn.")
 			await unit.MyAI.Behavior.execute_turn(unit, self)
@@ -415,6 +423,8 @@ func StartAllyTurn():
 	EndAllyTurn()
 
 func EndAllyTurn():
+	if CurrentGameState == GameState.END:
+		return
 	print("--- Ally Turn Ends ---")
 	for unit in UnitManager.CompleteAllyUnits:
 		unit.SetActive()
@@ -438,6 +448,8 @@ func StartEnemyTurn():
 	
 	for unit in enemy_units:
 		if is_instance_valid(unit):
+			if CurrentGameState == GameState.END:
+				return
 			await GeneralFunctions.Wait(0.2)
 			print(unit.Data.Name + " is taking its turn.")
 			await unit.MyAI.Behavior.execute_turn(unit, self)
@@ -448,6 +460,8 @@ func StartEnemyTurn():
 	EndEnemyTurn()
 
 func EndEnemyTurn():
+	if CurrentGameState == GameState.END:
+		return
 	print("--- Enemy Turn Ends ---")
 	for unit in UnitManager.CompleteEnemyUnits:
 		unit.SetActive()
@@ -471,6 +485,8 @@ func StartWildTurn():
 	
 	for unit in wild_units:
 		if is_instance_valid(unit):
+			if CurrentGameState == GameState.END:
+				return
 			await GeneralFunctions.Wait(0.2)
 			print(unit.Data.Name + " is taking its turn.")
 			await unit.MyAI.Behavior.execute_turn(unit, self)
@@ -481,6 +497,8 @@ func StartWildTurn():
 	EndWildTurn()
 
 func EndWildTurn():
+	if CurrentGameState == GameState.END:
+		return
 	print("--- Wild Turn Ends ---")
 	for unit in UnitManager.CompleteWildUnits:
 		unit.SetActive()
@@ -494,7 +512,7 @@ func EndWildTurn():
 func EndGame(player_won: bool):
 	HideUI()
 	CurrentGameState = GameState.END
-	
+	ClearInputSignals()
 	if player_won == true:
 		for unit in UnitManager.PlayerUnits:
 			unit.RequestVFX(VfxList.UnitVFX, "levelup")

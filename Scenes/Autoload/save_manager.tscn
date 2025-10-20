@@ -3,4 +3,5 @@
 [ext_resource type="Script" uid="uid://ba8gu2u1oy2gp" path="res://Scripts/Autoloads/Managers/save_manager.gd" id="1_ykqg4"]
 
 [node name="SaveManager" type="Node"]
+process_mode = 3
 script = ExtResource("1_ykqg4")

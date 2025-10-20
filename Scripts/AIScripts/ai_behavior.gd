@@ -197,6 +197,9 @@ func TileMovementRoutine(action: Action, owner: Unit, manager: GameManager, targ
 	
 	var best_tile = valid_tiles[0]
 	var path_to_destination = best_tile["path"]
+	if path_to_destination == []:
+		print("empty path")
+		return
 	await MovementRoutine(action, owner, manager, path_to_destination)
 
 func ActionMovementRoutine(action: Action, move_action: Action, owner: Unit, manager: GameManager, targets: Array[Unit]):
@@ -231,8 +234,9 @@ func FindBestDestination(final_target: Unit, targets_data: Array) -> Dictionary:
 		"destination": destination
 	}
 
-func FindAttackOpportunity(action: Action, owner: Unit, manager: GameManager) -> Dictionary:
-	var targets_array : Array[Unit] = UnitManager.GetHostileArray(owner)
+func FindAttackOpportunity(action: Action, owner: Unit, manager: GameManager, targets_array : Array[Unit] = []) -> Dictionary:
+	if targets_array.is_empty():
+		targets_array = UnitManager.GetHostileArray(owner)
 	
 	var reachable_targets_data = AILogic.GetReachableTargets(action, owner, manager, targets_array)
 	if reachable_targets_data.is_empty():
@@ -275,8 +279,9 @@ func FindHealOpportunity(action: Action, owner: Unit, manager: GameManager) -> D
 #    ROUTINE LOGIC   #
 ######################
 
-func ExecuteOffensiveRoutine(move_action: Action, offensive_action: Action, owner: Unit, manager: GameManager):
-	var attack_opportunity = FindAttackOpportunity(offensive_action, owner, manager)
+func ExecuteOffensiveRoutine(move_action: Action, offensive_action: Action, owner: Unit, manager: GameManager, 
+							 targets_array: Array[Unit] = []):
+	var attack_opportunity = FindAttackOpportunity(offensive_action, owner, manager, targets_array)
 	if not attack_opportunity.is_empty():
 		var destination = attack_opportunity["destination"]
 		var target = attack_opportunity["target"]
@@ -347,6 +352,10 @@ func ExecuteOffensiveLogic(move_action: Action, offensive_action: Action, owner:
 		return
 	
 	if not ai.TargetUnits.is_empty():
+		await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager, ai.TargetUnits)
+		if owner.HasActed == true:
+			return
+		
 		if not ai.IgnorePlayers:
 			await ExecuteOffensiveRoutine(move_action, offensive_action, owner, manager)
 			if owner.HasActed == true:
@@ -354,8 +363,9 @@ func ExecuteOffensiveLogic(move_action: Action, offensive_action: Action, owner:
 		
 		var target_tiles: Array[Vector2i] = []
 		for unit in ai.TargetUnits:
-			var unit_tile : Vector2i = unit.CurrentTile
-			target_tiles.append(unit_tile)
+			if is_instance_valid(unit):
+				var unit_tile : Vector2i = unit.CurrentTile
+				target_tiles.append(unit_tile)
 		await TileMovementRoutine(move_action, owner, manager, target_tiles)
 		return
 	

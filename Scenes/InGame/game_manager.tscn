@@ -27,6 +27,7 @@ content_margin_bottom = 0.0
 bg_color = Color(0, 0.02000003, 0.2, 1)
 
 [node name="GameManager" type="Node2D" node_paths=PackedStringArray("MyGameCamera", "MyActionMenu", "MyCursor", "ActiveUnitInfoPanel", "SelectedUnitInfoPanel", "ActionForecast", "MyPreparationMenu", "TurnLabel", "DialogueBox", "InfoScreen", "EndScreen", "MyMoveManager", "MyActionManager")]
+process_mode = 1
 script = ExtResource("1_kmrvs")
 UnitScene = ExtResource("2_wg6t1")
 CombatScreenScene = ExtResource("3_frkii")

@@ -36,13 +36,17 @@ func Initialize(game_manager: GameManager):
 #                   2.1 VALID/INVALID LOGIC                  #
 ##############################################################
 
-func SetUnitObstacles(active_unit: Unit, astar : AStar2D) -> Array[Vector2i]:
+func SetUnitObstacles(active_unit: Unit, astar : AStar2D, exception: Unit = null) -> Array[Vector2i]:
 	if active_unit.ActiveStatuses.has(Unit.Status.PASS):
 		return []
 	
 	var modified_tiles: Array[Vector2i] = []
 	
 	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(active_unit)
+	if exception != null:
+		if hostile_array.has(exception):
+			hostile_array.erase(exception)
+	
 	for unit in hostile_array:
 		var unit_tile = unit.CurrentTile
 		astar.set_point_disabled(VectorToId(unit_tile), true)
@@ -162,7 +166,8 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 		return {}
 	var astar : AStar2D = AStarInstances[move_data_name]
 	
-	var modified_tiles = SetUnitObstacles(unit, astar)
+	var unit_at_ent = MyGameManager.GetUnitAtTile(end_tile)
+	var modified_tiles = SetUnitObstacles(unit, astar, unit_at_ent)
 	var start_id = VectorToId(start_tile)
 	var end_id = VectorToId(end_tile)
 	

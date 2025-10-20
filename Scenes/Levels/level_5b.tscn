@@ -39,7 +39,7 @@ Character = ExtResource("6_reooa")
 CharacterLevel = 3
 Faction = 4
 Position = Vector2i(5, 0)
-Behavior = ExtResource("5_wakwf")
+Behavior = ExtResource("7_doouk")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_evokg"]
@@ -48,7 +48,7 @@ Character = ExtResource("6_reooa")
 CharacterLevel = 3
 Faction = 4
 Position = Vector2i(5, 11)
-Behavior = ExtResource("5_wakwf")
+Behavior = ExtResource("7_doouk")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [sub_resource type="Resource" id="Resource_3koi7"]

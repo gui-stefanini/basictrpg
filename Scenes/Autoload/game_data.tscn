@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://c0t0h32gaojul" path="res://Resources/Data/CharacterData/PlayerCharacters/orca.tres" id="7_0ob6l"]
 
 [node name="GameData" type="Node"]
+process_mode = 3
 script = ExtResource("1_up1na")
 MainMenuScene = ExtResource("2_26qp2")
 TestLevel = ExtResource("3_26qp2")
