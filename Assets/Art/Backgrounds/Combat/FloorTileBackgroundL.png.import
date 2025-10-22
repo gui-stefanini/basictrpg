@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br1s5adeoinh4"
-path="res://.godot/imported/ZombieSpriteSheet_1.png-bac725335199b4d0bfa4ade319c4f22f.ctex"
+uid="uid://cba8b1uf21naw"
+path="res://.godot/imported/FloorTileBackgroundL.png-06b9122106687a793292c4466d673086.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Classes/Zombie/ZombieSpriteSheet_1.png"
-dest_files=["res://.godot/imported/ZombieSpriteSheet_1.png-bac725335199b4d0bfa4ade319c4f22f.ctex"]
+source_file="res://Assets/Art/Backgrounds/Combat/FloorTileBackgroundL.png"
+dest_files=["res://.godot/imported/FloorTileBackgroundL.png-06b9122106687a793292c4466d673086.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c06hu433q14y"
-path="res://.godot/imported/FireSnake_SpriteSheet_1.png-d2483514dd7233ff39affae41c588e3d.ctex"
+uid="uid://b10hojgyboxa1"
+path="res://.godot/imported/GrassTileBackgroundL.png-b46c2c43cee8e3157dc234ef76b40077.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Classes/FireSnake/FireSnake_SpriteSheet_1.png"
-dest_files=["res://.godot/imported/FireSnake_SpriteSheet_1.png-d2483514dd7233ff39affae41c588e3d.ctex"]
+source_file="res://Assets/Art/Backgrounds/Combat/GrassTileBackgroundL.png"
+dest_files=["res://.godot/imported/GrassTileBackgroundL.png-b46c2c43cee8e3157dc234ef76b40077.ctex"]
 
 [params]
 

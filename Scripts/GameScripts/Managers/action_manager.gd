@@ -58,14 +58,18 @@ func GetTilesInRange(start_tile: Vector2i, action_range: int, include_start: boo
 		for y in range(-action_range, action_range + 1):
 			var distance = abs(x) + abs(y)
 			if distance <= action_range:
-				tiles_in_range.append(start_tile + Vector2i(x, y))
+				if not tiles_in_range.has(start_tile + Vector2i(x, y)):
+					tiles_in_range.append(start_tile + Vector2i(x, y))
 	
 	if include_start == false:
 		tiles_in_range.erase(start_tile)
 	
+	var tiles_to_erase: Array[Vector2i] = []
 	for tile in tiles_in_range:
 		if MyMoveManager.CheckGridBounds(tile) == false:
-			tiles_in_range.erase(tile)
+			tiles_to_erase.append(tile)
+	for tile in tiles_to_erase:
+		tiles_in_range.erase(tile)
 	
 	return tiles_in_range
 

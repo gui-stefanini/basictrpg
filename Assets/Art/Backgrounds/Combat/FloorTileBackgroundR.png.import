@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2fhifeu7q1q5"
-path="res://.godot/imported/WaterTileBackgroundL.png-7aa4d13b249992e69750b66435068b89.ctex"
+uid="uid://bd36p1w4fco2l"
+path="res://.godot/imported/FloorTileBackgroundR.png-1adb50701b44053301cc72e2800b30fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Backgrounds/WaterTileBackgroundL.png"
-dest_files=["res://.godot/imported/WaterTileBackgroundL.png-7aa4d13b249992e69750b66435068b89.ctex"]
+source_file="res://Assets/Art/Backgrounds/Combat/FloorTileBackgroundR.png"
+dest_files=["res://.godot/imported/FloorTileBackgroundR.png-1adb50701b44053301cc72e2800b30fb.ctex"]
 
 [params]
 

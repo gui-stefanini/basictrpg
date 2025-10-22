@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck3t8r5gafkku"
-path="res://.godot/imported/WaterTileBackgroundR.png-6916ba49c0f181f9d0c9a0001b464cb7.ctex"
+uid="uid://dqmjx21d12cq3"
+path="res://.godot/imported/FireTileBackgroundL.png-7a76a0720fceba7970c321eda731a050.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Backgrounds/WaterTileBackgroundR.png"
-dest_files=["res://.godot/imported/WaterTileBackgroundR.png-6916ba49c0f181f9d0c9a0001b464cb7.ctex"]
+source_file="res://Assets/Art/Backgrounds/Combat/FireTileBackgroundL.png"
+dest_files=["res://.godot/imported/FireTileBackgroundL.png-7a76a0720fceba7970c321eda731a050.ctex"]
 
 [params]
 

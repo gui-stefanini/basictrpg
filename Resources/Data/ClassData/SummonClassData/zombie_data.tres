@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="4_s1uf7"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_oercf"]
 [ext_resource type="Resource" uid="uid://i3lwk0g20qqx" path="res://Resources/Data/MovementData/heavy_infantry_movement.tres" id="6_mukxa"]
-[ext_resource type="Texture2D" uid="uid://br1s5adeoinh4" path="res://Assets/Art/Classes/Zombie/ZombieSpriteSheet_1.png" id="7_uknt8"]
+[ext_resource type="Texture2D" uid="uid://br1s5adeoinh4" path="res://Assets/Art/Classes/Creatures/Zombie/ZombieSpriteSheet_1.png" id="7_uknt8"]
 [ext_resource type="AnimationLibrary" uid="uid://b2cu0b67j1kvk" path="res://Resources/Animations/zombie_library.res" id="8_7q5hq"]
 
 [resource]

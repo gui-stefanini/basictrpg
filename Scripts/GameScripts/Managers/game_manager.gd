@@ -162,6 +162,7 @@ func UpdateCursor(new_tile: Vector2i = Vector2i (-1,-1)):
 			var opposite_tile: Vector2i = MyMoveManager.GetOppositeTile(new_tile)
 			MyCursor.MoveToTile(self, opposite_tile)
 			MyGameCamera.CheckCameraEdge(opposite_tile)
+			new_tile = opposite_tile
 	
 	if not MyActionManager.HighlightedAOETiles.is_empty():
 		MyActionManager.UpdateAOE(new_tile)
@@ -525,7 +526,7 @@ func EndGame(player_won: bool):
 	EndScreen.ShowEndScreen(player_won)
 
 ##############################################################
-#                   2.4 DATA GATHERING                       #
+#                   2.5 DATA GATHERING                       #
 ##############################################################
 
 func GetTileType(tile: Vector2i) -> String:
@@ -734,14 +735,17 @@ func _on_unit_turn_started(unit: Unit):
 	
 	TileManager.TurnStartEffect(unit, terrain_type)
 
-func _on_unit_died(unit: Unit):
-	UnitManager.RemoveUnit(unit)
-	
-	unit_removed.emit(unit)
-	await CurrentLevelManager.unit_removed_completed
-	unit_died.emit(unit)
-	await CurrentLevelManager.unit_died_completed
-	unit.call_deferred("queue_free")
+func _on_unit_died(units: Array[Unit]):
+	var linked_units: Array[Unit] = units.duplicate()
+	for unit in linked_units:
+		UnitManager.RemoveUnit(unit)
+		unit_removed.emit(unit)
+		await CurrentLevelManager.unit_removed_completed
+	for unit in linked_units:
+		unit_died.emit(unit)
+		await CurrentLevelManager.unit_died_completed
+	for unit in linked_units:
+		unit.call_deferred("queue_free")
 
 func _on_vfx_requested(vfx_data: VFXData, animation_name: String, vfx_position: Vector2, is_combat: bool = false):
 	if is_combat == true:

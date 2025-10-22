@@ -21,6 +21,7 @@ Behavior = ExtResource("3_xgxfi")
 metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [node name="Level1" instance=ExtResource("1_ic72l")]
+LevelRect = Rect2i(0, 0, 17, 9)
 PlayerSpawns = Array[ExtResource("2_447f6")]([SubResource("Resource_1ih7c")])
 EnemySpawns = Array[ExtResource("2_447f6")]([SubResource("Resource_6kmi7")])
 

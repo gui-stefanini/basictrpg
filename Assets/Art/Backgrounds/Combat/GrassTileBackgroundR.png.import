@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cba8b1uf21naw"
-path="res://.godot/imported/FloorTileBackgroundL.png-482e921e504be556e1621c6bcf19855f.ctex"
+uid="uid://bhtipo5ibggd8"
+path="res://.godot/imported/GrassTileBackgroundR.png-94596e43776c4de89b05a24218cafddd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Backgrounds/FloorTileBackgroundL.png"
-dest_files=["res://.godot/imported/FloorTileBackgroundL.png-482e921e504be556e1621c6bcf19855f.ctex"]
+source_file="res://Assets/Art/Backgrounds/Combat/GrassTileBackgroundR.png"
+dest_files=["res://.godot/imported/GrassTileBackgroundR.png-94596e43776c4de89b05a24218cafddd.ctex"]
 
 [params]
 

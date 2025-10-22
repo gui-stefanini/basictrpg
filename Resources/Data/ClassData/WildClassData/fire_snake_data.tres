@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://b58fu2fhtaqx6" path="res://Resources/Data/ActionData/AttackActionData/attack_action.tres" id="4_x6loc"]
 [ext_resource type="Resource" uid="uid://bky34p4up12k4" path="res://Resources/Data/ActionData/WaitActionData/wait_action.tres" id="5_08ovw"]
 [ext_resource type="Resource" uid="uid://dvjds4indix56" path="res://Resources/Data/MovementData/fire_infantry_movement.tres" id="6_x6loc"]
-[ext_resource type="Texture2D" uid="uid://c06hu433q14y" path="res://Assets/Art/Classes/FireSnake/FireSnake_SpriteSheet_1.png" id="8_vplx1"]
+[ext_resource type="Texture2D" uid="uid://c06hu433q14y" path="res://Assets/Art/Classes/Creatures/FireSnake/FireSnake_SpriteSheet_1.png" id="8_vplx1"]
 [ext_resource type="AnimationLibrary" uid="uid://bwbkav78pd4ab" path="res://Resources/Animations/fire_snake_library.res" id="9_xusfg"]
 
 [resource]

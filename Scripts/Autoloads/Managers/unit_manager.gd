@@ -10,7 +10,9 @@ extends Node
 ######################
 #     REFERENCES     #
 ######################
-
+######################
+#       ARRAYS       #
+######################
 var PlayerUnits: Array[Unit] = []
 var PlayerSummonUnits: Array[Unit] = []
 var CompletePlayerUnits: Array[Unit] = []
@@ -30,6 +32,12 @@ var NeutralUnits: Array[Unit] = []
 var NonSummonedUnits: Array[Unit] = []
 
 var AllUnits: Array[Unit] = []
+
+######################
+#      HELPERS       #
+######################
+
+var UnitLinks: Dictionary[Unit, Array] = {}
 
 ######################
 #     SCRIPT-WIDE    #
@@ -111,6 +119,7 @@ func RemoveUnit(unit: Unit):
 						WildUnits.erase(unit)
 		
 		UpdateArrays()
+		UnlinkUnit(unit)
 	
 	else:
 		push_error("unit not found by UnitManager")
@@ -153,6 +162,30 @@ func GetAffiliationArray(unit: Unit)-> Array[Unit]:
 			return NeutralUnits
 	
 	return []
+
+##############################################################
+#                         2.2 HELPERS                        #
+##############################################################
+func LinkUnit(main_unit: Unit, linked_unit: Unit):
+	if UnitLinks.has(main_unit):
+		UnitLinks[main_unit].append(linked_unit)
+	else:
+		UnitLinks[main_unit] = [linked_unit]
+
+func UnlinkUnit(unit: Unit):
+	for key in UnitLinks:
+		if UnitLinks[key].has(unit):
+			UnitLinks[key].erase(unit)
+
+func Despawn(unit: Unit):
+	var linked_units: Array[Unit] = [unit]
+	
+	if UnitLinks.has(unit):
+		for element in UnitLinks[unit]:
+			if element is Unit:
+				linked_units.append(element as Unit)
+	
+	unit.unit_died.emit(linked_units)
 
 ##############################################################
 #                      3.0 Signal Functions                  #

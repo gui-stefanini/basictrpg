@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cl88kjxvd6r6l" path="res://Scripts/GameScripts/HUD/combat_screen.gd" id="1_tt2g6"]
 [ext_resource type="PackedScene" uid="uid://byvoiyqkydyyy" path="res://Scenes/Effects/vfx.tscn" id="2_tt2g6"]
-[ext_resource type="Texture2D" uid="uid://50xla8va4516" path="res://Assets/Art/Backgrounds/SkyBackground.png" id="3_hpsiu"]
-[ext_resource type="Texture2D" uid="uid://b10hojgyboxa1" path="res://Assets/Art/Backgrounds/GrassTileBackgroundL.png" id="4_qdguw"]
-[ext_resource type="Texture2D" uid="uid://ck3t8r5gafkku" path="res://Assets/Art/Backgrounds/WaterTileBackgroundR.png" id="5_5f7qg"]
+[ext_resource type="Texture2D" uid="uid://50xla8va4516" path="res://Assets/Art/Backgrounds/Combat/Main/SkyBackground.png" id="3_hpsiu"]
+[ext_resource type="Texture2D" uid="uid://b10hojgyboxa1" path="res://Assets/Art/Backgrounds/Combat/GrassTileBackgroundL.png" id="4_qdguw"]
+[ext_resource type="Texture2D" uid="uid://ck3t8r5gafkku" path="res://Assets/Art/Backgrounds/Combat/WaterTileBackgroundR.png" id="5_5f7qg"]
 
 [node name="CombatScreen" type="CanvasLayer" node_paths=PackedStringArray("PlayerPosition", "EnemyPosition", "Background", "DefenderBackground", "AttackerBackground")]
 script = ExtResource("1_tt2g6")

@@ -11,8 +11,8 @@ signal animation_hit
 
 signal tile_damage_taken(tile_type: TileManager.TileTypes, damage_data: Dictionary)
 signal damage_taken(unit: Unit, damage_data: Dictionary)
-signal unit_dying(unit: Unit)
-signal unit_died(unit: Unit)
+@warning_ignore("unused_signal")
+signal unit_died(linked_units: Array[Unit])
 
 signal summoned_units
 
@@ -91,7 +91,6 @@ var SupportAggro: int:
 #  FUNCTION HELPERS  #
 ######################
 var Summoner: Unit
-var DyingConnections: int = 0
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -150,15 +149,7 @@ func ReceiveHealing(heal_amount: int, percentage: bool = false):
 
 func Despawn():
 	IsDead = true
-	if DyingConnections == 0:
-		Die()
-	else:
-		unit_dying.emit(self)
-
-func Die():
-	if Summoner != null:
-		Summoner.DyingConnections -= 1
-	unit_died.emit(self)
+	UnitManager.Despawn(self)
 
 ##############################################################
 #                      2.2 STATUS INTERACTION                #
@@ -240,9 +231,8 @@ func SetData(spawn_level: int = -1, summoner: Unit = null):
 	if Data.Summon == true:
 		Summoner = summoner
 		if summoner.Faction == Unit.Factions.PLAYER:
+			UnitManager.LinkUnit(summoner, self)
 			summoner.summoned_units.connect(Despawn)
-		summoner.unit_dying.connect(_on_summoner_dying)
-		summoner.DyingConnections += 1
 	
 	Data.ClassOverride()
 	
@@ -323,13 +313,6 @@ func _on_animation_hit():
 
 func _on_animation_being_hit():
 	MyAnimationPlayer.play("character_library/hit")
-
-func _on_summoner_dying(_unit : Unit):
-	Summoner.DyingConnections -= 1
-	if Summoner.DyingConnections == 0:
-		Summoner.Die()
-	Summoner = null
-	Despawn()
 
 ##############################################################
 #                      4.0 Godot Functions                   #
