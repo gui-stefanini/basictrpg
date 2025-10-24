@@ -31,10 +31,11 @@ GeneralFunctions="*res://Scenes/Autoload/general_functions.tscn"
 UiFunctions="*res://Scripts/Autoloads/FunctionHelpers/ui_functions.gd"
 StatusLogic="*res://Scripts/Autoloads/FunctionHelpers/status_logic.gd"
 UnitManager="*res://Scripts/Autoloads/Managers/unit_manager.gd"
+TurnManager="*res://Scripts/Autoloads/Managers/turn_manager.gd"
 InputManager="*res://Scenes/Autoload/input_manager.tscn"
-AILogic="*res://Scripts/Autoloads/FunctionHelpers/ai_logic.gd"
 AudioManager="*res://Scenes/Autoload/audio_manager.tscn"
 TileManager="*res://Scenes/Autoload/tile_manager.tscn"
+AILogic="*res://Scripts/Autoloads/FunctionHelpers/ai_logic.gd"
 CombatBackground="*res://Scenes/Autoload/combat_background.tscn"
 
 [display]

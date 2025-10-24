@@ -50,6 +50,10 @@ func SetLimits():
 	UpdateCameraEdges()
 
 func MoveCamera(tile: Vector2i):
+	var outside_edge : bool = CheckCameraEdge(tile)
+	if outside_edge == false:
+		return
+	
 	var tile_size : Vector2i = GroundGrid.tile_set.tile_size
 	var tile_movement: Vector2i = Vector2i(0,0)
 	if tile.y < TopEdge:
@@ -87,20 +91,17 @@ func UpdateCameraEdges():
 	BottomEdge = bottom_right_tile.y -2
 	RightEdge = bottom_right_tile.x -2
 
-func CheckCameraEdge(tile : Vector2i):
-	var move_camera : bool = false
-	
+func CheckCameraEdge(tile : Vector2i) -> bool:
 	if tile.y < TopEdge:
-		move_camera = true
+		return true
 	elif tile.x < LeftEdge:
-		move_camera = true
+		return true
 	elif tile.y > BottomEdge:
-		move_camera = true
+		return true
 	elif tile.x > RightEdge:
-		move_camera = true
+		return true
 	
-	if move_camera == true:
-		MoveCamera(tile)
+	return false
 
 ##############################################################
 #                      3.0 Signal Functions                  #

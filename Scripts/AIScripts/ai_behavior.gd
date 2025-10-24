@@ -435,6 +435,11 @@ func ExecuteSupportLogic(move_action: Action, offensive_action: Action, heal_act
 ######################
 #    AI TURN LOGIC   #
 ######################
+func ExecuteTurn(owner: Unit, manager: GameManager):
+	print(owner.Data.Name + " is taking its turn.")
+	await execute_turn(owner, manager)
+	owner.HasActed = true
+	owner.SetInactive()
 
 func execute_turn(_owner: Unit, _manager: GameManager):
 	await GeneralFunctions.Wait(0.01)

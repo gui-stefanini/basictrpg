@@ -110,6 +110,8 @@ func SetAuxiliaryManagers():
 	MyMoveManager.Initialize(self)
 	MyActionManager.Initialize(self)
 	MyPreparationMenu.Initialize(self)
+	
+	TurnManager.Initialize(self)
 
 func SetCamera():
 	MyGameCamera.Initialize(GroundGrid)
@@ -157,11 +159,11 @@ func UpdateCursor(new_tile: Vector2i = Vector2i (-1,-1)):
 	if new_tile != Vector2i(-1,-1):
 		if MyMoveManager.CheckGridBounds(new_tile) == true:
 			MyCursor.MoveToTile(self, new_tile)
-			MyGameCamera.CheckCameraEdge(new_tile)
+			MyGameCamera.MoveCamera(new_tile)
 		else:
 			var opposite_tile: Vector2i = MyMoveManager.GetOppositeTile(new_tile)
 			MyCursor.MoveToTile(self, opposite_tile)
-			MyGameCamera.CheckCameraEdge(opposite_tile)
+			MyGameCamera.MoveCamera(opposite_tile)
 			new_tile = opposite_tile
 	
 	if not MyActionManager.HighlightedAOETiles.is_empty():
@@ -354,7 +356,8 @@ func StartPlayerTurn():
 	InactiveUnits.clear()
 	for unit in UnitManager.CompletePlayerUnits:
 		unit.StartTurn()
-	UpdateCursor()
+	
+	UpdateCursor(UnitManager.PlayerUnits[0].CurrentTile)
 	CurrentSubState = SubState.UNIT_SELECTION_PHASE
 
 func OnPlayerUnitActionFinished():
@@ -401,27 +404,16 @@ func StartAllyTurn():
 	CurrentGameState = GameState.ALLY_TURN
 	CurrentSubState = SubState.PROCESSING_PHASE
 	
-	var ally_units : Array[Unit] = UnitManager.CompleteAllyUnits.duplicate()
-	
-	if not ally_units.is_empty():
+	if not UnitManager.CompleteAllyUnits.is_empty():
 		await SetTurnLabel(("--- Ally Turn ---"))
 		await ClearTurnLabel()
+		
+		for unit in UnitManager.CompleteAllyUnits:
+			if is_instance_valid(unit):
+				unit.StartTurn()
+		
 	
-	for unit in ally_units:
-		unit.StartTurn()
-	
-	for unit in ally_units:
-		if is_instance_valid(unit):
-			if CurrentGameState == GameState.END:
-				return
-			await GeneralFunctions.Wait(0.2)
-			print(unit.Data.Name + " is taking its turn.")
-			await unit.MyAI.Behavior.execute_turn(unit, self)
-			unit_turn_ended.emit(unit, unit.CurrentTile)
-			await CurrentLevelManager.unit_turn_ended_completed
-			unit.SetInactive() 
-	
-	EndAllyTurn()
+	TurnManager.ContinueCurrentTurn()
 
 func EndAllyTurn():
 	if CurrentGameState == GameState.END:
@@ -438,27 +430,16 @@ func StartEnemyTurn():
 	CurrentGameState = GameState.ENEMY_TURN
 	CurrentSubState = SubState.PROCESSING_PHASE
 	
-	var enemy_units : Array[Unit] = UnitManager.CompleteEnemyUnits.duplicate()
-	
-	if not enemy_units.is_empty():
+	if not UnitManager.CompleteEnemyUnits.is_empty():
 		await SetTurnLabel(("--- Enemy Turn ---"))
 		await ClearTurnLabel()
+		
+		for unit in UnitManager.CompleteEnemyUnits:
+			if is_instance_valid(unit):
+				unit.StartTurn()
+		
 	
-	for unit in enemy_units:
-		unit.StartTurn()
-	
-	for unit in enemy_units:
-		if is_instance_valid(unit):
-			if CurrentGameState == GameState.END:
-				return
-			await GeneralFunctions.Wait(0.2)
-			print(unit.Data.Name + " is taking its turn.")
-			await unit.MyAI.Behavior.execute_turn(unit, self)
-			unit_turn_ended.emit(unit, unit.CurrentTile)
-			await CurrentLevelManager.unit_turn_ended_completed
-			unit.SetInactive() 
-	
-	EndEnemyTurn()
+	TurnManager.ContinueCurrentTurn()
 
 func EndEnemyTurn():
 	if CurrentGameState == GameState.END:
@@ -475,27 +456,16 @@ func StartWildTurn():
 	CurrentGameState = GameState.WILD_TURN
 	CurrentSubState = SubState.PROCESSING_PHASE
 	
-	var wild_units : Array[Unit] = UnitManager.CompleteWildUnits.duplicate()
-	
-	if not wild_units.is_empty():
-		await SetTurnLabel("--- Wild Turn ---")
+	if not UnitManager.CompleteWildUnits.is_empty():
+		await SetTurnLabel(("--- Wild Turn ---"))
 		await ClearTurnLabel()
+		
+		for unit in UnitManager.CompleteWildUnits:
+			if is_instance_valid(unit):
+				unit.StartTurn()
+		
 	
-	for unit in wild_units:
-		unit.StartTurn()
-	
-	for unit in wild_units:
-		if is_instance_valid(unit):
-			if CurrentGameState == GameState.END:
-				return
-			await GeneralFunctions.Wait(0.2)
-			print(unit.Data.Name + " is taking its turn.")
-			await unit.MyAI.Behavior.execute_turn(unit, self)
-			unit_turn_ended.emit(unit, unit.CurrentTile)
-			await CurrentLevelManager.unit_turn_ended_completed
-			unit.SetInactive() 
-	
-	EndWildTurn()
+	TurnManager.ContinueCurrentTurn()
 
 func EndWildTurn():
 	if CurrentGameState == GameState.END:
