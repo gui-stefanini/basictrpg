@@ -9,4 +9,5 @@ SelfTarget = 2
 Name = "Heal"
 Simulatable = true
 Description = "Heal 2 HP"
+AnimationName = "heal"
 metadata/_custom_type_script = "uid://8qqq2msqnb5e"

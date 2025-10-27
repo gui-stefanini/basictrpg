@@ -97,7 +97,8 @@ func SetBackground(background_type: Level.BackgroundTypes, attacker_tile: String
 			else:
 				DefenderBackground.texture = CombatBackground.FireR
 
-func ShowCombat(background_type: Level.BackgroundTypes, attacker: Unit, attacker_tile: String, defender: Unit, defender_tile: String, damage: int):
+func ShowCombat(background_type: Level.BackgroundTypes, attacker: Unit, attacker_tile: String, 
+				defender: Unit, defender_tile: String, damage: int, animation_name: String):
 	Attacker = attacker
 	Defender = defender
 	Damage = damage
@@ -142,7 +143,7 @@ func ShowCombat(background_type: Level.BackgroundTypes, attacker: Unit, attacker
 			SetBackground(background_type, attacker_tile, defender_tile, true)
 
 	# --- Play Animation ---
-	Attacker.MyAnimationPlayer.play("character_library/attack")
+	Attacker.MyAnimationPlayer.play("character_library/%s" % [animation_name])
 	await Attacker.MyAnimationPlayer.animation_finished
 	
 	# --- Restore everything and clean up ---

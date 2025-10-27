@@ -103,8 +103,7 @@ var Summoner: Unit
 func UpdateHealth():
 	HealthBar.update_health(CurrentHP, MaxHP)
 
-func TakeDamage(damage_amount: int, percentage: bool = false, 
-				true_damage: bool = false, lethal: bool = true):
+func TakeDamage(damage_amount: int, percentage: bool = false, true_damage: bool = false, lethal: bool = true):
 	
 	if damage_amount == 0:
 		return
@@ -291,7 +290,7 @@ func PlayActionAnimation(animation_name: String, target):
 	if target is not Unit and target is not Vector2:
 		return
 	ActionTarget = target
-	MyAnimationPlayer.play("character_library/" + animation_name)
+	MyAnimationPlayer.play("character_library/%s" % [animation_name])
 	await MyAnimationPlayer.animation_finished
 	ActionTarget = null
 

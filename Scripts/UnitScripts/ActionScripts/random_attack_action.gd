@@ -14,7 +14,6 @@ extends Action
 #     SCRIPT-WIDE    #
 ######################
 
-@export var AnimationName : String
 @export var DamageModifier: int
 @export var RangeModifier: int
 
@@ -39,9 +38,7 @@ func GetTargets(user: Unit, manager: GameManager) -> Array[Unit]:
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.ATTACK, action_range)
-	manager.MyCursor.Disable()
+	SelectSelf(user, manager, ActionManager.HighlightTypes.ATTACK)
 
 func _check_target(user: Unit, manager: GameManager = null, target = null) -> bool:
 	if target != null:

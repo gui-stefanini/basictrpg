@@ -14,7 +14,6 @@ extends Action
 #     SCRIPT-WIDE    #
 ######################
 
-@export var AnimationName : String
 @export var DamageModifier: int
 @export var RangeModifier: int
 @export var AOERange: int
@@ -26,22 +25,22 @@ extends Action
 func GetActionRange(user: Unit) -> int:
 	return user.AttackRange + RangeModifier
 
+func GetTargets(manager: GameManager, target: Vector2i) -> Array[Unit]:
+	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
+	return manager.MyActionManager.GetTargetsInArea(area, UnitManager.AllUnits)
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	var action_range = GetActionRange(user)
-	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.AOE, action_range, true)
-	manager.MyActionManager.AOERange = AOERange
-	manager.MyCursor.show()
+	SelectAOE(user, manager, ActionManager.HighlightTypes.AOE, AOERange)
 
 func _check_target(_user: Unit, manager: GameManager = null, target = null) -> bool:
 	if target is not Vector2i:
 		return false
 	
-	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, UnitManager.AllUnits)
+	var targets: Array[Unit] = GetTargets(manager, target)
 	
 	if targets.is_empty():
 		return false
@@ -54,8 +53,7 @@ func _execute(user: Unit, manager: GameManager, target = null, _simulation : boo
 	var target_global_pos = manager.GroundGrid.to_global(manager.GroundGrid.map_to_local(target))
 	await user.PlayActionAnimation(AnimationName, target_global_pos)
 	
-	var area : Array[Vector2i] = manager.MyActionManager.GetTilesInRange(target, AOERange, true)
-	var targets : Array[Unit] = manager.MyActionManager.GetTargetsInArea(area, UnitManager.AllUnits)
+	var targets: Array[Unit] = GetTargets(manager, target)
 	
 	for unit in targets:
 		unit.TakeDamage(damage)

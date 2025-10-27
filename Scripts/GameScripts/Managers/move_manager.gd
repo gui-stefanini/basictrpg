@@ -205,9 +205,14 @@ func FindPath(unit: Unit, start_tile: Vector2i, end_tile: Vector2i) -> Dictionar
 #                      2.3 MOVEMENT LOGIC                    #
 ##############################################################
 
-func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false) -> Array[Vector2i]:
-	var move_range = unit.MoveRange
-	var move_data_name = unit.Data.MovementType.Name
+func GetReachableTiles(unit: Unit, start_tile: Vector2i, include_self: bool = false, 
+					   move_range: int = -1, move_data: MovementData = null) -> Array[Vector2i]:
+	if move_range == -1:
+		move_range = unit.MoveRange
+	if move_data == null:
+		move_data = unit.Data.MovementType
+	
+	var move_data_name: String = move_data.Name
 	var astar = AStarInstances[move_data_name]
 	
 	var modified_tiles = SetUnitObstacles(unit, astar)

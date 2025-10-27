@@ -84,6 +84,7 @@ func GetTargetsInArea(area: Array[Vector2i], valid_targets: Array[Unit]) -> Arra
 ##############################################################
 #                      2.2 HIGHLIGHTING                      #
 ##############################################################
+
 func ClearHighlights():
 	HighlightLayer.clear()
 	HighlightedMoveTiles.clear()
@@ -103,7 +104,8 @@ func DrawHighlights(tiles_to_highlight:Array[Vector2i], highlight_source_id:int,
 	for tile in tiles_to_highlight:
 		layer.set_cell(tile, highlight_source_id, highlight_atlas_coord)
 
-func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_start: bool = false):
+func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_start: bool = false, 
+				   move_data: MovementData = null):
 	ClearHighlights()
 	var unit_tile = unit.CurrentTile
 	var highlight_array: Array[Vector2i]
@@ -111,7 +113,8 @@ func HighlightArea(unit: Unit, type: HighlightTypes, action_range: int, include_
 	
 	match type:
 		HighlightTypes.MOVE:
-			HighlightedMoveTiles = MyMoveManager.GetReachableTiles(unit, unit_tile, include_start)
+			HighlightedMoveTiles = MyMoveManager.GetReachableTiles(unit, unit_tile, include_start, 
+			action_range, move_data)
 			DrawHighlights(HighlightedMoveTiles, 1, Vector2i(0,0))
 			return
 			
@@ -192,7 +195,7 @@ func PreviewAction(action: Action, unit: Unit, target: Unit, forecast: bool = fa
 	
 	return damage
 
-func StartCombat(attacker: Unit, defender: Unit, damage: int):
+func StartCombat(attacker: Unit, defender: Unit, damage: int, animation_name: String):
 	var attacker_tile: String = GetUnitTileType(attacker)
 	var defender_tile: String = GetUnitTileType(defender)
 	
@@ -201,7 +204,7 @@ func StartCombat(attacker: Unit, defender: Unit, damage: int):
 	
 	var background_type: Level.BackgroundTypes = MyGameManager.CurrentLevel.BackgroundType
 	
-	combat_scene.ShowCombat(background_type, attacker, attacker_tile, defender, defender_tile, damage)
+	combat_scene.ShowCombat(background_type, attacker, attacker_tile, defender, defender_tile, damage, animation_name)
 	await combat_scene.combat_finished
 
 ##############################################################

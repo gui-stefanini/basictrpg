@@ -29,19 +29,10 @@ func GetActionRange(user: Unit) -> int:
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	var action_range = user.AttackRange + RangeModifier
-	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.ATTACK, action_range)
-	manager.MyCursor.show()
+	SelectSingleTarget(user, manager, ActionManager.HighlightTypes.ATTACK)
 
 func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
-	if target is not Unit:
-		return false
-	
-	var hostile_array : Array[Unit] = UnitManager.GetHostileArray(user)
-	if not hostile_array.has(target):
-		return false
-	
-	return true
+	return CheckUnit(user, target, true)
 
 func _execute(user: Unit, manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	print(user.Data.Name + " attacks " + target.Data.Name + "!")
@@ -50,7 +41,7 @@ func _execute(user: Unit, manager: GameManager, target = null, simulation : bool
 	
 	if simulation == false:
 		var final_damage = await manager.MyActionManager.PreviewAction(self, user, target)
-		await manager.MyActionManager.StartCombat(user, target, final_damage)
+		await manager.MyActionManager.StartCombat(user, target, final_damage, AnimationName)
 	
 	print("Combat finished, apllying damage")
 	target.TakeDamage(damage)

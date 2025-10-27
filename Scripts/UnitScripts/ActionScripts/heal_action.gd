@@ -22,6 +22,9 @@ extends Action
 ##############################################################
 
 func GetActionRange(user: Unit) -> int:
+	if SelfTarget == SelfTargetRule.ONLY:
+		return 0
+	
 	return user.AttackRange + RangeModifier
 
 ##############################################################
@@ -30,33 +33,16 @@ func GetActionRange(user: Unit) -> int:
 
 func _on_select(user: Unit, manager: GameManager):
 	if SelfTarget == SelfTargetRule.ONLY:
-		manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.SUPPORT, 0, true)
-		manager.MyCursor.Disable()
-		#manager.MyActionManager.ExecuteAction(self, user)
-		return
+		SelectSelf(user, manager, ActionManager.HighlightTypes.SUPPORT)
 	
-	var action_range = user.AttackRange + RangeModifier
-	var include_self : bool = false
-	if SelfTarget == SelfTargetRule.INCLUDE:
-		include_self = true
-	
-	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.SUPPORT, 
-										  action_range, include_self)
-	manager.MyCursor.show()
+	SelectSingleTarget(user, manager, ActionManager.HighlightTypes.SUPPORT)
 
 func _check_target(user: Unit, _manager: GameManager = null, target = null) -> bool:
-	if target is not Unit:
-		return false
-	
-	var affiliation_array : Array[Unit] = UnitManager.GetAffiliationArray(user)
-	if not affiliation_array.has(target):
-		return false
-	
-	return true
+	return CheckUnit(user, target, false)
 
 func _execute(user: Unit, _manager: GameManager, target = null, simulation : bool = false) -> Variant:
 	if simulation == false:
-		await user.PlayActionAnimation("heal", target)
+		await user.PlayActionAnimation(AnimationName, target)
 	
 	var heal_amount = user.HealPower + HealModifier
 	target.ReceiveHealing(heal_amount)

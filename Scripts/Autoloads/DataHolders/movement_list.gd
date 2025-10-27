@@ -13,6 +13,7 @@ extends Node
 
 @export var AllMovementData: Array[MovementData]
 
+
 ######################
 #     SCRIPT-WIDE    #
 ######################

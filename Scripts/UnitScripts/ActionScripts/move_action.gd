@@ -14,16 +14,23 @@ extends Action
 #     SCRIPT-WIDE    #
 ######################
 
+var RangeModifier: int
+var MovementType: MovementData
+
 ##############################################################
 #                      2.0 Functions                         #
 ##############################################################
+
+func GetActionRange(user: Unit) -> int:
+	return user.MoveRange + RangeModifier
 
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.MOVE, -1)
+	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.MOVE, 
+	GetActionRange(user), false, MovementType)
 	manager.MyCursor.show()
 
 func _check_target(_user: Unit, _manager: GameManager = null, target = null) -> bool:

@@ -11,7 +11,6 @@ extends Action
 #     REFERENCES     #
 ######################
 
-@export var AnimationName: String
 @export var SummonList: Array[SpawnInfo]
 
 ######################
@@ -22,14 +21,15 @@ extends Action
 #                      2.0 Functions                         #
 ##############################################################
 
+func GetActionRange(_user: Unit) -> int:
+	return 0
+
 ##############################################################
 #                      3.0 Signal Functions                  #
 ##############################################################
 
 func _on_select(user: Unit, manager: GameManager):
-	manager.MyActionManager.HighlightArea(user, ActionManager.HighlightTypes.SUPPORT, 0, true)
-	manager.MyCursor.Disable()
-	#manager.MyActionManager.ExecuteAction(self, user)
+	SelectSelf(user, manager, ActionManager.HighlightTypes.SUPPORT)
 
 func _check_target(_user: Unit, _manager: GameManager = null, _target = null) -> bool:
 	return true

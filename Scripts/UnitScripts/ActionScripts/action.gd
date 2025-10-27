@@ -23,7 +23,9 @@ enum SelfTargetRule {ONLY, INCLUDE, EXCLUDE}
 
 @export var Name: String = "Action"
 @export var Simulatable: bool = false
-@export_multiline var Description: String = ""
+@export_multiline var Description: String
+
+@export var AnimationName: String
 
 ##############################################################
 #                      2.0 Functions                         #
@@ -34,6 +36,43 @@ func connect_listeners(_owner: Unit):
 
 func GetActionRange(_user: Unit) -> int:
 	return -1
+
+func SelectSelf(user: Unit, manager: GameManager, highlight: ActionManager.HighlightTypes):
+	var action_range = GetActionRange(user)
+	manager.MyActionManager.HighlightArea(user, highlight, action_range, true)
+	manager.MyCursor.Disable()
+
+func SelectSingleTarget(user: Unit, manager: GameManager, highlight: ActionManager.HighlightTypes):
+	var action_range = GetActionRange(user)
+	var include_self : bool = false
+	if SelfTarget == SelfTargetRule.INCLUDE:
+		include_self = true
+	
+	manager.MyActionManager.HighlightArea(user, highlight, action_range, include_self)
+	manager.MyCursor.show()
+
+func SelectAOE(user: Unit, manager: GameManager, highlight: ActionManager.HighlightTypes, aoe_range: int):
+	var action_range = GetActionRange(user)
+	manager.MyActionManager.HighlightArea(user, highlight, action_range, true)
+	manager.MyActionManager.AOERange = aoe_range
+	manager.MyCursor.show()
+
+func CheckUnit(user: Unit, target, hostile: bool) -> bool:
+	if SelfTarget == SelfTargetRule.ONLY:
+		return true
+	if target is not Unit:
+		return false
+	
+	if hostile == true:
+		var hostile_array : Array[Unit] = UnitManager.GetHostileArray(user)
+		if not hostile_array.has(target):
+			return false
+	else:
+		var affiliation_array : Array[Unit] = UnitManager.GetAffiliationArray(user)
+		if not affiliation_array.has(target):
+			return false
+	
+	return true
 
 ##############################################################
 #                      3.0 Signal Functions                  #
