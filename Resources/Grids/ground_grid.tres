@@ -24,17 +24,11 @@ texture = ExtResource("1_rl3v6")
 1:1/0 = 0
 1:1/0/custom_data_0 = "Floor"
 0:2/0 = 0
-0:2/0/custom_data_0 = "Water"
 1:2/0 = 0
-1:2/0/custom_data_0 = "Water"
 0:3/0 = 0
-0:3/0/custom_data_0 = "Fire"
 1:3/0 = 0
-1:3/0/custom_data_0 = "Fire"
 0:4/0 = 0
-0:4/0/custom_data_0 = "Wall"
 1:4/0 = 0
-1:4/0/custom_data_0 = "Wall"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xs1ac"]
 resource_name = "Highlight"

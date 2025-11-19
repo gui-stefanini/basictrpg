@@ -13,9 +13,9 @@ metadata/_custom_type_script = "uid://ji7crggxdou"
 
 [resource]
 script = ExtResource("2_jouq8")
-AnimationName = "summon"
 SummonList = Array[ExtResource("1_p5y43")]([SubResource("Resource_p5y43")])
 Type = 6
 Name = "Summon Zombie"
 Description = "Summon a Zombie."
+AnimationName = "summon"
 metadata/_custom_type_script = "uid://dxdeqcck4cdgh"
