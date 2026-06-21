@@ -7,3 +7,5 @@ As the name suggests, the game is a Tactical RPG with no real depth, focusing on
 - Experience gain resulting in level ups and stat changes;
 
 Currently has placeholder art and freely licensed audio;
+
+(Last stable version on release; more recent changes might contain bugs)
