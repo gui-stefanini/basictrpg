@@ -1,0 +1,9 @@
+Project created to learn how to program in GDScript and get used to Godot as a whole;
+
+As the name suggests, the game is a Tactical RPG with no real depth, showcasing strandard mechanics of the genre such as:
+- Classes with different skills;
+- Grid movement; 
+- Different map objectives;
+- Experience gain resulting in level ups and stat changes;
+
+Currently has placeholder art and freely licensed audio;
