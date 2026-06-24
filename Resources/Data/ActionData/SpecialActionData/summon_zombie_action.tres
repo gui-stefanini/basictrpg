@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SummonAction" load_steps=6 format=3 uid="uid://bcyrdqnfhq3oi"]
+[gd_resource type="Resource" script_class="SummonAction" format=3 uid="uid://bcyrdqnfhq3oi"]
 
 [ext_resource type="Script" uid="uid://ji7crggxdou" path="res://Scripts/LevelScripts/spawn_info.gd" id="1_p5y43"]
 [ext_resource type="Script" uid="uid://dxdeqcck4cdgh" path="res://Scripts/UnitScripts/ActionScripts/summon_action.gd" id="2_jouq8"]
